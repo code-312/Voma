@@ -1,4 +1,36 @@
-# Voma [Front End]
+# [Front End] Voma is Code for Chicago's custom **vo**lunteer **ma**nagement system.  
+## Currently hosted [here](https://voma.netlify.app/)  
+
+
+At a high level we're trying to achieve the following:
+1. Facilitate a smooth process from attending onboarding night to setting up a 1x1 with a project lead
+2. Better identify and develop our volunteer's skillsets - where do our skills currently align and where do we want them to go?
+3. Integrate with our existing tools (Meetup, Slack, Trello, etc.)
+4. Better visualize the scope of our members through skill dashboards and other visualizations
+5. Automate whenever possible to reduce bottlenecks in onboarding 
+
+## Tech Stack
+
+React  
+Ruby on Rails  
+PostgreSQL  
+
+## Planned Integrations 
+Slack  
+Meetup  
+Trello  
+
+## Scope of MVP
+
+1. New Member completes onboarding form (modeled after current Google Form)
+2. System generates user profile based on input
+3. Project Leads review new volunteers and set up 1x1s / assign to projects
+
+## Repositories
+[Front End](https://github.com/Code-For-Chicago/Voma-frontend)  
+[Back End](https://github.com/Code-For-Chicago/Voma-backend)
+
+---
 
 ## Getting started
 
@@ -17,55 +49,3 @@ You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version 
 1. Clone the project with `git clone git@github.com:Code-For-Chicago/Voma-frontend.git`
 2. Install dependencies with `npm i` (see [npm](https://www.npmjs.com/))
 3. Start development server with `npm start`. App will be served at [http://localhost:3000/](http://localhost:3000/)
-
-## NPM Scripts
-
-In the project directory, you can run the following scripts:
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-### `npm lint`
-
-Run [ESLint](https://eslint.org/) to check for any problems in your JavaScript code.
-
-### `npm lint:css`
-
-Run [stylelint](https://stylelint.io/) to check for any problems in your CSS code.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
