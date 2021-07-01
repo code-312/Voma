@@ -18,14 +18,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Tech Stack
 
-React
-Ruby on Rails
+React<br />
+Ruby on Rails<br />
 PostgreSQL
 
 ### Planned Integrations
 
-Slack
-Meetup
+Slack<br />
+Meetup<br />
 Trello
 
 ### Scope of MVP
@@ -36,8 +36,8 @@ Trello
 
 ## Repositories
 
-- [Front End](https://github.com/Code-For-Chicago/Voma-frontend)
-- [Back End](https://github.com/Code-For-Chicago/Voma-backend)
+[Front End](https://github.com/Code-For-Chicago/Voma-frontend)<br />
+[Back End](https://github.com/Code-For-Chicago/Voma-backend)
 
 ## 🔧 Requirements
 
