@@ -1,6 +1,7 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 export const BaseCSSReset = css`
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
   * {
     box-sizing: border-box;
   }
@@ -57,6 +58,7 @@ export const BaseCSSReset = css`
     min-height: 100vh;
     background-color: #fff;
     color: #000;
+    font-family: 'IBM Plex Sans', sans-serif;
   }
   main {
     min-height: 75vh;
