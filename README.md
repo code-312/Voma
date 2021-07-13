@@ -39,6 +39,9 @@ Trello
 [Front End](https://github.com/Code-For-Chicago/Voma-frontend)<br />
 [Back End](https://github.com/Code-For-Chicago/Voma-backend)
 
+## How to Contribute Guide
+[How to Contribute to Voma](How-to-Contribute.md)
+
 ## 🔧 Requirements
 
 ```
