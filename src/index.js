@@ -10,7 +10,7 @@ ReactDOM.render(
     <CSSReset />
     <Router>
       <App />
-    </Router>,
+    </Router>
   </React.StrictMode>,
   document.getElementById('root'),
 );
