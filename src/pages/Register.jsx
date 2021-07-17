@@ -16,6 +16,19 @@ const StyledFieldset = styled.fieldset`
   .red {
     color: red;
   }
+  label {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  input[type=text] {
+    display: block;
+  }
+  button {
+    border: 2px solid gray;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 1rem 1rem 0 0;
+  }
 `;
 
 export default function Register() {
@@ -50,9 +63,7 @@ export default function Register() {
       }
       { registerStep === 2 &&
         <Skills
-          firstName={formData.name}
-          lastName={formData.lastName}
-          pronouns={formData.pronouns}
+          skills={formData.skill}
           setRegisterStep={setRegisterStep}
           handleFormChange={handleFormChange}
           StyledFieldset={StyledFieldset}
