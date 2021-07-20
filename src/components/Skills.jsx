@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import StyledFieldset from './StyledFieldset';
 
-// eslint-disable-next-line react/prop-types
-export default function Skills({StyledFieldset, skills, handleFormChange, setRegisterStep}) {
-
+export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   const skillList = [
     'Data Analytics',
     'Data Science',
@@ -15,20 +15,26 @@ export default function Skills({StyledFieldset, skills, handleFormChange, setReg
     'UI Design',
     'Visual Design',
     'Product Management',
-    'Project Management'
-  ]
+    'Project Management',
+  ];
 
-  const toCamelCase = str => str.replace(/(?:^\w|[A-Z]|\b\w)/g,
-    (word, index) => index === 0 ? word.toLowerCase() : word.toUpperCase()).replace(/\s+/g, '');
+  const toCamelCase = (str) =>
+    str
+      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
+        index === 0 ? word.toLowerCase() : word.toUpperCase(),
+      )
+      .replace(/\s+/g, '');
 
-
-  return(
+  return (
     <StyledFieldset>
       <legend>Skills</legend>
       <p>Pick your primary skill</p>
-      <p>Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be an expert in this skill.</p>
+      <p>
+        Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
+        an expert in this skill.
+      </p>
 
-      { skillList.map(skill => (
+      {skillList.map((skill) => (
         <label htmlFor={toCamelCase(skill)} key={skill}>
           <input
             type="radio"
@@ -43,9 +49,18 @@ export default function Skills({StyledFieldset, skills, handleFormChange, setReg
       ))}
 
       <nav>
-        <button onClick={()=> setRegisterStep(1)} type="button">Back</button>
-        <button onClick={()=> setRegisterStep(3)} type="button">Next</button>
+        <button onClick={() => setRegisterStep(1)} type="button">
+          Back
+        </button>
+        <button onClick={() => setRegisterStep(3)} type="button">
+          Next
+        </button>
       </nav>
     </StyledFieldset>
-  )
+  );
 }
+Skills.propTypes = {
+  skills: PropTypes.string.isRequired,
+  setRegisterStep: PropTypes.func.isRequired,
+  handleFormChange: PropTypes.func.isRequired,
+};
