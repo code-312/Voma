@@ -28,14 +28,14 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   return (
     <StyledFieldset>
       <legend>Skills</legend>
-      <p>Pick your primary skill</p>
+      <p className="instructions">Pick your primary skill</p>
       <p>
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
         an expert in this skill.
       </p>
 
       {skillList.map((skill) => (
-        <label htmlFor={toCamelCase(skill)} key={skill}>
+        <label className="skillLabel" htmlFor={toCamelCase(skill)} key={skill}>
           <input
             type="radio"
             name="skill"

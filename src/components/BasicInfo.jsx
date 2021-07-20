@@ -47,7 +47,7 @@ export default function BasicInfo({
       </label>
       <nav>
         <button
-          onClick={filledOut ? () => setRegisterStep(2) : ''}
+          onClick={filledOut ? () => setRegisterStep(2) : null}
           className={filledOut ? '' : 'inactive'}
           type="button"
         >
