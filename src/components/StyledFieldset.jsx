@@ -11,18 +11,10 @@ const FieldsetStyles = styled.fieldset`
   p {
     font-size: 1rem;
   }
-  .red {
-    color: red;
-  }
+
   label {
     font-size: 1.5rem;
     font-weight: 600;
-  }
-  button {
-    border: 2px solid gray;
-    border-radius: 3px;
-    padding: 10px;
-    margin: 1rem 1rem 0 0;
   }
 `;
 

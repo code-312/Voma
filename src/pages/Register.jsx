@@ -23,7 +23,7 @@ export default function Register() {
     <form>
       {registerStep === 1 && (
         <BasicInfo
-          firstName={formData.name}
+          firstName={formData.firstName}
           lastName={formData.lastName}
           pronouns={formData.pronouns}
           setRegisterStep={setRegisterStep}

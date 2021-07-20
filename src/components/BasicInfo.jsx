@@ -9,13 +9,14 @@ export default function BasicInfo({
   setRegisterStep,
   handleFormChange,
 }) {
+  const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
   return (
     <StyledFieldset>
       <legend>Basic Info</legend>
       <p>Input basic info about yourself.</p>
-      <p className="red">*Fields are required</p>
+      <p className="warning">*Fields are required</p>
       <label htmlFor="firstName">
-        First Name<span className="red">*</span>
+        First Name<span className="warning">*</span>
         <input
           id="firstName"
           type="text"
@@ -25,7 +26,7 @@ export default function BasicInfo({
         />
       </label>
       <label htmlFor="lastName">
-        Last Name<span className="red">*</span>
+        Last Name<span className="warning">*</span>
         <input
           id="lastName"
           type="text"
@@ -35,7 +36,7 @@ export default function BasicInfo({
         />
       </label>
       <label htmlFor="pronouns">
-        Pronouns<span className="red">*</span>
+        Pronouns<span className="warning">*</span>
         <input
           id="pronouns"
           type="text"
@@ -45,7 +46,11 @@ export default function BasicInfo({
         />
       </label>
       <nav>
-        <button onClick={() => setRegisterStep(2)} type="button">
+        <button
+          onClick={filledOut ? () => setRegisterStep(2) : ''}
+          className={filledOut ? '' : 'inactive'}
+          type="button"
+        >
           Next
         </button>
       </nav>
