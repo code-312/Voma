@@ -6,7 +6,7 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 
 const GlobalStyle = createGlobalStyle`
-  &&& {
+  && {
     :root {
       --warning-color: #e20606;
     }
@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
       display: block;
     }
 
-    button.button {
+    button {
       border: 2px solid gray;
       border-radius: 3px;
       font-size: 1.1rem;
