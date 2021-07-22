@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const FieldsetStyles = styled.fieldset`
   width: 50vw;
@@ -38,6 +37,7 @@ const FieldsetStyles = styled.fieldset`
   }
 
   input[type='text'] {
+    margin-top: 0.6rem;
     margin-bottom: 1rem;
     padding: 0.6rem;
     width: 15rem;
@@ -60,10 +60,4 @@ const FieldsetStyles = styled.fieldset`
   }
 `;
 
-export default function StyledFieldset({ children }) {
-  return <FieldsetStyles>{children}</FieldsetStyles>;
-}
-
-StyledFieldset.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-};
+export default FieldsetStyles;
