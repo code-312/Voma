@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 
 function App() {
   return (
-    <>
+    <HelmetProvider>
       <Helmet>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
@@ -23,7 +23,7 @@ function App() {
           <Register />
         </Route>
       </Switch>
-    </>
+    </HelmetProvider>
   );
 }
 
