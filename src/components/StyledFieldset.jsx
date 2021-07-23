@@ -11,6 +11,7 @@ const FieldsetStyles = styled.fieldset`
     font-size: 3rem;
     font-weight: 700;
   }
+
   p {
     font-size: 1rem;
   }
@@ -28,9 +29,9 @@ const FieldsetStyles = styled.fieldset`
   }
 
   .skillLabel {
-    font-size: 1rem;
+    vertical-align: middle;
+    font-size: 1.2rem;
     font-weight: 400;
-    font-family: Arial, Helvetica, sans-serif;
     &:last-of-type {
       margin-bottom: 2rem;
     }
@@ -44,6 +45,7 @@ const FieldsetStyles = styled.fieldset`
   }
 
   input[type='radio'] {
+    vertical-align: middle;
     width: 1.2rem;
     height: 1.2rem;
     color: gray;

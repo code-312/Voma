@@ -16,39 +16,51 @@ export default function BasicInfo({
       <p>Input basic info about yourself.</p>
       <p className="warning">*Fields are required</p>
       <label htmlFor="firstName">
-        First Name<span className="warning">*</span>
+        First Name{' '}
+        <span className="warning" aria-hidden="true">
+          *
+        </span>
         <input
           id="firstName"
           type="text"
           name="firstName"
           onChange={handleFormChange}
           value={firstName}
+          required
         />
       </label>
       <label htmlFor="lastName">
-        Last Name<span className="warning">*</span>
+        Last Name{' '}
+        <span className="warning" aria-hidden="true">
+          *
+        </span>
         <input
           id="lastName"
           type="text"
           name="lastName"
           onChange={handleFormChange}
           value={lastName}
+          required
         />
       </label>
       <label htmlFor="pronouns">
-        Pronouns<span className="warning">*</span>
+        Pronouns{' '}
+        <span className="warning" aria-hidden="true">
+          *
+        </span>
         <input
           id="pronouns"
           type="text"
           name="pronouns"
           onChange={handleFormChange}
           value={pronouns}
+          required
         />
       </label>
       <nav>
         <button
           onClick={filledOut ? () => setRegisterStep(2) : null}
-          className={filledOut ? '' : 'inactive'}
+          disabled={!filledOut}
           type="button"
         >
           Next
