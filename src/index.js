@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './components/App';
-import CSSReset from './lib/CSSReset';
+import GlobalStyle from './lib/CSSReset';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CSSReset />
+    <GlobalStyle />
     <Router>
       <App />
     </Router>

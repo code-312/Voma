@@ -85,7 +85,8 @@ export const BaseCSSReset = css`
     padding: 0;
   }
   a {
-    text-decoration: none;
+    color: blue;
+    text-decoration: underline;
   }
   button {
     padding: 0;
