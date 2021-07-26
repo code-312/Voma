@@ -22,7 +22,7 @@ export default function NoOnboarding() {
       <h1>We appreciate your enthusiasm!</h1>
       <p>
         At this time new members are required to attend an Onboarding Night. If you haven&apos;t
-        attended Onboarding Night yet then register and attened one through our Meetup Page: &nbsp;
+        attended Onboarding Night yet then register and attend one through our Meetup Page: &nbsp;
         <a href="https://www.meetup.com/code-for-chicago">
           https://www.meetup.com/code-for-chicago
         </a>
