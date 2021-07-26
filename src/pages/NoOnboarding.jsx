@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledDiv = styled.div`
+const StyledSection = styled.section`
   width: 50vw;
   margin: 0 auto;
 
@@ -18,11 +18,11 @@ const StyledDiv = styled.div`
 
 export default function NoOnboarding() {
   return (
-    <StyledDiv>
+    <StyledSection>
       <h1>We appreciate your enthusiasm!</h1>
       <p>
         At this time new members are required to attend an Onboarding Night. If you haven&apos;t
-        attened Onboarding Night yet then register and attened one through our Meetup Page: &nbsp;
+        attended Onboarding Night yet then register and attened one through our Meetup Page: &nbsp;
         <a href="https://www.meetup.com/code-for-chicago">
           https://www.meetup.com/code-for-chicago
         </a>
@@ -32,6 +32,6 @@ export default function NoOnboarding() {
       <Link to="/">
         <button type="button">Start Over</button>
       </Link>
-    </StyledDiv>
+    </StyledSection>
   );
 }
