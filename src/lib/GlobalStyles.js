@@ -1,7 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 export const BaseCSSReset = css`
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
   * {
     box-sizing: border-box;
   }
@@ -102,6 +101,33 @@ export const BaseCSSReset = css`
 
 const GlobalStyle = createGlobalStyle`
   ${BaseCSSReset};
+  :root {
+    --warning-color: #e20606;
+    --blue: #414CB3;
+  }
+
+  input[type=text] {
+    display: block;
+  }
+
+  button {
+    color: var(--blue);
+    border: 2px solid var(--blue);
+    border-radius: 3px;
+    font-size: 1.1rem;
+    padding: 12px 14px;
+    margin: 1rem 1rem 0 0;
+    cursor: pointer;
+    &:disabled {
+      border-color: #9e9c9c;
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
+
+  .warning {
+    color: var(--warning-color);
+  }
 `;
 
 export default GlobalStyle;
