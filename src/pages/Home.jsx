@@ -16,7 +16,6 @@ const StyledParagraph = styled.p`
 `;
 
 const SlackButton = styled.button`
-  width: 30%;
   border: none;
   padding: 0;
   margin: 0;
@@ -40,7 +39,8 @@ export default function Home() {
         <SlackImg
           src="https://platform.slack-edge.com/img/sign_in_with_slack.png"
           srcSet="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x"
-          alt="slack button"
+          alt=""
+          aria-label="Sign in with Slack"
         />
       </SlackButton>
     </StyledSection>
