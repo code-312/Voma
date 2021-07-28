@@ -35,12 +35,11 @@ export default function Home() {
         our <a href="https://code-for-chicago-slack-invite.herokuapp.com/">Slack</a> and come back
         here to sign in.
       </StyledParagraph>
-      <SlackButton type="button">
+      <SlackButton type="button" aria-label="Sign in with Slack">
         <SlackImg
           src="https://platform.slack-edge.com/img/sign_in_with_slack.png"
           srcSet="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x"
           alt=""
-          aria-label="Sign in with Slack"
         />
       </SlackButton>
     </StyledSection>
