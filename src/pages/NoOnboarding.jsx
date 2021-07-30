@@ -29,8 +29,8 @@ export default function NoOnboarding() {
       </p>
       <p>We&apos;d love to see you then!</p>
 
-      <Link to="/">
-        <button type="button">Start Over</button>
+      <Link to="/" className="button">
+        Start Over
       </Link>
     </StyledSection>
   );
