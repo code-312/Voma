@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
+import CodeOfConduct from '../components/CodeOfConduct';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -37,6 +38,7 @@ export default function Register() {
           handleFormChange={handleFormChange}
         />
       )}
+      {registerStep === 3 && <CodeOfConduct setRegisterStep={setRegisterStep} />}
     </form>
   );
 }
