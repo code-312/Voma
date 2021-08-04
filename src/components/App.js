@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
+import NoOnboarding from '../pages/NoOnboarding';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/no-onboarding">
+          <NoOnboarding />
         </Route>
       </Switch>
     </HelmetProvider>

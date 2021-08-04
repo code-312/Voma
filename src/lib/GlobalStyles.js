@@ -111,7 +111,7 @@ const GlobalStyle = createGlobalStyle`
     display: block;
   }
 
-  button {
+  button, .button {
     color: var(--blue);
     border: 2px solid var(--blue);
     border-radius: 3px;
