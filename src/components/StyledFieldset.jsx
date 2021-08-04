@@ -66,6 +66,10 @@ const FieldsetStyles = styled.fieldset`
     background-color: #bababa;
     border: none;
   }
+
+  ol {
+    list-style-position: inside;
+  }
 `;
 
 export default FieldsetStyles;
