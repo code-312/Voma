@@ -57,8 +57,17 @@ const FieldsetStyles = styled.fieldset`
     margin-bottom: 0;
   }
 
+  nav {
+    display: flex;
+  }
+
   button {
     margin-top: 0;
+  }
+
+  button[type='submit'] {
+    margin-right: 4rem;
+    margin-left: auto;
   }
 
   hr {
