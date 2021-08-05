@@ -126,6 +126,13 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  button[type=submit] {
+    &:enabled {
+    background-color: var(--blue);
+    color: white;
+    }
+  }
+
   .warning {
     color: var(--warning-color);
   }
