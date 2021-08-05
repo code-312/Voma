@@ -60,6 +60,16 @@ const FieldsetStyles = styled.fieldset`
   button {
     margin-top: 0;
   }
+
+  hr {
+    height: 1px;
+    background-color: #bababa;
+    border: none;
+  }
+
+  ol {
+    list-style-position: inside;
+  }
 `;
 
 export default FieldsetStyles;
