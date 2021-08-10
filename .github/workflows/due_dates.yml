@@ -1,4 +1,4 @@
-name: Main Workflow
+name: Due dates workflow
 on:
   schedule:
     - cron:  '*/5 * * * *'
