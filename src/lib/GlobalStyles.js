@@ -135,6 +135,7 @@ const GlobalStyle = createGlobalStyle`
 
   .warning {
     color: var(--warning-color);
+    font-size: 1.25rem;
   }
 `;
 
