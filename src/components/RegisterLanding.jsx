@@ -19,13 +19,13 @@ export default function RegisterLanding({ setRegisterStep }) {
       <StyledFieldset>
         <h1 id="registerh1">Volunteer with us at Code for Chicago!</h1>
 
-        <div>
+        <div id="registerd1">
           <p>
             As part of the Code for America brigade network, Code for Chicago connects skills-based
             volunteers to Chicago-based nonprofits, mutual aid groups, and people with ideas on how
             they can improve their community.
           </p>
-          <p>
+          <p id="registerp2">
             This contact form is for people who have completed our Onboarding Night and are
             interested in participating in Code for Chicago projects and committees. We created this
             formal process to cut down on the onboarding time. Our hope is to assign you to a
@@ -60,6 +60,7 @@ export default function RegisterLanding({ setRegisterStep }) {
         </label>
         <nav>
           <button
+            id="registerb1"
             type="button"
             onClick={registered ? () => setRegisterStep(2) : () => registerSet('not')}
             disabled={registered === null}
