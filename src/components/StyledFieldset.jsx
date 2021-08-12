@@ -79,6 +79,12 @@ const FieldsetStyles = styled.fieldset`
   ol {
     list-style-position: inside;
   }
-`;
+
+  #registerh1, #registerh2 {
+    font-weight: bold;
+    }
+`
+  
+  ;
 
 export default FieldsetStyles;
