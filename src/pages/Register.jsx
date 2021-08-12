@@ -3,6 +3,7 @@ import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import RegisterLanding from '../components/RegisterLanding'
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ export default function Register() {
   return (
     <form>
       {registerStep === 1 && (
-        <RegistrationLanding
+        <RegisterLanding
           setRegisterStep={setRegisterStep}
         />
       )}
