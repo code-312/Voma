@@ -8,9 +8,9 @@ export default function RegisterLanding({ setRegisterStep }) {
 
   const handleRadioChoice = (e) => {
     if (e.target.id === 'radio1') {
-      registerSet(true);
+      setIsRegistered(true);
     } else if (e.target.id === 'radio2') {
-      registerSet(false);
+      setIsRegistered(false);
     }
   };
 
@@ -62,14 +62,14 @@ export default function RegisterLanding({ setRegisterStep }) {
           <button
             id="registerb1"
             type="button"
-            onClick={registered ? () => setRegisterStep(2) : () => registerSet('not')}
-            disabled={registered === null}
+            onClick={isRegistered ? () => setRegisterStep(2) : () => setIsRegistered('not')}
+            disabled={isRegistered === null}
           >
             Next
           </button>
         </nav>
 
-        {registered === 'not' && <NoOnboarding />}
+        {isRegistered === 'not' && <NoOnboarding />}
       </StyledFieldset>
     </>
   );
@@ -77,4 +77,4 @@ export default function RegisterLanding({ setRegisterStep }) {
 
 RegisterLanding.propTypes = {
   setRegisterStep: PropTypes.func.isRequired,
-};
+}
