@@ -7,11 +7,11 @@ export default function RegisterLanding({ setRegisterStep }) {
   const [isRegistered, setIsRegistered] = useState(null);
 
   const handleRadioChoice = (e) => {
-    if (e.target.id === 'radio1') {
+    if (e.target.value === 'yes') {
       setIsRegistered(true);
-    } else if (e.target.id === 'radio2') {
+    } else if (e.target.value === 'no') {
       setIsRegistered(false);
-    }
+    } 
   };
 
   return (
