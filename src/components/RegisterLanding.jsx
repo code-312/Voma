@@ -4,7 +4,7 @@ import NoOnboarding from '../pages/NoOnboarding';
 import StyledFieldset from './StyledFieldset';
 
 export default function RegisterLanding({ setRegisterStep }) {
-  const [registered, registerSet] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(null);
 
   const handleRadioChoice = (e) => {
     if (e.target.id === 'radio1') {
