@@ -82,7 +82,6 @@ const FieldsetStyles = styled.fieldset`
 
   .registerh1, .registerh2 {
     font-weight: bold;
-    padding: 2rem;
     }
 
     .registerp2 {

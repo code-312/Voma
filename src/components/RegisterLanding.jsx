@@ -69,7 +69,7 @@ export default function RegisterLanding({ setRegisterStep }) {
           </button>
         </nav>
 
-        {isRegistered === 'not' && <NoOnboarding />}
+          {isRegistered === 'not' && <NoOnboarding />}
       </StyledFieldset>
     </>
   );
