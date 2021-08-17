@@ -80,16 +80,16 @@ const FieldsetStyles = styled.fieldset`
     list-style-position: inside;
   }
 
-  #registerh1, #registerh2 {
+  .registerh1, .registerh2 {
     font-weight: bold;
     padding: 2rem;
     }
 
-    #registerp2 {
+    .registerp2 {
       margin-bottom: 2rem;
     }
 
-    #registerb1 {
+    .registerb1 {
       position: relative;
       top: 2rem;
     }
