@@ -7,12 +7,13 @@ export default function RegisterLanding({ setRegisterStep }) {
   const [isRegistered, setIsRegistered] = useState(null);
 
   const handleRadioChoice = (e) => {
-    const boolValue = !!e.target.value === 'yes';
+    const boolValue = e.target.value === 'yes';
     setIsRegistered(boolValue);
   };
 
   return (
     <>
+      {/* {console.log("isRegistered:",isRegistered)} */}
       {isRegistered === 'not' ? (
         <NoOnboarding />
       ) : (
