@@ -6,6 +6,10 @@ const FieldsetStyles = styled.fieldset`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 900px){
+    width: 80%;
+  }
+
   legend {
     padding: 3rem 0 1rem 0;
     font-size: 3rem;
