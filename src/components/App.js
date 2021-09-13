@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import NoOnboarding from '../pages/NoOnboarding';
+import Profile from '../pages/Profile';
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path="/no-onboarding">
           <NoOnboarding />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </HelmetProvider>
