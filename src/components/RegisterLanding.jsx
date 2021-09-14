@@ -13,7 +13,6 @@ export default function RegisterLanding({ setRegisterStep }) {
 
   return (
     <>
-      {/* {console.log("isRegistered:",isRegistered)} */}
       {isRegistered === 'not' ? (
         <NoOnboarding />
       ) : (
