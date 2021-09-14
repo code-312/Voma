@@ -16,7 +16,7 @@ export default function BasicInfo({
       <p>Input basic info about yourself.</p>
       <label htmlFor="firstName">
         First Name{' '}
-        <span className="warning" aria-hidden="true">
+        <span className="warning">
           (required)
         </span>
         <input
@@ -30,7 +30,7 @@ export default function BasicInfo({
       </label>
       <label htmlFor="lastName">
         Last Name{' '}
-        <span className="warning" aria-hidden="true">
+        <span className="warning">
           (required)
         </span>
         <input
@@ -44,7 +44,7 @@ export default function BasicInfo({
       </label>
       <label htmlFor="pronouns">
         Pronouns{' '}
-        <span className="warning" aria-hidden="true">
+        <span className="warning">
           (required)
         </span>
         <input
