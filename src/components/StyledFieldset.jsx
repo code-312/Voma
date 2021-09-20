@@ -67,6 +67,7 @@ const FieldsetStyles = styled.fieldset`
 
   button {
     margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   button[type='submit'] {
