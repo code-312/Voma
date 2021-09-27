@@ -14,11 +14,10 @@ export default function BasicInfo({
     <StyledFieldset>
       <legend>Basic Info</legend>
       <p>Input basic info about yourself.</p>
-      <p className="warning">*Fields are required</p>
       <label htmlFor="firstName">
         First Name{' '}
-        <span className="warning" aria-hidden="true">
-          *
+        <span className="warning">
+          (required)
         </span>
         <input
           id="firstName"
@@ -31,8 +30,8 @@ export default function BasicInfo({
       </label>
       <label htmlFor="lastName">
         Last Name{' '}
-        <span className="warning" aria-hidden="true">
-          *
+        <span className="warning">
+          (required)
         </span>
         <input
           id="lastName"
@@ -45,8 +44,8 @@ export default function BasicInfo({
       </label>
       <label htmlFor="pronouns">
         Pronouns{' '}
-        <span className="warning" aria-hidden="true">
-          *
+        <span className="warning">
+          (required)
         </span>
         <input
           id="pronouns"
