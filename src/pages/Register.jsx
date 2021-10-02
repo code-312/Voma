@@ -3,6 +3,7 @@ import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import NoOnboarding from './NoOnboarding';
 import RegisterLanding from '../components/RegisterLanding'
 
 export default function Register() {
@@ -24,6 +25,9 @@ export default function Register() {
 
   return (
     <form>
+      {registerStep === 0 && (
+        <NoOnboarding />
+      )}
       {registerStep === 1 && (
         <RegisterLanding
           setRegisterStep={setRegisterStep}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import NoOnboarding from '../pages/NoOnboarding';
 import StyledFieldset from './StyledFieldset';
 
 export default function RegisterLanding({ setRegisterStep }) {
@@ -11,12 +10,13 @@ export default function RegisterLanding({ setRegisterStep }) {
     setIsRegistered(boolValue);
   };
 
+
   return (
     <>
-      {isRegistered ? (
-        <NoOnboarding />
-      ) : (
-        <StyledFieldset>
+     
+
+          <StyledFieldset>
+             
           <h1 className="registerh1">Volunteer with us at Code for Chicago!</h1>
 
           <div className="registerd1">
@@ -59,17 +59,16 @@ export default function RegisterLanding({ setRegisterStep }) {
             No
           </label>
           <nav>
-            <button
-              className="registerb1"
-              type="button"
-              onClick={isRegistered ? () => setRegisterStep(2) : () => setIsRegistered(false)}
+              <button
+                className="registerb1"
+                type="button"
+                onClick={isRegistered ? () => setRegisterStep(2) : () => setRegisterStep(0)}
               disabled={isRegistered === null}
             >
               Next
             </button>
           </nav>
         </StyledFieldset>
-      )}
     </>
   );
 }
