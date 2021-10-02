@@ -13,7 +13,7 @@ export default function RegisterLanding({ setRegisterStep }) {
 
   return (
     <>
-      {isRegistered === 'not' ? (
+      {isRegistered ? (
         <NoOnboarding />
       ) : (
         <StyledFieldset>
@@ -62,7 +62,7 @@ export default function RegisterLanding({ setRegisterStep }) {
             <button
               className="registerb1"
               type="button"
-              onClick={isRegistered ? () => setRegisterStep(2) : () => setIsRegistered('not')}
+              onClick={isRegistered ? () => setRegisterStep(2) : () => setIsRegistered(false)}
               disabled={isRegistered === null}
             >
               Next
