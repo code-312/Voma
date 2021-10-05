@@ -4,7 +4,7 @@ import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import NoOnboarding from './NoOnboarding';
-import RegisterLanding from '../components/RegisterLanding'
+import RegisterLanding from '../components/RegisterLanding';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -25,14 +25,8 @@ export default function Register() {
 
   return (
     <form>
-      {registerStep === 0 && (
-        <NoOnboarding />
-      )}
-      {registerStep === 1 && (
-        <RegisterLanding
-          setRegisterStep={setRegisterStep}
-        />
-      )}
+      {registerStep === 0 && <NoOnboarding />}
+      {registerStep === 1 && <RegisterLanding setRegisterStep={setRegisterStep} />}
       {registerStep === 2 && (
         <BasicInfo
           firstName={formData.firstName}
