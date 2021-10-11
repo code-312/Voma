@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledSection = styled.section`
   width: 50vw;
   margin: 0 auto;
-
+  margin-bottom: 30px;
   @media (max-width: 900px){
     width: 80%;
   }
@@ -18,19 +18,22 @@ const StyledSection = styled.section`
   p {
     font-size: 1rem;
   }
+
 `;
 
-export default function NoOnboarding() {
+export default function PageNotFound() {
   return (
-    <StyledSection>
-      <h1>404. Page Not Found</h1>
-      <p>
-        Whoops! The apge you are looking for does not exist.  Try going back or use the link below.
-      </p>
-
-      <Link to="/" className="button">
+      <StyledSection>
+        <h1>404. Page Not Found.
+          <br/>
+          ¯\_(ツ)_/¯
+        </h1>
+        <p className="error-page">
+          Whoops! The page you are looking for does not exist.  Try going back or use the link below to go Home.
+        </p>
+        <Link to="/" className="button">
         Home
-      </Link>
-    </StyledSection>
+        </Link>
+      </StyledSection>
   );
 }
