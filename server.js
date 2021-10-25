@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { getUsers } = require('./db/index');
 
 const app = express();
 
@@ -7,8 +8,9 @@ const app = express();
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 // Put all API endpoints under '/api'
-app.get('/api/test', (req, res) => {
-  res.send('Hello API!');
+app.get('/api/test', async (req, res) => {
+   const result = await getUsers();
+    res.send(JSON.stringify(result));
 });
 
 // The "catchall" handler: for any request that doesn't
@@ -17,7 +19,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 app.listen(port);
 
 console.log(`Password generator listening on ${port}`);
