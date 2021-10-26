@@ -92,6 +92,7 @@ const FieldsetStyles = styled.fieldset`
   .registerb1 {
     position: relative;
     top: 2rem;
+    margin: 10vh;
   }
 `;
 
