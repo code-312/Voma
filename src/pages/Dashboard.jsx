@@ -21,7 +21,8 @@ export default function Dashboard() {
   ];
 
   const StyledSection = styled.section`
-    table td {
+    
+  table td {
       padding: 0.5rem;
       margin: 4rem;
       border: 1px solid gray;
@@ -54,6 +55,27 @@ export default function Dashboard() {
     .sign-out{
       float: right;
     }
+
+    .table-container {
+      //  margin: 0 auto;
+      // text-align: center;
+      margin-left: auto; 
+      margin-right: auto;
+    }
+
+    table {
+      width:70%; 
+    margin-left:15%; 
+    margin-right:15%;
+    }
+
+    .newmember-table {
+      margin: 10vh;
+    }
+
+    .projects-table {
+      margin: 10vh;
+    }
   `;
 
   return (
@@ -64,9 +86,10 @@ export default function Dashboard() {
         <Link className="sign-out" to="/">Sign out</Link>
       </div>
       <div className="table-container">
-        <h2>New Members</h2>
-        <table>
+       
+        <table className="newmember-table">
           <thead>
+          <h2>New Members</h2>
             <tr>
               <th>Regisration Date</th>
               <th>Name</th>
@@ -87,7 +110,7 @@ export default function Dashboard() {
         <br />
         <br />
         <br />
-        <table>
+        <table className="projects-table">
           <thead>
             <h2>Projects</h2>
             <h3>Between Friends</h3>
