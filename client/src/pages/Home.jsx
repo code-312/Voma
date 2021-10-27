@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
@@ -31,20 +31,7 @@ const SlackImg = styled.img`
   border: none;
 `;
 
-const getTest = async () => {
-  const data = await fetch('/api/test');
-  try {
-    console.log(data);
-  } catch(err) {
-    console.log(err);
-  }
-};
-
 export default function Home() {
-  useEffect(() => {
-    getTest();
-  }, []);
-
   return (
     <StyledSection>
       <StyledH1>Sign in with Slack</StyledH1>
