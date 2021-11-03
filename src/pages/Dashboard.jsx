@@ -104,14 +104,10 @@ export default function Dashboard() {
             ))}
           </tbody>
         </table>
-        <br />
-        <br />
-        <br />
-        <br />
+        <h2>Projects</h2>
+        <h3>Between Friends</h3>
         <table className="projects-table">
           <thead>
-            <h2>Projects</h2>
-            <h3>Between Friends</h3>
             <tr>
               <th>Name</th>
               <th>Primary Skill</th>
