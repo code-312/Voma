@@ -57,8 +57,6 @@ export default function Dashboard() {
     }
 
     .table-container {
-      //  margin: 0 auto;
-      // text-align: center;
       margin-left: auto; 
       margin-right: auto;
     }
@@ -69,12 +67,12 @@ export default function Dashboard() {
     margin-right:15%;
     }
 
-    .newmember-table {
-      margin: 10vh;
+    .newmember-table  {
+      padding-bottom: 15vh;
     }
 
     .projects-table {
-      margin: 10vh;
+      padding-bottom: 15vh;
     }
   `;
 

@@ -44,7 +44,7 @@ export default function RegisterLanding({ setRegisterStep }) {
               name="status"
               id="radio1"
               value="yes"
-              onChange={(e) => handleRadioChoice(e)}
+              onChange={handleRadioChoice}
             />
             Yes
           </label>
@@ -54,7 +54,7 @@ export default function RegisterLanding({ setRegisterStep }) {
               name="status"
               id="radio2"
               value="no"
-              onChange={(e) => handleRadioChoice(e)}
+              onChange={handleRadioChoice}
             />
             No
           </label>
