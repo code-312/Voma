@@ -9,7 +9,7 @@ export default function Dashboard() {
     { id: 3, name: 'Joseph Tajaran', skill: 'Front-End' },
     { id: 4, name: 'Joseph Tajaran', skill: 'Back-End' },
     { id: 5, name: 'Joseph Tajaran', skill: 'Product Management' },
-    {id: 6, name: 'Joseph Tajaran', skill: 'Project Management' },
+    { id: 6, name: 'Joseph Tajaran', skill: 'Project Management' },
     { id: 7, name: 'Joseph Tajaran', skill: 'Visual Design' },
     { id: 8, name: 'Joseph Tajaran', skill: 'Visual Design' },
   ];
@@ -21,8 +21,7 @@ export default function Dashboard() {
   ];
 
   const StyledSection = styled.section`
-    
-  table td {
+    table td {
       padding: 0.5rem;
       margin: 4rem;
       border: 1px solid gray;
@@ -52,22 +51,22 @@ export default function Dashboard() {
       font-weight: 600;
     }
 
-    .sign-out{
+    .sign-out {
       float: right;
     }
 
     .table-container {
-      margin-left: auto; 
+      margin-left: auto;
       margin-right: auto;
     }
 
     table {
-      width:70%; 
-    margin-left:15%; 
-    margin-right:15%;
+      width: 70%;
+      margin-left: 15%;
+      margin-right: 15%;
     }
 
-    .newmember-table  {
+    .newmember-table {
       padding-bottom: 15vh;
     }
 
@@ -79,19 +78,21 @@ export default function Dashboard() {
   return (
     <StyledSection>
       <h1>Welcome</h1>
+
       <div>
         <Link to="/">Home</Link>
-        <Link className="sign-out" to="/">Sign out</Link>
+        <Link className="sign-out" to="/">
+          Sign out
+        </Link>
       </div>
       <div className="table-container">
-       
+        <h2>New Members</h2>
         <table className="newmember-table">
           <thead>
-          <h2>New Members</h2>
             <tr>
-              <th>Regisration Date</th>
-              <th>Name</th>
-              <th>Primary Skill</th>
+              <td>Regisration Date</td>
+              <td>Name</td>
+              <td>Primary Skill</td>
             </tr>
           </thead>
           <tbody>
@@ -105,6 +106,7 @@ export default function Dashboard() {
           </tbody>
         </table>
         <h2>Projects</h2>
+
         <h3>Between Friends</h3>
         <table className="projects-table">
           <thead>
