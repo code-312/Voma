@@ -30,11 +30,6 @@ Trello
 2. System generates user profile based on input
 3. Project Leads review new volunteers and set up 1x1s / assign to projects
 
-## Repositories
-
-[Voma App](https://github.com/Code-For-Chicago/Voma-frontend)<br />
-
-
 ## How to Contribute Guide
 [How to Contribute to Voma](How-to-Contribute.md)
 
