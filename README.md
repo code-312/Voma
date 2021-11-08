@@ -1,9 +1,5 @@
 # [Front End] Voma is Code for Chicago's custom **vo**lunteer **ma**nagement system.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/afcfce28-1025-4d56-ab25-1c8b40d05966/deploy-status)](https://app.netlify.com/sites/voma/deploys)
-
-[https://voma.netlify.app/](https://voma.netlify.app/)
-
 ## What is Voma?
 
 At a high level we're trying to achieve the following:
@@ -36,8 +32,8 @@ Trello
 
 ## Repositories
 
-[Front End](https://github.com/Code-For-Chicago/Voma-frontend)<br />
-[Back End](https://github.com/Code-For-Chicago/Voma-backend)
+[Voma App](https://github.com/Code-For-Chicago/Voma-frontend)<br />
+
 
 ## How to Contribute Guide
 [How to Contribute to Voma](How-to-Contribute.md)
