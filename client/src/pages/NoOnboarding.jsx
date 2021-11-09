@@ -5,6 +5,10 @@ const StyledSection = styled.section`
   width: 50vw;
   margin: 0 auto;
 
+  @media (max-width: 900px){
+    width: 80%;
+  }
+
   h1 {
     padding: 3rem 0 1rem 0;
     font-size: 2rem;

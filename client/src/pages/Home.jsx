@@ -1,9 +1,14 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
   width: 50%;
   margin: 0 auto;
   padding-top: 100px;
+
+  @media (max-width: 900px){
+    width: 80%;
+  }
 `;
 
 const StyledH1 = styled.h1`
