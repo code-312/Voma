@@ -3,6 +3,8 @@ import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import NoOnboarding from './NoOnboarding';
+import RegisterLanding from '../components/RegisterLanding';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -23,7 +25,9 @@ export default function Register() {
 
   return (
     <form>
-      {registerStep === 1 && (
+      {registerStep === 0 && <NoOnboarding />}
+      {registerStep === 1 && <RegisterLanding setRegisterStep={setRegisterStep} />}
+      {registerStep === 2 && (
         <BasicInfo
           firstName={formData.firstName}
           lastName={formData.lastName}
@@ -32,15 +36,15 @@ export default function Register() {
           handleFormChange={handleFormChange}
         />
       )}
-      {registerStep === 2 && (
+      {registerStep === 3 && (
         <Skills
           skills={formData.skill}
           setRegisterStep={setRegisterStep}
           handleFormChange={handleFormChange}
         />
       )}
-      {registerStep === 3 && <CodeOfConduct setRegisterStep={setRegisterStep} />}
-      {registerStep === 4 && <PrivacyPolicy setRegisterStep={setRegisterStep} />}
+      {registerStep === 4 && <CodeOfConduct setRegisterStep={setRegisterStep} />}
+      {registerStep === 5 && <PrivacyPolicy setRegisterStep={setRegisterStep} />}
     </form>
   );
 }

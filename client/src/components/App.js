@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
+import Dashboard from '../pages/Dashboard';
 import NoOnboarding from '../pages/NoOnboarding';
 import PageNotFound from '../pages/PageNotFound';
 
@@ -24,8 +25,8 @@ function App() {
         <Route path="/register">
           <Register />
         </Route>
-        <Route path="/no-onboarding">
-          <NoOnboarding />
+        <Route path="/dashboard">
+          <Dashboard />
         </Route>
         <Route path="*">
           <PageNotFound />
