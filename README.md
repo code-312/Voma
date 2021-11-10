@@ -19,7 +19,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Tech Stack
 
 React<br />
-Ruby on Rails<br />
+Node / Express<br />
 PostgreSQL
 
 ### Planned Integrations
@@ -37,7 +37,6 @@ Trello
 ## Repositories
 
 [Front End](https://github.com/Code-For-Chicago/Voma-frontend)<br />
-[Back End](https://github.com/Code-For-Chicago/Voma-backend)
 
 ## How to Contribute Guide
 [How to Contribute to Voma](How-to-Contribute.md)
@@ -54,5 +53,10 @@ You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version 
 ## 🚀 Setup
 
 1. Clone the project with `git clone git@github.com:Code-For-Chicago/Voma-frontend.git`
-2. Install dependencies with `npm i`
-3. Start development server with `npm start`. App will be served at [http://localhost:3000/](http://localhost:3000/)
+2. In the `meta-development` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
+3. Install dependencies with `npm i`
+4. Start the Express server with `npm run start`
+5. Open a new terminal window or tab
+6. Move into the `client` directory with `cd client`
+7. Install those dependencies with `npm i`
+8. Start the React server with `npm run start`

@@ -41,7 +41,5 @@ const sync = async () => {
     console.log(`Err :( ${err})`);
   }
 }
-
-sync();
   
 module.exports = seq;
