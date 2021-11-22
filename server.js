@@ -2,7 +2,6 @@ require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const express = require('express');
 const path = require('path');
 const { models } = require('./db');
-
 const app = express();
 
 // Serve static files from the React app
