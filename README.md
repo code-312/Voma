@@ -70,12 +70,14 @@ If you are going to mostly be doing frontend work, you can skip this next sectio
 2. Next, pull the Docker official image for Postgres from the docker hub repository by running the following in your command line: 
 `docker pull postgres`
   - You can find the documentation of the [image here](https://github.com/docker-library/docs/blob/master/postgres/README.md)
-3. After it finishes pulling, enter the following in your command line: 
+3. Run the database container using Docker, or Docker Compose.
+  * **Docker**: After it finishes pulling, enter the following in your command line:
 `docker run -d  -p 5432:5432 -e POSTGRES_PASSWORD=password --name postgres-dev postgres`
-  - You can set `POSTGRES_PASSWORD` to whatever you want, just make sure you remember it!
-  - You don't need to specify the `--name` either. If you omit this, docker will randomly assign you one. 
-4. Open up docker and click on the **Containers/Apps** tab. You should something running. 
-5. Next, we'll pull a **pgAdmin** image. pgAdmin is a an administration and development tool for Postgres. Enter the follwowing in your command line: 
+    - You can set `POSTGRES_PASSWORD` to whatever you want, just make sure you remember it!
+    - You don't need to specify the `--name` either. If you omit this, docker will randomly assign you one.
+  * **Docker Compose**: navigate to the /docker-compose/ directory. Verify the postgres username and password in the file here, or modify if desired. Run the command `docker-compose up` to launch the containers for postgres and adminer (database admin tool) [source](https://hub.docker.com/_/postgres). To run containers in the background (do not show live logs in the terminal window), use the `-d` flag; to stop containers running in the background use the command `docker-compose down`.
+4. Open up docker and click on the **Containers/Apps** tab. You should something running.
+5. Next, we'll pull a **pgAdmin** image. pgAdmin is a an administration and development tool for Postgres. Enter the follwowing in your command line:
 `docker pull dpage/pgadmin4`
 6. After it finishes pulling, run the image instance with the following command:
         docker run \ 
