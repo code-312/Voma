@@ -31,25 +31,5 @@ const modelDefiners = [
 for (const modelDefiner of modelDefiners) {
 	modelDefiner(seq);
 }
-
-const test = async () => {
-  console.log('trying to connect');
-  try {
-    await seq.authenticate();
-    console.log('Connection success!');
-  } catch (err) {
-    console.log(`Err :( ${err}`);
-  }
-}
-
-const sync = async () => {
-  console.log('Syncing the database');
-  try {
-    await seq.sync({ alter: true });
-    console.log('Database synced!');
-  } catch (err) {
-    console.log(`Err :( ${err})`);
-  }
-}
   
 module.exports = seq;
