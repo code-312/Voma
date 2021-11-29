@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development.local node server.js",
-    "startLocal": "NODE_ENV=local node server.js"
+    "startLocal": "NODE_ENV=local node server.js",
+    "sync": "NODE_ENV=local node db/sync.js"
   },
   "repository": {
     "type": "git",
