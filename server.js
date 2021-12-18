@@ -8,17 +8,29 @@ const {
   editVolunteer,
   removeVolunteer
 } = require('./db/controllers/volunteers');
+const {
+  getProjects,
+  getProject,
+  addProject,
+  editProject,
+  removeProject
+} = require('./db/controllers/projects');
 
 const skillsController = require('./db/controllers/skills.controller');
 
 const app = express();
+
+app.use(express.urlencoded());
 app.use(express.json());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
 
+/* ____________ Begin API Endpoints ____________ */
+
 // Put all API endpoints under '/api'
 
+/*========= VOLUNTEER ROUTES =========*/
 /* Return all volunteers */
 app.get('/api/volunteers', getVolunteers);
 
@@ -40,6 +52,25 @@ app.get('/api/skills/:id', skillsController.getSkill);
 app.post('/api/skills', skillsController.addSkill)
 app.put('/api/skills/:id', skillsController.editSkill)
 app.delete('/api/skills/:id', skillsController.removeSkill)
+
+/*========= PROJECT ROUTES =========*/
+
+/* Return all projects */
+app.get('/api/projects', getProjects);
+
+/* Add new project */
+app.post('/api/project', addProject);
+
+/* Get a specific project */
+app.get('/api/project/:id', getProject);
+
+/* Edit a project */
+app.post('/api/project/:id', editProject);
+
+/* Remove a project */
+app.delete('/api/project/:id', removeProject);
+
+/* ____________ End API Endpoints ____________ */
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
