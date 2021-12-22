@@ -1,4 +1,3 @@
-const { seq } = require('../index.js');
 const { models } = require('../index');
 
 exports.getSkills = async (req, res) => {
@@ -31,7 +30,7 @@ exports.addSkill = async (req, res) => {
         description
     }).catch(err => dbError = err);
 
-    if (dbError) { return res.status(400).json({"error": err}); }
+    if (dbError) { return res.status(400).json({"error": dbError}); }
 
     res.json(result);
 };
