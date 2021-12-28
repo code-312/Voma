@@ -20,7 +20,12 @@ const getVolunteer = async (req, res) => {
     if (error) {
         return res.status(400).json({ error });
     }
-    res.json(volunteer);
+
+    if (volunteer) {
+        res.json(volunteer);
+    } else {
+        res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
+    }
 };
 
 const addVolunteer = async (req, res) => {
@@ -78,7 +83,7 @@ const editVolunteer = async (req, res) => {
     if (findError) {
         return res.status(400).json({ error: findError });
     }
-    if (volunteer === null) {
+    if (!volunteer) {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
 
@@ -112,14 +117,19 @@ const removeVolunteer = async (req, res) => {
         return res.status(400).json({ error: findError });
     }
 
-    await volunteer.destroy()
-          .catch(err => deleteError = err);
-    
-    if (deleteError) {
-        return res.status(400).json({ error: deleteError });
-    }
+    if (volunteer) {
 
-    res.status(200).json({ result: `Volunteer ${req.params.id} has been removed.`});
+        await volunteer.destroy()
+        .catch(err => deleteError = err);
+        
+        if (deleteError) {
+            return res.status(400).json({ error: deleteError });
+        }
+        
+        res.status(200).json({ result: `Volunteer ${req.params.id} has been removed.`});
+    } else {
+        res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
+    }
 };
 
 
