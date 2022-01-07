@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
@@ -20,33 +21,49 @@ const StyledParagraph = styled.p`
   font-size: 1rem;
 `;
 
-const SlackButton = styled.button`
-  border: none;
-  padding: 0;
-  margin: 0;
-`;
+export default function Home({ userNotFound, findUser }) {
+  const [email, setEmail] = useState('');
 
-const SlackImg = styled.img`
-  width: 100%;
-  border: none;
-`;
+  const onInputChange = (e) => {
+    setEmail(e.target.value);
+  }
 
-export default function Home() {
-  return (
-    <StyledSection>
-      <StyledH1>Sign in with Slack</StyledH1>
+  const searchForUser = (e) => {
+    e.preventDefault();
+    findUser(email);
+  };
+
+  if (userNotFound) {
+    return (
+      <StyledSection>
+      <StyledH1>Looks like you aren&apos;t in the CFC Slack</StyledH1>
       <StyledParagraph>
-        We utilize Slack throughout our onboarding process. If you haven&#39;t already, please join
-        our <a href="https://code-for-chicago-slack-invite.herokuapp.com/">Slack</a> and come back
-        here to sign in.
+        To join, click the link below: 
       </StyledParagraph>
-      <SlackButton type="button" aria-label="Sign in with Slack">
-        <SlackImg
-          src="https://platform.slack-edge.com/img/sign_in_with_slack.png"
-          srcSet="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x"
-          alt=""
-        />
-      </SlackButton>
+      <StyledParagraph>
+      <a href="https://code-for-chicago-slack-invite.herokuapp.com/">Click here to join our Slack</a>
+      </StyledParagraph>
     </StyledSection>
-  );
+      
+    );
+  }
+
+    return (
+      <StyledSection>
+        <StyledH1>Thanks for your interest!</StyledH1>
+        <StyledParagraph>
+        To get started, please enter the email address associated with your slack account below.
+        </StyledParagraph>
+        <form onSubmit={searchForUser}>
+          <input type="text" placeholder="Slack Email Address" onChange={onInputChange} value={email} />
+          <button type="submit">Submit</button>
+        </form>
+      </StyledSection>
+    )
 }
+
+Home.propTypes = {
+  userNotFound: PropTypes.bool.isRequired,
+  findUser: PropTypes.func.isRequired,
+};
+

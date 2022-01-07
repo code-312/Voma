@@ -1,5 +1,6 @@
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const express = require('express');
+const axios = require('axios');
 const path = require('path');
 const {
   getVolunteers,
@@ -17,6 +18,7 @@ const {
 } = require('./db/controllers/projects');
 
 const skillsController = require('./db/controllers/skills.controller');
+const userController = require('./db/controllers/users.controller');
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 /* ____________ Begin API Endpoints ____________ */
 
 // Put all API endpoints under '/api'
+
+app.post('/api/findUser', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
 /* Return all volunteers */
