@@ -18,6 +18,7 @@ const {
 } = require('./db/controllers/projects');
 
 const skillsController = require('./db/controllers/skills.controller');
+const userController = require('./db/controllers/users.controller');
 
 const app = express();
 
@@ -31,18 +32,7 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 
 // Put all API endpoints under '/api'
 
-app.post('/api/findUser', (req, res) => {
-  const { email } = req.body;
-  // First, get a list of all users in the slack workspace
-  const result = await axios.request({
-    url: 'https://slack.com/api/users.list',
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer xoxb-2437281123203-2449980177553-bgr59LlKgSJdjpGCO9j7sBVE'
-    }
-  });
-  
-});
+app.post('/api/findUser', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
 /* Return all volunteers */
