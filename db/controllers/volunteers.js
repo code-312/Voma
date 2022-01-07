@@ -1,29 +1,30 @@
-const { seq } = require('../index.js');
 const { models } = require('../index');
 
 const getVolunteers = async (req, res) => {
-    try {
-        const volunteers = await models.volunteer.findAll();
-        res.send(JSON.stringify(volunteers));
-    } catch (err) {
-        res.send(`Error! ${err}`);
+    let error;
+    const volunteers = await models.volunteer.findAll()
+                             .catch(err => error = err);
+
+    if (error) { 
+        return res.status(400).json({ error }); 
     }
+    
+    res.json(volunteers);
 };
 
 const getVolunteer = async (req, res) => {
-    try {
-        const volunteer = await models.volunteer.findAll({
-            where: {
-                id: req.params.id
-            }
-        });
-        if (volunteer.length > 0) {
-            res.send(JSON.stringify(volunteer));
-        } else {
-            res.send('Err! That volunteer does not exist.');
-        }
-    } catch (err) {
-        res.send(`Error! ${err}`);
+    let error;
+    const volunteer = await models.volunteer.findByPk(req.params.id)
+                            .catch(err => error = err);
+    
+    if (error) {
+        return res.status(400).json({ error });
+    }
+
+    if (volunteer) {
+        res.json(volunteer);
+    } else {
+        res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
     }
 };
 
@@ -39,27 +40,30 @@ const addVolunteer = async (req, res) => {
         onboardingAttendedAt,
         oneOnOneAttendedAt
     } = req.body;
-    try {
-        const result = await models.volunteer.create({
-            name,
-            email,
-            slackUserId,
-            pronouns,
-            employer,
-            student,
-            jobTitle,
-            onboardingAttendedAt,
-            oneOnOneAttendedAt
-        });
-        res.send(`User ${result.id} has been added to the database.`);
-      } catch (err) {
-        res.send(`Error! ${err}`);
-      }
+
+    let error;
+    const result = await models.volunteer.create({
+        name,
+        email,
+        slackUserId,
+        pronouns,
+        employer,
+        student,
+        jobTitle,
+        onboardingAttendedAt,
+        oneOnOneAttendedAt
+    })
+    .catch(err => error = err);
+
+    if (error) {
+        return res.status(400).json({ error });
+    }
+
+    res.status(200).json({ result: `Volunteer ${result.id} has been added to the database.`});
 };
 
 const editVolunteer = async (req, res) => {
     const { 
-        id,
         name,
         email,
         slackUserId,
@@ -70,38 +74,61 @@ const editVolunteer = async (req, res) => {
         onboardingAttendedAt,
         oneOnOneAttendedAt
     } = req.body;
-    try {
-        const result = await models.volunteer.update({
-            name,
-            email,
-            slackUserId,
-            pronouns,
-            employer,
-            student,
-            jobTitle,
-            onboardingAttendedAt,
-            oneOnOneAttendedAt
-        }, {
-            where: {
-                id: id
-            }
-        });
-        res.send(`User ${result.id} has been updated`);
-    } catch (err) {
-        res.send(`Error! ${err}`);
+
+    let findError, updateError;
+
+    const volunteer = await models.volunteer.findByPk(req.params.id)
+                            .catch(err => findError = err);
+
+    if (findError) {
+        return res.status(400).json({ error: findError });
     }
+    if (!volunteer) {
+        return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
+    }
+
+    await volunteer.update({ 
+        name,
+        email,
+        slackUserId,
+        pronouns,
+        employer,
+        student,
+        jobTitle,
+        onboardingAttendedAt,
+        oneOnOneAttendedAt
+    })
+    .catch(err => updateError = err);
+
+    if (updateError) {
+        res.status(400).json({ error: updateError });
+    }
+
+    res.status(200).json({ result: `Volunteer ${req.params.id} has been updated.`});
 };
 
 const removeVolunteer = async (req, res) => {
-    try {
-        const result = await models.volunteer.destroy({
-            where: {
-              id: req.params.id
-            }
-        });
-        res.send(`User ${req.params.id} has been deleted`);
-    } catch (err) {
-        res.send(`Error: ${err}`);
+    let findError, deleteError;
+
+    const volunteer = await models.volunteer.findByPk(req.params.id)
+                            .catch(err => findError = err);
+    
+    if (findError) {
+        return res.status(400).json({ error: findError });
+    }
+
+    if (volunteer) {
+
+        await volunteer.destroy()
+        .catch(err => deleteError = err);
+        
+        if (deleteError) {
+            return res.status(400).json({ error: deleteError });
+        }
+        
+        res.status(200).json({ result: `Volunteer ${req.params.id} has been removed.`});
+    } else {
+        res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
     }
 };
 
