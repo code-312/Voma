@@ -1,20 +1,22 @@
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const express = require('express');
 const path = require('path');
-const { 
-  getVolunteers, 
-  getVolunteer, 
-  addVolunteer, 
+const {
+  getVolunteers,
+  getVolunteer,
+  addVolunteer,
   editVolunteer,
   removeVolunteer
 } = require('./db/controllers/volunteers');
 const {
   getProjects,
-  getProject, 
+  getProject,
   addProject,
   editProject,
   removeProject
 } = require('./db/controllers/projects');
+
+const skillsController = require('./db/controllers/skills.controller');
 
 const app = express();
 
@@ -43,6 +45,13 @@ app.post('/api/volunteer/:id', editVolunteer);
 
 /* Remove a volunteer */
 app.delete('/api/volunteer/:id', removeVolunteer);
+
+/* Skills routes */
+app.get('/api/skills', skillsController.getSkills);
+app.get('/api/skills/:id', skillsController.getSkill);
+app.post('/api/skills', skillsController.addSkill)
+app.put('/api/skills/:id', skillsController.editSkill)
+app.delete('/api/skills/:id', skillsController.removeSkill)
 
 /*========= PROJECT ROUTES =========*/
 
