@@ -1,5 +1,6 @@
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const express = require('express');
+const axios = require('axios');
 const path = require('path');
 const {
   getVolunteers,
@@ -29,6 +30,19 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 /* ____________ Begin API Endpoints ____________ */
 
 // Put all API endpoints under '/api'
+
+app.post('/api/findUser', (req, res) => {
+  const { email } = req.body;
+  // First, get a list of all users in the slack workspace
+  const result = await axios.request({
+    url: 'https://slack.com/api/users.list',
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer xoxb-2437281123203-2449980177553-bgr59LlKgSJdjpGCO9j7sBVE'
+    }
+  });
+  
+});
 
 /*========= VOLUNTEER ROUTES =========*/
 /* Return all volunteers */

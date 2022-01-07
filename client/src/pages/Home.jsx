@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
@@ -31,7 +31,26 @@ const SlackImg = styled.img`
   border: none;
 `;
 
+
 export default function Home() {
+  const testApi = () => {
+    fetch('https://slack.com/api/admin.users.list', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_SLACK_BOT_TOKEN}`
+      }
+    })
+    .then((res) => res.json()
+      .then((json) => {
+        console.log(json);
+      }))
+    .catch((err) => console.log(err));
+  }
+  
+  useEffect(() => {
+    testApi();
+  }, []);
+
   return (
     <StyledSection>
       <StyledH1>Sign in with Slack</StyledH1>
