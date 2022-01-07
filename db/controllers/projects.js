@@ -1,81 +1,103 @@
-const { seq } = require('../index.js');
 const { models } = require('../index');
 
 const getProjects = async (req, res) => {
-    try {
-        const projects = await models.project.findAll();
-        res.send(JSON.stringify(projects));
-    } catch (err) {
-        res.send(`Error! ${err}`);
+    let error;
+    const projects = await models.project.findAll()
+                    .catch(err => error = err);
+    
+    if (error) {
+        res.status(400).json({ error });
     }
+
+    res.json(projects);
 };
 
 const getProject = async (req, res) => {
-    try {
-        const project = await models.project.findAll({
-            where: {
-                id: req.params.id
-            }
-        });
-        if (project.length > 0) {
-            res.send(JSON.stringify(project));
-        } else {
-            res.send('Err! That project does not exist.');
-        }
-    } catch (err) {
-        res.send(`Error! ${err}`);
+    let error;
+    const project = await models.project.findByPk(req.params.id)
+                          .catch(err => error = err);
+                    
+    if (error) {
+        res.status(400).json({ error });
+    }
+
+    if (project) {
+        res.json(project);
+    } else {
+        res.status(400).json({ error: `Project ${req.params.id} does not exist.` });
     }
 };
 
 const addProject = async (req, res) => {
-    console.log(req);
+    let error;
     const { 
         name,
         description
     } = req.body;
-    console.log(req.body);
-    try {
-        const result = await models.project.create({
-            name,
-            description
-        });
-        res.send(`Project ${result.id} has been added to the database.`);
-      } catch (err) {
-        res.send(`Error! ${err}`);
-      }
+
+    const result = await models.project.create({
+        name,
+        description
+    })
+    .catch(err => error = err);
+
+    if (error) {
+        res.status(400).json({ error });
+    }
+
+    res.json({ result: `Project ${result.id} has been added to the database.` });
 };
 
 const editProject = async (req, res) => {
     const { 
-        id,
         name,
         description
     } = req.body;
-    try {
-        const result = await models.project.update({
-            name,
-            description
-        }, {
-            where: {
-                id: id
-            }
-        });
-        res.send(`Project ${result.id} has been updated`);
-    } catch (err) {
-        res.send(`Error! ${err}`);
+
+    let findError, updateError;
+
+    const project = await models.project.findByPk(req.params.id)
+                    .catch(err => findError = err);
+    
+    if (findError) {
+        res.status(400).json({ error: findError });
+    }
+
+    if (project) {
+        const result = await project.update({ name, description })
+                             .catch(err => updateError = err);
+        
+        if (updateError) {
+            res.status(400).json({ error: updateError });
+        }
+        
+        res.json({ result: `Project ${req.params.id} has been updated`});
+    } else {
+        res.status(404).json({ error: `Project ${req.params.id} does not exist.`});
     }
 };
 
 const removeProject = async (req, res) => {
-    try {
-        const result = await models.project.destroy({
-            where: {
-              id: req.params.id
-            }
-        });
-        res.send(`Project ${req.params.id} has been deleted`);
-    } catch (err) {
-        res.send(`Error: ${err}`);
+    let findError, deleteError;
+
+    const project = await models.project.findByPk(req.params.id)
+                            .catch(err => findError = err);
+    
+    if (findError) {
+        return res.status(400).json({ error: findError });
+    }
+
+    if (project) {
+        await project.destroy()
+        .catch(err => deleteError = err);
+        
+        if (deleteError) {
+            return res.status(400).json({ error: deleteError });
+        }
+        
+        res.status(200).json({ result: `Project ${req.params.id} has been removed.`});
+    } else {
+        res.status(404).json({ result: `Project ${req.params.id} does not exist.`});
     }
 };
 
