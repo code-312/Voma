@@ -19,11 +19,10 @@ const findUser =  async (req, res) => {
             return user.profile.email === email;
           }
         });
-        console.log(result.data.members)
         if (foundUser) {
           res.json(foundUser);
         } else {
-          res.status(200).send(null);
+          res.status(404).json({ result: 'User not found in workspace'});
         }
       } else {
         throw new Error("No members present in response");

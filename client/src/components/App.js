@@ -1,5 +1,5 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
@@ -7,6 +7,32 @@ import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userNotFound, setUserNotFound] = useState(false);
+
+  const findUser = (email) => {
+    fetch('/api/findUser', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+        .then((res) => {
+          if (res.status === 404) {
+            setUserNotFound(true);
+            throw new Error();
+          } else {
+            return res.json();
+          }
+        })
+        .then((json) => {
+          // the variable json contains the user's profile information
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }
+
   return (
     <HelmetProvider>
       <Helmet>
@@ -19,7 +45,7 @@ function App() {
       </Helmet>
       <Switch>
         <Route exact path="/">
-          <Home />
+        {loggedIn ? <Redirect to="/register" /> : <Home userNotFound={userNotFound} findUser={findUser} />}
         </Route>
         <Route path="/register">
           <Register />
