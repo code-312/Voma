@@ -41,7 +41,8 @@ export default function Home({ userNotFound, findUser }) {
         To join, click the link below: 
       </StyledParagraph>
       <StyledParagraph>
-      <a href="https://code-for-chicago-slack-invite.herokuapp.com/">Click here to join our Slack</a>
+      {/* This link is only valid for 30 days (until 2/18). Need a longer term solution */}
+      <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">Click here to join our Slack</a>
       </StyledParagraph>
     </StyledSection>
       
