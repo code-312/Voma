@@ -28,7 +28,7 @@ const findUser =  async (req, res) => {
         throw new Error("No members present in response");
       }
     } catch (err) {
-      res.send(err);
+      res.status(500).send(err);
     } 
   }
 
