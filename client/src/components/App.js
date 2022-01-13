@@ -4,10 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
-<<<<<<< HEAD
 // import NoOnboarding from '../pages/NoOnboarding';
-=======
->>>>>>> dd21c9dc780fbd4da0874a688dea04efa8ad66b8
 import PageNotFound from '../pages/PageNotFound';
 
 function App() {
