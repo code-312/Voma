@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 
 // Put all API endpoints under '/api'
 
-app.post('/api/findUser', userController.findUser);
+app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
 /* Return all volunteers */

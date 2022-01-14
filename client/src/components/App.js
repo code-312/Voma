@@ -12,7 +12,7 @@ function App() {
   const [userNotFound, setUserNotFound] = useState(false);
 
   const findUser = (email) => {
-    fetch('/api/findUser', {
+    fetch('/api/user/find', {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: { 'Content-Type': 'application/json' }
