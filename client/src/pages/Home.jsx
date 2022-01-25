@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
 
 const StyledSection = styled.section`
   width: 50%;
@@ -57,7 +58,7 @@ export default function Home({ userNotFound, findUser }) {
         </StyledParagraph>
         <form onSubmit={searchForUser}>
           <input type="text" placeholder="Slack Email Address" onChange={onInputChange} value={email} />
-          <button type="submit">Submit</button>
+          <Button style={{backgroundColor: '#6200EE' }} variant="contained">Submit</Button>
         </form>
       </StyledSection>
     )
