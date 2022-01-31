@@ -37,37 +37,31 @@ export default function Home({ userNotFound, findUser }) {
 
   if (userNotFound) {
     return (
-      <section className="content">
-        <Header />
-        <StyledSection>
-          <StyledH1>Looks like you aren&apos;t in the CFC Slack</StyledH1>
-          <StyledParagraph>
-            To join, click the link below: 
-          </StyledParagraph>
-          <StyledParagraph>
+      <StyledSection>
+        <StyledH1>Looks like you aren&apos;t in the CFC Slack</StyledH1>
+        <StyledParagraph>
+          To join, click the link below: 
+        </StyledParagraph>
+        <StyledParagraph>
           {/* This link is only valid for 30 days (until 2/18). Need a longer term solution */}
           <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">Click here to join our Slack</a>
-          </StyledParagraph>
-        </StyledSection>
-      </section>
+        </StyledParagraph>
+      </StyledSection>
     );
   }
 
-    return (
-      <section className="content">
-        <Header />
-        <StyledSection>
-          <StyledH1>Thanks for your interest!</StyledH1>
-          <StyledParagraph>
+  return (
+    <StyledSection>
+      <StyledH1>Thanks for your interest!</StyledH1>
+      <StyledParagraph>
           To get started, please enter the email address associated with your slack account below.
-          </StyledParagraph>
-          <form onSubmit={searchForUser}>
-            <input type="text" placeholder="Slack Email Address" onChange={onInputChange} value={email} />
-            <Button style={{backgroundColor: '#6200EE' }} variant="contained">Submit</Button>
-          </form>
-        </StyledSection>
-      </section>
-    );
+      </StyledParagraph>
+      <form onSubmit={searchForUser}>
+        <input type="text" placeholder="Slack Email Address" onChange={onInputChange} value={email} />
+        <Button style={{backgroundColor: '#6200EE' }} variant="contained">Submit</Button>
+      </form>
+    </StyledSection>
+  );
 }
 
 Home.propTypes = {
