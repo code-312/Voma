@@ -2,21 +2,8 @@ require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
-const {
-  getVolunteers,
-  getVolunteer,
-  addVolunteer,
-  editVolunteer,
-  removeVolunteer
-} = require('./db/controllers/volunteers');
-const {
-  getProjects,
-  getProject,
-  addProject,
-  editProject,
-  removeProject
-} = require('./db/controllers/projects');
-
+const volunteerController = require('./db/controllers/volunteers.controller');
+const projectController = require('./db/controllers/projects.controller');
 const skillsController = require('./db/controllers/skills.controller');
 const userController = require('./db/controllers/users.controller');
 
@@ -35,44 +22,35 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
-/* Return all volunteers */
-app.get('/api/volunteers', getVolunteers);
+app.get('/api/volunteers', volunteerController.getVolunteers);
+app.post('/api/volunteer', volunteerController.addVolunteer);
+app.get('/api/volunteer/:id', volunteerController.getVolunteer);
+app.post('/api/volunteer/:id', volunteerController.editVolunteer);
+app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
 
-/* Add new volunteer */
-app.post('/api/volunteer', addVolunteer);
-
-/* Get a specific volunteer */
-app.get('/api/volunteer/:id', getVolunteer);
-
-/* Edit a volunteer */
-app.post('/api/volunteer/:id', editVolunteer);
-
-/* Remove a volunteer */
-app.delete('/api/volunteer/:id', removeVolunteer);
-
-/* Skills routes */
+/*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);
-app.get('/api/skills/:id', skillsController.getSkill);
-app.post('/api/skills', skillsController.addSkill)
-app.put('/api/skills/:id', skillsController.editSkill)
-app.delete('/api/skills/:id', skillsController.removeSkill)
+app.get('/api/skill/:id', skillsController.getSkill);
+app.post('/api/skill', skillsController.addSkill)
+app.put('/api/skill/:id', skillsController.editSkill)
+app.delete('/api/skill/:id', skillsController.removeSkill)
 
 /*========= PROJECT ROUTES =========*/
+app.get('/api/projects', projectController.getProjects);
+app.post('/api/project', projectController.addProject);
+app.get('/api/project/:id', projectController.getProject);
+app.post('/api/project/:id', projectController.editProject);
+app.delete('/api/project/:id', projectController.removeProject);
 
-/* Return all projects */
-app.get('/api/projects', getProjects);
+// 404 error
+app.use(function(req, res, next) {
+  return res.status(404).send({ message: 'Route'+req.url+' Not found.' });
+});
 
-/* Add new project */
-app.post('/api/project', addProject);
-
-/* Get a specific project */
-app.get('/api/project/:id', getProject);
-
-/* Edit a project */
-app.post('/api/project/:id', editProject);
-
-/* Remove a project */
-app.delete('/api/project/:id', removeProject);
+// 500 error
+app.use(function(err, req, res, next) {
+  return res.status(500).send({ error: err });
+});
 
 /* ____________ End API Endpoints ____________ */
 
