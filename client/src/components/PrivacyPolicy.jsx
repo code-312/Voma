@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import StyledFieldset from './StyledFieldset';
 
-export default function CodeOfConduct({ setRegisterStep }) {
+export default function CodeOfConduct({ setRegisterStep, saveUser }) {
   const [accepted, setAccepted] = useState(false);
 
   return (
@@ -66,10 +66,10 @@ export default function CodeOfConduct({ setRegisterStep }) {
         this Privacy Policy.
       </label>
       <nav>
-        <button onClick={() => setRegisterStep(3)} type="button">
+        <button onClick={() => setRegisterStep(4)} type="button">
           Back
         </button>
-        <button disabled={!accepted} onClick={() => setRegisterStep(5)} type="submit">
+        <button disabled={!accepted} onClick={(e) => saveUser(e)} type="submit">
           Submit
         </button>
       </nav>
@@ -79,4 +79,11 @@ export default function CodeOfConduct({ setRegisterStep }) {
 
 CodeOfConduct.propTypes = {
   setRegisterStep: PropTypes.func.isRequired,
+  saveUser: PropTypes.func
 };
+
+CodeOfConduct.defaultProps = {
+  saveUser: () => {
+    console.log("default function")
+  }
+}

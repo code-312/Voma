@@ -49,10 +49,10 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
       ))}
 
       <nav>
-        <button onClick={() => setRegisterStep(1)} type="button">
+        <button onClick={() => setRegisterStep(2)} type="button">
           Back
         </button>
-        <button onClick={() => setRegisterStep(3)} type="button">
+        <button onClick={() => setRegisterStep(4)} type="button">
           Next
         </button>
       </nav>
