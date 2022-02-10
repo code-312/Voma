@@ -1,5 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import { Typography } from '@material-ui/core';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import ErrorIcon from '@mui/icons-material/Error';
+import Button from '@mui/material/Button';
 import StyledFieldset from './StyledFieldset';
 
 export default function BasicInfo({
@@ -12,59 +21,55 @@ export default function BasicInfo({
   const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
   return (
     <StyledFieldset>
-      <legend>Basic Info</legend>
+      <Typography variant="h1">
+        Basic Info
+      </Typography>
       <p>Input basic info about yourself.</p>
-      <label htmlFor="firstName">
-        First Name{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="firstName"
-          type="text"
-          name="firstName"
-          onChange={handleFormChange}
-          value={firstName}
-          required
-        />
-      </label>
-      <label htmlFor="lastName">
-        Last Name{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="lastName"
-          type="text"
-          name="lastName"
-          onChange={handleFormChange}
-          value={lastName}
-          required
-        />
-      </label>
-      <label htmlFor="pronouns">
-        Pronouns{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="pronouns"
-          type="text"
-          name="pronouns"
-          onChange={handleFormChange}
-          value={pronouns}
-          required
-        />
-      </label>
-      <nav>
-        <button
-          onClick={filledOut ? () => setRegisterStep(2) : null}
-          disabled={!filledOut}
-          type="button"
-        >
-          Next
-        </button>
-      </nav>
+      <Typography variant="div" color="red">
+
+        <ErrorIcon variant="filled" />
+        All fields are required{' '}
+      </Typography>
+      <TextField
+        id="firstName"
+        type="text"
+        name="firstName"
+        label="First Name?"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        onChange={handleFormChange}
+        value={firstName}
+      />
+      <TextField
+        id="lastName"
+        type="text"
+        name="lastName"
+        label="Last Name?"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        onChange={handleFormChange}
+        value={lastName}
+        required
+        fullWidth
+      />
+      <TextField
+        id="pronouns"
+        type="text"
+        name="pronouns"
+        onChange={handleFormChange}
+        label="Pronouns"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        InputProps={{ color: 'secondary'}}
+      />
+      <Button
+
+        size="small"
+        variant="contained"
+        onClick={filledOut ? () => setRegisterStep(3) : null}
+        disabled={!filledOut}
+        type="button"
+
+      >
+        Next
+      </Button>
     </StyledFieldset>
   );
 }

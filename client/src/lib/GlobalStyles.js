@@ -55,7 +55,7 @@ export const BaseCSSReset = css`
   }
   body {
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #F2E7FF;
     color: #000;
     font-family: 'IBM Plex Sans', sans-serif;
   }

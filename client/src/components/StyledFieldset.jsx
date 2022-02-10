@@ -48,6 +48,7 @@ const FieldsetStyles = styled.fieldset`
     width: 15rem;
   }
 
+
   input[type='radio'] {
     vertical-align: middle;
     width: 1.2rem;
@@ -98,6 +99,46 @@ const FieldsetStyles = styled.fieldset`
     position: relative;
     top: 2rem;
     margin: 10vh;
+  }
+
+  .MuiButton-root {
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    margin: 10px;
+    padding: 0.6rem;
+    width: 5rem;
+   background-color: #6200EE;
+   color: white;
+
+    ${'' /* color: 'secondary'; */}
+
+      margin-top: 0;
+    margin-bottom: 1rem;
+    }
+    .MuiTypography-textPrimary {
+      background-color: #6200ee;
+      margin-left: 20px;
+      color: white;
+      width: 120px;
+      margin: auto;
+    }
+
+    .MuiFormControl-root	{
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    width: 15rem;
+    ${'' /* color: 'pink'; */}
+  }
+
+  .MuiTypography-h1	{
+    color: #23036A;
+    ${'' /* margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    width: 15rem; */}
+
+    ${'' /* color: 'pink'; */}
   }
 `;
 
