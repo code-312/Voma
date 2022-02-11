@@ -8,11 +8,11 @@ const options = {
 }
 
 if (configureSSL) {
-  options.dialectOptions = {
-    ssl: {
-      rejectUnauthorized: false
-    }
-  }
+  // options.dialectOptions = {
+  //   ssl: {
+  //     rejectUnauthorized: false
+  //   }
+  // }
 }
 
 const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {

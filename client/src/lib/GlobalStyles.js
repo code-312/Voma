@@ -56,8 +56,9 @@ export const BaseCSSReset = css`
   body {
     min-height: 100vh;
     background-color: #F2E7FF;
-    color: #000;
+    color: #23036A;
     font-family: 'IBM Plex Sans', sans-serif;
+
   }
   main {
     min-height: 75vh;
