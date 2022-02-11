@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Typography } from '@material-ui/core';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
@@ -21,12 +20,10 @@ export default function BasicInfo({
   const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
   return (
     <StyledFieldset>
-      <Typography variant="h1">
-        Basic Info
-      </Typography>
-      <p>Input basic info about yourself.</p>
-      <Typography variant="div" color="red">
+      <Typography variant="h1">Basic Info</Typography>
+      <Typography paragraph="true">Input basic info about yourself</Typography>
 
+      <Typography variant="div" color="red">
         <ErrorIcon variant="filled" />
         All fields are required{' '}
       </Typography>
@@ -57,16 +54,14 @@ export default function BasicInfo({
         onChange={handleFormChange}
         label="Pronouns"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
-        InputProps={{ color: 'secondary'}}
+        InputProps={{ color: 'secondary' }}
       />
       <Button
-
         size="small"
         variant="contained"
         onClick={filledOut ? () => setRegisterStep(3) : null}
         disabled={!filledOut}
         type="button"
-
       >
         Next
       </Button>

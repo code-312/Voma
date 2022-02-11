@@ -133,13 +133,23 @@ const FieldsetStyles = styled.fieldset`
 
   .MuiTypography-h1	{
     color: #23036A;
+    font-size: 2.5rem;
+    font-weight: 500;
+    padding: 0.6rem;
     ${'' /* margin-top: 0.6rem;
     margin-bottom: 1rem;
-    padding: 0.6rem;
     width: 15rem; */}
 
     ${'' /* color: 'pink'; */}
   }
+
+  .MuiTypography-paragraph {
+    color: #23036A;
+    font-size: 1.2rem;
+
+  }
+
+  ${'' /*  */}
 `;
 
 export default FieldsetStyles;

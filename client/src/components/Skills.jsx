@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
+import ErrorIcon from '@mui/icons-material/Error';
 import Typography from '@mui/material/Typography';
 import Radio from '@mui/material/Radio';
 import StyledFieldset from './StyledFieldset';
@@ -33,33 +34,28 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   return (
     <StyledFieldset>
       <Typography variant="h1"> Skills</Typography>
-      <Typography variant="p"> Pick your primary skill</Typography>
 
-      <p>
+      <Typography paragraph="true">
+        {' '}
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
         an expert in this skill.
-      </p>
-      {/* {skillList.map((skill) => (
-        <label className="skillLabel" htmlFor={toCamelCase(skill)} key={skill}>
-          <input
-            type="radio"
-            name="skill"
-            id={toCamelCase(skill)}
-            value={skill}
-            checked={skill === skills}
-            onChange={handleFormChange}
-          />
-          {skill}
-        </label>
-      ))} */}
+      </Typography>
+
+      <Typography variant="div" color="red">
+        <ErrorIcon variant="filled" />
+        All fields are required
+      </Typography>
+
+      <Typography paragraph="true">Choose only one</Typography>
+
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         defaultValue="female"
         name="radio-buttons-group"
->
+      >
         {skillList.map((skill) => (
           <FormControlLabel
-             key={skill}
+            key={skill}
             type="radio"
             name="skill"
             id={toCamelCase(skill)}
@@ -68,23 +64,14 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
             onChange={handleFormChange}
             label={skill}
             control={<Radio />}
-     />
-     ))}
+          />
+        ))}
       </RadioGroup>
-      {/* <nav>
-        <button onClick={() => setRegisterStep(1)} type="button">
-          Back
-        </button>
-        <button onClick={() => setRegisterStep(3)} type="button">
-          Next
-        </button>
-      </nav> */}
-
       <Typography>
-        <Button onClick={() => setRegisterStep(1)} type="button">
+        <Button onClick={() => setRegisterStep(1)} variant="contained">
           Back
         </Button>
-        <Button onClick={() => setRegisterStep(3)} type="button">
+        <Button onClick={() => setRegisterStep(3)} variant="contained">
           Next
         </Button>
       </Typography>
