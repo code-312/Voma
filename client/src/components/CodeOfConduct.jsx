@@ -66,10 +66,10 @@ export default function CodeOfConduct({ setRegisterStep }) {
         this Privacy Policy.
       </label>
       <nav>
-        <button onClick={() => setRegisterStep(2)} type="button">
+        <button onClick={() => setRegisterStep(3)} type="button">
           Back
         </button>
-        <button disabled={!accepted} onClick={() => setRegisterStep(4)} type="button">
+        <button disabled={!accepted} onClick={() => setRegisterStep(5)} type="button">
           Next
         </button>
       </nav>

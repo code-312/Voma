@@ -5,10 +5,10 @@ const getVolunteers = async (req, res) => {
     const volunteers = await models.volunteer.findAll()
                              .catch(err => error = err);
 
-    if (error) { 
-        return res.status(400).json({ error }); 
+    if (error) {
+        return res.status(400).json({ error });
     }
-    
+
     res.json(volunteers);
 };
 
@@ -16,7 +16,7 @@ const getVolunteer = async (req, res) => {
     let error;
     const volunteer = await models.volunteer.findByPk(req.params.id)
                             .catch(err => error = err);
-    
+
     if (error) {
         return res.status(400).json({ error });
     }
@@ -29,7 +29,7 @@ const getVolunteer = async (req, res) => {
 };
 
 const addVolunteer = async (req, res) => {
-    const { 
+    const {
         name,
         email,
         slackUserId,
@@ -63,7 +63,7 @@ const addVolunteer = async (req, res) => {
 };
 
 const editVolunteer = async (req, res) => {
-    const { 
+    const {
         name,
         email,
         slackUserId,
@@ -87,7 +87,7 @@ const editVolunteer = async (req, res) => {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
 
-    await volunteer.update({ 
+    await volunteer.update({
         name,
         email,
         slackUserId,
@@ -112,7 +112,7 @@ const removeVolunteer = async (req, res) => {
 
     const volunteer = await models.volunteer.findByPk(req.params.id)
                             .catch(err => findError = err);
-    
+
     if (findError) {
         return res.status(400).json({ error: findError });
     }
@@ -121,11 +121,11 @@ const removeVolunteer = async (req, res) => {
 
         await volunteer.destroy()
         .catch(err => deleteError = err);
-        
+
         if (deleteError) {
             return res.status(400).json({ error: deleteError });
         }
-        
+
         res.status(200).json({ result: `Volunteer ${req.params.id} has been removed.`});
     } else {
         res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
@@ -135,7 +135,7 @@ const removeVolunteer = async (req, res) => {
 
 module.exports = {
     getVolunteers,
-    getVolunteer, 
+    getVolunteer,
     addVolunteer,
     editVolunteer,
     removeVolunteer
