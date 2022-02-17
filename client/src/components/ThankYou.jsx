@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
-export default function CodeOfConduct() {
+export default function ThankYou() {
   return (
     <MUIFieldsetStyles>
       <Typography variant="h1"> Thank You!</Typography>
