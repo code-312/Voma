@@ -6,7 +6,7 @@ const FieldsetStyles = styled.fieldset`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 900px){
+  @media (max-width: 900px) {
     width: 80%;
   }
 
@@ -47,7 +47,6 @@ const FieldsetStyles = styled.fieldset`
     padding: 0.6rem;
     width: 15rem;
   }
-
 
   input[type='radio'] {
     vertical-align: middle;
@@ -100,56 +99,6 @@ const FieldsetStyles = styled.fieldset`
     top: 2rem;
     margin: 10vh;
   }
-
-  .MuiButton-root {
-    margin-top: 0.6rem;
-    margin-bottom: 1rem;
-    margin: 10px;
-    padding: 0.6rem;
-    width: 5rem;
-   background-color: #6200EE;
-   color: white;
-
-    ${'' /* color: 'secondary'; */}
-
-      margin-top: 0;
-    margin-bottom: 1rem;
-    }
-    .MuiTypography-textPrimary {
-      background-color: #6200ee;
-      margin-left: 20px;
-      color: white;
-      width: 120px;
-      margin: auto;
-    }
-
-    .MuiFormControl-root	{
-    margin-top: 0.6rem;
-    margin-bottom: 1rem;
-    padding: 0.6rem;
-    width: 15rem;
-    ${'' /* color: 'pink'; */}
-  }
-
-  .MuiTypography-h1	{
-    color: #23036A;
-    font-size: 2.5rem;
-    font-weight: 500;
-    padding: 0.6rem;
-    ${'' /* margin-top: 0.6rem;
-    margin-bottom: 1rem;
-    width: 15rem; */}
-
-    ${'' /* color: 'pink'; */}
-  }
-
-  .MuiTypography-paragraph {
-    color: #23036A;
-    font-size: 1.2rem;
-
-  }
-
-  ${'' /*  */}
 `;
 
 export default FieldsetStyles;

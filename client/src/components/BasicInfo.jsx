@@ -2,13 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import ErrorIcon from '@mui/icons-material/Error';
 import Button from '@mui/material/Button';
-import StyledFieldset from './StyledFieldset';
+import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function BasicInfo({
   firstName,
@@ -19,7 +15,7 @@ export default function BasicInfo({
 }) {
   const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
   return (
-    <StyledFieldset>
+    <MUIFieldsetStyles>
       <Typography variant="h1">Basic Info</Typography>
       <Typography paragraph="true">Input basic info about yourself</Typography>
 
@@ -65,7 +61,7 @@ export default function BasicInfo({
       >
         Next
       </Button>
-    </StyledFieldset>
+    </MUIFieldsetStyles>
   );
 }
 BasicInfo.propTypes = {

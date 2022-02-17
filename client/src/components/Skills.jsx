@@ -6,7 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import ErrorIcon from '@mui/icons-material/Error';
 import Typography from '@mui/material/Typography';
 import Radio from '@mui/material/Radio';
-import StyledFieldset from './StyledFieldset';
+import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   const skillList = [
@@ -32,9 +32,8 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
       .replace(/\s+/g, '');
 
   return (
-    <StyledFieldset>
+    <MUIFieldsetStyles>
       <Typography variant="h1"> Skills</Typography>
-
       <Typography paragraph="true">
         {' '}
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
@@ -67,15 +66,16 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
           />
         ))}
       </RadioGroup>
-      <Typography>
-        <Button onClick={() => setRegisterStep(1)} variant="contained">
+
+      <Typography variant="button">
+        <Button onClick={() => setRegisterStep(2)} variant="contained">
           Back
         </Button>
-        <Button onClick={() => setRegisterStep(3)} variant="contained">
+        <Button onClick={() => setRegisterStep(4)} variant="contained">
           Next
         </Button>
       </Typography>
-    </StyledFieldset>
+    </MUIFieldsetStyles>
   );
 }
 Skills.propTypes = {

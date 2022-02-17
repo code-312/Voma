@@ -2,7 +2,7 @@ import { useState } from 'react';
 import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
-import PrivacyPolicy from '../components/PrivacyPolicy';
+import ThankYou from '../components/ThankYou';
 import NoOnboarding from './NoOnboarding';
 import RegisterLanding from '../components/RegisterLanding';
 
@@ -44,7 +44,7 @@ export default function Register() {
         />
       )}
       {registerStep === 4 && <CodeOfConduct setRegisterStep={setRegisterStep} />}
-      {registerStep === 5 && <PrivacyPolicy setRegisterStep={setRegisterStep} />}
+      {registerStep === 5 && <ThankYou setRegisterStep={setRegisterStep} />}
     </form>
   );
 }
