@@ -78,7 +78,7 @@ const addVolunteer = async (req, res) => {
         const skill = await Skill.findByPk(skillID);
         if (skill === null) {
         } else {
-          // Add skill to vol.
+          // Add skill to volunteer.
           const volSkill = await VolunteerSkills.create({
             volunteerId: vol.id,
             skillId: skillID,
