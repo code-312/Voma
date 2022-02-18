@@ -77,6 +77,7 @@ const addVolunteer = async (req, res) => {
         let skillID = skills[i].id;
         const skill = await Skill.findByPk(skillID);
         if (skill === null) {
+          // @todo What should happen if skillID passed but not found in DB?
         } else {
           // Add skill to volunteer.
           const volSkill = await VolunteerSkills.create({
