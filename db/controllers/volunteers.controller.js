@@ -1,4 +1,7 @@
 const { models } = require('../index');
+const Volunteer = models.volunteer;
+const Skill = models.skill;
+const VolunteerSkills = models.VolunteerSkills;
 
 const getVolunteers = async (req, res) => {
     let error;
@@ -14,7 +17,9 @@ const getVolunteers = async (req, res) => {
 
 const getVolunteer = async (req, res) => {
     let error;
-    const volunteer = await models.volunteer.findByPk(req.params.id)
+    const volunteer = await Volunteer.findByPk(req.params.id, {
+      include: models.skill
+    })
                             .catch(err => error = err);
 
     if (error) {
@@ -38,11 +43,12 @@ const addVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        skills
     } = req.body;
 
     let error;
-    const result = await models.volunteer.create({
+    const vol = await Volunteer.create({
         name,
         email,
         slackUserId,
@@ -51,7 +57,10 @@ const addVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        skills
+    }, {
+      // include: [models.skill]
     })
     .catch(err => error = err);
 
@@ -59,7 +68,39 @@ const addVolunteer = async (req, res) => {
         return res.status(400).json({ error });
     }
 
-    res.status(200).json({ result: `Volunteer ${result.id} has been added to the database.`});
+    // Add skills after creating user.
+    for (let i = 0; i < skills.length; i++) {
+      // If ID is passed with skill then assume we are adding
+      // a reference to existing Skill.
+      // If not, we must create a new Skill, then add the reference.
+      if (skills[i].id) {
+        let skillID = skills[i].id;
+        const skill = await Skill.findByPk(skillID);
+        if (skill === null) {
+        } else {
+          // Add skill to vol.
+          const volSkill = await VolunteerSkills.create({
+            volunteerId: vol.id,
+            skillId: skillID,
+          })
+        }
+      } else {
+        // Skill not found. Create new Skill and create reference to user.
+        let newSkill = await Skill.create({
+          name: skills[i].name,
+          description: skills[i].description
+        });
+        // @todo How to check if skill was properly created?
+        if (newSkill) {
+          const volSkill = await VolunteerSkills.create({
+            volunteerId: vol.id,
+            skillId: newSkill.id,
+          })
+        }
+      }
+    }
+
+    res.status(200).json({ result: `Volunteer ${vol.id} has been added to the database.`});
 };
 
 const editVolunteer = async (req, res) => {
