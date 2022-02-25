@@ -1,5 +1,6 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
+const { addAssociations } = require('./models/addAssociations');
 
 const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
@@ -15,8 +16,10 @@ const modelDefiners = [
 ];
 
 for (const modelDefiner of modelDefiners) {
-	modelDefiner(seq);
+	modelDefiner(seq, DataTypes);
 }
+
+addAssociations(seq)
 
 const sync = async () => {
     console.log('Syncing the database');
