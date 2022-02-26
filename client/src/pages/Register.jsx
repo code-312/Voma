@@ -8,8 +8,8 @@ import RegisterLanding from '../components/RegisterLanding';
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    emailAddress: '',
+    fullName: '',
     pronouns: '',
     skill: '',
   });
@@ -29,8 +29,8 @@ export default function Register() {
       {registerStep === 1 && <RegisterLanding setRegisterStep={setRegisterStep} />}
       {registerStep === 2 && (
         <BasicInfo
-          firstName={formData.firstName}
-          lastName={formData.lastName}
+          emailAddress={formData.emailAddress}
+          fullName={formData.fullName}
           pronouns={formData.pronouns}
           setRegisterStep={setRegisterStep}
           handleFormChange={handleFormChange}

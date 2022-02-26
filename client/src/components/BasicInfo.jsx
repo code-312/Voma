@@ -7,39 +7,40 @@ import Button from '@mui/material/Button';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function BasicInfo({
-  firstName,
-  lastName,
+  emailAddress,
+  fullName,
   pronouns,
   setRegisterStep,
   handleFormChange,
 }) {
-  const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
+  const filledOut = emailAddress !== '' && fullName !== '' && pronouns !== '' && true;
   return (
     <MUIFieldsetStyles>
-      <Typography variant="h1">Basic Info</Typography>
+      <Typography variant="h4" component="h1">Basic Info</Typography>
       <Typography paragraph="true">Input basic info about yourself</Typography>
+{/* background:; */}
 
-      <Typography variant="div" color="red">
+      <Typography variant="div" color=" #B00020">
         <ErrorIcon variant="filled" />
         All fields are required{' '}
       </Typography>
       <TextField
-        id="firstName"
+        id="emailAddress"
         type="text"
-        name="firstName"
-        label="First Name?"
+        name="emailAddress"
+        label="Email Address?"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
         onChange={handleFormChange}
-        value={firstName}
+        value={emailAddress}
       />
       <TextField
-        id="lastName"
+        id="fullName"
         type="text"
-        name="lastName"
-        label="Last Name?"
+        name="fullName"
+        label="Full Name?"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
         onChange={handleFormChange}
-        value={lastName}
+        value={fullName}
         required
         fullWidth
       />
@@ -65,8 +66,8 @@ export default function BasicInfo({
   );
 }
 BasicInfo.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
+  emailAddress: PropTypes.string.isRequired,
+  fullName: PropTypes.string.isRequired,
   pronouns: PropTypes.string.isRequired,
   setRegisterStep: PropTypes.func.isRequired,
   handleFormChange: PropTypes.func.isRequired,

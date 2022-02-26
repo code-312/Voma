@@ -33,14 +33,14 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
 
   return (
     <MUIFieldsetStyles>
-      <Typography variant="h1"> Skills</Typography>
+      <Typography variant="h4" component="h1"> Skills</Typography>
       <Typography paragraph="true">
         {' '}
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
         an expert in this skill.
       </Typography>
 
-      <Typography variant="div" color="red">
+      <Typography variant="div" color=" #B00020">
         <ErrorIcon variant="filled" />
         All fields are required
       </Typography>
@@ -64,7 +64,19 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
             label={skill}
             control={<Radio />}
           />
+
         ))}
+        <FormControlLabel
+            key="other"
+            type="radio"
+            name="skill"
+            id="other"
+            value="Other"
+            checked={skills === "other"}
+            onChange={handleFormChange}
+            label="Other:_______________"
+            control={<Radio />}
+          />
       </RadioGroup>
 
       <Typography variant="button">

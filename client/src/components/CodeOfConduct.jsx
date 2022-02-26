@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { FormControlLabel } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
@@ -11,20 +13,31 @@ import Radio from '@mui/material/Radio';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 
+
 export default function CodeOfConduct({ setRegisterStep }) {
   const [accepted, setAccepted] = useState(false);
 
   return (
     <MUIFieldsetStyles>
-      <Typography variant="h1"> Code of Conduct</Typography>
+      <Typography variant="h4" component="h1"> Code of Conduct</Typography>
       <Typography paragraph="true">Please review our code of conduct</Typography>
-      <Typography variant="div" color="red">
+      <Typography variant="div" color=" #B00020">
         <ErrorIcon variant="filled" />
         All fields are required{' '}
       </Typography>
       <hr />
       <br />
-      <Typography variant="h2">Adapted Code of Conduct</Typography>
+
+      <Box
+      sx={{
+          backgroundColor: "#6200EE20",
+          // opacity: "8%",
+          zIndex: "-1"
+      }}
+    >
+      <Typography variant="h5">Adapted Code of Conduct</Typography>
+      <Paper />
+
 
 
       <Typography paragraph="true">
@@ -73,6 +86,9 @@ export default function CodeOfConduct({ setRegisterStep }) {
         participate in Code for Chicago network activities, events, and digital forums.</Typography>
       <hr />
 
+
+
+      </Box>
       <Typography paragraph="true">Have you read this?</Typography>
 
       <RadioGroup
