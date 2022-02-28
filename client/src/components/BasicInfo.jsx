@@ -49,6 +49,7 @@ export default function BasicInfo({
         type="text"
         name="pronouns"
         onChange={handleFormChange}
+        value={pronouns}
         label="Pronouns"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
         InputProps={{ color: 'secondary' }}

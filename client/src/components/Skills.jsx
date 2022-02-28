@@ -4,24 +4,20 @@ import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
 import ErrorIcon from '@mui/icons-material/Error';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   const skillList = [
-    'Data Analytics',
-    'Data Science',
-    'Machine Learning',
-    'Front-End',
-    'Back-End',
     'Content Strategy',
-    'UX Research',
-    'UX Design',
-    'UI Design',
-    'Visual Design',
-    'Product Management',
+    'Data Analytics',
+    'Front-End or Back-End Development',
     'Project Management',
+    'Product Management',
+    'UX/UI Design/Research / Visual Design',
   ];
 
   const toCamelCase = (str) =>
@@ -33,7 +29,10 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
 
   return (
     <MUIFieldsetStyles>
-      <Typography variant="h4" component="h1"> Skills</Typography>
+      <Typography variant="h4" component="h1">
+        {' '}
+        Skills
+      </Typography>
       <Typography paragraph="true">
         {' '}
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
@@ -64,19 +63,20 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
             label={skill}
             control={<Radio />}
           />
-
         ))}
         <FormControlLabel
-            key="other"
-            type="radio"
-            name="skill"
-            id="other"
-            value="Other"
-            checked={skills === "other"}
-            onChange={handleFormChange}
-            label="Other:_______________"
-            control={<Radio />}
-          />
+          key="other"
+          type="radio"
+          name="skill"
+          id="other"
+          // this should be input text value right here not "Other"
+          value="Other"
+          // checked={skill === the value of the input}
+          onChange={handleFormChange}
+          label={<Input
+          />}
+          control={<Radio />}
+        />
       </RadioGroup>
 
       <Typography variant="button">

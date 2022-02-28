@@ -41,6 +41,7 @@ export default function Register() {
           skills={formData.skill}
           setRegisterStep={setRegisterStep}
           handleFormChange={handleFormChange}
+
         />
       )}
       {registerStep === 4 && <CodeOfConduct setRegisterStep={setRegisterStep} />}
