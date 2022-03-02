@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
 import ErrorIcon from '@mui/icons-material/Error';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function Skills({ skills, handleFormChange, setRegisterStep }) {
+  const [otherValue, setOtherValue] = useState('');
+
   const skillList = [
     'Content Strategy',
     'Data Analytics',
@@ -19,6 +21,10 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
     'Product Management',
     'UX/UI Design/Research / Visual Design',
   ];
+
+  const changeTitle = (e) => {
+    setOtherValue(e.target.value)
+  }
 
   const toCamelCase = (str) =>
     str
@@ -69,11 +75,13 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
           type="radio"
           name="skill"
           id="other"
-          // this should be input text value right here not "Other"
-          value="Other"
-          // checked={skill === the value of the input}
+          value={otherValue}
           onChange={handleFormChange}
           label={<Input
+            placeholder="Other:"
+            shrink={false}
+            onChange={(e) => changeTitle(e)}
+
           />}
           control={<Radio />}
         />
