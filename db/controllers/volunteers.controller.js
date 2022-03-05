@@ -1,22 +1,27 @@
 const { models } = require('../index');
+const Volunteer = models.volunteer;
+const Skill = models.skill;
+const VolunteerSkills = models.VolunteerSkills;
 
 const getVolunteers = async (req, res) => {
     let error;
     const volunteers = await models.volunteer.findAll()
                              .catch(err => error = err);
 
-    if (error) { 
-        return res.status(400).json({ error }); 
+    if (error) {
+        return res.status(400).json({ error });
     }
-    
+
     res.json(volunteers);
 };
 
 const getVolunteer = async (req, res) => {
     let error;
-    const volunteer = await models.volunteer.findByPk(req.params.id)
+    const volunteer = await Volunteer.findByPk(req.params.id, {
+      include: models.skill
+    })
                             .catch(err => error = err);
-    
+
     if (error) {
         return res.status(400).json({ error });
     }
@@ -29,7 +34,7 @@ const getVolunteer = async (req, res) => {
 };
 
 const addVolunteer = async (req, res) => {
-    const { 
+    const {
         name,
         email,
         slackUserId,
@@ -38,11 +43,12 @@ const addVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        skills
     } = req.body;
 
     let error;
-    const result = await models.volunteer.create({
+    const vol = await Volunteer.create({
         name,
         email,
         slackUserId,
@@ -51,7 +57,10 @@ const addVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        skills
+    }, {
+      // include: [models.skill]
     })
     .catch(err => error = err);
 
@@ -59,11 +68,44 @@ const addVolunteer = async (req, res) => {
         return res.status(400).json({ error });
     }
 
-    res.status(200).json({ result: `Volunteer ${result.id} has been added to the database.`});
+    // Add skills after creating user.
+    for (let i = 0; i < skills.length; i++) {
+      // If ID is passed with skill then assume we are adding
+      // a reference to existing Skill.
+      // If not, we must create a new Skill, then add the reference.
+      if (skills[i].id) {
+        let skillID = skills[i].id;
+        const skill = await Skill.findByPk(skillID);
+        if (skill === null) {
+          // @todo What should happen if skillID passed but not found in DB?
+        } else {
+          // Add skill to volunteer.
+          const volSkill = await VolunteerSkills.create({
+            volunteerId: vol.id,
+            skillId: skillID,
+          })
+        }
+      } else {
+        // Skill not found. Create new Skill and create reference to user.
+        let newSkill = await Skill.create({
+          name: skills[i].name,
+          description: skills[i].description
+        });
+        // @todo How to check if skill was properly created?
+        if (newSkill) {
+          const volSkill = await VolunteerSkills.create({
+            volunteerId: vol.id,
+            skillId: newSkill.id,
+          })
+        }
+      }
+    }
+
+    res.status(200).json({ result: `Volunteer ${vol.id} has been added to the database.`});
 };
 
 const editVolunteer = async (req, res) => {
-    const { 
+    const {
         name,
         email,
         slackUserId,
@@ -87,7 +129,7 @@ const editVolunteer = async (req, res) => {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
 
-    await volunteer.update({ 
+    await volunteer.update({
         name,
         email,
         slackUserId,
@@ -112,7 +154,7 @@ const removeVolunteer = async (req, res) => {
 
     const volunteer = await models.volunteer.findByPk(req.params.id)
                             .catch(err => findError = err);
-    
+
     if (findError) {
         return res.status(400).json({ error: findError });
     }
@@ -121,11 +163,11 @@ const removeVolunteer = async (req, res) => {
 
         await volunteer.destroy()
         .catch(err => deleteError = err);
-        
+
         if (deleteError) {
             return res.status(400).json({ error: deleteError });
         }
-        
+
         res.status(200).json({ result: `Volunteer ${req.params.id} has been removed.`});
     } else {
         res.status(404).json({ result: `Volunteer ${req.params.id} does not exist.`});
@@ -135,7 +177,7 @@ const removeVolunteer = async (req, res) => {
 
 module.exports = {
     getVolunteers,
-    getVolunteer, 
+    getVolunteer,
     addVolunteer,
     editVolunteer,
     removeVolunteer

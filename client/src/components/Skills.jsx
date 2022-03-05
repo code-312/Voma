@@ -4,7 +4,6 @@ import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
 import ErrorIcon from '@mui/icons-material/Error';
-// import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
@@ -22,7 +21,7 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
     'UX/UI Design/Research / Visual Design',
   ];
 
-  const changeTitle = (e) => {
+  const changeOtherSkill = (e) => {
     setOtherValue(e.target.value)
   }
 
@@ -77,10 +76,11 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
           id="other"
           value={otherValue}
           onChange={handleFormChange}
+          checked={otherValue === skills}
           label={<Input
             placeholder="Other:"
             shrink={false}
-            onChange={(e) => changeTitle(e)}
+            onChange={changeOtherSkill}
 
           />}
           control={<Radio />}

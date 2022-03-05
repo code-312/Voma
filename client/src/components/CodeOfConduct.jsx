@@ -31,7 +31,6 @@ export default function CodeOfConduct({ setRegisterStep }) {
       <Box
       sx={{
           backgroundColor: "#6200EE20",
-          // opacity: "8%",
           zIndex: "-1"
       }}
     >

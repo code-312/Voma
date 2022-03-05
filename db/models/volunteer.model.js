@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 
 // We export a function that defines the model.
 // This function will automatically receive as parameter the Sequelize connection object.
-module.exports = (sequelize) => {
-	sequelize.define('volunteer', {
+module.exports = (sequelize, DataTypes) => {
+	const Volunteer = sequelize.define('volunteer', {
         name: {
             type: DataTypes.STRING
         },
@@ -32,5 +32,5 @@ module.exports = (sequelize) => {
             type: DataTypes.DATE
         },
     });
-    /* id, createdAt and updatedAt are created and maintained by default by sequelize */
+    return Volunteer;
 };

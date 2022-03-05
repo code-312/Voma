@@ -18,7 +18,6 @@ export default function BasicInfo({
     <MUIFieldsetStyles>
       <Typography variant="h4" component="h1">Basic Info</Typography>
       <Typography paragraph="true">Input basic info about yourself</Typography>
-{/* background:; */}
 
       <Typography variant="div" color=" #B00020">
         <ErrorIcon variant="filled" />
