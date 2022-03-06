@@ -114,7 +114,8 @@ const editVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        projectId
     } = req.body;
 
     let findError, updateError;
@@ -138,7 +139,8 @@ const editVolunteer = async (req, res) => {
         student,
         jobTitle,
         onboardingAttendedAt,
-        oneOnOneAttendedAt
+        oneOnOneAttendedAt,
+        projectId
     })
     .catch(err => updateError = err);
 
