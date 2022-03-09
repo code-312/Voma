@@ -53,14 +53,14 @@ const MUIFieldsetStyles = styled.fieldset`
 
   .MuiTypography-paragraph {
     color: #23036a;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
   }
 
-  .MuiRadio-root #oreo {
+  ${'' /* .MuiRadio-root #oreo {
     color: red;
     size: 44px;
     font-size: 1.2rem;
-  }
+  } */}
 `;
 
 export default MUIFieldsetStyles;
