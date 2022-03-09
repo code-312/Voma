@@ -25,7 +25,7 @@ app.post('/api/user/find', userController.findUser);
 app.get('/api/volunteers', volunteerController.getVolunteers);
 app.post('/api/volunteer', volunteerController.addVolunteer);
 app.get('/api/volunteer/:id', volunteerController.getVolunteer);
-app.post('/api/volunteer/:id', volunteerController.editVolunteer);
+app.put('/api/volunteer/:id', volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
 
 /*========= SKILL ROUTES =========*/
@@ -39,7 +39,7 @@ app.delete('/api/skill/:id', skillsController.removeSkill)
 app.get('/api/projects', projectController.getProjects);
 app.post('/api/project', projectController.addProject);
 app.get('/api/project/:id', projectController.getProject);
-app.post('/api/project/:id', projectController.editProject);
+app.put('/api/project/:id', projectController.editProject);
 app.delete('/api/project/:id', projectController.removeProject);
 
 // 404 error
