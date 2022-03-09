@@ -13,13 +13,10 @@ const MUIFieldsetStyles = styled.fieldset`
     margin-top: 0.6rem;
     margin-bottom: 1rem;
     margin: 10px;
-    padding: 0.6rem;
+    padding: 1rem;
     width: 5rem;
-    background-color: #6200ee;
     color: white;
-
-    margin-top: 0;
-    margin-bottom: 1rem;
+    top: 1rem;
   }
   .MuiTypography-textPrimary {
     background-color: #6200ee;

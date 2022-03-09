@@ -22,6 +22,7 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   ];
 
   const changeOtherSkill = (e) => {
+    e.preventDefault()
     setOtherValue(e.target.value)
   }
 
@@ -48,8 +49,8 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
         <ErrorIcon variant="filled" />
         All fields are required
       </Typography>
+      <Typography variant="h5" style={{padding: '1rem'}}>Choose only one</Typography>
 
-      <Typography paragraph="true">Choose only one</Typography>
 
       <RadioGroup
         defaultValue="female"
@@ -80,17 +81,17 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
             placeholder="Other:"
             shrink={false}
             onChange={changeOtherSkill}
-
+            // disabled={skills !== otherValue}
           />}
           control={<Radio />}
         />
       </RadioGroup>
 
       <Typography variant="button">
-        <Button onClick={() => setRegisterStep(2)} variant="contained">
+        <Button onClick={() => setRegisterStep(2)} style={{backgroundColor: '#6200EE' }} variant="contained">
           Back
         </Button>
-        <Button onClick={() => setRegisterStep(4)} variant="contained">
+        <Button onClick={() => setRegisterStep(4)} style={{backgroundColor: '#6200EE' }} variant="contained">
           Next
         </Button>
       </Typography>

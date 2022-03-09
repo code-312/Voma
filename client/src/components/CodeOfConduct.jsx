@@ -32,12 +32,9 @@ export default function CodeOfConduct({ setRegisterStep }) {
       <Box
         sx={{
           backgroundColor: '#6200EE20',
-          // backgroundColor: 'pink',
-          zIndex: '-1',
-          position: 'relative',
-          top: '2rem',
+          width: '100%',
           padding: '0.5rem',
-          // marginBottom: '2rem'
+          margin: '2rem'
         }}
       >
         <Typography variant="h5">Adapted Code of Conduct</Typography>
@@ -102,47 +99,52 @@ export default function CodeOfConduct({ setRegisterStep }) {
           Code for Chicago reserves the right to ask anyone in violation of these policies not to
           participate in Code for Chicago network activities, events, and digital forums.
         </Typography>
-        {/* <hr /> */}
       </Box>
 
-
       <Typography>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
-      >
-        <FormControlLabel
-          htmlFor="COC"
-          type="radio"
-          onChange={() => setAccepted(true)}
-          id="COC"
-          value="I understand and I accept
+
+      {/* <Typography variant="h4" component="h1">Do you agree</Typography> */}
+      <Typography variant="h5">Do you agree to our code of conduct?</Typography>
+
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="female"
+          name="radio-buttons-group"
+        >
+          <FormControlLabel
+            htmlFor="COCyes"
+            type="radio"
+            key="Yes"
+            name="Agreed"
+            onChange={() => setAccepted(true)}
+            control={<Radio />}
+            id="COCyes"
+            value="I understand and I accept
         this Code of Conduct"
-          label="Yes, I agree to Code for Chicago's Code of Conduct"
-          control={<Radio />}
-        />
-        <FormControlLabel
-          htmlFor="COC"
-          type="radio"
-          onChange={() => setAccepted(true)}
-          id="COC"
-          value="I understand and I accept
-          this Code of Conduct"
-          label="No, I don't agree to your Code of Conduct"
-          control={<Radio />}
-        />
+            label="Yes, I agree to Code for Chicago's Code of Conduct"
+          />
+
+          <FormControlLabel
+            htmlFor="COCno"
+            key="No"
+            type="radio"
+            name="NotAgreed"
+            onChange={() => setAccepted(false)}
+            id="COCno"
+            value="I do not understand and accept
+          // this Code of Conduct"
+            label="No, I don't agree to your Code of Conduct"
+            control={<Radio />}
+          />
         </RadioGroup>
-        </Typography>
-
-
+      </Typography>
 
       <Typography variant="button">
-        <Button onClick={() => setRegisterStep(3)} variant="contained">
+        <Button onClick={() => setRegisterStep(3)}  style={{ backgroundColor: '#6200EE' }}>
           Back
         </Button>
-        <Button disabled={!accepted} onClick={() => setRegisterStep(5)} variant="contained">
-          Next
+        <Button disabled={!accepted} onClick={() => setRegisterStep(5)}   style={{ color: '#6200EE'  }}  >
+          Complete Registration
         </Button>
       </Typography>
     </MUIFieldsetStyles>

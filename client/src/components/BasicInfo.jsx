@@ -27,7 +27,7 @@ export default function BasicInfo({
         id="emailAddress"
         type="text"
         name="emailAddress"
-        label="Email Address?"
+        label="Email Address"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
         onChange={handleFormChange}
         value={emailAddress}
@@ -36,11 +36,10 @@ export default function BasicInfo({
         id="fullName"
         type="text"
         name="fullName"
-        label="Full Name?"
+        label="Full Name"
         InputLabelProps={{ shrink: true, color: 'secondary' }}
         onChange={handleFormChange}
         value={fullName}
-        required
         fullWidth
       />
       <TextField
@@ -56,6 +55,7 @@ export default function BasicInfo({
       <Button
         size="small"
         variant="contained"
+        style={{backgroundColor: '#6200EE' }}
         onClick={filledOut ? () => setRegisterStep(3) : null}
         disabled={!filledOut}
         type="button"
