@@ -52,7 +52,6 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
       <Typography paragraph="true">Choose only one</Typography>
 
       <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
         defaultValue="female"
         name="radio-buttons-group"
       >

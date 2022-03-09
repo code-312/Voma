@@ -104,7 +104,7 @@ export default function CodeOfConduct({ setRegisterStep }) {
         </Typography>
         {/* <hr /> */}
       </Box>
-      
+
 
       <Typography>
       <RadioGroup
@@ -118,7 +118,7 @@ export default function CodeOfConduct({ setRegisterStep }) {
           onChange={() => setAccepted(true)}
           id="COC"
           value="I understand and I accept
-        this Privacy Policy"
+        this Code of Conduct"
           label="Yes, I agree to Code for Chicago's Code of Conduct"
           control={<Radio />}
         />
@@ -128,7 +128,7 @@ export default function CodeOfConduct({ setRegisterStep }) {
           onChange={() => setAccepted(true)}
           id="COC"
           value="I understand and I accept
-        this Privacy Policy"
+          this Code of Conduct"
           label="No, I don't agree to your Code of Conduct"
           control={<Radio />}
         />

@@ -34,7 +34,6 @@ const MUIFieldsetStyles = styled.fieldset`
     margin-bottom: 1rem;
     padding: 0.6rem;
     width: 15rem;
-    ${'' /* color: 'pink'; */}
   }
 
   .MuiTypography-h1 {
@@ -55,12 +54,6 @@ const MUIFieldsetStyles = styled.fieldset`
     color: #23036a;
     font-size: 1.0rem;
   }
-
-  ${'' /* .MuiRadio-root #oreo {
-    color: red;
-    size: 44px;
-    font-size: 1.2rem;
-  } */}
 `;
 
 export default MUIFieldsetStyles;
