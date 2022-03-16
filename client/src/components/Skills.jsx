@@ -1,22 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import StyledFieldset from './StyledFieldset';
+import { FormControlLabel } from '@mui/material';
+import Button from '@mui/material/Button';
+import RadioGroup from '@mui/material/RadioGroup';
+import ErrorIcon from '@mui/icons-material/Error';
+import Typography from '@mui/material/Typography';
+import Input from '@mui/material/Input';
+import Radio from '@mui/material/Radio';
+import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function Skills({ skills, handleFormChange, setRegisterStep }) {
+  const [otherValue, setOtherValue] = useState('');
+
   const skillList = [
-    'Data Analytics',
-    'Data Science',
-    'Machine Learning',
-    'Front-End',
-    'Back-End',
     'Content Strategy',
-    'UX Research',
-    'UX Design',
-    'UI Design',
-    'Visual Design',
-    'Product Management',
+    'Data Analytics',
+    'Front-End or Back-End Development',
     'Project Management',
+    'Product Management',
+    'UX/UI Design/Research / Visual Design',
   ];
+
+  const changeOtherSkill = (e) => {
+    e.preventDefault()
+    setOtherValue(e.target.value)
+  }
 
   const toCamelCase = (str) =>
     str
@@ -26,37 +34,68 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
       .replace(/\s+/g, '');
 
   return (
-    <StyledFieldset>
-      <legend>Skills</legend>
-      <p className="instructions">Pick your primary skill</p>
-      <p>
+    <MUIFieldsetStyles>
+      <Typography variant="h4" component="h1">
+        {' '}
+        Skills
+      </Typography>
+      <Typography paragraph="true">
+        {' '}
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
         an expert in this skill.
-      </p>
+      </Typography>
 
-      {skillList.map((skill) => (
-        <label className="skillLabel" htmlFor={toCamelCase(skill)} key={skill}>
-          <input
+      <Typography variant="div" color=" #B00020">
+        <ErrorIcon variant="filled" />
+        All fields are required
+      </Typography>
+      <Typography variant="h5" style={{padding: '1rem'}}>Choose only one</Typography>
+
+
+      <RadioGroup
+        defaultValue="female"
+        name="radio-buttons-group"
+      >
+        {skillList.map((skill) => (
+          <FormControlLabel
+            key={skill}
             type="radio"
             name="skill"
             id={toCamelCase(skill)}
             value={skill}
             checked={skill === skills}
             onChange={handleFormChange}
+            label={skill}
+            control={<Radio />}
           />
-          {skill}
-        </label>
-      ))}
+        ))}
+        <FormControlLabel
+          key="other"
+          type="radio"
+          name="skill"
+          id="other"
+          value={otherValue}
+          onChange={handleFormChange}
+          checked={otherValue === skills}
+          label={<Input
+            placeholder="Other:"
+            shrink={false}
+            onChange={changeOtherSkill}
+            // disabled={skills !== otherValue}
+          />}
+          control={<Radio />}
+        />
+      </RadioGroup>
 
-      <nav>
-        <button onClick={() => setRegisterStep(2)} type="button">
+      <Typography variant="button">
+        <Button onClick={() => setRegisterStep(2)} style={{backgroundColor: '#6200EE' }} variant="contained">
           Back
-        </button>
-        <button onClick={() => setRegisterStep(4)} type="button">
+        </Button>
+        <Button onClick={() => setRegisterStep(4)} style={{backgroundColor: '#6200EE' }} variant="contained">
           Next
-        </button>
-      </nav>
-    </StyledFieldset>
+        </Button>
+      </Typography>
+    </MUIFieldsetStyles>
   );
 }
 Skills.propTypes = {
