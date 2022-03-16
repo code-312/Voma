@@ -1,76 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StyledFieldset from './StyledFieldset';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import ErrorIcon from '@mui/icons-material/Error';
+import Button from '@mui/material/Button';
+import MUIFieldsetStyles from './MUIStyledFieldSet';
 
 export default function BasicInfo({
-  firstName,
-  lastName,
+  emailAddress,
+  fullName,
   pronouns,
   setRegisterStep,
   handleFormChange,
 }) {
-  const filledOut = firstName !== '' && lastName !== '' && pronouns !== '' && true;
+  const filledOut = emailAddress !== '' && fullName !== '' && pronouns !== '' && true;
   return (
-    <StyledFieldset>
-      <legend>Basic Info</legend>
-      <p>Input basic info about yourself.</p>
-      <label htmlFor="firstName">
-        First Name{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="firstName"
-          type="text"
-          name="firstName"
-          onChange={handleFormChange}
-          value={firstName}
-          required
-        />
-      </label>
-      <label htmlFor="lastName">
-        Last Name{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="lastName"
-          type="text"
-          name="lastName"
-          onChange={handleFormChange}
-          value={lastName}
-          required
-        />
-      </label>
-      <label htmlFor="pronouns">
-        Pronouns{' '}
-        <span className="warning">
-          (required)
-        </span>
-        <input
-          id="pronouns"
-          type="text"
-          name="pronouns"
-          onChange={handleFormChange}
-          value={pronouns}
-          required
-        />
-      </label>
-      <nav>
-        <button
-          onClick={filledOut ? () => setRegisterStep(3) : null}
-          disabled={!filledOut}
-          type="button"
-        >
-          Next
-        </button>
-      </nav>
-    </StyledFieldset>
+    <MUIFieldsetStyles>
+      <Typography variant="h4" component="h1">Basic Info</Typography>
+      <Typography paragraph="true">Input basic info about yourself</Typography>
+
+      <Typography variant="div" color=" #B00020">
+        <ErrorIcon variant="filled" />
+        All fields are required{' '}
+      </Typography>
+      <TextField
+        id="emailAddress"
+        type="text"
+        name="emailAddress"
+        label="Email Address"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        onChange={handleFormChange}
+        value={emailAddress}
+      />
+      <TextField
+        id="fullName"
+        type="text"
+        name="fullName"
+        label="Full Name"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        onChange={handleFormChange}
+        value={fullName}
+        fullWidth
+      />
+      <TextField
+        id="pronouns"
+        type="text"
+        name="pronouns"
+        onChange={handleFormChange}
+        value={pronouns}
+        label="Pronouns"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+        InputProps={{ color: 'secondary' }}
+      />
+      <Button
+        size="small"
+        variant="contained"
+        style={{backgroundColor: '#6200EE' }}
+        onClick={filledOut ? () => setRegisterStep(3) : null}
+        disabled={!filledOut}
+        type="button"
+      >
+        Next
+      </Button>
+    </MUIFieldsetStyles>
   );
 }
 BasicInfo.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
+  emailAddress: PropTypes.string.isRequired,
+  fullName: PropTypes.string.isRequired,
   pronouns: PropTypes.string.isRequired,
   setRegisterStep: PropTypes.func.isRequired,
   handleFormChange: PropTypes.func.isRequired,
