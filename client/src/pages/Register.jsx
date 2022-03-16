@@ -1,5 +1,6 @@
-/* eslint-disable import/prefer-default-export */
-import { useState } from 'react';
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import BasicInfo from '../components/BasicInfo';
 import Skills from '../components/Skills';
 import CodeOfConduct from '../components/CodeOfConduct';
@@ -8,13 +9,25 @@ import NoOnboarding from './NoOnboarding';
 import RegisterLanding from '../components/RegisterLanding';
 import { User } from '../models/user.model';
 
-export default function Register() {
+export default function Register({ userDetails = null }) {
   const [formData, setFormData] = useState({
+    slackId: '',
     firstName: '',
     lastName: '',
     pronouns: '',
     skill: ''
   });
+
+  useEffect(() => {
+    if (userDetails) {
+      const { slackId } = userDetails;
+      const newFormData = { ...formData };
+      newFormData.slackId = slackId || '';
+
+      setFormData(newFormData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDetails])
 
   const handleFormChange = (e) => {
     setFormData({
@@ -78,3 +91,12 @@ export default function Register() {
     </form>
   );
 }
+
+Register.defaultProps = {
+  userDetails: null
+}
+
+Register.propTypes = {
+  userDetails: PropTypes.shape({ 
+    slackId: PropTypes.string }),
+};

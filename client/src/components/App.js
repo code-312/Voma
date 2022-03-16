@@ -10,6 +10,7 @@ import PageNotFound from '../pages/PageNotFound';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
 
   const findUser = (email) => {
     fetch('/api/user/find', {
@@ -26,8 +27,10 @@ function App() {
           }
         })
         .then((json) => {
-          // the variable json contains the user's profile information
           setLoggedIn(true);
+          const { id } = json;
+
+          setUserDetails({ slackId: id });
         })
         .catch((err) => {
           console.log(err);
@@ -49,7 +52,7 @@ function App() {
         {loggedIn ? <Redirect to="/register" /> : <Home userNotFound={userNotFound} findUser={findUser} />}
         </Route>
         <Route path="/register">
-          <Register />
+          <Register userDetails={userDetails} />
         </Route>
         <Route path="/dashboard">
           <Dashboard />
