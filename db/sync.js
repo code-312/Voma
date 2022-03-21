@@ -10,9 +10,10 @@ const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 });
 
 const modelDefiners = [
-	require('./models/volunteer.model'),
-	require('./models/project.model'),
-	require('./models/skill.model'),
+  require('./models/volunteer.model'),
+  require('./models/project.model'),
+  require('./models/skill.model'),
+  require('./models/admin.model')
 ];
 
 for (const modelDefiner of modelDefiners) {

@@ -6,6 +6,7 @@ const volunteerController = require('./db/controllers/volunteers.controller');
 const projectController = require('./db/controllers/projects.controller');
 const skillsController = require('./db/controllers/skills.controller');
 const userController = require('./db/controllers/users.controller');
+const adminController = require('./db/controllers/admins.controller');
 
 const app = express();
 
@@ -41,6 +42,13 @@ app.post('/api/project', projectController.addProject);
 app.get('/api/project/:id', projectController.getProject);
 app.put('/api/project/:id', projectController.editProject);
 app.delete('/api/project/:id', projectController.removeProject);
+
+/*========= ADMIN ROUTES =========*/
+app.post('/api/admin', adminController.addAdmin);
+app.get('/api/admin/:id', adminController.getAdmin);
+
+/*========= AUTHENTICATION ROUTES =========*/
+app.post('/api/login', adminController.login);
 
 // 404 error
 app.use(function(req, res, next) {
