@@ -6,7 +6,7 @@ const FieldsetStyles = styled.fieldset`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 900px){
+  @media (max-width: 900px) {
     width: 80%;
   }
 
@@ -85,21 +85,20 @@ const FieldsetStyles = styled.fieldset`
     list-style-position: inside;
   }
 
-  .registerh1, .registerh2 {
+  .registerh1,
+  .registerh2 {
     font-weight: bold;
-    }
+  }
 
-    .registerp2 {
-      margin-bottom: 2rem;
-    }
+  .registerp2 {
+    margin-bottom: 2rem;
+  }
 
-    .registerb1 {
-      position: relative;
-      top: 2rem;
-    }
-    
-`
-  
-  ;
+  .registerb1 {
+    position: relative;
+    top: 2rem;
+    margin: 10vh;
+  }
+`;
 
 export default FieldsetStyles;
