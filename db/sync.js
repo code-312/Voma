@@ -13,6 +13,7 @@ const modelDefiners = [
 	require('./models/volunteer.model'),
 	require('./models/project.model'),
 	require('./models/skill.model'),
+  require('./models/volunteerSkills.model')
 ];
 
 for (const modelDefiner of modelDefiners) {
