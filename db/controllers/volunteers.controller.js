@@ -44,7 +44,7 @@ const addVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        skills
+        skill
     } = req.body;
 
     let error;
@@ -58,7 +58,7 @@ const addVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        skills
+        skill
     }, {
       // include: [models.skill]
     })
@@ -67,19 +67,19 @@ const addVolunteer = async (req, res) => {
     if (error) {
         return res.status(400).json({ error });
     }
-    // Add skills after creating user.
-    if (skills) {
+    // Add skill after creating user.
+    if (skill) {
       // Check to see if skill exists by searching for name
       try {
 
-        const existingSkill = await Skill.findOne({ where: { name: skills } });
+        const existingSkill = await Skill.findOne({ where: { name: skill } });
         let skillID;
         if (existingSkill) {
           skillID = existingSkill.id;
         } else {
           // If it doesn't, create a new skill
         const newSkill = await Skill.create({
-          name: skills
+          name: skill
         });
         skillID = newSkill.id;
       }

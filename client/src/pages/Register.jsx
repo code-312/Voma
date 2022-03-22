@@ -28,7 +28,7 @@ export default function Register({ userDetails = null }) {
         "email": user.email,
         "pronouns": user.pronouns,
         "slackUserId": user.slackUserId,
-        "skills": formData.skill,
+        "skill": formData.skill,
       }),
       headers: { 'Content-Type': 'application/json' }
     })
@@ -80,7 +80,7 @@ export default function Register({ userDetails = null }) {
       )}
       {registerStep === 3 && (
         <Skills
-          skills={formData.skill}
+          skill={formData.skill}
           setRegisterStep={setRegisterStep}
           handleFormChange={handleFormChange}
 
