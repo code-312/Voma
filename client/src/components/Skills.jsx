@@ -9,7 +9,7 @@ import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
 import MUIFieldsetStyles from './MUIStyledFieldSet';
 
-export default function Skills({ skills, handleFormChange, setRegisterStep }) {
+export default function Skills({ skill, handleFormChange, setRegisterStep }) {
   const [otherValue, setOtherValue] = useState('');
 
   const skillList = [
@@ -56,16 +56,16 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
         defaultValue="female"
         name="radio-buttons-group"
       >
-        {skillList.map((skill) => (
+        {skillList.map((skillOption) => (
           <FormControlLabel
-            key={skill}
+            key={skillOption}
             type="radio"
             name="skill"
-            id={toCamelCase(skill)}
-            value={skill}
-            checked={skill === skills}
+            id={toCamelCase(skillOption)}
+            value={skillOption}
+            checked={skillOption === skill}
             onChange={handleFormChange}
-            label={skill}
+            label={skillOption}
             control={<Radio />}
           />
         ))}
@@ -76,7 +76,7 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
           id="other"
           value={otherValue}
           onChange={handleFormChange}
-          checked={otherValue === skills}
+          checked={otherValue === skill}
           label={<Input
             placeholder="Other:"
             shrink={false}
@@ -99,7 +99,7 @@ export default function Skills({ skills, handleFormChange, setRegisterStep }) {
   );
 }
 Skills.propTypes = {
-  skills: PropTypes.string.isRequired,
+  skill: PropTypes.string.isRequired,
   setRegisterStep: PropTypes.func.isRequired,
   handleFormChange: PropTypes.func.isRequired,
 };
