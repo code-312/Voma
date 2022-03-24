@@ -1,17 +1,26 @@
 
 import React, { useState, createContext, useContext } from "react";
+import { Route, Redirect } from 'react-router-dom';
 
 const VolunteerContext = createContext(null);
 
 function VolunteerProvider({ children }) {
-  const [profile, setProfile] = useState({
-    isAuthenticated: false,
-    exists: null,
-    email: '',
-  });
+  // Use localstorage for the moment until we get Sessions figured out.
+  const storedProfile = localStorage.getItem('volunteer');
+  let defaultProfile = {};
+  if (storedProfile) { // If profile is in localstorage, use that.
+    defaultProfile = JSON.parse(storedProfile);
+  } else {
+    defaultProfile = {
+      isAuthenticated: false,
+      notRegistered: false,
+      email: '',
+    };
+  }
+  
+  const [profile, setProfile] = useState(defaultProfile);
 
   const signIn = (volunteerEmail) => {
-
     fetch('/api/user/find', {
       method: 'POST',
       body: JSON.stringify({ volunteerEmail }),
@@ -22,32 +31,39 @@ function VolunteerProvider({ children }) {
     .then((res) => {
       if (res.status === 404) {
 
-        // Setting not exists on 404?
-        const currentProfile = profile;
-        currentProfile.exists = false;
-        setProfile(currentProfile);
+        // Use localstorage for the moment until we get Sessions figured out.
+        localStorage.setItem('volunteer', JSON.stringify(profile));
 
         throw new Error('API 404');
 
       } else return res.json();
     })
     .then((json) => {
-      setProfile({
+
+      const updatedProfile = {
         isAuthenticated: true,
         email: volunteerEmail,
-        exists: true,
-      });
+        notRegistered: false,
+      };
+      setProfile(updatedProfile);
+      // Use localstorage for the moment until we get Sessions figured out.
+      localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
     })
     .catch((err) => {
       console.log(err);
 
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
-      setProfile({
+
+      const updatedProfile = {
         isAuthenticated: true,
-        exists: true,
         email: volunteerEmail,
-      });
+        notRegistered: false,
+      };
+      setProfile(updatedProfile);
+      // Use localstorage for the moment until we get Sessions figured out.
+      localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
+
     });
   };
   
@@ -64,5 +80,18 @@ function VolunteerProvider({ children }) {
   );
 }
 
-export { VolunteerProvider, VolunteerContext };
+function LockedRoute({ children, ...rest }) {
+  const authContext = useContext(VolunteerContext);
+
+  return (
+    <Route {...rest}
+      render={({ location }) => authContext.profile.isAuthenticated ? ( children ) : (
+          <Redirect to={{ pathname: "/", state: { from: location } }} />
+        )
+      }
+    />
+  );
+}
+
+export { VolunteerProvider, VolunteerContext, LockedRoute };
 

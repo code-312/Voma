@@ -6,7 +6,7 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
 
-import { VolunteerProvider } from '../lib/VolunteerProvider'
+import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
 
 
 function App() {
@@ -26,14 +26,14 @@ function App() {
       <VolunteerProvider>
         <Switch>
           <Route exact path="/">
-          {loggedIn ? <Redirect to="/register" /> : <Home userNotFound={userNotFound} />}
+          {loggedIn ? <Redirect to="/register" /> : <Home />}
           </Route>
           <Route path="/register">
             <Register />
           </Route>
-          <Route path="/dashboard">
+          <LockedRoute path="/dashboard">
             <Dashboard />
-          </Route>
+          </LockedRoute>
           <Route path="*">
             <PageNotFound />
           </Route>

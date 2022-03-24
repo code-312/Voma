@@ -35,7 +35,7 @@ const StyledSection = styled.section`
   }
 `;
 
-export default function Home({ userNotFound }) {
+export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -57,10 +57,10 @@ export default function Home({ userNotFound }) {
   const buttonText = loading ? 'Searching...' : 'Submit';
 
   useEffect(() => {
-    if (userNotFound) {
+    if (Volunteer.profile.notRegistered) {
       setLoading(false);
     }
-  }, [userNotFound]);
+  }, [Volunteer.profile.notRegistered]);
 
   return (
     <>
@@ -79,7 +79,7 @@ export default function Home({ userNotFound }) {
             variant="standard"
             onChange={onInputChange}
           />
-        { userNotFound &&
+        { Volunteer.profile.notRegistered &&
           <DialogContentText>
             Looks like you haven&apos;t joined our workspace. Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">click here</a> to join.
           </DialogContentText>
@@ -87,7 +87,10 @@ export default function Home({ userNotFound }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={() => Volunteer.signIn(email)}>{buttonText}</Button>
+          <Button onClick={() => {
+            Volunteer.signIn(email);
+            closeModal();
+          }}>{buttonText}</Button>
         </DialogActions>
     </Dialog>
     <StyledSection>
@@ -107,8 +110,4 @@ export default function Home({ userNotFound }) {
     </>
   )
 }
-
-Home.propTypes = {
-  userNotFound: PropTypes.bool.isRequired
-};
 
