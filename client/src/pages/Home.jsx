@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
@@ -9,6 +9,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import { ReactComponent as WhiteSlackIcon } from '../assets/WhiteSlackIcon.svg';
+
+import { VolunteerContext } from '../lib/VolunteerProvider'
 
 const StyledSection = styled.section`
   width: 50%;
@@ -33,10 +35,13 @@ const StyledSection = styled.section`
   }
 `;
 
-export default function Home({ userNotFound, findUser }) {
+export default function Home({ userNotFound }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+
+
+  const Volunteer = useContext(VolunteerContext);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -44,10 +49,6 @@ export default function Home({ userNotFound, findUser }) {
   const onInputChange = (e) => {
     setEmail(e.target.value);
   }
-
-  const searchForUser = () => {
-    findUser(email);
-  };
 
   const goToSlackLink = () => {
     window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
@@ -66,7 +67,7 @@ export default function Home({ userNotFound, findUser }) {
     <Dialog open={modalOpen}>
       <DialogContent>
         <DialogContentText>
-          Let&apos;s see if you&apos;re in our workspace:
+          Let&apos;s see if you&apos;re in our workspace: 
         </DialogContentText>
         <TextField
             autoFocus
@@ -86,7 +87,7 @@ export default function Home({ userNotFound, findUser }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={searchForUser}>{buttonText}</Button>
+          <Button onClick={() => Volunteer.signIn(email)}>{buttonText}</Button>
         </DialogActions>
     </Dialog>
     <StyledSection>
@@ -108,7 +109,6 @@ export default function Home({ userNotFound, findUser }) {
 }
 
 Home.propTypes = {
-  userNotFound: PropTypes.bool.isRequired,
-  findUser: PropTypes.func.isRequired,
+  userNotFound: PropTypes.bool.isRequired
 };
 
