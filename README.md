@@ -50,7 +50,7 @@ npm >=6.14.13
 
 You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version of Node that you need
 
-## 🚀 Setup
+## 🚀 (Frontend) Setup
 
 1. Clone the project with `git clone git@github.com:Code-For-Chicago/Voma-frontend.git`
 2. In the `meta-development` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
@@ -61,11 +61,17 @@ You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version 
 7. Install those dependencies with `npm i`
 8. Start the React server with `npm run start`
 
+## (Backend) Setup
+If you're going to be doing just frontend work you can skip this section. There are two options for getting a local database running for development. 
 
-### Setting up a local database
-If you are going to mostly be doing frontend work, you can skip this next section. 
+**(Option A)** is a straight forward Docker / Docker Compose configuration that sets up a [pgAdmin](https://www.pgadmin.org/) interface to interact with the database visually.
 
-1. The first thing you'll need to do is install the service on you machine. These [installation instructions](https://docs.docker.com/engine/install/) over at the docker docs site are handy for this part. 
+**(Option B)** also uses Docker but simplifies the box configuration using [Lando](https://lando.dev/). You'll need to install a database GUI client program to view the database instead of pgAdmin. Directions here go over setting up [TablePlus](https://www.tableplus.io/download) but you can use the connection settings to connect to any database client that supports Postgres. 
+
+---
+
+### (Option A) - Docker / Docker Compose with pgAdmin
+1. The first thing you'll need to do is install the service on your machine. These [installation instructions](https://docs.docker.com/engine/install/) over at the docker docs site are handy for this part. 
   - If you're using Windows I highly advise setting up Windows Subsystem for Linux using version 2 or greater. Doing this will make it so our makefile works in your environment and overall just makes it easier to interact with Docker. Luckily, Docker has also provided a [guide for getting this setup](https://docs.docker.com/docker-for-windows/wsl/).
 2. Next, pull the Docker official image for Postgres from the docker hub repository by running the following in your command line: 
 `docker pull postgres`
@@ -105,3 +111,70 @@ It should return a JSON object - look for the `IPAddress` field, and note that v
 `npm run sync`
 11. If you get the console message `Database synced!`, you're golden!
   - If you get an SSL error when trying to start the app, you can comment out lines 8-12 in `db/index.js`. 
+
+---
+
+### (Option B) - Docker via Lando and TablePlus
+#### *Install all the things.*
+1. Install [Docker](https://docs.docker.com/engine/install/). 
+  - *If you're using Windows try setting up [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install) using version 2 or greater. Doing this will make it so our makefile works in your environment and makes it easier to interact with Docker. Luckily, Docker has also provided a [guide for getting this setup](https://docs.docker.com/docker-for-windows/wsl/).*
+
+2. Install [Lando](https://docs.lando.dev/getting-started/installation.html) on your machine.
+3. Install [TablePlus](https://www.tableplus.io/download) or your database client of choice, there is a [list on the Postgres wiki of compatible clients](https://wiki.postgresql.org/wiki/PostgreSQL_Clients). 
+  - *Note: If you've previously attempted *Option A* - Before you start the installation steps open Docker and manually stop all your boxes, then restart Docker.*
+<br /><br />
+
+#### *Setup the box and database.*
+These directions assume Windows users are using the WSL or a [Bash simulator](https://www.howtogeek.com/howto/41382/how-to-use-linux-commands-in-windows-with-cygwin/) to run the bash scripts. If you can't use either reach out over Slack for help or an alternative.
+1. Run `lando start` in the terminal from the repository root. Lando will create a box with Postgres configured. Once it's complete Lando will list out some vitals about your box including Name, Location, and Services. You can find a [list of Lando commands here](https://docs.lando.dev/cli/), but only need to remember 4 for basic usage.
+
+Command | Description
+---|---
+lando start | Starts the Docker box or builds and starts the box if not yet created.
+lando stop | Shuts the box down.
+lando restart | Restarts box.
+lando destroy | Deletes the box from Docker.
+
+
+  - *Note: If you run into an error here destroy the box with `lando destroy` and try to start the box again.*
+2. If you haven't already run `npm install` in the project root, do that now.
+3. Run `bash .lando.database.sh` in the terminal from the repository root. This script checks for a `.env.local` file in the repository root. If it doesn't exist it creates it and adds the database credentials *if they're not currently set*. It'll also run the sync script finishing the setup.
+  - *Note: If you get an SSL error when trying to start the app comment out linkes 8-12 in `db/index.js` and try this step again.*
+  - *Note: If you have a `.env.local` with the database variables set (DB_USER, DB_PASSWORD, etc.) update their values manually using the configuration settings in the table. Set the DB_PASSWORD variable to "LANDO".*
+<br /><br />
+
+#### *Database Configuration Settings*
+Use these configuration settings to configure your custom client or follow the directions below to setup TablePlus.
+
+Configuration Setting | Value
+---|---
+Username | postgres
+Database Name | voma
+Host | 127.0.0.1
+Port | 6543
+
+- There is no password for desktop clients, leave it blank.
+
+
+#### *Setting up TablePlus*
+1. Start TablePlus. Find and select the option to create a new connection.
+
+<img src="client/src/assets/tableplus.tut.1.png" style="max-width:500px" />
+
+2. TablePlus should show you several options for database types. Select PostgreSQL. 
+
+<img src="client/src/assets/tableplus.tut.2.png" style="max-width:500px" />
+
+3. Name the connection `voma`.
+4. Set the user to `postgres`.
+5. Set the port to `6543`.
+5. Set the database name to `voma`.
+6. Leave the password blank.
+7. Click 'Connect'.
+
+<img src="client/src/assets/tableplus.tut.3.png" style="max-width:500px" />
+
+Make sure your Lando box is running when you connect or you'll get an error. TablePlus has some great [documentation](https://docs.tableplus.com/) for getting acquainted with how to move around the database.
+
+
+---
