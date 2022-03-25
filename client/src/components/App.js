@@ -11,7 +11,6 @@ import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userNotFound, setUserNotFound] = useState(false);
 
   return (
     <HelmetProvider>
