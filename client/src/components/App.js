@@ -8,7 +8,6 @@ import PageNotFound from '../pages/PageNotFound';
 
 import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
 
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 

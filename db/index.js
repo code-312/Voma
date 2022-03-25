@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 const { NODE_ENV, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 const configureSSL = NODE_ENV === 'development.local';
@@ -27,11 +28,12 @@ const modelDefiners = [
 	require('./models/volunteer.model'),
 	require('./models/project.model'),
 	require('./models/skill.model'),
-  require('./models/volunteerSkills.model')
+  require('./models/volunteerSkills.model'),
+  require('./models/admin.model')
 ];
 
 for (const modelDefiner of modelDefiners) {
-	modelDefiner(seq, DataTypes);
+	modelDefiner(seq, DataTypes, bcrypt);
 }
 
 addAssociations(seq)

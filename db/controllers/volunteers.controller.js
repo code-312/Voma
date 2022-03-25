@@ -44,7 +44,7 @@ const addVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        skills
+        skill
     } = req.body;
 
     let error;
@@ -58,7 +58,7 @@ const addVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        skills
+        skill
     }, {
       // include: [models.skill]
     })
@@ -67,39 +67,31 @@ const addVolunteer = async (req, res) => {
     if (error) {
         return res.status(400).json({ error });
     }
+    // Add skill after creating user.
+    if (skill) {
+      // Check to see if skill exists by searching for name
+      try {
 
-    // Add skills after creating user.
-    for (let i = 0; i < skills.length; i++) {
-      // If ID is passed with skill then assume we are adding
-      // a reference to existing Skill.
-      // If not, we must create a new Skill, then add the reference.
-      if (skills[i].id) {
-        let skillID = skills[i].id;
-        const skill = await Skill.findByPk(skillID);
-        if (skill === null) {
-          // @todo What should happen if skillID passed but not found in DB?
+        const existingSkill = await Skill.findOne({ where: { name: skill } });
+        let skillID;
+        if (existingSkill) {
+          skillID = existingSkill.id;
         } else {
-          // Add skill to volunteer.
-          const volSkill = await VolunteerSkills.create({
-            volunteerId: vol.id,
-            skillId: skillID,
-          })
-        }
-      } else {
-        // Skill not found. Create new Skill and create reference to user.
-        let newSkill = await Skill.create({
-          name: skills[i].name,
-          description: skills[i].description
+          // If it doesn't, create a new skill
+        const newSkill = await Skill.create({
+          name: skill
         });
-        // @todo How to check if skill was properly created?
-        if (newSkill) {
-          const volSkill = await VolunteerSkills.create({
-            volunteerId: vol.id,
-            skillId: newSkill.id,
-          })
-        }
+        skillID = newSkill.id;
       }
+      // Add skill to volunteer
+      const association = await VolunteerSkills.create({
+        volunteerId: vol.id,
+        skillId: skillID,
+      });
+    } catch (err) {
+      res.status(400).json({ result: "There has been an error", error: err });
     }
+  }
 
     res.status(200).json({ result: `Volunteer ${vol.id} has been added to the database.`});
 };
