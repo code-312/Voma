@@ -66,11 +66,22 @@ function VolunteerProvider({ children }) {
 
     });
   };
+
+  const signOut = () => {
+    setProfile({
+      isAuthenticated: false,
+      notRegistered: false,
+      email: '',
+    });
+    // Use localstorage for the moment until we get Sessions figured out.
+    localStorage.removeItem('volunteer');
+  }
   
   const value = { 
     profile, 
     setProfile,
     signIn, 
+    signOut,
   };
 
   return (
