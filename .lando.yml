@@ -1,0 +1,12 @@
+name: voma
+services:
+  postgresService:
+    type: postgres
+    creds:
+      database: voma
+      user: postgres
+      password: postgres
+    portforward: 6543
+
+
+
