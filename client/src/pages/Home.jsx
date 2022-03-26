@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import TextField from '@mui/material/TextField';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid } from '@mui/material';
 import { ReactComponent as WhiteSlackIcon } from '../assets/WhiteSlackIcon.svg';
 
 import { VolunteerContext } from '../lib/VolunteerProvider'
@@ -40,7 +36,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
-
   const Volunteer = useContext(VolunteerContext);
 
   const openModal = () => setModalOpen(true);
@@ -62,8 +57,14 @@ export default function Home() {
     }
   }, [Volunteer.profile.notRegistered]);
 
-  return (
-    <>
+  return (<>
+    {Volunteer.profile.isAuthenticated && <Redirect to="/register" />}
+    {Volunteer.profile.notRegistered &&
+      <Alert severity="warning">
+        Looks like you haven&apos;t joined our workspace. 
+        Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.
+      </Alert>
+    }
     <Dialog open={modalOpen}>
       <DialogContent>
         <DialogContentText>
@@ -79,11 +80,6 @@ export default function Home() {
             variant="standard"
             onChange={onInputChange}
           />
-        { Volunteer.profile.notRegistered &&
-          <DialogContentText>
-            Looks like you haven&apos;t joined our workspace. Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">click here</a> to join.
-          </DialogContentText>
-        }
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
@@ -107,7 +103,6 @@ export default function Home() {
       </Button>
       <Button onClick={goToSlackLink} href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g" size="small" variant="text">Not registered to our slack?</Button>
     </StyledSection>
-    </>
-  )
+  </>)
 }
 

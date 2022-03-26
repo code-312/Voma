@@ -32,17 +32,17 @@ export default function Register({ userDetails = null }) {
       }),
       headers: { 'Content-Type': 'application/json' }
     })
-        .then((res) => {
-          if (res.status === 404) {
-            throw new Error();
-          } else {
-            // Redirect??
-            return res.json();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then((res) => {
+        if (res.status === 404) {
+          throw new Error();
+        } else {
+          // Redirect??
+          return res.json();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {

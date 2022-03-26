@@ -14,6 +14,7 @@ function VolunteerProvider({ children }) {
       isAuthenticated: false,
       notRegistered: false,
       email: '',
+      registrationStep: 0,
     };
   }
   
@@ -42,26 +43,33 @@ function VolunteerProvider({ children }) {
     })
     .then((response) => {
 
-      const updatedProfile = {
-        isAuthenticated: true,
-        email: volunteerEmail,
-        notRegistered: !response.exists, 
-      };
-      setProfile(updatedProfile);
-
       if (response.exists) {  // User found.
         const slackProfile = {
-          ...profile,
+          isAuthenticated: true,
+          email: volunteerEmail,
+          notRegistered: false, 
           suid: response.suid,
           name: response.name,
           img:  response.img,
         };
-
+        
         setProfile(slackProfile);
+        // Use localstorage for the moment until we get Sessions figured out.
+        localStorage.setItem('volunteer', JSON.stringify(slackProfile));
+      } else {
+
+        const updatedProfile = {
+          isAuthenticated: false,
+          email: volunteerEmail,
+          notRegistered: true, 
+          registrationStep: 0,
+        };
+        setProfile({});
+        setProfile(updatedProfile); 
+        // Use localstorage for the moment until we get Sessions figured out.
+        localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
       }
 
-      // Use localstorage for the moment until we get Sessions figured out.
-      localStorage.setItem('volunteer', JSON.stringify(profile));
     })
     .catch((err) => {
       console.log(err);
@@ -83,11 +91,13 @@ function VolunteerProvider({ children }) {
     });
   };
 
-  const signOut = () => {
+  const clearProfile = () => {
+    setProfile({});
     setProfile({
       isAuthenticated: false,
       notRegistered: false,
       email: '',
+      registrationStep: 0,
     });
     // Use localstorage for the moment until we get Sessions figured out.
     localStorage.removeItem('volunteer');
@@ -97,7 +107,7 @@ function VolunteerProvider({ children }) {
     profile, 
     setProfile,
     slackExists, 
-    signOut,
+    clearProfile,
   };
 
   return (
