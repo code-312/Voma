@@ -1,5 +1,8 @@
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
+require('dotenv').config({ 
+  path: `./.env.${process.env.NODE_ENV}`
+});
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 const volunteerController = require('./db/controllers/volunteers.controller');
@@ -9,6 +12,7 @@ const userController = require('./db/controllers/users.controller');
 const adminController = require('./db/controllers/admins.controller');
 
 const app = express();
+app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
 
 app.use(express.urlencoded());
 app.use(express.json());

@@ -21,15 +21,18 @@ function VolunteerProvider({ children }) {
   const [profile, setProfile] = useState(defaultProfile);
 
   const signIn = (volunteerEmail) => {
-    fetch('/api/volunteer/validate/slack', {
+    fetch(`http://localhost:5000/api/volunteer/validate/slack`, {
       method: 'POST',
-      body: JSON.stringify({ volunteerEmail }),
+      body: JSON.stringify({ 
+        email: volunteerEmail 
+      }),
       headers: {
         'Content-Type': 'application/json',
       }
     })
     .then((data) => {
       if (data.status === 404) {
+        console.log(data);
         throw new Error('404: Route not found.');
       } else return data.json();
     })
@@ -44,15 +47,13 @@ function VolunteerProvider({ children }) {
 
       if (response.exists) {  // User found.
         const slackProfile = {
+          ...profile,
           suid: response.suid,
           name: response.name,
           img:  response.img,
         };
 
-        setProfile(profile => ({
-          ...profile,
-          ...slackProfile
-        }));
+        setProfile(slackProfile);
       }
 
       // Use localstorage for the moment until we get Sessions figured out.

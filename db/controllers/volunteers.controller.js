@@ -1,3 +1,6 @@
+require('dotenv').config({ 
+    path: `./.env.${process.env.NODE_ENV}`
+});
 const { models } = require('../index');
 const axios = require('axios');
 const Volunteer = models.volunteer;
@@ -176,7 +179,7 @@ const removeVolunteer = async (req, res) => {
  * @param {*} res - Request response object.
  */
 const validateVolunteerSlack = async (req, res) => {
-    const { email } = req.body;
+    const email = req.body?.email
 
     if (!email) {
         res.json({
@@ -204,10 +207,10 @@ const validateVolunteerSlack = async (req, res) => {
             }
             res.json(volunteer);
 
-        } else if (result.error) {
+        } else if (result.data.error) {
             res.json({
                 exists: false,
-                error: result.error,
+                error: result.data.error,
             });
 
         } else {
@@ -219,7 +222,7 @@ const validateVolunteerSlack = async (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({
+        res.json({
             exists: false,
             error: err
         });
