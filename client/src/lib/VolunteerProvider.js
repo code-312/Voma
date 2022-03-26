@@ -1,4 +1,3 @@
-
 import React, { useState, createContext, useContext } from "react";
 import { Route, Redirect } from 'react-router-dom';
 
@@ -20,8 +19,13 @@ function VolunteerProvider({ children }) {
   
   const [profile, setProfile] = useState(defaultProfile);
 
-  const signIn = (volunteerEmail) => {
-    fetch(`http://localhost:5000/api/volunteer/validate/slack`, {
+  /**
+   * Check if this email is signed up for the CFC Slack workspace.
+   * 
+   * @param {string} volunteerEmail 
+   */
+  const slackExists = (volunteerEmail) => {
+    fetch(`http://localhost:5000/api/volunteer/slack/exists`, {
       method: 'POST',
       body: JSON.stringify({ 
         email: volunteerEmail 

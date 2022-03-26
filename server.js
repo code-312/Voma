@@ -32,7 +32,7 @@ app.post('/api/volunteer', volunteerController.addVolunteer);
 app.get('/api/volunteer/:id', volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
-app.post('/api/volunteer/validate/slack', volunteerController.validateVolunteerSlack);
+app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
 
 
 /*========= SKILL ROUTES =========*/
