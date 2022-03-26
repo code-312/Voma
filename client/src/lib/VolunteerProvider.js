@@ -96,7 +96,7 @@ function VolunteerProvider({ children }) {
   const value = { 
     profile, 
     setProfile,
-    signIn, 
+    slackExists, 
     signOut,
   };
 
