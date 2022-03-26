@@ -88,7 +88,7 @@ export default function Home() {
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
           <Button onClick={() => {
-            Volunteer.signIn(email);
+            Volunteer.slackExists(email);
             closeModal();
           }}>{buttonText}</Button>
         </DialogActions>
