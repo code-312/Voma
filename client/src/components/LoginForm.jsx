@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
-import { Grid, Card, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button } from '@mui/material';
+import { Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, Container } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    LoginFormBox: {
+        padding: 16,
+        backgroundColor: 'white',
+        borderRadius: 4,
+        boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0 , 0, 0.2);',
+    },
+    input: {
+        marginBottom: 32,
+        display: 'flex',
+        flexWrap: 'nowrap',
+        maxWidth: 328,
+    }
+});
 
 export default function LoginForm() {
+    const classes = useStyles();
+
     const [values, setValues] = useState({
         email: '',
         password: '',
         showPassword: false
     });
+
 
     const handleClickShowPassword = () => {
         setValues({
@@ -22,17 +41,18 @@ export default function LoginForm() {
     };
 
     return (
-        <Grid container justify="center">
-            <Grid item md={3} />
-            <Grid item md={6}>
-                <Typography variant="h4" noWrap>Welcome!</Typography>
-                <Card direction="column" className="LoginForm">
-                    <Typography variant="h6" noWrap>Login</Typography>
+        <Grid container justify="center" spacing={1}>
+            <Grid item sm={3} md={4} xs={0} />
+            <Grid item sm={6} md={4} xs={12}>
+                <Typography className={classes.PageTitle} variant="h4" mb='16px' noWrap>Welcome!</Typography>
+                <Container direction="column" className={classes.LoginFormBox}>
+                    <Typography className={classes.FormTitle} variant="h6" mb='16px' noWrap>Login</Typography>
                     <form>
-                        <FormControl>
+                        <FormControl sx={{ width: '100%' }}>
                             <InputLabel htmlFor="input-email">Email</InputLabel>
                             <OutlinedInput 
                                 id="input-email"
+                                className={classes.input}
                                 value={values.email}
                                 variant="outlined"
                                 placeholder="volunteer@gmail.com"
@@ -40,10 +60,11 @@ export default function LoginForm() {
                                 label="Email" />
                         </FormControl>
 
-                        <FormControl>
+                        <FormControl sx={{ width: '100%' }}>
                             <InputLabel htmlFor="input-password">Password</InputLabel>
                             <OutlinedInput
                                 id="input-password"
+                                className={classes.input}
                                 value={values.password}
                                 variant="outlined"
                                 type={values.showPassword ? 'text' : 'password'}
@@ -64,7 +85,7 @@ export default function LoginForm() {
                     </form>
                     <Button variant="contained">Login</Button>
 
-                </Card>
+                </Container>
             </Grid>
         </Grid>
     )
