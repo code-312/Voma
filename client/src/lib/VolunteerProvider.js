@@ -21,44 +21,55 @@ function VolunteerProvider({ children }) {
   const [profile, setProfile] = useState(defaultProfile);
 
   const signIn = (volunteerEmail) => {
-    fetch('/api/user/find', {
+    fetch('/api/volunteer/validate/slack', {
       method: 'POST',
       body: JSON.stringify({ volunteerEmail }),
       headers: {
         'Content-Type': 'application/json',
       }
     })
-    .then((res) => {
-      if (res.status === 404) {
-
-        // Use localstorage for the moment until we get Sessions figured out.
-        localStorage.setItem('volunteer', JSON.stringify(profile));
-
-        throw new Error('API 404');
-
-      } else return res.json();
+    .then((data) => {
+      if (data.status === 404) {
+        throw new Error('404: Route not found.');
+      } else return data.json();
     })
-    .then((json) => {
+    .then((response) => {
 
       const updatedProfile = {
         isAuthenticated: true,
         email: volunteerEmail,
-        notRegistered: false,
+        notRegistered: !response.exists, 
       };
       setProfile(updatedProfile);
+
+      if (response.exists) {  // User found.
+        const slackProfile = {
+          suid: response.suid,
+          name: response.name,
+          img:  response.img,
+        };
+
+        setProfile(profile => ({
+          ...profile,
+          ...slackProfile
+        }));
+      }
+
       // Use localstorage for the moment until we get Sessions figured out.
-      localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
+      localStorage.setItem('volunteer', JSON.stringify(profile));
     })
     .catch((err) => {
       console.log(err);
 
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
-
       const updatedProfile = {
         isAuthenticated: true,
         email: volunteerEmail,
         notRegistered: false,
+        suid: 'FAKE_API_USER',
+        name: 'Fake User',
+        img:  'https://.../T6WU86LJZ-U01TD0E2MC5-4a4a68c96004-512'
       };
       setProfile(updatedProfile);
       // Use localstorage for the moment until we get Sessions figured out.
