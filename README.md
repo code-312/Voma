@@ -140,7 +140,7 @@ lando destroy | Deletes the box from Docker.
 2. If you haven't already run `npm install` in the project root, do that now.
 3. Run `bash .lando.database.sh` in the terminal from the repository root. This script checks for a `.env.local` file in the repository root. If it doesn't exist it creates it and adds the database credentials *if they're not currently set*. It'll also run the sync script finishing the setup.
   - *Note: If you get an SSL error when trying to start the app comment out lines 8-12 in `db/index.js` and try this step again.*
-  - *Note: If you have a `.env.local` with the database variables set (DB_USER, DB_PASSWORD, etc.) update their values manually using the configuration settings in the table. Set the DB_PASSWORD variable to "LANDO".*
+  - *Note: If you have a `.env.local` with the database variables set (DB_USER, DB_PASSWORD, etc.) update their values manually using the configuration settings in the table. 
 <br /><br />
 
 #### *Database Configuration Settings*
