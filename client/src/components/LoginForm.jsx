@@ -44,9 +44,9 @@ export default function LoginForm() {
         <Grid container justify="center" spacing={1}>
             <Grid item sm={3} md={4} xs={0} />
             <Grid item sm={6} md={4} xs={12}>
-                <Typography className={classes.PageTitle} variant="h4" mb='16px' noWrap>Welcome!</Typography>
+                <Typography variant="h4" mb='16px' noWrap>Welcome!</Typography>
                 <Container direction="column" className={classes.LoginFormBox}>
-                    <Typography className={classes.FormTitle} variant="h6" mb='16px' noWrap>Login</Typography>
+                    <Typography variant="h6" mb='16px' noWrap>Login</Typography>
                     <form>
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel htmlFor="input-email">Email</InputLabel>
