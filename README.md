@@ -126,7 +126,7 @@ It should return a JSON object - look for the `IPAddress` field, and note that v
 
 #### *Setup the box and database.*
 These directions assume Windows users are using the WSL or a [Bash simulator](https://www.howtogeek.com/howto/41382/how-to-use-linux-commands-in-windows-with-cygwin/) to run the bash scripts. If you can't use either reach out over Slack for help or an alternative.
-1. Run `lando start` in the terminal from the repository root. Lando will create a box with Postgres configured. Once it's complete Lando will list out some vitals about your box including Name, Location, and Services. You can find a [list of Lando commands here](https://docs.lando.dev/cli/), but only need to remember 4 for basic usage.
+1. Run `lando start` in the terminal from the repository root. Lando will create a box with Postgres configured. Once it's complete Lando will list out some vitals about your box including Name, Location, and Services. You can find a [list of Lando commands here](https://docs.lando.dev/cli/), but you only need to remember 4 for basic usage.
 
 Command | Description
 ---|---
@@ -139,7 +139,7 @@ lando destroy | Deletes the box from Docker.
   - *Note: If you run into an error here destroy the box with `lando destroy` and try to start the box again.*
 2. If you haven't already run `npm install` in the project root, do that now.
 3. Run `bash .lando.database.sh` in the terminal from the repository root. This script checks for a `.env.local` file in the repository root. If it doesn't exist it creates it and adds the database credentials *if they're not currently set*. It'll also run the sync script finishing the setup.
-  - *Note: If you get an SSL error when trying to start the app comment out linkes 8-12 in `db/index.js` and try this step again.*
+  - *Note: If you get an SSL error when trying to start the app comment out lines 8-12 in `db/index.js` and try this step again.*
   - *Note: If you have a `.env.local` with the database variables set (DB_USER, DB_PASSWORD, etc.) update their values manually using the configuration settings in the table. Set the DB_PASSWORD variable to "LANDO".*
 <br /><br />
 
