@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import StyledFieldset from './StyledFieldset';
+import React, { useState, useContext } from 'react';
 
-export default function RegisterLanding({ setRegisterStep }) {
-  const [isRegistered, setIsRegistered] = useState(null);
+import StyledFieldset from '../StyledFieldset';
+import { VolunteerContext } from '../../lib/VolunteerProvider';
+
+export default function HasOnboardedForm() {
+  const [hasRegistered, setHasRegistered] = useState(null);
+
+  const Volunteer = useContext(VolunteerContext);
 
   const handleRadioChoice = (e) => {
-    const boolValue = e.target.value === 'yes';
-    setIsRegistered(boolValue);
+    setHasRegistered((e.target.value === 'yes'));
   };
 
-  return (
-    <>
+  return (<>
       <StyledFieldset>
         <h1 className="registerh1">Volunteer with us at Code for Chicago!</h1>
 
@@ -58,17 +59,12 @@ export default function RegisterLanding({ setRegisterStep }) {
           <button
             className="registerb1"
             type="button"
-            onClick={isRegistered ? () => setRegisterStep(2) : () => setRegisterStep(0)}
-            disabled={isRegistered === null}
-          >
+            onClick={hasRegistered ? () => Volunteer.setRegistrationStep(2) : () => Volunteer.setRegistrationStep(0)}
+            disabled={hasRegistered === null}>
             Next
           </button>
         </nav>
       </StyledFieldset>
-    </>
-  );
+  </>);
 }
 
-RegisterLanding.propTypes = {
-  setRegisterStep: PropTypes.func.isRequired,
-};

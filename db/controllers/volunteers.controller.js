@@ -202,7 +202,7 @@ const validateVolunteerSlack = async (req, res) => {
             const volunteer = {
                 suid: profile.id                || '', // Slack User ID.
                 name: profile.real_name         || '', // Real Name.
-                img:  profile.profile.image_192 || '', // Slack Profile Image.
+//                img:  profile.profile.image_192 || '', // Slack Profile Image.
                 exists: true,
             }
             res.json(volunteer);

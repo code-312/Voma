@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -7,10 +7,14 @@ import ErrorIcon from '@mui/icons-material/Error';
 import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
-import MUIFieldsetStyles from './MUIStyledFieldSet';
+import MUIFieldsetStyles from '../MUIStyledFieldSet';
 
-export default function Skills({ skill, handleFormChange, setRegisterStep }) {
-  const [otherValue, setOtherValue] = useState('');
+import { VolunteerContext } from '../../lib/VolunteerProvider';
+
+export default function Skills() {
+  const Volunteer = useContext(VolunteerContext);
+  const [skill, setSkill] = useState('');
+  const [unfinished, setUnfinished] = useState(false);
 
   const skillList = [
     'Content Strategy',
@@ -21,9 +25,15 @@ export default function Skills({ skill, handleFormChange, setRegisterStep }) {
     'UX/UI Design/Research / Visual Design',
   ];
 
-  const changeOtherSkill = (e) => {
-    e.preventDefault()
-    setOtherValue(e.target.value)
+  const handleSkillChoice = (e) => { setSkill(e.target.value); };
+
+  const updateVolunteer = () => {
+    if (skill) {
+      Volunteer.updateInfo({ skill });
+      Volunteer.setRegistrationStep(4);
+    } else {
+      setUnfinished(true);
+    }
   }
 
   const toCamelCase = (str) =>
@@ -35,20 +45,19 @@ export default function Skills({ skill, handleFormChange, setRegisterStep }) {
 
   return (
     <MUIFieldsetStyles>
-      <Typography variant="h4" component="h1">
-        {' '}
-        Skills
-      </Typography>
-      <Typography paragraph="true">
-        {' '}
+      <Typography variant="h4" component="h1">&nbsp;Skills</Typography>
+      <Typography>
+        &nbsp;
         Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
         an expert in this skill.
       </Typography>
 
-      <Typography variant="div" color=" #B00020">
-        <ErrorIcon variant="filled" />
-        All fields are required
-      </Typography>
+      {unfinished &&
+        <Typography variant="div" color=" #B00020">
+          <ErrorIcon variant="filled" />
+          All fields are required
+        </Typography>
+      }
       <Typography variant="h5" style={{padding: '1rem'}}>Choose only one</Typography>
 
 
@@ -63,43 +72,22 @@ export default function Skills({ skill, handleFormChange, setRegisterStep }) {
             name="skill"
             id={toCamelCase(skillOption)}
             value={skillOption}
+            onChange={(e) => handleSkillChoice(e)}
             checked={skillOption === skill}
-            onChange={handleFormChange}
             label={skillOption}
             control={<Radio />}
           />
         ))}
-        <FormControlLabel
-          key="other"
-          type="radio"
-          name="skill"
-          id="other"
-          value={otherValue}
-          onChange={handleFormChange}
-          checked={otherValue === skill}
-          label={<Input
-            placeholder="Other:"
-            shrink={false}
-            onChange={changeOtherSkill}
-            // disabled={skills !== otherValue}
-          />}
-          control={<Radio />}
-        />
       </RadioGroup>
 
       <Typography variant="button">
-        <Button onClick={() => setRegisterStep(2)} style={{backgroundColor: '#6200EE' }} variant="contained">
+        <Button onClick={() => Volunteer.setRegistrationStep(2)} style={{backgroundColor: '#6200EE' }} variant="contained">
           Back
         </Button>
-        <Button onClick={() => setRegisterStep(4)} style={{backgroundColor: '#6200EE' }} variant="contained">
+        <Button onClick={() => updateVolunteer()} style={{backgroundColor: '#6200EE' }} variant="contained">
           Next
         </Button>
       </Typography>
     </MUIFieldsetStyles>
   );
 }
-Skills.propTypes = {
-  skill: PropTypes.string.isRequired,
-  setRegisterStep: PropTypes.func.isRequired,
-  handleFormChange: PropTypes.func.isRequired,
-};

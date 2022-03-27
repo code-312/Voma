@@ -52,14 +52,14 @@ export default function Home() {
   const buttonText = loading ? 'Searching...' : 'Submit';
 
   useEffect(() => {
-    if (Volunteer.profile.notRegistered) {
+    if (Volunteer.notRegistered) {
       setLoading(false);
     }
-  }, [Volunteer.profile.notRegistered]);
+  }, [Volunteer.notRegistered]);
 
   return (<>
-    {Volunteer.profile.isAuthenticated && <Redirect to="/register" />}
-    {Volunteer.profile.notRegistered &&
+    {Volunteer.isAuthenticated && <Redirect to="/register" />}
+    {Volunteer.notRegistered &&
       <Alert severity="warning">
         Looks like you haven&apos;t joined our workspace. 
         Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.

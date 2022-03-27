@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
-import MUIFieldsetStyles from './MUIStyledFieldSet';
+import MUIFieldsetStyles from '../MUIStyledFieldSet';
 
-export default function ThankYou() {
+export default function ThankYouMessage() {
   return (
     <MUIFieldsetStyles>
       <Typography variant="h4" component="h1"> Thank You!</Typography>

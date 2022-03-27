@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { Route, Redirect } from 'react-router-dom';
 
 const VolunteerContext = createContext(null);
@@ -6,37 +6,52 @@ const VolunteerContext = createContext(null);
 function VolunteerProvider({ children }) {
   // Use localstorage for the moment until we get Sessions figured out.
   const storedProfile = localStorage.getItem('volunteer');
-  let defaultProfile = {};
-  if (storedProfile) { // If profile is in localstorage, use that.
-    defaultProfile = JSON.parse(storedProfile);
-  } else {
-    defaultProfile = {
+  const storedRegistrationStep = localStorage.getItem('registrationStep');
+  
+  let defaultProfile = {
       isAuthenticated: false,
       notRegistered: false,
       email: '',
-      registrationStep: 0,
-    };
+      skill: '',
+      pronouns: '',
+  };
+  let defaultRegistrationStep = 1;
+
+  if (storedProfile) { // If profile is in localstorage, use that.
+    defaultProfile = JSON.parse(storedProfile);
+  }
+
+  if (storedRegistrationStep) {
+    defaultRegistrationStep = parseInt(storedRegistrationStep, 10); // Force integer type.
   }
   
   const [profile, setProfile] = useState(defaultProfile);
+  const [registrationStep, setRegistrationStep] = useState(defaultRegistrationStep);
+
+  const updateInfo = (info) => {
+    const p = profile;
+    Object.keys(info).forEach((key, index) => {
+      p[key] = info[key];
+    });
+    setProfile(p);
+  };
 
   /**
    * Check if this email is signed up for the CFC Slack workspace.
    * 
    * @param {string} volunteerEmail 
    */
-  const slackExists = (volunteerEmail) => {
+  const slackExists = (email) => {
     fetch(`http://localhost:5000/api/volunteer/slack/exists`, {
       method: 'POST',
-      body: JSON.stringify({ 
-        email: volunteerEmail 
-      }),
+      body: JSON.stringify({ email }),
       headers: {
         'Content-Type': 'application/json',
       }
     })
     .then((data) => {
-      if (data.status === 404) {
+      console.log(data);
+      if (data.status !== 200) {
         console.log(data);
         throw new Error('404: Route not found.');
       } else return data.json();
@@ -46,28 +61,21 @@ function VolunteerProvider({ children }) {
       if (response.exists) {  // User found.
         const slackProfile = {
           isAuthenticated: true,
-          email: volunteerEmail,
+          email,
           notRegistered: false, 
           suid: response.suid,
           name: response.name,
-          img:  response.img,
+//          img:  response.img,
         };
-        
-        setProfile(slackProfile);
-        // Use localstorage for the moment until we get Sessions figured out.
-        localStorage.setItem('volunteer', JSON.stringify(slackProfile));
+        updateInfo(slackProfile);
+
       } else {
 
         const updatedProfile = {
           isAuthenticated: false,
-          email: volunteerEmail,
           notRegistered: true, 
-          registrationStep: 0,
         };
-        setProfile({});
-        setProfile(updatedProfile); 
-        // Use localstorage for the moment until we get Sessions figured out.
-        localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
+        updateInfo(updatedProfile); 
       }
 
     })
@@ -78,40 +86,38 @@ function VolunteerProvider({ children }) {
       console.log('Faking successful signin for now, for development.');
       const updatedProfile = {
         isAuthenticated: true,
-        email: volunteerEmail,
+        email,
         notRegistered: false,
         suid: 'FAKE_API_USER',
         name: 'Fake User',
-        img:  'https://.../T6WU86LJZ-U01TD0E2MC5-4a4a68c96004-512'
+//        img:  'https://.../T6WU86LJZ-U01TD0E2MC5-4a4a68c96004-512',
       };
       setProfile(updatedProfile);
-      // Use localstorage for the moment until we get Sessions figured out.
-      localStorage.setItem('volunteer', JSON.stringify(updatedProfile));
-
     });
   };
 
-  const clearProfile = () => {
-    setProfile({});
-    setProfile({
-      isAuthenticated: false,
-      notRegistered: false,
-      email: '',
-      registrationStep: 0,
-    });
-    // Use localstorage for the moment until we get Sessions figured out.
-    localStorage.removeItem('volunteer');
-  }
+  const registerVolunteer = () => {
+
+  };
+
+  useEffect(() => {
+    localStorage.setItem('registrationStep', registrationStep);
+  }, [registrationStep]);
+
+  useEffect(() => {
+    localStorage.setItem('volunteer', JSON.stringify(profile));
+  }, [profile]);
   
-  const value = { 
-    profile, 
+  const funcs = { 
     setProfile,
     slackExists, 
-    clearProfile,
+    setRegistrationStep,
+    updateInfo,
+    registerVolunteer,
   };
 
   return (
-    <VolunteerContext.Provider value={value}>
+    <VolunteerContext.Provider value={{ ...profile, registrationStep, ...funcs}}>
         {children}
     </VolunteerContext.Provider>
   );

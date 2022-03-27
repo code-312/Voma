@@ -20,7 +20,7 @@ const StyledSection = styled.section`
   }
 `;
 
-export default function NoOnboarding() {
+export default function NeedsOnboardingMessage() {
   return (
     <StyledSection>
       <h1>We appreciate your enthusiasm!</h1>

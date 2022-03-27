@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
@@ -9,8 +9,6 @@ import PageNotFound from '../pages/PageNotFound';
 import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   return (
     <HelmetProvider>
       <Helmet>
@@ -24,7 +22,7 @@ function App() {
       <VolunteerProvider>
         <Switch>
           <Route exact path="/">
-          {loggedIn ? <Redirect to="/register" /> : <Home />}
+            <Home />
           </Route>
           <Route path="/register">
             <Register />

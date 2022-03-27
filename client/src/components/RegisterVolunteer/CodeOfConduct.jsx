@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -8,29 +8,38 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
 import ErrorIcon from '@mui/icons-material/Error';
 import Radio from '@mui/material/Radio';
-import MUIFieldsetStyles from './MUIStyledFieldSet';
+import MUIFieldsetStyles from '../MUIStyledFieldSet';
 
+import { VolunteerContext } from '../../lib/VolunteerProvider';
 
 export default function CodeOfConduct({ setRegisterStep, saveUser }) {
   const [accepted, setAccepted] = useState(false);
+  const [unfinished, setUnfinished] = useState(false);
+
+  const Volunteer = useContext(VolunteerContext);
 
   const completeRegistration = () => {
-    saveUser();
-    setRegisterStep(5);
+    if (accepted) {
+      Volunteer.registerVolunteer();
+      Volunteer.setRegistrationStep(5);
+    } else {
+      setUnfinished(true);
+    }
   }
 
   return (
     <MUIFieldsetStyles>
       <Typography variant="h1"> Code of Conduct</Typography>
       <Typography paragraph="true">Please review our code of conduct</Typography>
-      <Typography variant="div" color="red">
-        <ErrorIcon variant="filled" />
-        All fields are required{' '}
-      </Typography>
+      {unfinished &&
+        <Typography variant="div" color="red">
+          <ErrorIcon variant="filled" />
+          All fields are required{' '}
+        </Typography>
+      }
       <hr />
       <br />
       <Typography variant="h2">Adapted Code of Conduct</Typography>
-
 
       <Typography paragraph="true">
         Adapted from the{' '}
@@ -99,7 +108,7 @@ export default function CodeOfConduct({ setRegisterStep, saveUser }) {
       </RadioGroup>
 
       <Typography variant="button">
-         <Button onClick={() => setRegisterStep(3)} variant="contained">
+         <Button onClick={() => Volunteer.setRegistrationStep(3)} variant="contained">
           Back
         </Button>
          <Button disabled={!accepted} onClick={completeRegistration}  variant="contained">
