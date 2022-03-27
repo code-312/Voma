@@ -30,7 +30,7 @@ export default function CodeOfConduct() {
   return (
     <MUIFieldsetStyles>
       <Typography variant="h1"> Code of Conduct</Typography>
-      <Typography paragraph="true">Please review our code of conduct</Typography>
+      <Typography>Please review our code of conduct</Typography>
       {unfinished &&
         <Typography variant="div" color="red">
           <ErrorIcon variant="filled" />
@@ -41,7 +41,7 @@ export default function CodeOfConduct() {
       <br />
       <Typography variant="h2">Adapted Code of Conduct</Typography>
 
-      <Typography paragraph="true">
+      <Typography paragraph>
         Adapted from the{' '}
         <a href="https://github.com/codeforamerica/codeofconduct">CfA Code of Conduct</a>. We are an
         official brigade. <br />
@@ -83,11 +83,11 @@ export default function CodeOfConduct() {
         <ListItem>12. Provide an environment where people are free from discrimination or harassment.</ListItem>
       </List>
       <br />
-      <Typography paragraph="true"> Code for Chicago reserves the right to ask anyone in violation of these policies not to
+      <Typography paragraph> Code for Chicago reserves the right to ask anyone in violation of these policies not to
         participate in Code for Chicago network activities, events, and digital forums.</Typography>
       <hr />
 
-      <Typography paragraph="true">Have you read this?</Typography>
+      <Typography paragraph>Have you read this?</Typography>
 
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
