@@ -69,7 +69,6 @@ function VolunteerProvider({ children }) {
         });
         setProfile({}); // Adding this triggers the useEffect?
         setProfile(profileUpdate);
-        setRegistrationStep(2);
 
       } else {
         Object.assign(profileUpdate, {
@@ -97,7 +96,6 @@ function VolunteerProvider({ children }) {
       })
       setProfile({}); // Adding this triggers the useEffect?
       setProfile(profileUpdate);
-      setRegistrationStep(2);
     });
   };
 
