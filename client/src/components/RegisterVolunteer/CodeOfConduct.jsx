@@ -12,7 +12,7 @@ import MUIFieldsetStyles from '../MUIStyledFieldSet';
 
 import { VolunteerContext } from '../../lib/VolunteerProvider';
 
-export default function CodeOfConduct({ setRegisterStep, saveUser }) {
+export default function CodeOfConduct() {
   const [accepted, setAccepted] = useState(false);
   const [unfinished, setUnfinished] = useState(false);
 
@@ -118,8 +118,3 @@ export default function CodeOfConduct({ setRegisterStep, saveUser }) {
     </MUIFieldsetStyles>
   );
 }
-
-CodeOfConduct.propTypes = {
-  setRegisterStep: PropTypes.func.isRequired,
-  saveUser: PropTypes.func.isRequired,
-};

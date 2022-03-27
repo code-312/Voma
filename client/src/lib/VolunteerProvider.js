@@ -50,32 +50,34 @@ function VolunteerProvider({ children }) {
       }
     })
     .then((data) => {
-      console.log(data);
-      if (data.status !== 200) {
+      if (data.status === 404) {
         console.log(data);
         throw new Error('404: Route not found.');
       } else return data.json();
     })
     .then((response) => {
+      console.log(response);
+      const profileUpdate = profile;
 
       if (response.exists) {  // User found.
-        const slackProfile = {
+        Object.assign(profileUpdate, {
           isAuthenticated: true,
           email,
           notRegistered: false, 
           suid: response.suid,
           name: response.name,
-//          img:  response.img,
-        };
-        updateInfo(slackProfile);
+        });
+        setProfile({}); // Adding this triggers the useEffect?
+        setProfile(profileUpdate);
+        setRegistrationStep(2);
 
       } else {
-
-        const updatedProfile = {
+        Object.assign(profileUpdate, {
           isAuthenticated: false,
           notRegistered: true, 
-        };
-        updateInfo(updatedProfile); 
+        });
+        setProfile({}); // Adding this triggers the useEffect?
+        setProfile(profileUpdate); 
       }
 
     })
@@ -84,20 +86,43 @@ function VolunteerProvider({ children }) {
 
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
-      const updatedProfile = {
+
+      const profileUpdate = profile;
+      Object.assign(profileUpdate, {
         isAuthenticated: true,
         email,
         notRegistered: false,
         suid: 'FAKE_API_USER',
         name: 'Fake User',
-//        img:  'https://.../T6WU86LJZ-U01TD0E2MC5-4a4a68c96004-512',
-      };
-      setProfile(updatedProfile);
+      })
+      setProfile({}); // Adding this triggers the useEffect?
+      setProfile(profileUpdate);
+      setRegistrationStep(2);
     });
   };
 
   const registerVolunteer = () => {
-
+    fetch(`http://localhost:5000/api/volunteer/create`, {
+      method: 'POST',
+      body: JSON.stringify({
+        name: profile.name,
+        email: profile.email,
+        slackUserId: profile.suid,
+        pronouns: profile.pronouns,
+        skill: profile.skill,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((data) => {
+      if (data.status === 404) {
+        throw new Error('404: Route not found.');
+      } else return data.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   useEffect(() => {

@@ -28,7 +28,7 @@ app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
 app.get('/api/volunteers', volunteerController.getVolunteers);
-app.post('/api/volunteer', volunteerController.addVolunteer);
+app.post('/api/volunteer/create', volunteerController.addVolunteer);
 app.get('/api/volunteer/:id', volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);

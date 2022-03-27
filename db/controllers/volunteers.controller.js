@@ -43,12 +43,12 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        employer,
-        student,
-        jobTitle,
-        onboardingAttendedAt,
-        oneOnOneAttendedAt,
-        skill
+        skill,
+        // employer,
+        // student,
+        // jobTitle,
+        // onboardingAttendedAt,
+        // oneOnOneAttendedAt,
     } = req.body;
 
     let error;
@@ -57,12 +57,12 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        employer,
-        student,
-        jobTitle,
-        onboardingAttendedAt,
-        oneOnOneAttendedAt,
-        skill
+        skill,
+        // employer,
+        // student,
+        // jobTitle,
+        // onboardingAttendedAt,
+        // oneOnOneAttendedAt,
     }, {
       // include: [models.skill]
     })
@@ -93,11 +93,11 @@ const addVolunteer = async (req, res) => {
         skillId: skillID,
       });
     } catch (err) {
-      res.status(400).json({ result: "There has been an error", error: err });
+      res.json({ result: "There has been an error", error: err });
     }
   }
 
-    res.status(200).json({ result: `Volunteer ${vol.id} has been added to the database.`});
+    res.json({ result: `Volunteer ${vol.id} has been added to the database.`});
 };
 
 const editVolunteer = async (req, res) => {
