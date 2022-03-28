@@ -15,7 +15,7 @@ function VolunteerProvider({ children }) {
       skill: '',
       pronouns: '',
   };
-  let defaultRegistrationStep = 1;
+  let defaultRegistrationStep = -1;
 
   if (storedProfile) { // If profile is in localstorage, use that.
     defaultProfile = JSON.parse(storedProfile);
@@ -56,7 +56,6 @@ function VolunteerProvider({ children }) {
       } else return data.json();
     })
     .then((response) => {
-      console.log(response);
       const profileUpdate = profile;
 
       if (response.exists) {  // User found.
@@ -67,16 +66,16 @@ function VolunteerProvider({ children }) {
           suid: response.suid,
           name: response.name,
         });
-        setProfile({}); // Adding this triggers the useEffect?
         setProfile(profileUpdate);
+        setRegistrationStep(1);
 
       } else {
         Object.assign(profileUpdate, {
           isAuthenticated: false,
           notRegistered: true, 
         });
-        setProfile({}); // Adding this triggers the useEffect?
         setProfile(profileUpdate); 
+        setRegistrationStep(1)
       }
 
     })
@@ -94,8 +93,8 @@ function VolunteerProvider({ children }) {
         suid: 'FAKE_API_USER',
         name: 'Fake User',
       })
-      setProfile({}); // Adding this triggers the useEffect?
       setProfile(profileUpdate);
+      setRegistrationStep(1);
     });
   };
 
