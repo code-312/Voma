@@ -1,5 +1,8 @@
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
+require('dotenv').config({ 
+  path: `./.env.${process.env.NODE_ENV}`
+});
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 const volunteerController = require('./db/controllers/volunteers.controller');
@@ -9,6 +12,7 @@ const userController = require('./db/controllers/users.controller');
 const adminController = require('./db/controllers/admins.controller');
 
 const app = express();
+app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
 
 app.use(express.urlencoded());
 app.use(express.json());
@@ -24,10 +28,12 @@ app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
 app.get('/api/volunteers', volunteerController.getVolunteers);
-app.post('/api/volunteer', volunteerController.addVolunteer);
+app.post('/api/volunteer/create', volunteerController.addVolunteer);
 app.get('/api/volunteer/:id', volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
+app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
+
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);

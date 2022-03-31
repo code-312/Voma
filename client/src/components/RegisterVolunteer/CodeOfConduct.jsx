@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -8,31 +8,40 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
 import ErrorIcon from '@mui/icons-material/Error';
 import Radio from '@mui/material/Radio';
-import MUIFieldsetStyles from './MUIStyledFieldSet';
+import MUIFieldsetStyles from '../MUIStyledFieldSet';
 
+import { VolunteerContext } from '../../lib/VolunteerProvider';
 
-export default function CodeOfConduct({ setRegisterStep, saveUser }) {
+export default function CodeOfConduct() {
   const [accepted, setAccepted] = useState(false);
+  const [unfinished, setUnfinished] = useState(false);
+
+  const Volunteer = useContext(VolunteerContext);
 
   const completeRegistration = () => {
-    saveUser();
-    setRegisterStep(5);
+    if (accepted) {
+      Volunteer.registerVolunteer();
+      Volunteer.setRegistrationStep(5);
+    } else {
+      setUnfinished(true);
+    }
   }
 
   return (
     <MUIFieldsetStyles>
       <Typography variant="h1"> Code of Conduct</Typography>
-      <Typography paragraph="true">Please review our code of conduct</Typography>
-      <Typography variant="div" color="red">
-        <ErrorIcon variant="filled" />
-        All fields are required{' '}
-      </Typography>
+      <Typography>Please review our code of conduct</Typography>
+      {unfinished &&
+        <Typography variant="div" color="red">
+          <ErrorIcon variant="filled" />
+          All fields are required{' '}
+        </Typography>
+      }
       <hr />
       <br />
       <Typography variant="h2">Adapted Code of Conduct</Typography>
 
-
-      <Typography paragraph="true">
+      <Typography paragraph>
         Adapted from the{' '}
         <a href="https://github.com/codeforamerica/codeofconduct">CfA Code of Conduct</a>. We are an
         official brigade. <br />
@@ -74,11 +83,11 @@ export default function CodeOfConduct({ setRegisterStep, saveUser }) {
         <ListItem>12. Provide an environment where people are free from discrimination or harassment.</ListItem>
       </List>
       <br />
-      <Typography paragraph="true"> Code for Chicago reserves the right to ask anyone in violation of these policies not to
+      <Typography paragraph> Code for Chicago reserves the right to ask anyone in violation of these policies not to
         participate in Code for Chicago network activities, events, and digital forums.</Typography>
       <hr />
 
-      <Typography paragraph="true">Have you read this?</Typography>
+      <Typography paragraph>Have you read this?</Typography>
 
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
@@ -99,7 +108,7 @@ export default function CodeOfConduct({ setRegisterStep, saveUser }) {
       </RadioGroup>
 
       <Typography variant="button">
-         <Button onClick={() => setRegisterStep(3)} variant="contained">
+         <Button onClick={() => Volunteer.setRegistrationStep(3)} variant="contained">
           Back
         </Button>
          <Button disabled={!accepted} onClick={completeRegistration}  variant="contained">
@@ -109,8 +118,3 @@ export default function CodeOfConduct({ setRegisterStep, saveUser }) {
     </MUIFieldsetStyles>
   );
 }
-
-CodeOfConduct.propTypes = {
-  setRegisterStep: PropTypes.func.isRequired,
-  saveUser: PropTypes.func.isRequired,
-};

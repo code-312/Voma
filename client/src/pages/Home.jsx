@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import TextField from '@mui/material/TextField';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid } from '@mui/material';
 import { ReactComponent as WhiteSlackIcon } from '../assets/WhiteSlackIcon.svg';
+
+import { VolunteerContext } from '../lib/VolunteerProvider'
 
 const StyledSection = styled.section`
   width: 50%;
@@ -33,10 +31,12 @@ const StyledSection = styled.section`
   }
 `;
 
-export default function Home({ userNotFound, findUser }) {
+export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+
+  const Volunteer = useContext(VolunteerContext);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -45,10 +45,6 @@ export default function Home({ userNotFound, findUser }) {
     setEmail(e.target.value);
   }
 
-  const searchForUser = () => {
-    findUser(email);
-  };
-
   const goToSlackLink = () => {
     window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
   }
@@ -56,17 +52,23 @@ export default function Home({ userNotFound, findUser }) {
   const buttonText = loading ? 'Searching...' : 'Submit';
 
   useEffect(() => {
-    if (userNotFound) {
+    if (Volunteer.notRegistered) {
       setLoading(false);
     }
-  }, [userNotFound]);
+  }, [Volunteer.notRegistered]);
 
-  return (
-    <>
+  return (<>
+    {Volunteer.isAuthenticated && <Redirect to="/register" />}
+    {Volunteer.notRegistered &&
+      <Alert severity="warning">
+        Looks like you haven&apos;t joined our workspace. 
+        Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.
+      </Alert>
+    }
     <Dialog open={modalOpen}>
       <DialogContent>
         <DialogContentText>
-          Let&apos;s see if you&apos;re in our workspace:
+          Let&apos;s see if you&apos;re in our workspace: 
         </DialogContentText>
         <TextField
             autoFocus
@@ -78,15 +80,13 @@ export default function Home({ userNotFound, findUser }) {
             variant="standard"
             onChange={onInputChange}
           />
-        { userNotFound &&
-          <DialogContentText>
-            Looks like you haven&apos;t joined our workspace. Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">click here</a> to join.
-          </DialogContentText>
-        }
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={searchForUser}>{buttonText}</Button>
+          <Button onClick={() => {
+            Volunteer.slackExists(email);
+            closeModal();
+          }}>{buttonText}</Button>
         </DialogActions>
     </Dialog>
     <StyledSection>
@@ -103,12 +103,6 @@ export default function Home({ userNotFound, findUser }) {
       </Button>
       <Button onClick={goToSlackLink} href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g" size="small" variant="text">Not registered to our slack?</Button>
     </StyledSection>
-    </>
-  )
+  </>)
 }
-
-Home.propTypes = {
-  userNotFound: PropTypes.bool.isRequired,
-  findUser: PropTypes.func.isRequired,
-};
 

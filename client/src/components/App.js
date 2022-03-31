@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
@@ -7,36 +7,9 @@ import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 
+import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
+
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userNotFound, setUserNotFound] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
-
-  const findUser = (email) => {
-    fetch('/api/user/find', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-        .then((res) => {
-          if (res.status === 404) {
-            setUserNotFound(true);
-            throw new Error();
-          } else {
-            return res.json();
-          }
-        })
-        .then((json) => {
-          setLoggedIn(true);
-          const { id } = json;
-
-          setUserDetails({ slackId: id });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  }
-
   return (
     <HelmetProvider>
       <Helmet>
@@ -47,23 +20,22 @@ function App() {
           rel="stylesheet"
         />
       </Helmet>
-      <Switch>
-        <Route exact path="/">
-        {loggedIn ? <Redirect to="/register" /> : <Home userNotFound={userNotFound} findUser={findUser} />}
-        </Route>
-        <Route path="/register">
-          <Register userDetails={userDetails} />
-        </Route>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="*">
-          <PageNotFound />
-        </Route>
-      </Switch>
+      <VolunteerProvider>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <LockedRoute path="/dashboard">
+            <Dashboard />
+          </LockedRoute>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </VolunteerProvider>
     </HelmetProvider>
   );
 }
