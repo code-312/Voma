@@ -2,12 +2,19 @@ const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV}`});
 const { addAssociations } = require('./models/addAssociations');
 
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_NAME, DB_USER, DB_HOST } = process.env;
+const DB_PASSWORD = process.env.DB_PASSWORD || null; // Lando requires a blank password.
 
-const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: 'postgres',
-});
+const options = {
+  host: DB_HOST,
+  dialect: 'postgres',
+};
+
+if (process.env.DB_PORT) { // (optional) Custom port.
+  options['port'] = process.env.DB_PORT;
+}
+
+const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, options);
 
 const modelDefiners = [
   require('./models/volunteer.model'),
