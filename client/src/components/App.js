@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
+import Login from '../pages/Login';
 
 import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
 
