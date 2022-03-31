@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
+import Login from '../pages/Login';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -55,6 +56,9 @@ function App() {
         </Route>
         <Route path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route path="/login">
+          <Login />
         </Route>
         <Route path="*">
           <PageNotFound />
