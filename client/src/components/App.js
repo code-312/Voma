@@ -21,20 +21,20 @@ function App() {
         />
       </Helmet>
         <Switch>
-          <VolunteerProvider>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-          </VolunteerProvider>
           <Route path="/login">
             <Login />
           </Route>
           <LockedRoute path="/dashboard">
             <Dashboard />
           </LockedRoute>
+          <VolunteerProvider>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+          </VolunteerProvider>
           <Route path="*">
             <PageNotFound />
           </Route>
