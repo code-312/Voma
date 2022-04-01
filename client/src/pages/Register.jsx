@@ -1,8 +1,5 @@
 import { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-
-import HasOnboardedForm from '../components/RegisterVolunteer/HasOnboardedForm';
-import NeedsOnboardingMessage from '../components/RegisterVolunteer/NeedsOnboardingMessage';
 import BasicInfoForm from '../components/RegisterVolunteer/BasicInfoForm';
 import SkillsForm from '../components/RegisterVolunteer/SkillsForm';
 import CodeOfConduct from '../components/RegisterVolunteer/CodeOfConduct';
