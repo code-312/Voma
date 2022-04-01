@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
 import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
@@ -19,15 +18,12 @@ const useStyles = makeStyles({
   SlackButton: {
     padding: 0,
     paddingRight: '8px',
+    marginRight: '20px',
+    '& .MuiButton-startIcon': {
+      marginRight: 0,
+    }
   },
 });
-
-const SlackButton = styled(Button)`
-  margin-right: 20px;
-  & .MuiButton-startIcon {
-    margin-right: 0;
-  }
-`;
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -106,15 +102,15 @@ export default function Home() {
         Slack workshpace yet then register first. Afterwards, come back here to complete the volunteer registration process.
         </Typography>
 
-        <SlackButton 
+        <Button 
+          className={classes.SlackButton}
           size="small" 
           startIcon={<SvgIcon classes={{ root: classes.SlackIcon }}><SlackIcon /></SvgIcon>} 
           variant="contained" 
-          className={classes.SlackButton}
           onClick={openModal}
         >
           Sign in With Slack
-        </SlackButton>      
+        </Button>      
         
         <Button 
           onClick={goToSlackLink} 
