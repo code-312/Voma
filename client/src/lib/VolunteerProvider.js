@@ -56,24 +56,27 @@ function VolunteerProvider({ children }) {
       } else return data.json();
     })
     .then((response) => {
-      const profileUpdate = profile;
+      let profileUpdate = {};
 
       if (response.exists) {  // User found.
-        Object.assign(profileUpdate, {
+        profileUpdate = {
           isAuthenticated: true,
           email,
           notRegistered: false, 
           suid: response.suid,
           name: response.name,
-        });
+        };
         setProfile(profileUpdate);
         setRegistrationStep(1);
 
       } else {
-        Object.assign(profileUpdate, {
+        profileUpdate = {
           isAuthenticated: false,
-          notRegistered: true, 
-        });
+          notRegistered: true,
+          email: '',
+          skill: '',
+          pronouns: '',
+        };
         setProfile(profileUpdate); 
         setRegistrationStep(1)
       }
@@ -85,14 +88,13 @@ function VolunteerProvider({ children }) {
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
 
-      const profileUpdate = profile;
-      Object.assign(profileUpdate, {
+      const profileUpdate = {
         isAuthenticated: true,
         email,
         notRegistered: false,
         suid: 'FAKE_API_USER',
         name: 'Fake User',
-      })
+      };
       setProfile(profileUpdate);
       setRegistrationStep(1);
     });
