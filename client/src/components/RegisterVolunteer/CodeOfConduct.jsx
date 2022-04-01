@@ -1,5 +1,4 @@
 import { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { FormControlLabel } from '@mui/material';
@@ -95,14 +94,10 @@ export default function CodeOfConduct() {
         name="radio-buttons-group"
       >
           <FormControlLabel
-          htmlFor="COC"
           type="radio"
           onChange={() => setAccepted(true)}
-          id="COC"
-          value="I understand and I accept
-        this Privacy Policy"
-          label="I understand and I accept
-        this Privacy Policy"
+          value="I understand and I accept this Privacy Policy"
+          label="I understand and I accept this Privacy Policy"
           control={<Radio />}
           />
       </RadioGroup>
