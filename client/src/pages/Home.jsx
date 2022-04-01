@@ -7,19 +7,16 @@ import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
 import { VolunteerContext } from '../lib/VolunteerProvider'
 
 const useStyles = makeStyles({
-  ContentArea: {
-    margin: '0 auto',
-  },
-  SlackIcon: {
-    width: 36,
-    height: 36,
-    marginRight: 0,
-  },
   SlackButton: {
     padding: 0,
     paddingRight: '8px',
     marginRight: '20px',
     '& .MuiButton-startIcon': {
+      marginRight: 0,
+    },
+    '& svg': {
+      width: 36,
+      height: 36,
       marginRight: 0,
     }
   },
@@ -86,8 +83,8 @@ export default function Home() {
         </DialogActions>
     </Dialog>
 
-    <Grid container>
-      <Grid className={classes.ContentArea} item sm={6} xs={12}>
+    <Grid container justifyContent="center">
+      <Grid item sm={6} xs={12}>
         <Typography variant="subtitle">Code for Chicago</Typography>
 
         <Typography gutterBottom variant="h4" component="h1">Volunteer Registration</Typography>
@@ -105,7 +102,7 @@ export default function Home() {
         <Button 
           className={classes.SlackButton}
           size="small" 
-          startIcon={<SvgIcon classes={{ root: classes.SlackIcon }}><SlackIcon /></SvgIcon>} 
+          startIcon={<SvgIcon><SlackIcon /></SvgIcon>} 
           variant="contained" 
           onClick={openModal}
         >
