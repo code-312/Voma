@@ -21,7 +21,7 @@ export default function CodeOfConduct() {
   const completeRegistration = () => {
     if (accepted) {
       Volunteer.registerVolunteer();
-      Volunteer.setRegistrationStep(5);
+      Volunteer.setRegistrationStep(4);
     } else {
       setUnfinished(true);
     }

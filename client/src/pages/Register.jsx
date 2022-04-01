@@ -16,12 +16,10 @@ export default function Register() {
   return (<>
     {!Volunteer.isAuthenticated && <Redirect to="/" />}
     <form>
-      {Volunteer?.registrationStep === 1 && <HasOnboardedForm />}
-      {Volunteer?.registrationStep === 0 && <NeedsOnboardingMessage />}
-      {Volunteer?.registrationStep === 2 && <BasicInfoForm />}
-      {Volunteer?.registrationStep === 3 && <SkillsForm />}
-      {Volunteer?.registrationStep === 4 && <CodeOfConduct />}
-      {Volunteer?.registrationStep === 5 && <ThankYouMessage />}
+      {Volunteer?.registrationStep === 1 && <BasicInfoForm />}
+      {Volunteer?.registrationStep === 2 && <SkillsForm />}
+      {Volunteer?.registrationStep === 3 && <CodeOfConduct />}
+      {Volunteer?.registrationStep === 4 && <ThankYouMessage />}
     </form>
   </>);
 }

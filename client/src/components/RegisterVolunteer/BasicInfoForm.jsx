@@ -37,7 +37,7 @@ export default function BasicInfoForm() {
 
   const updateVolunteer = () => {
     Volunteer.updateInfo(basicInfo);
-    Volunteer.setRegistrationStep(3);
+    Volunteer.setRegistrationStep(2);
   };
 
   return (<>
