@@ -7,7 +7,8 @@ import Dashboard from '../pages/Dashboard';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 
-import { VolunteerProvider, LockedRoute } from '../lib/VolunteerProvider'
+import { VolunteerProvider } from '../lib/VolunteerProvider';
+import { AuthProvider, LockedRoute } from '../lib/AuthProvider';
 
 function App() {
   return (
@@ -20,25 +21,32 @@ function App() {
           rel="stylesheet"
         />
       </Helmet>
-        <Switch>
-          <Route path="/login">
-            <Login />
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+
+        {/* Registration Form */}
+        <VolunteerProvider>
+          <Route exact path="/">
+            <Home />
           </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+        </VolunteerProvider>
+
+        {/* Logged In */}
+        <AuthProvider>
           <LockedRoute path="/dashboard">
             <Dashboard />
           </LockedRoute>
-          <VolunteerProvider>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
-          </VolunteerProvider>
-          <Route path="*">
-            <PageNotFound />
-          </Route>
-        </Switch>
+        </AuthProvider>
+
+        <Route path="*">
+          <PageNotFound />
+        </Route>
+      </Switch>
     </HelmetProvider>
   );
 }
