@@ -19,15 +19,13 @@ const useStyles = makeStyles({
 
 export default function BasicInfoForm() {
   const Volunteer = useContext(VolunteerContext);
-
-  const classes = useStyles();
-
   const [basicInfo, setBasicInfo] = useState({
     email: Volunteer.email || '',
     name: Volunteer.name || '',
     pronouns: '',
   });
 
+  const classes = useStyles();
   const completed = () => {
     const fields = Object.keys(basicInfo);
     for (let i=0; i<fields.length; i+=1) {
@@ -106,6 +104,7 @@ export default function BasicInfoForm() {
           variant="contained"
           onClick={completed() ? () => updateVolunteer() : null}
           type="button"
+          disabled={!basicInfo.pronouns || !basicInfo.name || !basicInfo.email}
         >
           Next
         </Button>
