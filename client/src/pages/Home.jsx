@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Grid, Button, Typography, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';

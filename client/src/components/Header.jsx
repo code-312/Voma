@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import LoginToggleButton from './LoginToggleButton';
 
