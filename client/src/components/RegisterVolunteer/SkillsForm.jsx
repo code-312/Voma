@@ -58,7 +58,7 @@ export default function Skills() {
     </Grid>
     <Grid container justifyContent="flex-end">
       <Grid item sm={9} xs={11}>
-        <Box mb="44px">
+        <Box mb="32px">
           <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
           <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
         </Box>
