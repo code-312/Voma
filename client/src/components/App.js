@@ -8,9 +8,10 @@ import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 
 import { VolunteerProvider } from '../lib/VolunteerProvider';
-import { AuthProvider, LockedRoute } from '../lib/AuthProvider';
+import { LockedRoute } from '../lib/AuthProvider';
 
 function App() {
+
   return (
     <HelmetProvider>
       <Helmet>
@@ -26,6 +27,11 @@ function App() {
           <Login />
         </Route>
 
+        {/* Logged In */}
+        <LockedRoute path="/dashboard">
+          <Dashboard />
+        </LockedRoute>
+
         {/* Registration Form */}
         <VolunteerProvider>
           <Route exact path="/">
@@ -35,13 +41,6 @@ function App() {
             <Register />
           </Route>
         </VolunteerProvider>
-
-        {/* Logged In */}
-        <AuthProvider>
-          <LockedRoute path="/dashboard">
-            <Dashboard />
-          </LockedRoute>
-        </AuthProvider>
 
         <Route path="*">
           <PageNotFound />

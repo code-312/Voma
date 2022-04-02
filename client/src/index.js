@@ -9,6 +9,8 @@ import reportWebVitals from './reportWebVitals';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+import { AuthProvider } from './lib/AuthProvider';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -21,11 +23,13 @@ ReactDOM.render(
   <React.StrictMode>
     <GlobalStyles />
     <ThemeProvider theme={theme}>
-      <Router>
-        <Header />
-        <App />
-        <Footer />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Header />
+          <App />
+          <Footer />
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
