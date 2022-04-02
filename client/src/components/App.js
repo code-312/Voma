@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
+import AssignmentBoard from '../pages/AssignmentBoard';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 
@@ -30,6 +31,9 @@ function App() {
         {/* Logged In */}
         <LockedRoute path="/dashboard">
           <Dashboard />
+        </LockedRoute>
+        <LockedRoute path="/board">
+          <AssignmentBoard />
         </LockedRoute>
 
         {/* Registration Form */}

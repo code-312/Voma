@@ -16,8 +16,18 @@ function AuthProvider({ children }) {
         return auth.authenticated;
     }
 
+    function login() {}
+    
+    function logout() {
+        setAuth({
+            authenticated: false,
+        });
+    }
+
     const funcs = {
         isAuthenticated,
+        login,
+        logout,
     };
 
     return (
