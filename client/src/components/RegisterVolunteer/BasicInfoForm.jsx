@@ -1,15 +1,26 @@
 import React, { useState, useContext } from 'react';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import ErrorIcon from '@mui/icons-material/Error';
-import Button from '@mui/material/Button';
+import { Box, Grid, TextField, Typography, Button } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
 
-import MUIFieldsetStyles from '../MUIStyledFieldSet';
 import { VolunteerContext } from '../../lib/VolunteerProvider';
+
+const useStyles = makeStyles({
+  ContentArea: {
+    '& .MuiOutlinedInput-input': {
+      width: '328px',
+    },
+    '& .MuiOutlinedInput-root': {
+      marginBottom: '32px',
+    }
+  }
+
+});
 
 export default function BasicInfoForm() {
   const Volunteer = useContext(VolunteerContext);
-  const [unfinished, setUnfinished] = useState(false);
+
+  const classes = useStyles();
 
   const [basicInfo, setBasicInfo] = useState({
     email: Volunteer.email || '',
@@ -41,53 +52,65 @@ export default function BasicInfoForm() {
   };
 
   return (<>
-    <MUIFieldsetStyles>
-      <Typography variant="h4" component="h1">Basic Info</Typography>
-      <Typography>Input basic info about yourself</Typography>
+    <Grid container justifyContent="flex-end" className={classes.ContentArea}>
+      <Grid item sm={9} xs={11}>
+        <Typography variant="h4" component="h1" mb="16px">Basic Info</Typography>
+        <Typography mb="16px">Input basic info about yourself</Typography>
+        <Box mb="32px">
+          <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
+          <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
+        </Box>
+      </Grid>
+      <Grid item sm={9} xs={11}>
+        <TextField
+          id="emailAddress"
+          type="text"
+          name="email"
+          label="Email Address"
+          placeholder="email@domain.com"
+          InputLabelProps={{ shrink: true, color: 'secondary' }}
+          onChange={updateInfo}
+          defaultValue={Volunteer?.email}
+        />
+      </Grid>
 
-      {unfinished && 
-        <Typography variant="div" color=" #B00020">
-          <ErrorIcon variant="filled" />
-          All fields are required{' '}
-        </Typography>
-      }
-      <TextField
-        id="emailAddress"
-        type="text"
-        name="email"
-        label="Email Address"
-        InputLabelProps={{ shrink: true, color: 'secondary' }}
-        onChange={updateInfo}
-        defaultValue={Volunteer?.email}
-      />
-      <TextField
-        id="fullName"
-        type="text"
-        name="name"
-        label="Full Name"
-        InputLabelProps={{ shrink: true, color: 'secondary' }}
-        onChange={updateInfo}
-        defaultValue={Volunteer?.name}
-        fullWidth
-      />
-      <TextField
-        id="pronouns"
-        type="text"
-        name="pronouns"
-        onChange={updateInfo}
-        label="Pronouns"
-        InputLabelProps={{ shrink: true, color: 'secondary' }}
-        InputProps={{ color: 'secondary' }}
-      />
-      <Button
-        size="small"
-        variant="contained"
-        style={{backgroundColor: '#6200EE' }}
-        onClick={completed() ? () => updateVolunteer() : () => setUnfinished(true)}
-        type="button"
-      >
-        Next
-      </Button>
-    </MUIFieldsetStyles>
+      <Grid item sm={9} xs={11}>
+        <TextField
+          id="fullName"
+          type="text"
+          name="name"
+          label="Full Name"
+          placeholder="How would you want to be addressed?"
+          InputLabelProps={{ shrink: true, color: 'secondary' }}
+          onChange={updateInfo}
+          defaultValue={Volunteer?.name}
+        />
+      </Grid>
+
+      <Grid item sm={9} xs={11}>
+        <TextField
+          id="pronouns"
+          type="text"
+          name="pronouns"
+          onChange={updateInfo}
+          label="Pronouns"
+          placeholder="How would you want to be addressed?"
+          InputLabelProps={{ shrink: true, color: 'secondary' }}
+          InputProps={{ color: 'secondary' }}
+        />
+      </Grid>
+
+      <Grid item sm={9} xs={11}>
+        <Button
+          size="medium"
+          variant="contained"
+          onClick={completed() ? () => updateVolunteer() : null}
+          type="button"
+        >
+          Next
+        </Button>
+      </Grid>
+
+    </Grid>
   </>);
 }
