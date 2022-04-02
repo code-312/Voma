@@ -37,6 +37,14 @@ const getVolunteer = async (req, res) => {
     }
 };
 
+
+/**
+ * Route to add a volunteer.
+ * POST /api/volunteer
+ * 
+ * @param {*} req - Client request object.
+ * @param {*} res - Request response object.
+ */
 const addVolunteer = async (req, res) => {
     const {
         name,
@@ -174,6 +182,7 @@ const removeVolunteer = async (req, res) => {
 
 /**
  * Route checking if a volunteer has signed up for the Code for Chicago Slack channel.
+ * POST /api/volunteer/slack/exists
  * 
  * @param {*} req - Client request object.
  * @param {*} res - Request response object.
