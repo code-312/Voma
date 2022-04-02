@@ -30,7 +30,7 @@ function VolunteerProvider({ children }) {
 
   const updateInfo = (info) => {
     const p = profile;
-    Object.keys(info).forEach((key, index) => {
+    Object.keys(info).forEach((key) => {
       p[key] = info[key];
     });
     setProfile(p);
