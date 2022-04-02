@@ -43,61 +43,61 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        skill,
-        // employer,
-        // student,
-        // jobTitle,
-        // onboardingAttendedAt,
-        // oneOnOneAttendedAt,
+        skill
     } = req.body;
 
-    let error;
-    const vol = await Volunteer.create({
-        name,
-        email,
-        slackUserId,
-        pronouns,
-        skill,
-        // employer,
-        // student,
-        // jobTitle,
-        // onboardingAttendedAt,
-        // oneOnOneAttendedAt,
-    }, {
-      // include: [models.skill]
+    const [volunteerRec] = await Volunteer.findOrCreate({
+        where: { email: email },
+        defaults: {
+            name,
+            email,
+            slackUserId,
+            pronouns,
+        }
     })
-    .catch(err => error = err);
-
-    if (error) {
-        return res.status(400).json({ error });
-    }
-    // Add skill after creating user.
-    if (skill) {
-      // Check to see if skill exists by searching for name
-      try {
-
-        const existingSkill = await Skill.findOne({ where: { name: skill } });
-        let skillID;
-        if (existingSkill) {
-          skillID = existingSkill.id;
-        } else {
-          // If it doesn't, create a new skill
-        const newSkill = await Skill.create({
-          name: skill
+    .catch(err => {
+        console.log(err);
+        return res.json({
+            success: false,
+            message: 'Unable to add volunteer to database.',
+            error: err
         });
-        skillID = newSkill.id;
-      }
-      // Add skill to volunteer
-      const association = await VolunteerSkills.create({
-        volunteerId: vol.id,
-        skillId: skillID,
-      });
-    } catch (err) {
-      res.json({ result: "There has been an error", error: err });
-    }
-  }
+    });
 
-    res.json({ result: `Volunteer ${vol.id} has been added to the database.`});
+    if (skill) { // todo: Feels like this should just be a text field on the volunteer.
+        const [skillRec] = await Skill.findOrCreate({
+            where: { name: skill },
+            defaults: {
+                name: skill,
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return res.json({
+                success: false,
+                message: 'Unable to add skill to database.',
+                error: err
+            });
+        });
+
+        await VolunteerSkills.findOrCreate({
+            where: { skillId: skillRec.id },
+            defaults: {
+                volunteerId: volunteerRec.id,
+                skillId: skillRec.id,
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return res.json({
+                success: false,
+                message: 'Unable to add associate skill to volunteer in database.',
+                error: err
+            });
+        });
+    }
+
+    res.json({ success: true });
 };
 
 const editVolunteer = async (req, res) => {
@@ -182,7 +182,7 @@ const validateVolunteerSlack = async (req, res) => {
     const email = req.body?.email
 
     if (!email) {
-        res.json({
+        return res.json({
             exists: false,
             error: 'Email required.',
         });
@@ -205,16 +205,16 @@ const validateVolunteerSlack = async (req, res) => {
 //                img:  profile.profile.image_192 || '', // Slack Profile Image.
                 exists: true,
             }
-            res.json(volunteer);
+            return res.json(volunteer);
 
         } else if (result.data.error) {
-            res.json({
+            return res.json({
                 exists: false,
                 error: result.data.error,
             });
 
         } else {
-            res.json({
+            return res.json({
                 exists: false,
                 error: 'Slack API response invalid.',
                 response: JSON.stringify(result), // For debugging on the front end.
@@ -222,7 +222,7 @@ const validateVolunteerSlack = async (req, res) => {
         }
 
     } catch (err) {
-        res.json({
+        return res.json({
             exists: false,
             error: err
         });

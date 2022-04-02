@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
 
 import { VolunteerContext } from '../lib/VolunteerProvider'
@@ -20,13 +21,6 @@ const useStyles = makeStyles({
       marginRight: 0,
     }
   },
-  Alert: {
-    '& .MuiPaper-root': {
-      justifyContent: 'center',
-      marginTop: '-32px',
-      marginBottom: '32px',
-    }
-  }
 });
 
 export default function Home() {
@@ -49,23 +43,10 @@ export default function Home() {
     window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
   }
 
-  const buttonText = loading ? 'Searching...' : 'Submit';
-
-  useEffect(() => {
-    if (Volunteer.notRegistered) {
-      setLoading(false);
-    }
-  }, [Volunteer.notRegistered]);
-
   return (<>
     {Volunteer.isAuthenticated && <Redirect to="/register" />}
     {Volunteer.notRegistered &&          
-      <Box className={classes.Alert}>
-        <Alert severity="warning" justifyContent="center">
-            Looks like you haven&apos;t joined our workspace. 
-            Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.
-        </Alert>
-      </Box>
+      <ApiError message="Looks like you haven&apos;t joined our workspace. Please <a href='https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g'>join our workspace</a> before registering." />
     }
     <Dialog open={modalOpen}>
       <DialogContent>
@@ -88,7 +69,7 @@ export default function Home() {
           <Button onClick={() => {
             Volunteer.slackExists(email);
             closeModal();
-          }}>{buttonText}</Button>
+          }}>Submit</Button>
         </DialogActions>
     </Dialog>
 
