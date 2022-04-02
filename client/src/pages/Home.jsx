@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
   const classes = useStyles();
