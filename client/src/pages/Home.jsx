@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
+import { Box, TextField, Dialog, DialogActions, DialogContent, DialogContentText, Alert, Grid, Button, Typography, SvgIcon } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
 
@@ -20,6 +20,13 @@ const useStyles = makeStyles({
       marginRight: 0,
     }
   },
+  Alert: {
+    '& .MuiPaper-root': {
+      justifyContent: 'center',
+      marginTop: '-32px',
+      marginBottom: '32px',
+    }
+  }
 });
 
 export default function Home() {
@@ -52,11 +59,13 @@ export default function Home() {
 
   return (<>
     {Volunteer.isAuthenticated && <Redirect to="/register" />}
-    {Volunteer.notRegistered &&
-      <Alert severity="warning">
-        Looks like you haven&apos;t joined our workspace. 
-        Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.
-      </Alert>
+    {Volunteer.notRegistered &&          
+      <Box className={classes.Alert}>
+        <Alert severity="warning" justifyContent="center">
+            Looks like you haven&apos;t joined our workspace. 
+            Please <a href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g">join our workspace</a> before registering.
+        </Alert>
+      </Box>
     }
     <Dialog open={modalOpen}>
       <DialogContent>
