@@ -28,9 +28,14 @@ const useStyles = makeStyles({
         padding: '12px',
         marginBottom: '16px',
         boxShadow: '0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);',
+        '&.active': {
+            backgroundColor: 'rgba(98, 0, 238, 0.08)',
+            border: '1px solid #6200ee',
+        }
     },
     board: {
         overflowX: 'scroll',
+        paddingRight: '24px',
         marginTop: '-32px',
         width: 'calc(100vw - 272px)',
         maxWidth: 'calc(100vw - 272px)',
@@ -84,7 +89,7 @@ export default function AssignmentBoard() {
             <Grid item md={2} className={classes.sidebar}>
                 <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
 
-                <Box class={classes.volunteerName}>
+                <Box class={`${classes.volunteerName} active`}>
                     <Box>Volunteer Name</Box>
                 </Box>
                 <Box class={classes.volunteerName}>
