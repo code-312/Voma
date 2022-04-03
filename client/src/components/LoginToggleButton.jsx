@@ -17,7 +17,7 @@ export default function LoginToggleButton() {
         {UserAuth.isAuthenticated() && 
             <Button color="inherit"
                 onClick={() => UserAuth.logout()}>
-                Sign Out
+                Log Out
             </Button>
         }
     </>)
