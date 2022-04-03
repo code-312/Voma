@@ -13,6 +13,7 @@ const useStyles = makeStyles({
         minHeight: 'calc(100vh - 64px)',
         maxHeight: 'calc(100vh - 64px)',
         marginTop: '-32px',
+        backgroundColor: 'rgba(98, 0, 238, 0.08)',
         '& .MuiBox-root': {
             display: 'inline-block',
         },
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
             marginLeft: '9px',
         },
         '& > .MuiBox-root ~ .MuiBox-root': {
-
+            marginLeft: '16px',
         }
     },
     projectCard: {
@@ -52,6 +53,10 @@ const useStyles = makeStyles({
         '& hr': {
             marginBottom: '16px',
             border: '1px solid #6200ee',
+        },
+        '&.active': {
+            border: '1px solid #6200ee',
+            backgroundColor: 'rgba(98, 0, 238, 0.08)',
         }
     },
     projectCardButton: {
@@ -137,7 +142,7 @@ export default function AssignmentBoard() {
             
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
 
-                <Box className={classes.projectCard} mt="8px" mb="16px">
+                <Box className={`${classes.projectCard} active`} mt="8px" mb="16px">
                     <Typography variant="h6" mb="16px">Project Name</Typography>
 
                     <Box class={classes.projectCardButton}>
