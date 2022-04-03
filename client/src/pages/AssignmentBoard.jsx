@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Grid, Box, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { deepPurple } from '@mui/material/colors';
 
 import { AuthContext } from '../lib/AuthProvider';
 
@@ -26,7 +27,6 @@ const useStyles = makeStyles({
         padding: '12px',
         marginBottom: '16px',
         boxShadow: '0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);',
-        
     },
     board: {
         overflowX: 'scroll',
@@ -49,7 +49,23 @@ const useStyles = makeStyles({
         verticalAlign: 'top',
         backgroundColor: 'rgba(255,255,255,0.38)',
         boxShadow: '0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);',
-
+        '& hr': {
+            marginBottom: '16px',
+            border: '1px solid #6200ee',
+        }
+    },
+    projectCardButton: {
+        borderRadius: '4px',
+        cursor: 'pointer',
+        padding: '12px',
+        marginBottom: '16px',
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: 'Roboto',
+        fontSize: '14px',
+        letterSpacing: '1.25px',
+        fontWeight: '500',
+        backgroundColor: deepPurple.A700,
     }
 })
 
@@ -123,6 +139,12 @@ export default function AssignmentBoard() {
 
                 <Box className={classes.projectCard} mt="8px" mb="16px">
                     <Typography variant="h6" mb="16px">Project Name</Typography>
+
+                    <Box class={classes.projectCardButton}>
+                        <Box>INSERT VOLUNTEER</Box>
+                    </Box>
+
+                    <hr />
 
                     <Box class={classes.volunteerName}>
                         <Box>Volunteer Name</Box>
