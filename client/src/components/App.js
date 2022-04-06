@@ -20,22 +20,25 @@ function App() {
           rel="stylesheet"
         />
       </Helmet>
-      <VolunteerProvider>
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/register">
-            <Register />
+          <Route path="/login">
+            <Login />
           </Route>
           <LockedRoute path="/dashboard">
             <Dashboard />
           </LockedRoute>
+          <VolunteerProvider>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+          </VolunteerProvider>
           <Route path="*">
             <PageNotFound />
           </Route>
         </Switch>
-      </VolunteerProvider>
     </HelmetProvider>
   );
 }

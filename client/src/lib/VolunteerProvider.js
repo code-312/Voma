@@ -27,6 +27,7 @@ function VolunteerProvider({ children }) {
   
   const [profile, setProfile] = useState(defaultProfile);
   const [registrationStep, setRegistrationStep] = useState(defaultRegistrationStep);
+  const [registrationErrorMessage, setRegistrationErrorMessage] = useState('');
 
   const updateInfo = (info) => {
     const p = profile;
@@ -56,24 +57,27 @@ function VolunteerProvider({ children }) {
       } else return data.json();
     })
     .then((response) => {
-      const profileUpdate = profile;
+      let profileUpdate = {};
 
       if (response.exists) {  // User found.
-        Object.assign(profileUpdate, {
+        profileUpdate = {
           isAuthenticated: true,
           email,
           notRegistered: false, 
           suid: response.suid,
           name: response.name,
-        });
+        };
         setProfile(profileUpdate);
         setRegistrationStep(1);
 
       } else {
-        Object.assign(profileUpdate, {
+        profileUpdate = {
           isAuthenticated: false,
-          notRegistered: true, 
-        });
+          notRegistered: true,
+          email: '',
+          skill: '',
+          pronouns: '',
+        };
         setProfile(profileUpdate); 
         setRegistrationStep(1)
       }
@@ -85,21 +89,20 @@ function VolunteerProvider({ children }) {
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
 
-      const profileUpdate = profile;
-      Object.assign(profileUpdate, {
+      const profileUpdate = {
         isAuthenticated: true,
         email,
         notRegistered: false,
         suid: 'FAKE_API_USER',
         name: 'Fake User',
-      })
+      };
       setProfile(profileUpdate);
       setRegistrationStep(1);
     });
   };
 
   const registerVolunteer = () => {
-    fetch(`http://localhost:5000/api/volunteer/create`, {
+    fetch(`http://localhost:5000/api/volunteer`, {
       method: 'POST',
       body: JSON.stringify({
         name: profile.name,
@@ -113,9 +116,20 @@ function VolunteerProvider({ children }) {
       }
     })
     .then((data) => {
-      if (data.status === 404) {
+      if (data.status === 404) {        
+        setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
+        window.scrollY = 0;
         throw new Error('404: Route not found.');
       } else return data.json();
+    })
+    .then(response => {
+      if (response.success) {
+        setRegistrationStep(4);
+      } else {
+        console.log(response);
+        setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
+        window.scrollY = 0;
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -139,7 +153,7 @@ function VolunteerProvider({ children }) {
   };
 
   return (
-    <VolunteerContext.Provider value={{ ...profile, registrationStep, ...funcs}}>
+    <VolunteerContext.Provider value={{ ...profile, registrationStep, registrationErrorMessage, ...funcs}}>
         {children}
     </VolunteerContext.Provider>
   );
