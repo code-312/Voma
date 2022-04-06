@@ -108,6 +108,19 @@ const GlobalStyle = createGlobalStyle`
     --blue: #414CB3;
   }
 
+  ::-webkit-scrollbar {
+    background: rgba(98, 0, 238, 0.08) !important;
+    width: 14px;
+    height: 14px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #bb86fc !important;
+    border: 3px solid transparent !important;
+    background-clip: content-box !important;
+    border-radius: 20px;
+  }
+
   input[type=text] {
     display: block;
   }

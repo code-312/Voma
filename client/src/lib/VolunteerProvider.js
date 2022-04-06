@@ -1,5 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
-import { Route, Redirect } from 'react-router-dom';
+import React, { useState, createContext, useEffect } from "react";
 
 const VolunteerContext = createContext(null);
 
@@ -31,7 +30,7 @@ function VolunteerProvider({ children }) {
 
   const updateInfo = (info) => {
     const p = profile;
-    Object.keys(info).forEach((key, index) => {
+    Object.keys(info).forEach((key) => {
       p[key] = info[key];
     });
     setProfile(p);
@@ -159,18 +158,5 @@ function VolunteerProvider({ children }) {
   );
 }
 
-function LockedRoute({ children, ...rest }) {
-  const authContext = useContext(VolunteerContext);
-
-  return (
-    <Route {...rest}
-      render={({ location }) => authContext.profile.isAuthenticated ? ( children ) : (
-          <Redirect to={{ pathname: "/", state: { from: location } }} />
-        )
-      }
-    />
-  );
-}
-
-export { VolunteerProvider, VolunteerContext, LockedRoute };
+export { VolunteerProvider, VolunteerContext };
 
