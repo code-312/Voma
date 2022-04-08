@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "DEBUG=express:* NODE_ENV=development.local node server.js", 
+    "debug": "DEBUG=express:* NODE_ENV=development.local node server.js",
     "start": "NODE_ENV=development.local node server.js",
     "startLocal": "NODE_ENV=local node server.js",
-    "sync": "NODE_ENV=local node db/sync.js"
+    "sync": "NODE_ENV=development.local node db/sync.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.9.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
   }
 }

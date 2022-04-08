@@ -1,4 +1,4 @@
-require('dotenv').config({ 
+require('dotenv').config({
   path: `./.env.${process.env.NODE_ENV}`
 });
 const express = require('express');
@@ -33,7 +33,6 @@ app.get('/api/volunteer/:id', volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
 app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
-
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);
