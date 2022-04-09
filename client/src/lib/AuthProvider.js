@@ -16,7 +16,39 @@ function AuthProvider({ children }) {
         return auth.authenticated;
     }
 
-    function login() {}
+    const login = (email, password) => {
+        fetch(`http://localhost:5000/api/login`, {
+          method: 'POST',
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then((data) => {
+          if (data.status === 404) {        
+            throw new Error('404');
+
+          } else return data.json();
+        })
+        .then(response => {
+          if (response.success) {
+            setAuth({
+              authenticated: true,
+            });
+            window.location.href = '/board';
+              
+          } else {
+            console.log(response);
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     
     function logout() {
         setAuth({

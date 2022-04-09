@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes, bcrypt) => {
       beforeCreate: async (admin) => {
         if (admin.password) {
           const salt = await bcrypt.genSaltSync(saltRounds);
-          admin.password = bcrypt.hashSync(admin.password, salt);
+          admin.password = await bcrypt.hashSync(admin.password, salt);
         }
       },
       beforeUpdate: async (admin) => {
@@ -34,17 +34,8 @@ module.exports = (sequelize, DataTypes, bcrypt) => {
           admin.password = bcrypt.hashSync(admin.password, salt);
         }
       }
-    },
-    instanceMethods: {
-      validPassword: (password) => {
-        return bcrypt.compare(password, this.password)
-      }
     }
   });
-
-  Admin.prototype.validPassword = (password, hash) => {
-    return bcrypt.compare(password, hash);
-  }
 
   return Admin;
 }

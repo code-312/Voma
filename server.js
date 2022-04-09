@@ -3,6 +3,7 @@ require('dotenv').config({
 });
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 const axios = require('axios');
 const path = require('path');
 const volunteerController = require('./db/controllers/volunteers.controller');
@@ -16,6 +17,17 @@ app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
 
 app.use(express.urlencoded());
 app.use(express.json());
+
+// todo: enable secure cookie for production.
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'insecure',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: (process.env.NODE_ENV == 'production'),
+  } 
+}));
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
@@ -54,6 +66,7 @@ app.get('/api/admin/:id', adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);
+app.post('/api/authenticated', adminController.loginState)
 
 // 404 error
 app.use(function(req, res, next) {
