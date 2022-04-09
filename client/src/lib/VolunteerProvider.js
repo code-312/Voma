@@ -117,6 +117,7 @@ function VolunteerProvider({ children }) {
       if (data.status === 404) {        
         setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
         window.scrollY = 0;
+        
         throw new Error('404: Route not found.');
       } else return data.json();
     })
@@ -131,6 +132,8 @@ function VolunteerProvider({ children }) {
     })
     .catch((err) => {
       console.log(err);
+      setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
+      window.scrollY = 0;
     });
   };
 
