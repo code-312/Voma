@@ -51,7 +51,7 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        skill
+        skills
     } = req.body;
 
     const [volunteerRec] = await Volunteer.findOrCreate({
@@ -72,11 +72,11 @@ const addVolunteer = async (req, res) => {
         });
     });
 
-    if (skill) { // todo: Feels like this should just be a text field on the volunteer.
+    if (skills) { 
         const [skillRec] = await Skill.findOrCreate({
-            where: { name: skill },
+            where: { name: skills },
             defaults: {
-                name: skill,
+                name: skills,
             }
         })
         .catch(err => {

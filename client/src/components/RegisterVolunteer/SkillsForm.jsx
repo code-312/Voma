@@ -28,7 +28,7 @@ export default function Skills() {
 
   const updateVolunteer = () => {
     if (skill) {
-      Volunteer.updateInfo({ skill });
+      Volunteer.updateInfo({ skills: skill });
       Volunteer.setRegistrationStep(3);
     } else {
       setUnfinished(true);
