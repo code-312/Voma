@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
         oneOnOneAttendedAt: {
             type: DataTypes.DATE
         },
+    }, {
+        underscored: true,
     });
     return Volunteer;
 };
