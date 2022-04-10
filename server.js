@@ -27,6 +27,7 @@ app.use(session({
     secure: (process.env.NODE_ENV == 'production'),
   } 
 }));
+app.set('trust proxy', 1); // Development. 
 
 const verifyAuth = (req, res, next) => {
   if (req.session?.isAuthenticated) {

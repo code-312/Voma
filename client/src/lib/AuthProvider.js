@@ -24,7 +24,7 @@ function AuthProvider({ children }) {
   }
 
   const login = (email, password) => {
-    fetch(`http://localhost:5000/api/login`, {
+    fetch(`/api/login`, {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -63,7 +63,7 @@ function AuthProvider({ children }) {
 
   function logout() {
     setAuthentication({ authenticated: false });
-    fetch(`http://localhost:5000/api/logout`);
+    fetch(`/api/logout`);
   }
 
   const funcs = {
