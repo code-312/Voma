@@ -12,7 +12,48 @@ if [ ! -f db/.env.development.local ] ; then cp .env.development.local db/.env.d
 #cd db && ../node_modules/sequelize-cli/lib/sequelize db:migrate
 
 npm run sync;
-echo "insert into admins (name, email, password, created_at, updated_at) values ('Voma Testing', 'voma.code.for.chicago@gmail.com', '\$2b\$10\$86Ihm1X.d3p6Cz6HncWpM./MrqGIB8yXj0RHj4GQPwhZiTqunVhSi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" > add_admin.psql;
-lando ssh -s postgresService -c "psql -U postgres -d voma -f ./add_admin.psql";
-rm add_admin.psql;
 
+echo "Adding seed data to the database, one moment..."
+
+# Seed dummy database data.
+projects=("Between Friends" "C2ST" "Cannabis Equity Coalition" "CFC Website")
+volunteers=("Iris Gregory" "Willow Woodward" "Bodie Lopez" "Amos Aquirre" "Idris Bradford" "Murphy Parrish" "Liv Shannon" "Jett Dunn")
+unassigned_volunteers=("Gloria Lugo" "Rivka Terry" "Hope Burke" "Bjorn Madden" "Alvin Solis" "Wes Spears" "Grayson Ibarra")
+skills=("Content Strategy" "Data Analytics" "Front-End or Back-End Development" "Project Management" "Product Management" "UX/UI Design/Research / Visual Design")
+
+# Add a test Administrator.
+echo "insert into admins (name, email, password, created_at, updated_at) values ('Voma Testing', 'voma.code.for.chicago@gmail.com', '\$2b\$10\$86Ihm1X.d3p6Cz6HncWpM./MrqGIB8yXj0RHj4GQPwhZiTqunVhSi', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" > seed.psql;
+
+# Add test Projects.
+for i in "${projects[@]}"
+do
+    echo "insert into projects (name, description, created_at, updated_at) values ('$i', '$i', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" >> seed.psql;
+done
+
+# Add test Skills 
+for i in "${skills[@]}"
+do
+    echo "insert into skills (name, description, created_at, updated_at) values ('$i', '$i', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" >> seed.psql;
+done
+
+# Add test Volunteers assigned to random projects.
+for i in "${volunteers[@]}"
+do
+    echo "insert into volunteers (name, email, slack_user_id, pronouns, project_id, created_at, updated_at) values ('$i', 'fake.volunteer.$(((RANDOM%99999)+1))@test.null', 'U03AU1WDP5Z', 'lorum/ipsum', '$(((RANDOM%4)+1))', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" >> seed.psql; 
+done
+
+# Add test Volunteers assigned to no projects.
+for i in "${unassigned_volunteers[@]}"
+do
+    echo "insert into volunteers (name, email, slack_user_id, pronouns, created_at, updated_at) values ('$i', 'fake.volunteer.$(((RANDOM%99999)+1))@test.null', 'U03AU1WDP5Z', 'lorum/ipsum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" >> seed.psql; 
+done
+
+for ((n=1; n<=15; n++));
+do
+    echo "insert into \"VolunteerSkills\" (volunteer_id, skill_id, created_at, updated_at) values ('$n', '$(((RANDOM%6)+1))', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);" >> seed.psql;
+done
+
+lando ssh -s postgresService -c "psql -U postgres -d voma -f ./seed.psql";
+rm seed.psql;
+
+echo "Complete!"
