@@ -3,6 +3,7 @@ import { Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornmen
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { makeStyles } from '@mui/styles';
+import ApiError from './ApiError';
 
 import { AuthContext } from '../lib/AuthProvider';
 
@@ -38,7 +39,10 @@ export default function LoginForm() {
         event.preventDefault();
     };
 
-    return (
+    return (<>
+        {AuthUser.loginFormError && 
+            <ApiError message="Unable to verify credentials, please try again." />
+        }
         <Grid container justify="center" spacing={1}>
             <Grid item sm={3} md={4} xs={0} />
             <Grid item sm={6} md={4} xs={12}>
@@ -89,5 +93,5 @@ export default function LoginForm() {
                 </Container>
             </Grid>
         </Grid>
-    )
+    </>)
 }

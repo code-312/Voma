@@ -4,78 +4,88 @@ import { Route, Redirect } from 'react-router-dom';
 const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
-    const [auth, setAuth] = useState({ 
-        authenticated: true, // true for testing/development.
-    });
+  const storedAuth = localStorage.getItem('auth');
+  let defaultAuth = { authenticated: false };
+  if (storedAuth) {
+    defaultAuth = JSON.parse(storedAuth);
+  }
 
-    // const [profile, setProfile] = useState({ 
-    //     name: '',
-    // });
+  // Actual authentiation is stored in the cookie. Actions are validated serverside. 
+  const [auth, setAuth] = useState(defaultAuth);
+  const [loginFormError, setLoginFormError] = useState(false);
 
-    function isAuthenticated() {
-        return auth.authenticated;
-    }
+  function isAuthenticated() {
+    return auth.authenticated;
+  }
+  
+  function setAuthentication(authState) {
+    localStorage.setItem('auth', JSON.stringify(authState));
+    setAuth(authState);
+  }
 
-    const login = (email, password) => {
-        fetch(`http://localhost:5000/api/login`, {
-          method: 'POST',
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then((data) => {
-          if (data.status === 404) {        
-            throw new Error('404');
+  const login = (email, password) => {
+    fetch(`http://localhost:5000/api/login`, {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((data) => {
+        if (data.status === 404) {
+          setAuthentication({ authenticated: false });
+          setLoginFormError(true);
 
-          } else return data.json();
-        })
-        .then(response => {
-          if (response.success) {
-            setAuth({
-              authenticated: true,
-            });
-            window.location.href = '/board';
-              
-          } else {
-            console.log(response);
+          throw new Error('Unable to find server.');
 
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    
-    function logout() {
-        setAuth({
-            authenticated: false,
-        });
-    }
+        } else return data.json();
+      })
+      .then(response => {
+        if (response.success) {
+          setAuthentication({ authenticated: true });
+          window.location.href = '/board';
 
-    const funcs = {
-        isAuthenticated,
-        login,
-        logout,
-    };
+        } else {
+          console.log(response);
+          setAuthentication({ authenticated: false });
+          setLoginFormError(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setAuthentication({ authenticated: false });
+        setLoginFormError(true); 
+      });
+  };
 
-    return (
-        <AuthContext.Provider value={{ ...funcs, auth }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  function logout() {
+    setAuthentication({ authenticated: false });
+    fetch(`http://localhost:5000/api/logout`);
+  }
+
+  const funcs = {
+    isAuthenticated,
+    login,
+    logout,
+  };
+
+  return (
+    <AuthContext.Provider value={{ ...funcs, auth, loginFormError }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 function LockedRoute({ children, ...rest }) {
-    const UserAuth = useContext(AuthContext);
-    return (
-        <Route {...rest}
-            render={  ({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)  }
-        />
-    );
+  const UserAuth = useContext(AuthContext);
+  return (
+    <Route {...rest}
+      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)}
+    />
+  );
 }
 
 export { AuthProvider, AuthContext, LockedRoute };
