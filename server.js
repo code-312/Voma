@@ -28,6 +28,18 @@ app.use(session({
   } 
 }));
 
+const verifyAuth = (req, res, next) => {
+  if (req.session?.isAuthenticated) {
+    next();
+
+  } else {
+    res.json({
+      error: true,
+      authenticated: false
+    })
+    .end();
+  }
+}
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
@@ -39,30 +51,31 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
-app.get('/api/volunteers', volunteerController.getVolunteers);
+app.get('/api/volunteers', verifyAuth, volunteerController.getVolunteers);
 app.post('/api/volunteer', volunteerController.addVolunteer);
-app.get('/api/volunteer/:id', volunteerController.getVolunteer);
-app.put('/api/volunteer/:id', volunteerController.editVolunteer);
-app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
+app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
+app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
+app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
+
 app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);
 app.get('/api/skill/:id', skillsController.getSkill);
-app.post('/api/skill', skillsController.addSkill)
-app.put('/api/skill/:id', skillsController.editSkill)
-app.delete('/api/skill/:id', skillsController.removeSkill)
+app.post('/api/skill', verifyAuth, skillsController.addSkill)
+app.put('/api/skill/:id', verifyAuth, skillsController.editSkill)
+app.delete('/api/skill/:id', verifyAuth, skillsController.removeSkill)
 
 /*========= PROJECT ROUTES =========*/
-app.get('/api/projects', projectController.getProjects);
-app.post('/api/project', projectController.addProject);
-app.get('/api/project/:id', projectController.getProject);
-app.put('/api/project/:id', projectController.editProject);
-app.delete('/api/project/:id', projectController.removeProject);
+app.get('/api/projects', verifyAuth, projectController.getProjects);
+app.post('/api/project', verifyAuth, projectController.addProject);
+app.get('/api/project/:id', verifyAuth, projectController.getProject);
+app.put('/api/project/:id', verifyAuth, projectController.editProject);
+app.delete('/api/project/:id', verifyAuth, projectController.removeProject);
 
 /*========= ADMIN ROUTES =========*/
-app.post('/api/admin', adminController.addAdmin);
-app.get('/api/admin/:id', adminController.getAdmin);
+app.post('/api/admin', verifyAuth, adminController.addAdmin);
+app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);

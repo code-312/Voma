@@ -61,10 +61,7 @@ const login = async (req, res) => {
     if (admin?.password) {
         const authenticated = await bcrypt.compareSync(password, admin.password);
         if (authenticated) {
-            try {
             req.session.isAuthenticated = true;
-
-            } catch (e) { console.log(e) }
             res.json({ success: true });
             res.end();
             return;
