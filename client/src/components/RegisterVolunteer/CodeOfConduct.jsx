@@ -89,6 +89,7 @@ export default function CodeOfConduct() {
           aria-labelledby="demo-radio-buttons-group-label"
           sx={{ marginBottom: '24px' }}
           defaultValue="female"
+          className="AcceptCOC" // Hook for unit tests
           name="radio-buttons-group">
             <FormControlLabel
             type="radio"
