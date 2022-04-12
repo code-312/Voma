@@ -39,6 +39,13 @@ export default function LoginForm() {
         event.preventDefault();
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (email.length && password.length) {
+            AuthUser.login(email, password);
+        }
+    }
+
     return (<>
         {AuthUser.loginFormError && 
             <ApiError message="Unable to verify credentials, please try again." />
@@ -49,7 +56,7 @@ export default function LoginForm() {
                 <Typography variant="h4" mb='16px' noWrap>Welcome!</Typography>
                 <Container direction="column" className={classes.LoginFormBox}>
                     <Typography variant="h6" mb='16px' noWrap>Login</Typography>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel htmlFor="input-email">Email</InputLabel>
                             <OutlinedInput 
@@ -84,11 +91,11 @@ export default function LoginForm() {
                                     </InputAdornment>
                                 } />
                         </FormControl>
+                        <Button 
+                            type="submit"
+                            disabled={!email.length || !password.length}
+                            variant="contained">Login</Button>
                     </form>
-                    <Button 
-                        disabled={!email.length || !password.length}
-                        onClick={(email.length && password.length) ? () => AuthUser.login(email, password) : null}
-                        variant="contained">Login</Button>
 
                 </Container>
             </Grid>
