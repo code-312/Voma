@@ -1,7 +1,9 @@
-import { useContext } from 'react';
-import { Grid, Box, Typography, Checkbox, FormControlLabel } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+import { Grid, Box, Typography, Checkbox, FormControlLabel, StepContent } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
+import { getVolunteers } from '../lib/Requests';
+import VolunteerBox from '../components/VolunteerBox';
 
 import { AuthContext } from '../lib/AuthProvider';
 
@@ -80,69 +82,42 @@ const useStyles = makeStyles({
 })
 
 export default function AssignmentBoard() {
-    const UserAuth = useContext(AuthContext);
+    const [volunteers, setVolunteers] = useState([]);
+    const [requestSent, setRequestSent] = useState(false);
+    const [content, setContent] = useState(null)
 
     const classes = useStyles();
+
+    const fetchVolunteers = async () => {
+        const vols = await getVolunteers();
+        if (vols) {
+            setVolunteers(vols);
+        }
+    }
+
+    useEffect(() => {
+        if (!requestSent) {
+            fetchVolunteers();
+            setRequestSent(true);
+        }
+    }, [requestSent]);
+
+    useEffect(() => {
+        if (volunteers.length > 0) {
+            const allVolunteers = volunteers.map((vol) => (
+                <VolunteerBox volunteer={vol} key={vol.id} classes={classes.volunteerName} />
+            ));
+            setContent(allVolunteers);
+        } else {
+            setContent(<p>No volunteers found.</p>);
+        }
+    }, [volunteers])
 
     return (<>
         <Grid container justifyContent="flex-box">
             <Grid item md={2} className={classes.sidebar}>
                 <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-
-                <Box class={`${classes.volunteerName} active`}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
-                <Box class={classes.volunteerName}>
-                    <Box>Volunteer Name</Box>
-                </Box>
+               {content}
             </Grid>
             
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
