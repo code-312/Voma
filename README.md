@@ -178,3 +178,51 @@ Make sure your Lando box is running when you connect or you'll get an error. Tab
 
 
 ---
+
+## Database management: Sequelize-cli
+
+Sequelize-cli is a tool to help work with the Sequelize ORM that we are using in the back-end application. It can be used to generate files to use in creating models, migrations, seeders, etc.
+
+### Installation
+
+The cli should already be installed when running `npm install`.
+
+### Usage
+
+To run a command, change directory to db/, and type:
+
+`npx sequelize-cli <command>`
+
+To see a list of available commands:
+
+`npx sequelize-cli`
+
+To run all pending migrations:
+
+`npx sequelize-cli db:migrate`
+
+To undo migrations:
+
+`npx sequelize-cli db:migrate:undo:all`
+
+To create a new empty file for a migration or seed task:
+
+`npx sequelize-cli migration:generate --name <name-of-migration>`
+
+`npx sequelize-cli seed:generate --name <name-of-seed>`
+
+Migration and seed file names contain a timestamp to ensure that they are run in proper order.
+
+### Environment Configuration
+
+The database configuration used by sequelize-cli is found in the db/config/config.json file. To modify config for a local development environment, change the settings under "development" on your local machine. (Do not commit this change.)
+
+Alternatively, create a local config.json file with your settings, and pass the `--config` flag when running a migrate or seed command:
+
+`npx sequelize-cli migrate:all --config <path-to-file>`
+
+To run a migration or seed against an environment other than "development" add the `--env` flag.
+
+`npx sequelize-cli db:migrate --environment test`
+
+[Official project and documentation](https://github.com/sequelize/cli)
