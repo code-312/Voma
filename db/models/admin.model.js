@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes, bcrypt) => {
     }
   },
   {
-    underscored: true,
     hooks: {
       beforeCreate: async (admin) => {
         if (admin.password) {

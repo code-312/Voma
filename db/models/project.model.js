@@ -11,8 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING
         },
-    }, {
-        underscored: true,
     });
     return Project;
 };
