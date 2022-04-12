@@ -3,6 +3,7 @@ require('dotenv').config({
 });
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 const axios = require('axios');
 const path = require('path');
 const volunteerController = require('./db/controllers/volunteers.controller');
@@ -17,6 +18,30 @@ app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
 app.use(express.urlencoded());
 app.use(express.json());
 
+// todo: enable secure cookie for production.
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'insecure',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: (process.env.NODE_ENV == 'production'),
+  } 
+}));
+app.set('trust proxy', 1); // Development. 
+
+const verifyAuth = (req, res, next) => {
+  if (req.session?.isAuthenticated) {
+    next();
+
+  } else {
+    res.json({
+      error: true,
+      authenticated: false
+    })
+    .end();
+  }
+}
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
 
@@ -27,33 +52,35 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.post('/api/user/find', userController.findUser);
 
 /*========= VOLUNTEER ROUTES =========*/
-app.get('/api/volunteers', volunteerController.getVolunteers);
+app.get('/api/volunteers', verifyAuth, volunteerController.getVolunteers);
 app.post('/api/volunteer', volunteerController.addVolunteer);
-app.get('/api/volunteer/:id', volunteerController.getVolunteer);
-app.put('/api/volunteer/:id', volunteerController.editVolunteer);
-app.delete('/api/volunteer/:id', volunteerController.removeVolunteer);
+app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
+app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
+app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
+
 app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);
 app.get('/api/skill/:id', skillsController.getSkill);
-app.post('/api/skill', skillsController.addSkill)
-app.put('/api/skill/:id', skillsController.editSkill)
-app.delete('/api/skill/:id', skillsController.removeSkill)
+app.post('/api/skill', verifyAuth, skillsController.addSkill)
+app.put('/api/skill/:id', verifyAuth, skillsController.editSkill)
+app.delete('/api/skill/:id', verifyAuth, skillsController.removeSkill)
 
 /*========= PROJECT ROUTES =========*/
-app.get('/api/projects', projectController.getProjects);
-app.post('/api/project', projectController.addProject);
-app.get('/api/project/:id', projectController.getProject);
-app.put('/api/project/:id', projectController.editProject);
-app.delete('/api/project/:id', projectController.removeProject);
+app.get('/api/projects', verifyAuth, projectController.getProjects);
+app.post('/api/project', verifyAuth, projectController.addProject);
+app.get('/api/project/:id', verifyAuth, projectController.getProject);
+app.put('/api/project/:id', verifyAuth, projectController.editProject);
+app.delete('/api/project/:id', verifyAuth, projectController.removeProject);
 
 /*========= ADMIN ROUTES =========*/
-app.post('/api/admin', adminController.addAdmin);
-app.get('/api/admin/:id', adminController.getAdmin);
+app.post('/api/admin', verifyAuth, adminController.addAdmin);
+app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);
+app.post('/api/authenticated', adminController.loginState)
 
 // 404 error
 app.use(function(req, res, next) {

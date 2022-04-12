@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Typography, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Button, Container } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { makeStyles } from '@mui/styles';
+import ApiError from './ApiError';
+
+import { AuthContext } from '../lib/AuthProvider';
 
 const useStyles = makeStyles({
     LoginFormBox: {
@@ -20,41 +23,47 @@ const useStyles = makeStyles({
 });
 
 export default function LoginForm() {
+    const AuthUser = useContext(AuthContext);
+
     const classes = useStyles();
 
-    const [values, setValues] = useState({
-        email: '',
-        password: '',
-        showPassword: false
-    });
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => {
-        setValues({
-            ...values,
-            showPassword: !values.showPassword,
-        });
+        setShowPassword(!showPassword);
     };
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    return (
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (email.length && password.length) {
+            AuthUser.login(email, password);
+        }
+    }
+
+    return (<>
+        {AuthUser.loginFormError && 
+            <ApiError message="Unable to verify credentials, please try again." />
+        }
         <Grid container justify="center" spacing={1}>
             <Grid item sm={3} md={4} xs={0} />
             <Grid item sm={6} md={4} xs={12}>
                 <Typography variant="h4" mb='16px' noWrap>Welcome!</Typography>
                 <Container direction="column" className={classes.LoginFormBox}>
                     <Typography variant="h6" mb='16px' noWrap>Login</Typography>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <FormControl sx={{ width: '100%' }}>
                             <InputLabel htmlFor="input-email">Email</InputLabel>
                             <OutlinedInput 
                                 id="input-email"
                                 className={classes.input}
-                                value={values.email}
                                 variant="outlined"
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="volunteer@gmail.com"
                                 autoComplete="off"
                                 label="Email" />
@@ -65,9 +74,9 @@ export default function LoginForm() {
                             <OutlinedInput
                                 id="input-password"
                                 className={classes.input}
-                                value={values.password}
                                 variant="outlined"
-                                type={values.showPassword ? 'text' : 'password'}
+                                onChange={(e) => setPassword(e.target.value)}
+                                type={showPassword ? 'text' : 'password'}
                                 label="Password"
                                 autoComplete="off"
                                 endAdornment={
@@ -77,16 +86,19 @@ export default function LoginForm() {
                                             onClick={handleClickShowPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end">
-                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>
                                 } />
                         </FormControl>
+                        <Button 
+                            type="submit"
+                            disabled={!email.length || !password.length}
+                            variant="contained">Login</Button>
                     </form>
-                    <Button variant="contained">Login</Button>
 
                 </Container>
             </Grid>
         </Grid>
-    )
+    </>)
 }

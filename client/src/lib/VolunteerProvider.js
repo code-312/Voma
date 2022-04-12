@@ -11,7 +11,7 @@ function VolunteerProvider({ children }) {
       isAuthenticated: false,
       notRegistered: false,
       email: '',
-      skill: '',
+      skills: '',
       pronouns: '',
   };
   let defaultRegistrationStep = -1;
@@ -28,12 +28,11 @@ function VolunteerProvider({ children }) {
   const [registrationStep, setRegistrationStep] = useState(defaultRegistrationStep);
   const [registrationErrorMessage, setRegistrationErrorMessage] = useState('');
 
-  const updateInfo = (info) => {
-    const p = profile;
-    Object.keys(info).forEach((key) => {
-      p[key] = info[key];
-    });
+  function updateInfo(info) {
+    let p = {}; 
+    p = Object.assign(profile, info);
     setProfile(p);
+    localStorage.setItem('volunteer', JSON.stringify(p));
   };
 
   /**
@@ -42,7 +41,7 @@ function VolunteerProvider({ children }) {
    * @param {string} volunteerEmail 
    */
   const slackExists = (email) => {
-    fetch(`http://localhost:5000/api/volunteer/slack/exists`, {
+    fetch(`/api/volunteer/slack/exists`, {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {
@@ -59,25 +58,25 @@ function VolunteerProvider({ children }) {
       let profileUpdate = {};
 
       if (response.exists) {  // User found.
-        profileUpdate = {
+        profileUpdate = Object.assign(profile, {
           isAuthenticated: true,
           email,
           notRegistered: false, 
           suid: response.suid,
           name: response.name,
-        };
-        setProfile(profileUpdate);
+        });
+        updateInfo(profileUpdate);
         setRegistrationStep(1);
 
       } else {
-        profileUpdate = {
+        profileUpdate = Object.assign(profile, {
           isAuthenticated: false,
           notRegistered: true,
           email: '',
-          skill: '',
+          skills: '',
           pronouns: '',
-        };
-        setProfile(profileUpdate); 
+        });
+        updateInfo(profileUpdate); 
         setRegistrationStep(1)
       }
 
@@ -87,16 +86,16 @@ function VolunteerProvider({ children }) {
 
       // For now, fake successful return of profile.
       console.log('Faking successful signin for now, for development.');
-
-      const profileUpdate = {
+      const profileUpdate = Object.assign(profile, {
         isAuthenticated: true,
         email,
         notRegistered: false,
         suid: 'FAKE_API_USER',
         name: 'Fake User',
-      };
-      setProfile(profileUpdate);
+      });
+      updateInfo(profileUpdate);
       setRegistrationStep(1);
+      // \fake successful return of profile.
     });
   };
 
@@ -108,7 +107,7 @@ function VolunteerProvider({ children }) {
         email: profile.email,
         slackUserId: profile.suid,
         pronouns: profile.pronouns,
-        skill: profile.skill,
+        skills: profile.skills,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -118,6 +117,7 @@ function VolunteerProvider({ children }) {
       if (data.status === 404) {        
         setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
         window.scrollY = 0;
+        
         throw new Error('404: Route not found.');
       } else return data.json();
     })
@@ -132,6 +132,8 @@ function VolunteerProvider({ children }) {
     })
     .catch((err) => {
       console.log(err);
+      setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');
+      window.scrollY = 0;
     });
   };
 
