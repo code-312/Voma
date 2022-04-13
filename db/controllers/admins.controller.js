@@ -82,9 +82,18 @@ const loginState = async (req, res) => {
     return;
 }
 
+const logout = async (req, res) => {
+    if (req?.session) {
+        req.session.destroy();
+    }
+    res.json({ state: false });
+    res.end();
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
     loginState,
-    login
+    login,
+    logout,
 };
