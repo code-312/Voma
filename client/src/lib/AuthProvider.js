@@ -64,6 +64,7 @@ function AuthProvider({ children }) {
   function logout() {
     setAuthentication({ authenticated: false });
     fetch(`/api/logout`);
+    window.location.href = '/login';
   }
 
   const funcs = {
