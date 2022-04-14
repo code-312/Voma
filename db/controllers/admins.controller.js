@@ -74,12 +74,19 @@ const login = async (req, res) => {
     });
 }
 
+/**
+ * Route updating cookie max-age and returning login state.
+ * GET /api/authenticated
+ * 
+ * @param {*} req - Client request object.
+ * @param {*} res - Request response object.
+ */
 const loginState = async (req, res) => {
-    res.json({
-        state: req.session.authenticated
-    });
-    res.end();
-    return;
+    if (req.session) {
+        req.session.touch();
+    }
+
+    res.json({ state: req?.session?.isAuthenticated }).end();
 }
 
 module.exports = {

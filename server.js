@@ -80,7 +80,7 @@ app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);
-app.post('/api/authenticated', adminController.loginState)
+app.get('/api/authenticated', adminController.loginState)
 
 // 404 error
 app.use(function(req, res, next) {
