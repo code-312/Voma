@@ -58,7 +58,8 @@ app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
 
-app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
+/*========= SLACK ROUTES =========*/
+app.post('/api/volunteer/slack', volunteerController.getSlackByEmail);
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);

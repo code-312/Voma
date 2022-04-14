@@ -41,7 +41,7 @@ function VolunteerProvider({ children }) {
    * @param {string} volunteerEmail 
    */
   const slackExists = (email) => {
-    fetch(`/api/volunteer/slack/exists`, {
+    fetch(`/api/volunteer/slack`, {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {
