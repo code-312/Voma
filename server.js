@@ -18,17 +18,34 @@ app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
 app.use(express.urlencoded());
 app.use(express.json());
 
+const secure_cookies = ([
+  'production', // List of node environments to enable SSL cookies.
+  'stage'
+].includes( app.get('env') ));
+
 // todo: enable secure cookie for production.
 app.use(session({
   secret: process.env.SESSION_SECRET || 'insecure',
   resave: false,
   saveUninitialized: true,
-  cookie: {
-    secure: (process.env.NODE_ENV == 'production'),
-  } 
+  cookie: { secure: secure_cookies } 
 }));
-app.set('trust proxy', 1); // Development. 
 
+/**
+ * Remove "trust proxy" for environments that don't need/have one set up. This 
+ * is required to set cookies in a proxied setup.
+ */
+app.set('trust proxy', 1); // Proxy envs.. 
+
+
+/**
+ * Validates a user is logged in before serving the route. Returns failed 
+ * message if the request doesn't have the authentication required.
+ * 
+ * @param {*} req  - Request object.
+ * @param {*} res  - Response object.
+ * @param {*} next - Move to next processing function.
+ */
 const verifyAuth = (req, res, next) => {
   if (req.session?.isAuthenticated) {
     next();
