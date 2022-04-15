@@ -103,7 +103,7 @@ function LockedRoute({ children, ...rest }) {
 
   return (
     <Route {...rest}
-      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)}
+      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />)}
     />
   );
 }
