@@ -82,12 +82,22 @@ const loginState = async (req, res) => {
     return;
 }
 
+
+/**
+ * Logout user. Destroy session and set 401 HTTP response code.
+ * 
+ * @param {*} req - Request object.
+ * @param {*} res - Response object.
+ */
 const logout = async (req, res) => {
     if (req?.session) {
         req.session.destroy();
     }
-    res.json({ state: false });
-    res.end();
+    res.status(401)
+        .json({ 
+            state: false 
+        })
+        .end();
 }
 
 module.exports = {
