@@ -24,18 +24,6 @@ const useStyles = makeStyles({
             textAlign: 'right',
         }
     },
-    volunteerName: {
-        borderRadius: '4px',
-        backgroundColor: 'white',
-        cursor: 'pointer',
-        padding: '12px',
-        marginBottom: '16px',
-        boxShadow: '0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);',
-        '&.active': {
-            backgroundColor: 'rgba(98, 0, 238, 0.08)',
-            border: '1px solid #6200ee',
-        }
-    },
     board: {
         overflowX: 'scroll',
         paddingRight: '24px',
@@ -99,7 +87,7 @@ export default function AssignmentBoard() {
         return projectVolunteers;
     };
 
-    useEffect(() => { // Run once on component mount and initialize data.
+    useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
             let volunteerList = await fetchVolunteers();
             let projectList = await fetchProjects();
@@ -108,7 +96,7 @@ export default function AssignmentBoard() {
             setProjects(projectList);
         }
         initializeBoard();
-    }, []); // \Run once on component mount and initialize data.
+    }, []); // \Run once on component mount and initialize volunteer/project data.
 
 
     return (<>
@@ -119,8 +107,7 @@ export default function AssignmentBoard() {
                     !volunteer.projectId && // Display volunteers with no assigned project.
                     <VolunteerBox 
                         key={`volunteer-${volunteer.id}`} 
-                        volunteer={volunteer} 
-                        classes={classes.volunteerName} />
+                        volunteer={volunteer}/>
                 ))}
             </Grid>
             

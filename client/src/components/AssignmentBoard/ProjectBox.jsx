@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-
+import VolunteerBox from './VolunteerBox';
 
 export default function ProjectBoard({ volunteers, project, classes }) {
     const [isActive, setIsActive] = useState(false);
@@ -21,18 +21,11 @@ export default function ProjectBoard({ volunteers, project, classes }) {
 
             <hr />
 
-            <Box className={classes.volunteerName}>
-                <Box>Volunteer Name</Box>
-            </Box>
-            <Box className={classes.volunteerName}>
-                <Box>Volunteer Name</Box>
-            </Box>
-            <Box className={classes.volunteerName}>
-                <Box>Volunteer Name</Box>
-            </Box>
-            <Box className={classes.volunteerName}>
-                <Box>Volunteer Name</Box>
-            </Box>
+            {Object.entries(volunteers).map(([key, volunteer]) => (
+                <VolunteerBox
+                    key={`volunteer-${volunteer.id}`}
+                    volunteer={volunteer} />
+            ))}
 
         </Box>
     );
