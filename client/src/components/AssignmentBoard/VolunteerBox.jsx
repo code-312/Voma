@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDrag } from 'react-dnd';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/material';
 
@@ -19,11 +20,29 @@ const useStyles = makeStyles({
 });
 
 const VolunteerBox = ({ volunteer }) => {
+    const [collected, drag, dragPreview] = useDrag(() => ({
+        type: 'volunteer',
+        item: { 
+            id: `volunteer-${volunteer.id}`,
+            volunteer
+        },
+        end: (item, monitor) => {
+            const dropResult = monitor.getDropResult();
+            if (item && dropResult) {
+                alert(`you dropped ${item.volunteer.name} into ${dropResult.project.name}`);
+            }
+        },
+    }));
+
     const classes = useStyles();
 
-    return (
-        <Box className={classes.volunteerName}>
-            <Box>{volunteer.name || 'Volunteer Name'}</Box>
+    return collected.isDragging ? (
+        <Box ref={dragPreview} className={classes.volunteerName}>
+            <Box>{volunteer.name}</Box>
+        </Box>
+    ) : (
+        <Box ref={drag} className={classes.volunteerName} {...collected}>
+            <Box>{volunteer.name}</Box>
         </Box>
     )
 };

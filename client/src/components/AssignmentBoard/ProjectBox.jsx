@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
+import { useDrop } from 'react-dnd';
 import { Box, Typography } from '@mui/material';
 import VolunteerBox from './VolunteerBox';
 
 export default function ProjectBoard({ volunteers, project, classes }) {
     const [isActive, setIsActive] = useState(false);
 
+    const [{ canDrop, isOver }, drop] = useDrop(() => ({
+        accept: 'volunteer',
+        drop: () => ({ 
+            name: `project-${project.id}`,
+            project
+        }),
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        })
+    }))
+
     return (
         <Box 
             className={classes.projectCard} 
+            ref={drop}
             mt="8px" 
             mb="16px">
 

@@ -108,7 +108,7 @@ export default function AssignmentBoard() {
                         volunteer={volunteer}/>
                 ))}
             </Grid>
-            
+                
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
 
                 {Object.entries(projects).map(([key, project]) => ( // Display projects.
@@ -121,5 +121,5 @@ export default function AssignmentBoard() {
 
             </Grid>
         </Grid>
-    </>)
+    </>);
 }
