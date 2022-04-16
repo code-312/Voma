@@ -52,14 +52,14 @@ const assignVolunteer = async (volunteerId, projectId) => {
         },
         body: JSON.stringify({ projectId }),
     };
-    const result = fetch(`/api/volunteer/${volunteerId}`, options)
+    const result = await fetch(`/api/volunteer/${volunteerId}`, options)
         .then(response => response.json())
         .catch(e => {
             console.error(e);
             return {};
         });
 
-    console.log('assignVolunteer', result); // debug
+    // console.log('assignVolunteer', result); // debug
 
     return result;
 }
