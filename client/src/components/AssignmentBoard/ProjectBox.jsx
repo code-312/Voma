@@ -33,9 +33,9 @@ export default function ProjectBoard({ volunteers, project, classes }) {
             <Typography variant="h6" mb="16px">{project.name}</Typography>
 
             {isOver &&
-                <Box class={classes.projectCardButton}>
-                    <Box>INSERT VOLUNTEER</Box>
-                </Box>}
+            <Box className={classes.projectCardButton}>
+                <Box>INSERT VOLUNTEER</Box>
+            </Box>}
 
             <hr />
 
