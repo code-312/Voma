@@ -25,18 +25,17 @@ export default function ProjectBoard({ volunteers, project, classes }) {
 
     return (
         <Box 
-            className={classes.projectCard} 
+            className={isOver ? `${classes.projectCard} active` : classes.projectCard} 
             ref={drop}
             mt="8px" 
             mb="16px">
 
             <Typography variant="h6" mb="16px">{project.name}</Typography>
 
-            {isActive &&
+            {isOver &&
                 <Box class={classes.projectCardButton}>
                     <Box>INSERT VOLUNTEER</Box>
-                </Box>
-            }
+                </Box>}
 
             <hr />
 
