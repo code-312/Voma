@@ -10,6 +10,7 @@ export default function ProjectBoard({ volunteers, project, classes }) {
 
     const AuthUser = useContext(AuthContext);
 
+    // Handle project box as a drop area, assigns volunteer to this project.
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: 'volunteer',
         drop: () => ({ 

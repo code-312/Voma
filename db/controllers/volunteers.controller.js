@@ -144,8 +144,11 @@ const editVolunteer = async (req, res) => {
         });
 
 
-    for (const [key, value] of Object.entries(params)) {
+    for (let [key, value] of Object.entries(params)) {
         if (editableFields.includes(key)) {
+            if (key == 'projectId' && value === 0) {
+                value = null;
+            }
             updatedVolunteer[key] = value;
         }
     }
