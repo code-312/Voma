@@ -108,52 +108,77 @@ const addVolunteer = async (req, res) => {
     res.json({ success: true });
 };
 
+/**
+ * Edit a volunteer, accepts volunteer fields. Only updates fields that are listed editable.
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 const editVolunteer = async (req, res) => {
-    const {
-        name,
-        email,
-        slackUserId,
-        pronouns,
-        employer,
-        student,
-        jobTitle,
-        onboardingAttendedAt,
-        oneOnOneAttendedAt,
-        projectId
-    } = req.body;
+    const volunteerId = req.params.id;
+    const params = req.body;
 
-    let findError, updateError;
+    let updatedVolunteer = {};
 
-    const volunteer = await models.volunteer.findByPk(req.params.id)
-                            .catch(err => findError = err);
+    const editableFields = [ // Limit the fields that can be updated, add as needed.
+        'projectId',
+    ];
 
-    if (findError) {
-        return res.status(400).json({ error: findError });
-    }
-    if (!volunteer) {
-        return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
+    if (!volunteerId || !params) {
+        res.json({
+            error: 'Bad information.',
+            message: 'Missing volunteer id or update fields',
+            status: false,
+        })
     }
 
-    await volunteer.update({
-        name,
-        email,
-        slackUserId,
-        pronouns,
-        employer,
-        student,
-        jobTitle,
-        onboardingAttendedAt,
-        oneOnOneAttendedAt,
-        projectId
+    const volunteer = await models.volunteer.findByPk(volunteerId)
+        .catch(e => { // Log error for debugging and return failed message.
+            console.error(e);
+            res.json({
+                error: e,
+                message: 'Unable to update volunteer.',
+                status: false,
+            })
+            .end(); return;
+        });
+
+
+    for (const [key, value] of Object.entries(params)) {
+        if (editableFields.includes(key)) {
+            updatedVolunteer[key] = value;
+        }
+    }
+
+    if (!volunteer || !updatedVolunteer) { // No matching volunteer.
+        console.error('No matching volunteer or nothing to update.');
+        console.log('Submitted Fields:', params);
+        res.json({
+            error: 'No matching volunteer.',
+            message: 'Unable to update volunteer',
+            status: false,
+        })
+        .end(); return;
+    }
+
+    await volunteer.update(updatedVolunteer)
+        .catch(e => {
+            console.error(e);
+            res.json({
+                error: e,
+                message: 'Update failed.',
+                status: false,
+            })
+            .end(); return;
+        });
+
+    res.json({
+        status: true,
+        message: 'Volunteer successfully updated.',
     })
-    .catch(err => updateError = err);
-
-    if (updateError) {
-        res.status(400).json({ error: updateError });
-    }
-
-    res.status(200).json({ result: `Volunteer ${req.params.id} has been updated.`});
+    .end(); return;    
 };
+
 
 const removeVolunteer = async (req, res) => {
     let findError, deleteError;
