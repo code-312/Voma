@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import { Grid, Box, Typography, Checkbox, FormControlLabel, StepContent } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectBox from '../components/AssignmentBoard/ProjectBox';
-
-import { AuthContext } from '../lib/AuthProvider';
 
 const useStyles = makeStyles({
     sidebar: {
