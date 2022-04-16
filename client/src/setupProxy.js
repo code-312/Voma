@@ -1,4 +1,3 @@
-require('dotenv').config
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 /**
@@ -11,7 +10,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
  */
 
 let target = process.env.REACT_APP_API_HOST;
-if (process.env.NODE_ENV == 'development.local' && !target) { // Don't break locals missing the .env variable.
+if (process.env.NODE_ENV == 'development' && !target) { // Don't break locals missing the .env variable.
     target = 'http://localhost:5000';
 }
 
