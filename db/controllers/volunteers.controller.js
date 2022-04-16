@@ -7,16 +7,25 @@ const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
 
+/**
+ * Returns a list of all volunteers.
+ * 
+ * @param {*} req - Request object. 
+ * @param {*} res - Response object.
+ */
 const getVolunteers = async (req, res) => {
-    let error;
     const volunteers = await models.volunteer.findAll()
-                             .catch(err => error = err);
+        .catch(e => { // Log error for debugging and return failed message.
+            console.error(e);
+            res.json({
+                error: e,
+                status: false,
+            })
+            .end(); return;
+        });
 
-    if (error) {
-        return res.status(400).json({ error });
-    }
-
-    res.json(volunteers);
+    res.json(volunteers)
+        .end(); 
 };
 
 const getVolunteer = async (req, res) => {
@@ -130,6 +139,7 @@ const editVolunteer = async (req, res) => {
             message: 'Missing volunteer id or update fields',
             status: false,
         })
+        .end(); return;
     }
 
     const volunteer = await models.volunteer.findByPk(volunteerId)
