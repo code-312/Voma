@@ -36,7 +36,36 @@ const fetchProjects = async () => {
     return projectList;
 }
 
+/**
+ * Assign a volunteer to a project.
+ * 
+ * @param {*} volunteerId - ID # of the volunteer.
+ * @param {*} projectId - ID # of the project.
+ * 
+ * @returns {bool} true on success. 
+ */
+const assignVolunteer = async (volunteerId, projectId) => {
+    const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectId }),
+    };
+    const result = fetch(`/api/volunteer/${volunteerId}`, options)
+        .then(response => response.json())
+        .catch(e => {
+            console.error(e);
+            return {};
+        });
+
+    console.log('assignVolunteer', result); // debug
+
+    return result;
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
+    assignVolunteer,
 };

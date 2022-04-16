@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import { Box, Typography } from '@mui/material';
 import VolunteerBox from './VolunteerBox';
 
+import { AuthContext } from '../../lib/AuthProvider';
+
 export default function ProjectBoard({ volunteers, project, classes }) {
     const [isActive, setIsActive] = useState(false);
+
+    const AuthUser = useContext(AuthContext);
 
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: 'volunteer',
@@ -16,7 +20,7 @@ export default function ProjectBoard({ volunteers, project, classes }) {
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
         })
-    }))
+    }));
 
     return (
         <Box 

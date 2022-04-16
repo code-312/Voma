@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectBox from '../components/AssignmentBoard/ProjectBox';
+
+import { AuthContext } from '../lib/AuthProvider';
 
 const useStyles = makeStyles({
     sidebar: {
@@ -72,6 +74,8 @@ export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
     const [projects, setProjects] = useState([]);
 
+    const AuthUser = useContext(AuthContext);
+
     const classes = useStyles();
 
     // Filter out just the volunteers currently assigned to this project.
@@ -94,14 +98,15 @@ export default function AssignmentBoard() {
             setProjects(projectList);
         }
         initializeBoard();
-    }, []); // \Run once on component mount and initialize volunteer/project data.
+    }, [AuthUser.updateMade]); // \Run once on component mount and initialize volunteer/project data.
 
 
     return (<>
         <Grid container justifyContent="flex-box">
             <Grid item md={2} className={classes.sidebar}>
                 <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-                {Object.entries(volunteers).map(([key, volunteer]) => (
+                {volunteers && 
+                Object.entries(volunteers).map(([key, volunteer]) => (
                     !volunteer.projectId && // Display volunteers with no assigned project.
                     <VolunteerBox 
                         key={`volunteer-${volunteer.id}`} 
@@ -110,15 +115,14 @@ export default function AssignmentBoard() {
             </Grid>
                 
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
-
-                {Object.entries(projects).map(([key, project]) => ( // Display projects.
+                {projects && 
+                Object.entries(projects).map(([key, project]) => ( // Display projects.
                     <ProjectBox 
                         key={`project-${project.id}`} 
                         volunteers={getProjectVolunteers(project.id)}
                         project={project}
                         classes={classes}/>
                 ))}
-
             </Grid>
         </Grid>
     </>);
