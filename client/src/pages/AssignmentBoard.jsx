@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from 'react';
 import { Grid, Box, Typography, Checkbox, FormControlLabel, StepContent } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
-import { getVolunteers } from '../lib/Requests';
-import VolunteerBox from '../components/VolunteerBox';
+import { fetchVolunteers, fetchProjects } from '../lib/Requests';
+import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
+import ProjectBox from '../components/AssignmentBoard/ProjectBox';
 
 import { AuthContext } from '../lib/AuthProvider';
 
@@ -83,261 +84,55 @@ const useStyles = makeStyles({
 
 export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
-    const [requestSent, setRequestSent] = useState(false);
-    const [content, setContent] = useState(null)
+    const [projects, setProjects] = useState([]);
 
     const classes = useStyles();
 
-    const fetchVolunteers = async () => {
-        const vols = await getVolunteers();
-        if (vols) {
-            setVolunteers(vols);
+    // Filter out just the volunteers currently assigned to this project.
+    const getProjectVolunteers = (projectId) => {
+        let projectVolunteers = [];
+        for (let i=0; i<volunteers.length; i+=1) {
+            if (volunteers[i].projectId === projectId) {
+                projectVolunteers.push(volunteers[i]);
+            }
         }
-    }
+        return projectVolunteers;
+    };
 
-    useEffect(() => {
-        if (!requestSent) {
-            fetchVolunteers();
-            setRequestSent(true);
-        }
-    }, [requestSent]);
+    useEffect(() => { // Run once on component mount and initialize data.
+        async function initializeBoard() {
+            let volunteerList = await fetchVolunteers();
+            let projectList = await fetchProjects();
 
-    useEffect(() => {
-        if (volunteers.length > 0) {
-            const allVolunteers = volunteers.map((vol) => (
-                <VolunteerBox volunteer={vol} key={vol.id} classes={classes.volunteerName} />
-            ));
-            setContent(allVolunteers);
-        } else {
-            setContent(<p>No volunteers found.</p>);
+            setVolunteers(volunteerList);
+            setProjects(projectList);
         }
-    }, [volunteers])
+        initializeBoard();
+    }, []); // \Run once on component mount and initialize data.
+
 
     return (<>
         <Grid container justifyContent="flex-box">
             <Grid item md={2} className={classes.sidebar}>
                 <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-               {content}
+                {Object.entries(volunteers).map(([key, volunteer]) => (
+                    !volunteer.projectId && // Display volunteers with no assigned project.
+                    <VolunteerBox 
+                        key={`volunteer-${volunteer.id}`} 
+                        volunteer={volunteer} 
+                        classes={classes.volunteerName} />
+                ))}
             </Grid>
             
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
 
-                <Box className={`${classes.projectCard} active`} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.projectCardButton}>
-                        <Box>INSERT VOLUNTEER</Box>
-                    </Box>
-
-                    <hr />
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-                
-                <Box className={classes.projectCard} mt="8px" mb="16px">
-                    <Typography variant="h6" mb="16px">Project Name</Typography>
-
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                    <Box class={classes.volunteerName}>
-                        <Box>Volunteer Name</Box>
-                    </Box>
-                </Box>
-
+                {Object.entries(projects).map(([key, project]) => ( // Display projects.
+                    <ProjectBox 
+                        key={`project-${project.id}`} 
+                        volunteers={getProjectVolunteers(project.id)}
+                        project={project}
+                        classes={classes}/>
+                ))}
 
             </Grid>
         </Grid>
