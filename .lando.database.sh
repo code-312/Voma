@@ -16,8 +16,8 @@ npm run sync;
 echo "Adding seed data to the database, one moment..."
 
 # Seed dummy database data.
-projects=("Between Friends" "C2ST" "Cannabis Equity Coalition" "CFC Website")
-volunteers=("Iris Gregory" "Willow Woodward" "Bodie Lopez" "Amos Aquirre" "Idris Bradford" "Murphy Parrish" "Liv Shannon" "Jett Dunn")
+projects=("Between Friends" "Chicago Council on Science and Technology" "Cannabis Equity Coalition" "CFC Website")
+volunteers=("S M Zawad Bin Zaki Sadaf" "Willow Woodward" "Bodie Lopez" "Amos Aquirre" "Idris Bradford" "Murphy Parrish" "Liv Shannon" "Jett Dunn")
 unassigned_volunteers=("Gloria Lugo" "Rivka Terry" "Hope Burke" "Bjorn Madden" "Alvin Solis" "Wes Spears" "Grayson Ibarra")
 skills=("Content Strategy" "Data Analytics" "Front-End or Back-End Development" "Project Management" "Product Management" "UX/UI Design/Research / Visual Design")
 
