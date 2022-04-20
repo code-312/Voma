@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { Route, Redirect } from 'react-router-dom';
 
 const AuthContext = createContext(null);
@@ -13,6 +13,20 @@ function AuthProvider({ children }) {
   // Actual authentiation is stored in the cookie. Actions are validated serverside. 
   const [auth, setAuth] = useState(defaultAuth);
   const [loginFormError, setLoginFormError] = useState(false);
+
+  function updateLoginState() {
+    fetch('/api/authenticated')
+      .then(response => response.json())
+      .then(data => {
+        if (data.state) {
+          setAuth({ authenticated: true });
+        } else setAuth({ authenticated: false });
+      })
+      .catch((e) => {
+        console.error(e);
+        setAuth({ authenticated: false });
+      });
+  }
 
   function isAuthenticated() {
     return auth.authenticated;
@@ -77,7 +91,12 @@ function AuthProvider({ children }) {
     window.location.href = '/login';
   }
 
+  useEffect(() => {
+    updateLoginState();
+  }, []);
+
   const funcs = {
+    updateLoginState,
     isAuthenticated,
     login,
     logout,
@@ -92,9 +111,10 @@ function AuthProvider({ children }) {
 
 function LockedRoute({ children, ...rest }) {
   const UserAuth = useContext(AuthContext);
+
   return (
     <Route {...rest}
-      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)}
+      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />)}
     />
   );
 }
