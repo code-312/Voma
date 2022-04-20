@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { Route, Redirect } from 'react-router-dom';
 
 const AuthContext = createContext(null);
@@ -14,6 +14,20 @@ function AuthProvider({ children }) {
   const [auth, setAuth] = useState(defaultAuth);
   const [loginFormError, setLoginFormError] = useState(false);
   const [updateMade, setUpdateMade] = useState({ updates: 0 }); // Triggers re-rendering of /board on updates.
+
+  function updateLoginState() {
+    fetch('/api/authenticated')
+      .then(response => response.json())
+      .then(data => {
+        if (data.state) {
+          setAuth({ authenticated: true });
+        } else setAuth({ authenticated: false });
+      })
+      .catch((e) => {
+        console.error(e);
+        setAuth({ authenticated: false });
+      });
+  }
 
   function isAuthenticated() {
     return auth.authenticated;
@@ -67,12 +81,28 @@ function AuthProvider({ children }) {
       });
   };
 
-  function logout() {
+  /**
+   * Logout.
+   * 
+   * - Invalidate session in the AuthContext.
+   * - Hit the API route for logging out which will destory server session.
+   * - Destroy the current session cookie.
+   * - Redirect to the login page.
+   */
+  async function logout() {
     setAuthentication({ authenticated: false });
-    fetch(`/api/logout`);
+    await fetch(`/api/logout`) 
+      .catch(e => console.error(e));
+    document.cookie = 'connect.sid=;Max-Age=0';
+    window.location.href = '/login';
   }
 
+  useEffect(() => {
+    updateLoginState();
+  }, []);
+
   const funcs = {
+    updateLoginState,
     isAuthenticated,
     refreshBoard,
     login,
@@ -88,9 +118,10 @@ function AuthProvider({ children }) {
 
 function LockedRoute({ children, ...rest }) {
   const UserAuth = useContext(AuthContext);
+
   return (
     <Route {...rest}
-      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/", state: { from: location } }} />)}
+      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />)}
     />
   );
 }

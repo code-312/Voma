@@ -74,17 +74,43 @@ const login = async (req, res) => {
     });
 }
 
+/**
+ * Route updating cookie max-age and returning login state.
+ * GET /api/authenticated
+ * 
+ * @param {*} req - Client request object.
+ * @param {*} res - Request response object.
+ */
 const loginState = async (req, res) => {
-    res.json({
-        state: req.session.authenticated
-    });
-    res.end();
-    return;
+    if (req.session) {
+        req.session.touch();
+    }
+
+    res.json({ state: req?.session?.isAuthenticated }).end();
+}
+
+
+/**
+ * Logout user. Destroy session and set 401 HTTP response code.
+ * 
+ * @param {*} req - Request object.
+ * @param {*} res - Response object.
+ */
+const logout = async (req, res) => {
+    if (req?.session) {
+        req.session.destroy();
+    }
+    res.status(401)
+        .json({ 
+            state: false 
+        })
+        .end();
 }
 
 module.exports = {
     getAdmin,
     addAdmin,
     loginState,
-    login
+    login,
+    logout,
 };

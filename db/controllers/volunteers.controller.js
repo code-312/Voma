@@ -2,7 +2,7 @@ require('dotenv').config({
     path: `./.env.${process.env.NODE_ENV}`
 });
 const { models } = require('../index');
-const axios = require('axios');
+const { slackLookupByEmail } = require('../lib/slack');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
@@ -225,7 +225,7 @@ const removeVolunteer = async (req, res) => {
  * @param {*} req - Client request object.
  * @param {*} res - Request response object.
  */
-const validateVolunteerSlack = async (req, res) => {
+const getSlackByEmail = async (req, res) => {
     const email = req.body?.email
 
     if (!email) {
@@ -236,13 +236,7 @@ const validateVolunteerSlack = async (req, res) => {
     }
 
     try {
-
-        const result = await axios.get('https://slack.com/api/users.lookupByEmail', {
-            params: { email },
-            headers: {
-                'Authorization': `Bearer ${process.env.SLACK_BOT_TOKEN}`
-            }
-        });
+        const result = await slackLookupByEmail(email);
 
         if (result?.data?.user) { // User found.
             const profile = result.data.user;
@@ -283,5 +277,5 @@ module.exports = {
     addVolunteer,
     editVolunteer,
     removeVolunteer,
-    validateVolunteerSlack
+    getSlackByEmail
 };
