@@ -75,9 +75,20 @@ function AuthProvider({ children }) {
       });
   };
 
-  function logout() {
+  /**
+   * Logout.
+   * 
+   * - Invalidate session in the AuthContext.
+   * - Hit the API route for logging out which will destory server session.
+   * - Destroy the current session cookie.
+   * - Redirect to the login page.
+   */
+  async function logout() {
     setAuthentication({ authenticated: false });
-    fetch(`/api/logout`);
+    await fetch(`/api/logout`) 
+      .catch(e => console.error(e));
+    document.cookie = 'connect.sid=;Max-Age=0';
+    window.location.href = '/login';
   }
 
   useEffect(() => {

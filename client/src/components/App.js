@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard';
 import AssignmentBoard from '../pages/AssignmentBoard';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
+import Logout from '../pages/Logout';
 
 import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
@@ -26,6 +27,9 @@ function App() {
       <Switch>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/logout">
+          <Logout />
         </Route>
 
         {/* Logged In */}

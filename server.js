@@ -75,7 +75,8 @@ app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
 
-app.post('/api/volunteer/slack/exists', volunteerController.validateVolunteerSlack);
+/*========= SLACK ROUTES =========*/
+app.post('/api/volunteer/slack', volunteerController.getSlackByEmail);
 
 /*========= SKILL ROUTES =========*/
 app.get('/api/skills', skillsController.getSkills);
@@ -97,7 +98,8 @@ app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);
-app.get('/api/authenticated', adminController.loginState)
+app.get('/api/logout', adminController.logout);
+app.post('/api/authenticated', adminController.loginState);
 
 // 404 error
 app.use(function(req, res, next) {
