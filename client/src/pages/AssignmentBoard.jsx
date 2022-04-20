@@ -40,7 +40,7 @@ const useStyles = makeStyles({
         borderRadius: '4px',
         display: 'inline-block',
         padding: '12px',
-        whitespace: 'normal',
+        whiteSpace: 'normal',
         verticalAlign: 'top',
         backgroundColor: 'rgba(255,255,255,0.38)',
         boxShadow: '0px 1px 1px rgba(0,0,0,0.14), 0px 2px 1px rgba(0,0,0,0.12), 0px 1px 3px rgba(0,0,0,0.2);',
