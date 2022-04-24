@@ -2,7 +2,7 @@ require('dotenv').config({
     path: `./.env.${process.env.NODE_ENV}`
 });
 const { models } = require('../index');
-const { slackLookupByEmail } = require('../lib/slack');
+const { slackLookupByEmail } = require('../lib/slack/slack');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
