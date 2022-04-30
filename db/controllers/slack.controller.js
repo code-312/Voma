@@ -1,24 +1,56 @@
 const slack = require('../lib/slack/slack');
 
 const responses = {
+    /**
+     * Responds to submission from projectWelcomeConfirm.
+     * lib/slack/blocks.js - messageBlocks.projectWelcomeConfirm.
+     */
     projectWelcomeConfirm: {
         respond: async (action, request) => {
             const answer = action?.selected_option?.value || null;
             const channelId = request?.channel?.id || null;
             const ts = request?.message?.ts || null;
 
-            const responseBlock = (answer=='yes' ? 'projectWelcomeConfirmYes' : 'projectWelcomeConfirmNo');
-            const result = await slack.slackBlockUpdateChat(channelId, ts, responseBlock);
+            let messageParams, result;
+
+            // todo: fill in these variables later.
+
+            switch(answer) {
+                case 'yes':
+                    // todo: Update the database with the response?
+                    await slack.slackTextMessageUser('PROJECT_ADMIN_SLACK_ID', `PROJECT_NAME: VOLUNTEER_NAME has accepted and conditionally joined!`);
+                    messageParams = {
+                        name: 'PROJECT_NAME', 
+                        links: [
+                            {
+                                label: 'Google Drive', 
+                                url: 'https://google.link'
+                            },
+                            {
+                                label: 'Trello',
+                                url: 'https://trello.link'
+                            }
+                        ]
+                    };
+                    result = slack.slackBlockUpdateChat(channelId, ts, 'projectWelcomeConfirmYes', messageParams); // Block contents in lib/slack/blocks
+                    break;
+
+
+                case 'no':
+                    // todo: Update the database with the response?
+                    await slack.slackTextMessageUser('PROJECT_ADMIN_SLACK_ID', `PROJECT_NAME: VOLUNTEER_NAME has rejected the invite and has been prompted to schedule a 1:1 with you.`);
+                    messageParams = 'SCHEDULE_FOLLOWUP_MEETING_URL';
+                    result = slack.slackBlockUpdateChat(channelId, ts, 'projectWelcomeConfirmNo', messageParams); // Block contents in lib/slack/blocks
+                    break;
+
+
+                default: break;
+            }
+            
+            // Display the next screen in the chat flow.
+            result = await slack.slackBlockUpdateChat(channelId, ts, responseBlock);
 
             return result;
-        }
-    },
-
-    projectWelcomeCredentials: {
-        respond: async (action, request) => {
-            console.debug(action);
-            console.debug(request.state.values); // Github, Trello, Google Drive info.
-            // Update database.
         }
     },
 };
@@ -54,8 +86,8 @@ const slackBot = async (req, res) => {
         default: break;
     }
 
-    console.debug('action', action_id);
-    console.debug('result', result);
+    // console.debug('slack.controller - slackBot - action_id', action_id);
+    // console.debug('slack.controller - slackBot - result', result);
 };
 
 module.exports = {

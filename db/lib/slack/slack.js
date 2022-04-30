@@ -208,8 +208,8 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
  * @param {string} blockName   - Block name. Should be a method defined in lib/slack/blocks.js 
  * @param {array}  blockParams - (optional) Block params if needed. 
  */
- const slackBlockUpdateChat = async (slackUserId, ts, blockName, blockParams=false) => {
-    if (!blockName || !slackUserId || !ts || (typeof blockParams == 'undefined')) return false;
+ const slackBlockUpdateChat = async (channelId, ts, blockName, blockParams=false) => {
+    if (!blockName || !channelId || !ts || (typeof blockParams == 'undefined')) return false;
 
     if (! messageBlocks[blockName]?.()) { // Check that block is configured.
         console.error('slackBlockMessageUser', `Block "${blockName} not set.`);
@@ -220,7 +220,7 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
 
     try {
         let params = {
-            channel: slackUserId,
+            channel: channelId,
             ts,
             blocks
         }
