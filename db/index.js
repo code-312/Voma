@@ -16,7 +16,11 @@ if (process.env.DB_PORT) { // (optional) Custom port.
 }
 
 if (NODE_ENV == 'development.local') { // Allow http.
-  options['dialectOptions'] = {};
+  options['dialectOptions'] = {
+    ssl: {
+      rejectUnauthorized: false
+    }
+  };
 }
 
 const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, options);
