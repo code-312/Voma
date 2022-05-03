@@ -11,6 +11,21 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING
         },
+        activelyRecruiting: { 
+            type: DataTypes.BOOLEAN
+        },
+        currentNeeds: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        tech: {
+            type: DataTypes.STRING
+        },
+        goodFitFor: {
+            type: DataTypes.STRING
+        },
+        comment: {
+            type: DataTypes.STRING
+        }
     });
     return Project;
 };

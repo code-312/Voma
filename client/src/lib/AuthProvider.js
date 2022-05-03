@@ -15,7 +15,7 @@ function AuthProvider({ children }) {
   const [loginFormError, setLoginFormError] = useState(false);
 
   function updateLoginState() {
-    fetch('/api/authenticated')
+    fetch('/api/authenticated', { method: 'POST' })
       .then(response => response.json())
       .then(data => {
         if (data.state) {

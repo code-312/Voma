@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import AssignmentBoard from '../pages/AssignmentBoard';
+import Projects from '../pages/Projects';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
@@ -38,6 +39,9 @@ function App() {
         </LockedRoute>
         <LockedRoute path="/board">
           <AssignmentBoard />
+        </LockedRoute>
+        <LockedRoute path="/projects">
+          <Projects />
         </LockedRoute>
 
         {/* Registration Form */}
