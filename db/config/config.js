@@ -1,6 +1,6 @@
 const env = process.env.NODE_ENVIRONMENT || 'local'
 
-const test = require('dotenv').config({path: `${__dirname}/./../../.env.${env}`});
+const test = require('dotenv').config({path: `${__dirname}/../../.env.${env}`});
 const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 const configOptions = {
