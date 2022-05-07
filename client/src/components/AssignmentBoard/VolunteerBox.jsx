@@ -18,11 +18,10 @@ const useStyles = makeStyles({
     },
 });
 
-const VolunteerBox = ({ volunteer }) => {
+const VolunteerBox = ({ volunteer, onClick }) => {
     const classes = useStyles();
-
     return (
-        <Box className={classes.volunteerName}>
+        <Box className={classes.volunteerName} onClick={onClick}>
             <Box>{volunteer.name || 'Volunteer Name'}</Box>
         </Box>
     )

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { useEffect, useState, useCallback } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectBox from '../components/AssignmentBoard/ProjectBox';
+import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 
 const useStyles = makeStyles({
     sidebar: {
@@ -71,11 +71,13 @@ const useStyles = makeStyles({
 export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
     const [projects, setProjects] = useState([]);
+    const [volunteerCards, setVolunteerCards] = useState([]);
+    const [projectCards, setProjectCards] = useState([]);
 
     const classes = useStyles();
 
     // Filter out just the volunteers currently assigned to this project.
-    const getProjectVolunteers = (projectId) => {
+    const getProjectVolunteers = useCallback((projectId) => {
         let projectVolunteers = [];
         for (let i=0; i<volunteers.length; i+=1) {
             if (volunteers[i].projectId === projectId) {
@@ -83,7 +85,7 @@ export default function AssignmentBoard() {
             }
         }
         return projectVolunteers;
-    };
+    }, [volunteers]);
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
@@ -96,30 +98,37 @@ export default function AssignmentBoard() {
         initializeBoard();
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
+    useEffect(() => { // map over volunteers and render them as cards
+        if (volunteers.length > 0) {
+            const cards = Object.entries(volunteers).map(([key, volunteer]) => (
+                !volunteer.projectId && // Display volunteers with no assigned project.
+                <VolunteerBox 
+                    key={`volunteer-${volunteer.id}`} 
+                    volunteer={volunteer}/>
+            ));
+            setVolunteerCards(cards);
+        }
+    }, [volunteers]);
+
+    useEffect(() => {
+        if (projects.length > 0) {
+            const cards = Object.entries(projects).map(([key, project]) => ( // Display projects.
+            <ProjectBox 
+                key={`project-${project.id}`} 
+                volunteers={getProjectVolunteers(project.id)}
+                project={project}
+                classes={classes}/>
+            ));
+            setProjectCards(cards);
+        }
+    }, [projects, classes, getProjectVolunteers]);
+
 
     return (<>
-        <Grid container justifyContent="flex-box">
-            <Grid item md={2} className={classes.sidebar}>
-                <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-                {Object.entries(volunteers).map(([key, volunteer]) => (
-                    !volunteer.projectId && // Display volunteers with no assigned project.
-                    <VolunteerBox 
-                        key={`volunteer-${volunteer.id}`} 
-                        volunteer={volunteer}/>
-                ))}
-            </Grid>
-            
-            <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
-
-                {Object.entries(projects).map(([key, project]) => ( // Display projects.
-                    <ProjectBox 
-                        key={`project-${project.id}`} 
-                        volunteers={getProjectVolunteers(project.id)}
-                        project={project}
-                        classes={classes}/>
-                ))}
-
-            </Grid>
-        </Grid>
+        <BoardContainer 
+            sideBarHeader="Currently Onboarding"
+            sideBarContent={volunteerCards}
+            mainContainerContent={projectCards}
+        />
     </>)
 }
