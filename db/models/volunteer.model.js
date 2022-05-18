@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
         oneOnOneAttendedAt: {
             type: DataTypes.DATE
         },
+        completedTasks: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        }
     });
     return Volunteer;
 };
