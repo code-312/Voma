@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
+import { Typography } from '@mui/material';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectBox from '../components/AssignmentBoard/ProjectBox';
@@ -77,15 +78,9 @@ export default function AssignmentBoard() {
     const classes = useStyles();
 
     // Filter out just the volunteers currently assigned to this project.
-    const getProjectVolunteers = useCallback((projectId) => {
-        let projectVolunteers = [];
-        for (let i=0; i<volunteers.length; i+=1) {
-            if (volunteers[i].projectId === projectId) {
-                projectVolunteers.push(volunteers[i]);
-            }
-        }
-        return projectVolunteers;
-    }, [volunteers]);
+    const getProjectVolunteers = useCallback((projectId) => 
+         volunteers.filter(vol => vol.projectId === projectId)
+    , [volunteers]);
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
@@ -100,13 +95,40 @@ export default function AssignmentBoard() {
 
     useEffect(() => { // map over volunteers and render them as cards
         if (volunteers.length > 0) {
-            const cards = Object.entries(volunteers).map(([key, volunteer]) => (
-                !volunteer.projectId && // Display volunteers with no assigned project.
-                <VolunteerBox 
-                    key={`volunteer-${volunteer.id}`} 
-                    volunteer={volunteer}/>
-            ));
-            setVolunteerCards(cards);
+            // const cards = Object.entries(volunteers).map(([key, volunteer]) => (
+            //     !volunteer.projectId && // Display volunteers with no assigned project.
+            //     <VolunteerBox 
+            //         key={`volunteer-${volunteer.id}`} 
+            //         volunteer={volunteer}/>
+            // ));
+            // setVolunteerCards(cards);
+            const onboarding = [];
+            const assign = [];
+            volunteers.forEach((vol) => {
+                if (!vol.projectId) {
+                    if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
+                        assign.push(vol);
+                    } else {
+                        onboarding.push(vol);
+                    }
+                }
+            });
+
+            const sidebar = (
+                <>
+                    <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
+                    { assign.map((vol) => <VolunteerBox 
+                            key={`volunteer-${vol.id}`} 
+                            volunteer={vol}
+                        />) }
+                    <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
+                    { onboarding.map((vol) => <VolunteerBox 
+                            key={`volunteer-${vol.id}`} 
+                            volunteer={vol}
+                        />) }
+                </>
+            )
+            setVolunteerCards(sidebar);
         }
     }, [volunteers]);
 
@@ -126,7 +148,6 @@ export default function AssignmentBoard() {
 
     return (<>
         <BoardContainer 
-            sideBarHeader="Currently Onboarding"
             sideBarContent={volunteerCards}
             mainContainerContent={projectCards}
         />

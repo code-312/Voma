@@ -64,13 +64,12 @@ const useStyles = makeStyles({
     }
 })
 
-export default function BoardContainer({ sideBarHeader, sideBarContent, mainContainerContent }) {
+export default function BoardContainer({ sideBarContent, mainContainerContent }) {
     const classes = useStyles();
 
     return (<>
         <Grid container justifyContent="flex-box">
             <Grid item md={2} className={classes.sidebar}>
-                <Typography variant="h6" mt="24px" mb="16px">{sideBarHeader}</Typography>
                 { sideBarContent }
             </Grid>  
             <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
