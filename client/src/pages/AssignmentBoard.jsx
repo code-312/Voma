@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
@@ -71,16 +71,13 @@ const useStyles = makeStyles({
 
 export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
+    const [filteredVolunteers, setFilteredVolunteers] = useState({ onboarding: [], assign: []});
+    const [volunteersFiltered, setVolunteersFiltered] = useState(false);
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
 
-    const classes = useStyles();
-
-    // Filter out just the volunteers currently assigned to this project.
-    const getProjectVolunteers = useCallback((projectId) => 
-         volunteers.filter(vol => vol.projectId === projectId)
-    , [volunteers]);
+    const classes = useStyles(); 
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
@@ -93,57 +90,55 @@ export default function AssignmentBoard() {
         initializeBoard();
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
-    useEffect(() => { // map over volunteers and render them as cards
-        if (volunteers.length > 0) {
-            // const cards = Object.entries(volunteers).map(([key, volunteer]) => (
-            //     !volunteer.projectId && // Display volunteers with no assigned project.
-            //     <VolunteerBox 
-            //         key={`volunteer-${volunteer.id}`} 
-            //         volunteer={volunteer}/>
-            // ));
-            // setVolunteerCards(cards);
-            const onboarding = [];
-            const assign = [];
+    useEffect(() => { // map over volunteers and sort them into their project
+        if (volunteers.length > 0 && !volunteersFiltered) {
+            const copy = { ...filteredVolunteers };
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
                     if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
-                        assign.push(vol);
+                        copy.assign.push(vol);
                     } else {
-                        onboarding.push(vol);
+                        copy.onboarding.push(vol);
                     }
-                }
+                } else if (copy[vol.projectId]) {
+                        copy[vol.projectId].push(vol);
+                } else {
+                    copy[vol.projectId] = [vol];
+                    }
             });
 
             const sidebar = (
                 <>
                     <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
-                    { assign.map((vol) => <VolunteerBox 
+                    { copy.assign.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                         />) }
                     <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-                    { onboarding.map((vol) => <VolunteerBox 
+                    { copy.onboarding.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                         />) }
                 </>
             )
             setVolunteerCards(sidebar);
+            setFilteredVolunteers(copy);
+            setVolunteersFiltered(true);
         }
-    }, [volunteers]);
+    }, [volunteers, volunteersFiltered, filteredVolunteers]);
 
     useEffect(() => {
         if (projects.length > 0) {
-            const cards = Object.entries(projects).map(([key, project]) => ( // Display projects.
+            const cards = projects.map((project) => ( // Display projects.
             <ProjectBox 
                 key={`project-${project.id}`} 
-                volunteers={getProjectVolunteers(project.id)}
+                volunteers={filteredVolunteers[project.id]}
                 project={project}
                 classes={classes}/>
             ));
             setProjectCards(cards);
         }
-    }, [projects, classes, getProjectVolunteers]);
+    }, [projects, classes, filteredVolunteers]);
 
 
     return (<>
