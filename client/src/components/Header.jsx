@@ -50,7 +50,7 @@ export default function Header() {
     const classes = useStyles();
 
     return (
-        <Box mb="32px" sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <div className={classes.headerLinkContainer}>

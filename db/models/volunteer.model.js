@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         completedTasks: {
             type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        projectId: {
+            type: DataTypes.INTEGER,
         }
     });
     return Volunteer;
