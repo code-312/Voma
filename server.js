@@ -11,6 +11,7 @@ const projectController = require('./db/controllers/projects.controller');
 const skillsController = require('./db/controllers/skills.controller');
 const userController = require('./db/controllers/users.controller');
 const adminController = require('./db/controllers/admins.controller');
+const linkController = require('./db/controllers/links.controller');
 const slackController = require('./db/controllers/slack.controller');
 const testSlack = require('./db/controllers/testSlack.controller');
 
@@ -93,6 +94,9 @@ app.post('/api/project', verifyAuth, projectController.addProject);
 app.get('/api/project/:id', verifyAuth, projectController.getProject);
 app.put('/api/project/:id', verifyAuth, projectController.editProject);
 app.delete('/api/project/:id', verifyAuth, projectController.removeProject);
+
+/*========= LINK ROUTES =========*/
+app.post('/api/link', linkController.addLink);
 
 /*========= ADMIN ROUTES =========*/
 app.post('/api/admin', verifyAuth, adminController.addAdmin);

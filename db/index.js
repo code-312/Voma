@@ -40,7 +40,8 @@ const modelDefiners = [
 	require('./models/project.model'),
 	require('./models/skill.model'),
   require('./models/volunteerSkills.model'),
-  require('./models/admin.model')
+  require('./models/admin.model'),
+  require('./models/link.model')
 ];
 
 for (const modelDefiner of modelDefiners) {
