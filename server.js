@@ -97,6 +97,8 @@ app.delete('/api/project/:id', verifyAuth, projectController.removeProject);
 
 /*========= LINK ROUTES =========*/
 app.post('/api/link', linkController.addLink);
+app.post('/api/link/:id', linkController.editLink);
+app.delete('/api/link/:id', linkController.removeLink);
 
 /*========= ADMIN ROUTES =========*/
 app.post('/api/admin', verifyAuth, adminController.addAdmin);
