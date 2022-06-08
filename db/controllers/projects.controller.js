@@ -14,7 +14,11 @@ const getProjects = async (req, res) => {
 
 const getProject = async (req, res) => {
     let error;
-    const project = await models.project.findByPk(req.params.id)
+    const project = await models.project.findOne({
+        where: {
+          id: req.params.id
+        },
+        include: models.Link})
                           .catch(err => error = err);
                     
     if (error) {
