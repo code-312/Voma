@@ -6,10 +6,11 @@ const { slackLookupByEmail } = require('../lib/slack/slack');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
+const Project = models.project;
 
 const getVolunteers = async (req, res) => {
     let error;
-    const volunteers = await models.volunteer.findAll()
+    const volunteers = await models.volunteer.findAll({ include: Project })
                              .catch(err => error = err);
 
     if (error) {

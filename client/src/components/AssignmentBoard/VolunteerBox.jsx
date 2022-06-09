@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/material';
+import VolunteerModal from './VolunteerModal/VolunteerModal';
 
 const useStyles = makeStyles({
     volunteerName: {
@@ -18,12 +19,20 @@ const useStyles = makeStyles({
     },
 });
 
-const VolunteerBox = ({ volunteer, onClick }) => {
+const VolunteerBox = ({ volunteer }) => {
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
     const classes = useStyles();
     return (
-        <Box className={classes.volunteerName} onClick={onClick}>
-            <Box>{volunteer.name || 'Volunteer Name'}</Box>
-        </Box>
+        <>
+            <VolunteerModal volunteer={volunteer} modalOpen={modalOpen} closeModal={closeModal} />
+            <Box className={classes.volunteerName} onClick={openModal} closeModal={closeModal}>
+                <Box>{volunteer.name || 'Volunteer Name'}</Box>
+            </Box>
+        </>
     )
 };
 
