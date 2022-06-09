@@ -15,14 +15,37 @@ export const VolunteerModalContainer = styled.div`
 export const VolunteerModalSidebar = styled.div`
     flex: 1;
     border-right: solid 1px #938F9B;
-    padding: 16px;
 `;
 
 export const VolunteerSidebarTabContainer = styled.div`
     display: flex;
+    padding: 16px;
+
     h2 {
         color: black;
     }
+
+    path {
+        fill: #666;
+    }
+
+    .MuiTypography-subtitle-2 {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        color: #666666;
+        padding-left: 32px;
+    }
+    ${(props) => props.$active && `
+        background-color: rgba(98, 0, 238, 0.08);
+        .MuiTypography-subtitle-2 {
+            color: #6200EE;
+        }
+        path {
+            fill: #6200EE;
+        }
+    `}
 `
 
 export const VolunteerSidebarHeader = styled.div`
@@ -35,7 +58,7 @@ export const VolunteerSidebarHeader = styled.div`
     }
 `;
 
-
+// export const VolunteerTabLabel = styled.
 
 export const VolunteerModalContent = styled.div`
     flex: 2;
