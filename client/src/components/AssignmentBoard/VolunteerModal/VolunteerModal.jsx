@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { ReactComponent as VolunteerIcon } from '../../../assets/volunteer-icon.svg';
 import VolunteerModalTabs from './VolunteerModalTabs';
+import ModalContent from './ModalContent';
 import {
     VolunteerModalContainer, 
     VolunteerModalSidebar, 
@@ -13,7 +14,7 @@ import {
 
 const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
   const [project, setProject] = useState('');
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     if (volunteer.project) {
@@ -47,7 +48,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
         </VolunteerModalSidebar>
         <VolunteerModalContent>
         <Typography id="modal-description" sx={{ mt: 2 }}>
-          {volunteer.email}
+          <ModalContent volunteer={volunteer} activeTab={activeTab} />
         </Typography>
         </VolunteerModalContent>
       </VolunteerModalContainer>

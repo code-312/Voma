@@ -63,4 +63,22 @@ export const VolunteerSidebarHeader = styled.div`
 export const VolunteerModalContent = styled.div`
     flex: 2;
     padding: 16px;
+    .MuiTypography-body1 {
+        margin-top: 0;
+    }
+    .MuiTypography-overline {
+        color: #666;
+    }
+    .MuiTypography-subtitle-1 {
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        margin-bottom: 8px;
+        margin-top: -8px;
+    }
+    h2 {
+        color: black;
+    }
 `;
