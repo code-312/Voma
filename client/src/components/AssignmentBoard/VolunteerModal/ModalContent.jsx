@@ -22,7 +22,7 @@ const ModalContent = ({ volunteer, activeTab }) => {
    return ( 
         <>
             { activeTab === 0 && <GeneralContent fields={summary} title="Summary" />}
-            { activeTab === 1 && <Tasks volunteer={volunteer} />}
+            { activeTab === 1 && <Tasks tasks={volunteer.completedTasks} />}
             { activeTab === 2 && <GeneralContent fields={skills} title="Skills" /> }
             { activeTab === 3 && <GeneralContent title="Credentials" fields={credentials} />}
             { activeTab === 4 && <ProjectAssignment volunteer={volunteer} />}

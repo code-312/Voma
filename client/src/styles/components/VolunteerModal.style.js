@@ -83,3 +83,26 @@ export const VolunteerModalContent = styled.div`
         color: black;
     }
 `;
+
+export const VolunteerTabTable = styled.table`
+    padding: 8px;
+    border-collapse: collapse;
+    width: 100%;
+    thead tr, tbody tr {
+        border-bottom: solid 1px #938F9B;
+    }
+
+    td, th {
+        padding: 16px;
+        border-bottom: solid 1px #938F9B;
+        font-size: 14px;
+        line-height: 17px;
+        color: #3A3535;
+        font-family: 'Inter', sans-serif;
+    }
+
+    th {
+        text-align: left;
+        font-weight: 700;
+    }
+`;
