@@ -155,6 +155,38 @@ const editVolunteer = async (req, res) => {
     res.status(200).json({ result: `Volunteer ${req.params.id} has been updated.`});
 };
 
+const assignVolunteerToProject = async (req, res) => {
+    const { volunteerId, projectId } = req.body;
+    let findError, assignError;
+    // validate both volunteer and project are valid
+    const volunteer = await models.volunteer.findByPk(volunteerId)
+        .catch(err => findError = err);
+
+    const project = await models.project.findByPk(projectId)
+        .catch(err => findError = err);
+
+    // If they both exist, associated them 
+    if (volunteer && project) {
+        await volunteer.setProject(project)
+            .catch(err => assignError = err);
+    }
+
+    if (!volunteer) {
+        return res.status(404).json({ error: `Volunteer ${volunteerId} could not be found.`});
+    }
+
+    if (!project) {
+        return res.status(404).json({ error: `Project ${projectId} could not be found.`});
+    }
+
+    if (assignError || findError) {
+        return res.status(400).json({ error: assignError });
+    }
+
+    return res.status(200).json({ result: `Volunteer ${volunteerId} has been added to project ${projectId}`});
+        
+}
+
 const removeVolunteer = async (req, res) => {
     let findError, deleteError;
 
@@ -238,6 +270,7 @@ module.exports = {
     getVolunteer,
     addVolunteer,
     editVolunteer,
+    assignVolunteerToProject,
     removeVolunteer,
     getSlackByEmail
 };
