@@ -10,7 +10,7 @@ const Project = models.project;
 
 const getVolunteers = async (req, res) => {
     let error;
-    const volunteers = await models.volunteer.findAll({ include: Project })
+    const volunteers = await models.volunteer.findAll({ include: Project, include: models.skill })
                              .catch(err => error = err);
 
     if (error) {
@@ -23,7 +23,8 @@ const getVolunteers = async (req, res) => {
 const getVolunteer = async (req, res) => {
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
-      include: models.skill
+      include: models.skill,
+      include: Project
     })
                             .catch(err => error = err);
 
@@ -120,7 +121,8 @@ const editVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        projectId
+        projectId,
+        skillId
     } = req.body;
 
     let findError, updateError;
@@ -134,6 +136,24 @@ const editVolunteer = async (req, res) => {
     if (!volunteer) {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
+
+    if (skillId) {
+        await VolunteerSkills.findOrCreate({
+            where: { skillId },
+            defaults: {
+                volunteerId: volunteer.id,
+                skillId,
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return res.json({
+                success: false,
+                message: 'Unable to add associate skill to volunteer in database.',
+                error: err
+            });
+        });
+    };
 
     await volunteer.update({
         name,

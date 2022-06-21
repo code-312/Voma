@@ -15,7 +15,7 @@ import {
 const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
   const [project, setProject] = useState('');
   const [activeTab, setActiveTab] = useState(0);
-
+  console.log(volunteer);
   useEffect(() => {
     if (volunteer.project) {
       setProject(volunteer.project.name);
@@ -33,7 +33,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
     >
       <VolunteerModalContainer>
         <VolunteerModalSidebar>
-          <VolunteerSidebarTabContainer>
+          <VolunteerSidebarTabContainer $noHover>
             <VolunteerIcon />
             <VolunteerSidebarHeader>
               <Typography id="modal-title" variant="h6" component="h2">

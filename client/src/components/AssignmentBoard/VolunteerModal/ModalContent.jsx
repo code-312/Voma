@@ -9,8 +9,9 @@ const ModalContent = ({ volunteer, activeTab }) => {
         { label: 'Email address', value: volunteer.email },
         { label: 'Pronouns', value: volunteer.pronouns },
     ];
+    const skillName = volunteer.skills.length > 0 ? volunteer.skills[0].name : "No Skills";
     const skills = [
-        { label: 'role', value: 'No skills' } // TODO: Get this working dummy
+        { label: 'role', value: skillName } // TODO: Get this working dummy
     ];
     const credentials = [
         { label: 'employer', value: volunteer.employer },

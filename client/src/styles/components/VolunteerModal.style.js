@@ -20,7 +20,8 @@ export const VolunteerModalSidebar = styled.div`
 export const VolunteerSidebarTabContainer = styled.div`
     display: flex;
     padding: 16px;
-
+    ${(props) => !props.$noHover && `cursor: pointer;`}
+    
     h2 {
         color: black;
     }

@@ -7,8 +7,15 @@ const VolunteerModalTab = ({ Icon, label, onClick, active, index }) => {
         onClick(index);
     }
 
+    const changeTabKey = (e) => {
+        const { key } = e;
+        if (key === 'Enter') {
+            onClick(index);
+        }
+    }
+
     return ( 
-        <VolunteerSidebarTabContainer onClick={changeTab} $active={active} tabIndex={0}>
+        <VolunteerSidebarTabContainer onClick={changeTab} onKeyDown={changeTabKey} $active={active} tabIndex={0}>
            <Icon />
             <Typography variant="subtitle-2">
                 {label}
