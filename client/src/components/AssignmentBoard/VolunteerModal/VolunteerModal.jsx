@@ -12,7 +12,7 @@ import {
     VolunteerModalContent, 
 } from '../../../styles/components/VolunteerModal.style';
 
-const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
+const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects }) => {
   const [project, setProject] = useState('');
   const [activeTab, setActiveTab] = useState(0);
   console.log(volunteer);
@@ -47,9 +47,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal }) => {
           <VolunteerModalTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         </VolunteerModalSidebar>
         <VolunteerModalContent>
-        <Typography id="modal-description" sx={{ mt: 2 }}>
-          <ModalContent volunteer={volunteer} activeTab={activeTab} />
-        </Typography>
+        <ModalContent volunteer={volunteer} activeTab={activeTab} projects={projects} />
         </VolunteerModalContent>
       </VolunteerModalContainer>
     </Modal>

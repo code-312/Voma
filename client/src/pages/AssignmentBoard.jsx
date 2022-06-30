@@ -113,11 +113,13 @@ export default function AssignmentBoard() {
                     { copy.assign.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
+                            projects={projects}
                         />) }
                     <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
                     { copy.onboarding.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
+                            projects={projects}
                         />) }
                 </>
             )
@@ -125,7 +127,7 @@ export default function AssignmentBoard() {
             setFilteredVolunteers(copy);
             setVolunteersFiltered(true);
         }
-    }, [volunteers, volunteersFiltered, filteredVolunteers]);
+    }, [volunteers, volunteersFiltered, filteredVolunteers, projects]);
 
     useEffect(() => {
         if (projects.length > 0) {
@@ -134,7 +136,9 @@ export default function AssignmentBoard() {
                 key={`project-${project.id}`} 
                 volunteers={filteredVolunteers[project.id]}
                 project={project}
-                classes={classes}/>
+                classes={classes}
+                projects={projects}
+            />
             ));
             setProjectCards(cards);
         }
