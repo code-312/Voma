@@ -72,7 +72,7 @@ export default function BasicInfoForm() {
 
     const invalidFields = Object.keys(invalid);
 
-    if (!invalidFields.length && 0) {
+    if (!invalidFields.length) {
       Volunteer.updateInfo(basicInfo);
       Volunteer.setRegistrationStep(2);
 
