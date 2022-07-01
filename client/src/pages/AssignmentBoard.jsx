@@ -91,7 +91,7 @@ export default function AssignmentBoard() {
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
     useEffect(() => { // map over volunteers and sort them into their project
-        if (volunteers.length > 0 && !volunteersFiltered) {
+        if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
             const copy = { ...filteredVolunteers };
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
@@ -134,7 +134,7 @@ export default function AssignmentBoard() {
             const cards = projects.map((project) => ( // Display projects.
             <ProjectBox 
                 key={`project-${project.id}`} 
-                volunteers={filteredVolunteers[project.id]}
+                volunteers={filteredVolunteers[project.id] || []}
                 project={project}
                 classes={classes}
                 projects={projects}

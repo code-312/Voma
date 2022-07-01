@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/material';
 import VolunteerBox from './VolunteerBox';
 
 export default function ProjectBox({ volunteers, project, classes, projects }) {
-
+    console.log(`Project: ${project.name}`);
+    console.log(`volunteers: ${volunteers}`);
     return (
         <Box 
             className={classes.projectCard} 

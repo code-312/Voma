@@ -36,7 +36,36 @@ const fetchProjects = async () => {
     return projectList;
 }
 
+/** 
+ * Assign a volunteer to a project. 
+ * Returns true on success, otherwise the error message
+ */
+
+const assignVolunteerToProject = async (volunteerId, projectId ) => {
+    let error;
+    const result = await fetch('/api/assign-volunteer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ volunteerId, projectId })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return res.json();
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
+    assignVolunteerToProject
 };

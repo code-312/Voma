@@ -31,6 +31,7 @@ const ProjectAssignment = ({ volunteer, projects }) => {
                             active={selectedProject === project.id}
                             setSelectedProject={setSelectedProject}
                             volunteerSkill={skillName} 
+                            volunteerId={volunteer.id}
                         />
                         ))
                     }
