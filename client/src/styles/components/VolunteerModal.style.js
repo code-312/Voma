@@ -141,7 +141,6 @@ export const ProjectBoxContainer = styled.div`
     display: flex;
     max-width: 100%;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 205px;
     padding: 16px;
@@ -174,10 +173,20 @@ export const ProjectBoxName = styled.h4`
     height: 205px;
     flex: 1;
     text-align: center;
+    justify-self: flex-start;
 `;
 
 export const ProjectBoxContent = styled.div`
     border-right: solid 1px #5100FF;
+`;
+
+export const ProjectBoxMatchIndicator = styled.div`
+    flex: 1;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 `;
 
 export const ProjectMatchIndicator = styled.h5`
@@ -187,4 +196,24 @@ export const ProjectMatchIndicator = styled.h5`
     font-size: 13px;
     line-height: 15px;
     color: ${(props) => props.$match ? '#198D16' : '#000'};
+`;
+
+export const AssignToProjectContainer = styled.div`
+    flex: 1;
+    display: flex;
+    align-items: center;
+    button {
+        border: none;
+        font-family: 'Roboto';
+        font-weight: 500;
+        width: 116px;
+        height: 26px;
+        margin: 0;
+        background-color: #5100FF;
+        color: #fff;
+        text-transform: uppercase;
+        border-radius: 25px;
+        font-size: 14px;
+        padding: 0;
+    }
 `;

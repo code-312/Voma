@@ -5,6 +5,8 @@ import {
     ProjectBoxContainer, 
     ProjectBoxName, 
     ProjectMatchIndicator,
+    ProjectBoxMatchIndicator,
+    AssignToProjectContainer
 } from '../../../../styles/components/VolunteerModal.style';
 
 const ProjectBox = ({ project, active, setSelectedProject, volunteerSkill }) => {
@@ -17,12 +19,17 @@ const ProjectBox = ({ project, active, setSelectedProject, volunteerSkill }) => 
     return (
         <ProjectBoxContainer $selected={active} onClick={changeSelection} tabIndex={0}>
             <ProjectBoxName>{project.name}</ProjectBoxName>
-            { isMatch ? 
-                <Match />
-                :
-                <Mismatch />
-            }
-            <ProjectMatchIndicator $match={isMatch}>{ isMatch ? 'MATCH' : 'MISMATCH '}</ProjectMatchIndicator>
+            <ProjectBoxMatchIndicator>
+                { isMatch ? 
+                    <Match />
+                    :
+                    <Mismatch />
+                }
+                <ProjectMatchIndicator $match={isMatch}>{ isMatch ? 'MATCH' : 'MISMATCH '}</ProjectMatchIndicator>
+            </ProjectBoxMatchIndicator>
+            <AssignToProjectContainer>
+                { active && <button type="button">Click me</button>}
+            </AssignToProjectContainer>
         </ProjectBoxContainer>
     )
 };
