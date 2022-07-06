@@ -10,8 +10,7 @@ import {
     ProjectAssignmentCell,
 } from '../../../../styles/components/VolunteerModal.style';
 
-const ProjectAssignment = ({ volunteer, projects }) => {
-    const [selectedProject, setSelectedProject] = useState(null);
+const ProjectAssignment = ({ volunteer, projects, selectedProject, setSelectedProject }) => {
 
     const skillName = volunteer && volunteer.skills && volunteer.skills[0] && volunteer.skills[0].name;
     
@@ -41,28 +40,6 @@ const ProjectAssignment = ({ volunteer, projects }) => {
                     <ProjectAssignmentProjectContainer>
                     {projects.map((project) => (
                         <ProjectBox 
-                        key={project.id} 
-                        project={project} 
-                        active={selectedProject === project.id}
-                        setSelectedProject={setSelectedProject}
-                        volunteerSkill={skillName} 
-                        volunteerId={volunteer.id}
-                        />
-                        ))
-                    }
-                    </ProjectAssignmentProjectContainer>
-            </ProjectAssignmentContainer>
-            <br />
-            <br />
-            <br />
-            {/* <ProjectAssignmentContainer>
-                <ProjectAssignmentSkillContainer>
-                    <ProjectAssignmentSkill>{skillName || '--'}</ProjectAssignmentSkill>
-                </ProjectAssignmentSkillContainer>
-                <ProjectAssignmentProjectContainer>
-                
-                    {projects.map((project) => (
-                        <ProjectBox 
                             key={project.id} 
                             project={project} 
                             active={selectedProject === project.id}
@@ -72,9 +49,8 @@ const ProjectAssignment = ({ volunteer, projects }) => {
                         />
                         ))
                     }
-                    
-                </ProjectAssignmentProjectContainer>
-            </ProjectAssignmentContainer> */}
+                    </ProjectAssignmentProjectContainer>
+            </ProjectAssignmentContainer>
         </>
     );
 }

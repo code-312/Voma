@@ -9,6 +9,9 @@ export const VolunteerModalContainer = styled.div`
     background-color: #fff;
     border: 2px solid #000;
     box-shadow: 2px 2px 3px #666;
+`;
+
+export const VolunteerModalBody = styled.div`
     display: flex;
 `;
 
@@ -49,6 +52,14 @@ export const VolunteerSidebarTabContainer = styled.div`
         }
     `}
 `
+
+export const VolunteerModalFooter = styled.div`
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    height: 68px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+`;
 
 export const VolunteerSidebarHeader = styled.div`
     padding-left: 32px;

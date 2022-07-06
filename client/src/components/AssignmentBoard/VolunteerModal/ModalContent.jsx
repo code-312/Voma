@@ -3,7 +3,7 @@ import ProjectAssignment from './content/ProjectAssignment';
 import Tasks from './content/Tasks';
 import GeneralContent from './content/GeneralContent';
 
-const ModalContent = ({ volunteer, activeTab, projects }) => {
+const ModalContent = ({ volunteer, activeTab, projects, selectedProject, setSelectedProject }) => {
     const summary = [
         { label: 'Slack User Id', value: volunteer.slackUserId }, 
         { label: 'Email address', value: volunteer.email },
@@ -25,7 +25,12 @@ const ModalContent = ({ volunteer, activeTab, projects }) => {
             { activeTab === 1 && <Tasks tasks={volunteer.completedTasks} />}
             { activeTab === 2 && <GeneralContent fields={skills} title="Skills" /> }
             { activeTab === 3 && <GeneralContent title="Credentials" fields={credentials} />}
-            { activeTab === 4 && <ProjectAssignment volunteer={volunteer} projects={projects} />}
+            { activeTab === 4 && <ProjectAssignment 
+                                    volunteer={volunteer} 
+                                    projects={projects} 
+                                    selectedProject={selectedProject}
+                                    setSelectedProject={setSelectedProject}
+                                />}
         </>
    );
 }
