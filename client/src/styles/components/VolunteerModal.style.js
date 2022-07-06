@@ -21,6 +21,7 @@ export const VolunteerSidebarTabContainer = styled.div`
     display: flex;
     padding: 16px;
     ${(props) => !props.$noHover && `cursor: pointer;`}
+    ${(props) => props.$noHover && `border-bottom: 1px solid rgba(0, 0, 0, 0.12);`}
     
     h2 {
         color: black;
@@ -111,14 +112,11 @@ export const VolunteerTabTable = styled.table`
 export const ProjectAssignmentContainer = styled.div`
     display: flex;
     align-items: center;
-    min-height: 200px;
+    height: 144px;
 `;
 
 export const ProjectAssignmentSkillContainer = styled.div`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 16px;
+   
 `;
 
 export const ProjectAssignmentProjectContainer = styled.div`
@@ -126,6 +124,29 @@ export const ProjectAssignmentProjectContainer = styled.div`
     display: flex;
     align-items: center;
     overflow-x: scroll;
+    overflow-y: hidden;
+    margin-bottom: -10px;
+    &::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #fff;
+    }
+`;
+
+export const ProjectAssignmentRow = styled.div`
+    height: 72px;
+    &:first-of-type {
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+`;
+
+export const ProjectAssignmentCell = styled.div`
+    padding: 16px;
+    width: ${(props) => props.$label ? '160px' : '100%'};
 `;
 
 export const ProjectAssignmentSkill = styled.h3`
@@ -138,27 +159,11 @@ export const ProjectAssignmentSkill = styled.h3`
 `;
 
 export const ProjectBoxContainer = styled.div`
-    display: flex;
-    max-width: 100%;
-    flex-direction: column;
-    align-items: center;
-    height: 205px;
-    padding: 16px;
-    border-radius: 10px;
-    margin: 4px 0;
-    border-radius: 0;
-    border-top: solid 1px #fff;
-    border-right: solid 1px #5100FF;
-    border-left: solid 1px #fff;
-    border-bottom: solid 1px #fff;
     ${(props) => props.$selected &&
-        `border-top: solid 1px #5100FF;
-        border-right: solid 1px #5100FF;
-        border-left: solid 1px #5100FF;
-        border-bottom: solid 1px #5100FF;
+        `background: rgba(98, 0, 238, 0.08);        
+        border: 1px solid #6200EE;
         border-radius: 10px;
         `
-        
     }
 `;
 
@@ -168,11 +173,11 @@ export const ProjectBoxName = styled.h4`
     font-weight: 700;
     font-size: 13px;
     line-height: 21px;
-    color: #212121;
+    color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
     width: 160px;
-    height: 205px;
+    // height: 205px;
     flex: 1;
-    text-align: center;
+    text-align: left;
     justify-self: flex-start;
 `;
 
@@ -183,10 +188,21 @@ export const ProjectBoxContent = styled.div`
 export const ProjectBoxMatchIndicator = styled.div`
     flex: 1;
     align-self: center;
-    justify-content: center;
+    justify-content: flex-start;
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+    svg {
+        margin: 4px;
+        path {
+            fill: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+        }
+    }
+    h5 {
+        color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+        margin-bottom: 0;
+    }
 `;
 
 export const ProjectMatchIndicator = styled.h5`
@@ -195,7 +211,7 @@ export const ProjectMatchIndicator = styled.h5`
     font-weight: 500;
     font-size: 13px;
     line-height: 15px;
-    color: ${(props) => props.$match ? '#198D16' : '#000'};
+    color: ${(props) => props.$match ? '#198D16' : 'rgba(0, 0, 0, 0.6)'};
 `;
 
 export const AssignToProjectContainer = styled.div`

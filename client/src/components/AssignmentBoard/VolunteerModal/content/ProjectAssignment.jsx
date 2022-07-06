@@ -3,9 +3,11 @@ import Typography from '@mui/material/Typography';
 import ProjectBox from './ProjectBox';
 import {
     ProjectAssignmentContainer, 
-    ProjectAssignmentSkill,
+    ProjectBoxName,
     ProjectAssignmentSkillContainer,
     ProjectAssignmentProjectContainer, 
+    ProjectAssignmentRow,
+    ProjectAssignmentCell,
 } from '../../../../styles/components/VolunteerModal.style';
 
 const ProjectAssignment = ({ volunteer, projects }) => {
@@ -16,9 +18,44 @@ const ProjectAssignment = ({ volunteer, projects }) => {
     return (    
         <>
             <Typography variant="h6" component="h2" gutterBottom>
-                Project Assignment
+                Project Match
             </Typography>
             <ProjectAssignmentContainer>
+                <ProjectAssignmentSkillContainer>
+
+                <ProjectAssignmentRow>
+                    <ProjectAssignmentCell $label>
+                        <ProjectBoxName>
+                            Skill
+                        </ProjectBoxName>
+                    </ProjectAssignmentCell>
+                </ProjectAssignmentRow>
+                <ProjectAssignmentRow>
+                    <ProjectAssignmentCell $label>
+                        <ProjectBoxName>
+                            {skillName || '--'}
+                        </ProjectBoxName>
+                    </ProjectAssignmentCell>
+                </ProjectAssignmentRow>
+                </ProjectAssignmentSkillContainer>
+                    <ProjectAssignmentProjectContainer>
+                    {projects.map((project) => (
+                        <ProjectBox 
+                        key={project.id} 
+                        project={project} 
+                        active={selectedProject === project.id}
+                        setSelectedProject={setSelectedProject}
+                        volunteerSkill={skillName} 
+                        volunteerId={volunteer.id}
+                        />
+                        ))
+                    }
+                    </ProjectAssignmentProjectContainer>
+            </ProjectAssignmentContainer>
+            <br />
+            <br />
+            <br />
+            {/* <ProjectAssignmentContainer>
                 <ProjectAssignmentSkillContainer>
                     <ProjectAssignmentSkill>{skillName || '--'}</ProjectAssignmentSkill>
                 </ProjectAssignmentSkillContainer>
@@ -37,7 +74,7 @@ const ProjectAssignment = ({ volunteer, projects }) => {
                     }
                     
                 </ProjectAssignmentProjectContainer>
-            </ProjectAssignmentContainer>
+            </ProjectAssignmentContainer> */}
         </>
     );
 }

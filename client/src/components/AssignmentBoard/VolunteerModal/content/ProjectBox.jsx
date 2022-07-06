@@ -6,6 +6,8 @@ import {
     ProjectBoxName, 
     ProjectMatchIndicator,
     ProjectBoxMatchIndicator,
+    ProjectAssignmentRow,
+    ProjectAssignmentCell,
     AssignToProjectContainer
 } from '../../../../styles/components/VolunteerModal.style';
 import { assignVolunteerToProject } from '../../../../lib/Requests';
@@ -31,18 +33,32 @@ const ProjectBox = ({ project, active, setSelectedProject, volunteerSkill, volun
     // TODO: get rid of extra border on projects adjacent to selected. 
     return (
         <ProjectBoxContainer $selected={active} onClick={changeSelection} tabIndex={0}>
-            <ProjectBoxName>{project.name}</ProjectBoxName>
-            <ProjectBoxMatchIndicator>
+            <ProjectAssignmentRow>
+                <ProjectAssignmentCell>
+                    <ProjectBoxName $selected={active}>{project.name}</ProjectBoxName>
+                </ProjectAssignmentCell>
+            </ProjectAssignmentRow>
+            <ProjectAssignmentRow>
+                <ProjectAssignmentCell>
+                    <ProjectBoxMatchIndicator $selected={active}>
+                        { isMatch ? 
+                            <Match />
+                            :
+                            <Mismatch />
+                        }
+                        <ProjectMatchIndicator $match={isMatch}>{ isMatch ? 'MATCH' : 'MISMATCH '}</ProjectMatchIndicator>
+                    </ProjectBoxMatchIndicator>
+                </ProjectAssignmentCell>
+            </ProjectAssignmentRow>
+            {/* <ProjectBoxName $selected={active}>{project.name}</ProjectBoxName>
+            <ProjectBoxMatchIndicator $selected={active}>
                 { isMatch ? 
                     <Match />
                     :
                     <Mismatch />
                 }
                 <ProjectMatchIndicator $match={isMatch}>{ isMatch ? 'MATCH' : 'MISMATCH '}</ProjectMatchIndicator>
-            </ProjectBoxMatchIndicator>
-            <AssignToProjectContainer>
-                { active && <button onClick={assign} type="button">{buttonName}</button>}
-            </AssignToProjectContainer>
+            </ProjectBoxMatchIndicator> */}
         </ProjectBoxContainer>
     )
 };
