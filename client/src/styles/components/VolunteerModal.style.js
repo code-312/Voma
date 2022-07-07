@@ -203,15 +203,14 @@ export const ProjectBoxMatchIndicator = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
-    color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
     svg {
         margin: 4px;
         path {
-            fill: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+            fill: ${(props) => props.$match ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
         }
     }
     h5 {
-        color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+        color: ${(props) => props.$match ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
         margin-bottom: 0;
     }
 `;

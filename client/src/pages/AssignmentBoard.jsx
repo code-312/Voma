@@ -4,7 +4,7 @@ import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
-import ProjectBox from '../components/AssignmentBoard/ProjectBox';
+import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 
 const useStyles = makeStyles({
@@ -110,17 +110,25 @@ export default function AssignmentBoard() {
             const sidebar = (
                 <>
                     <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
-                    { copy.assign.map((vol) => <VolunteerBox 
+                    { copy.assign.length > 0 ? 
+                        copy.assign.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
-                        />) }
+                        />) 
+                        : 
+                        <Typography variant="body">No Volunteers Ready to Assign</Typography> 
+                    }
                     <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
-                    { copy.onboarding.map((vol) => <VolunteerBox 
+                    { copy.onboarding.length > 0 ? 
+                        copy.onboarding.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
-                        />) }
+                        />) 
+                        :
+                        <Typography variant="body">No Volunteers Currently Onboarding</Typography> 
+                    }
                 </>
             )
             setVolunteerCards(sidebar);
@@ -132,7 +140,7 @@ export default function AssignmentBoard() {
     useEffect(() => {
         if (projects.length > 0) {
             const cards = projects.map((project) => ( // Display projects.
-            <ProjectBox 
+            <ProjectContainer 
                 key={`project-${project.id}`} 
                 volunteers={filteredVolunteers[project.id] || []}
                 project={project}

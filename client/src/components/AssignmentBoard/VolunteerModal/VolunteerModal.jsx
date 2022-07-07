@@ -74,7 +74,12 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects }) => {
             />
           </VolunteerModalContent>
         </VolunteerModalBody>
-        <ModalFooterButtons standard={activeTab !== 4} closeModal={closeModal} assignVolunteerToProject={assignVolunteer} />
+        <ModalFooterButtons 
+          standard={activeTab !== 4} 
+          closeModal={closeModal} 
+          assignVolunteerToProject={assignVolunteer} 
+          selectedProject={selectedProject}
+        />
       </VolunteerModalContainer>
     </Modal>
   );

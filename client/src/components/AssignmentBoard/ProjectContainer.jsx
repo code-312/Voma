@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import VolunteerBox from './VolunteerBox';
 
-export default function ProjectBox({ volunteers, project, classes, projects }) {
-    console.log(`Project: ${project.name}`);
-    console.log(`volunteers: ${volunteers}`);
+export default function ProjectContainer({ volunteers, project, classes, projects }) {
     return (
         <Box 
             className={classes.projectCard} 
@@ -15,7 +13,7 @@ export default function ProjectBox({ volunteers, project, classes, projects }) {
 
             <hr />
 
-            {Object.entries(volunteers).map(([key, volunteer]) => (
+            {volunteers.map((volunteer) => (
                 <VolunteerBox
                     key={`volunteer-${volunteer.id}`}
                     volunteer={volunteer} 

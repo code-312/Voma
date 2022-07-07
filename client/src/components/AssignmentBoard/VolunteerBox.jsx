@@ -9,6 +9,13 @@ const VolunteerBox = ({ volunteer, projects }) => {
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
+    const modalOpenKeyPress = (e) => {
+        const { key } = e;
+        if (key === 'Enter') {
+            openModal();
+        }
+    }
+
     const classes = useStyles();
     return (
         <>
@@ -18,7 +25,13 @@ const VolunteerBox = ({ volunteer, projects }) => {
                 closeModal={closeModal} 
                 projects={projects} 
             />
-            <Box className={classes.volunteerName} onClick={openModal} closeModal={closeModal}>
+            <Box 
+                tabIndex={0} 
+                onKeyDown={modalOpenKeyPress} 
+                className={classes.volunteerName} 
+                onClick={openModal} 
+                closeModal={closeModal}
+            >
                 <Box>{volunteer.name || 'Volunteer Name'}</Box>
             </Box>
         </>

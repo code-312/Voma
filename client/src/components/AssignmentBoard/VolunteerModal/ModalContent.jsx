@@ -11,7 +11,7 @@ const ModalContent = ({ volunteer, activeTab, projects, selectedProject, setSele
     ];
     const skillName = volunteer.skills.length > 0 ? volunteer.skills[0].name : "No Skills";
     const skills = [
-        { label: 'role', value: skillName } // TODO: Get this working dummy
+        { label: 'role', value: skillName }
     ];
     const credentials = [
         { label: 'employer', value: volunteer.employer },
