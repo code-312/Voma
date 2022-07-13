@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const VolunteerModalContainer = styled.div`
-    display: flex;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -12,15 +11,20 @@ export const VolunteerModalContainer = styled.div`
     box-shadow: 2px 2px 3px #666;
 `;
 
+export const VolunteerModalBody = styled.div`
+    display: flex;
+`;
+
 export const VolunteerModalSidebar = styled.div`
-    flex: 1;
     border-right: solid 1px #938F9B;
+    flex: 1;
 `;
 
 export const VolunteerSidebarTabContainer = styled.div`
     display: flex;
     padding: 16px;
     ${(props) => !props.$noHover && `cursor: pointer;`}
+    ${(props) => props.$noHover && `border-bottom: 1px solid rgba(0, 0, 0, 0.12);`}
     
     h2 {
         color: black;
@@ -49,6 +53,14 @@ export const VolunteerSidebarTabContainer = styled.div`
     `}
 `
 
+export const VolunteerModalFooter = styled.div`
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    height: 68px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+`;
+
 export const VolunteerSidebarHeader = styled.div`
     padding-left: 32px;
     .MuiTypography-paragraph {
@@ -62,8 +74,9 @@ export const VolunteerSidebarHeader = styled.div`
 // export const VolunteerTabLabel = styled.
 
 export const VolunteerModalContent = styled.div`
-    flex: 2;
     padding: 16px;
+    flex: 2;
+    overflow: hidden;
     .MuiTypography-body1 {
         margin-top: 0;
     }
@@ -104,5 +117,129 @@ export const VolunteerTabTable = styled.table`
     th {
         text-align: left;
         font-weight: 700;
+    }
+`;
+
+export const ProjectAssignmentContainer = styled.div`
+    display: flex;
+    align-items: center;
+    height: 144px;
+`;
+
+export const ProjectAssignmentSkillContainer = styled.div`
+   
+`;
+
+export const ProjectAssignmentProjectContainer = styled.div`
+    flex: 2;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    margin-bottom: -10px;
+    &::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #fff;
+    }
+`;
+
+export const ProjectAssignmentRow = styled.div`
+    height: 72px;
+    &:first-of-type {
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+`;
+
+export const ProjectAssignmentCell = styled.div`
+    padding: 16px;
+    width: ${(props) => props.$label ? '160px' : '100%'};
+`;
+
+export const ProjectAssignmentSkill = styled.h3`
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    color: #212121;
+`;
+
+export const ProjectBoxContainer = styled.div`
+    ${(props) => props.$selected &&
+        `background: rgba(98, 0, 238, 0.08);        
+        border: 1px solid #6200EE;
+        border-radius: 10px;
+        `
+    }
+`;
+
+export const ProjectBoxName = styled.h4`
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 21px;
+    color: ${(props) => props.$selected ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+    width: 160px;
+    // height: 205px;
+    flex: 1;
+    text-align: left;
+    justify-self: flex-start;
+`;
+
+export const ProjectBoxContent = styled.div`
+    border-right: solid 1px #5100FF;
+`;
+
+export const ProjectBoxMatchIndicator = styled.div`
+    flex: 1;
+    align-self: center;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    svg {
+        margin: 4px;
+        path {
+            fill: ${(props) => props.$match ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+        }
+    }
+    h5 {
+        color: ${(props) => props.$match ? '#019592' : 'rgba(0, 0, 0, 0.6)'};
+        margin-bottom: 0;
+    }
+`;
+
+export const ProjectMatchIndicator = styled.h5`
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: ${(props) => props.$match ? '#198D16' : 'rgba(0, 0, 0, 0.6)'};
+`;
+
+export const AssignToProjectContainer = styled.div`
+    flex: 1;
+    display: flex;
+    align-items: center;
+    button {
+        border: none;
+        font-family: 'Roboto';
+        font-weight: 500;
+        width: 116px;
+        height: 26px;
+        margin: 0;
+        background-color: #5100FF;
+        color: #fff;
+        text-transform: uppercase;
+        border-radius: 25px;
+        font-size: 14px;
+        padding: 0;
     }
 `;

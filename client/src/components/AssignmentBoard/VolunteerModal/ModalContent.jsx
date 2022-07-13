@@ -3,7 +3,7 @@ import ProjectAssignment from './content/ProjectAssignment';
 import Tasks from './content/Tasks';
 import GeneralContent from './content/GeneralContent';
 
-const ModalContent = ({ volunteer, activeTab }) => {
+const ModalContent = ({ volunteer, activeTab, projects, selectedProject, setSelectedProject }) => {
     const summary = [
         { label: 'Slack User Id', value: volunteer.slackUserId }, 
         { label: 'Email address', value: volunteer.email },
@@ -11,7 +11,7 @@ const ModalContent = ({ volunteer, activeTab }) => {
     ];
     const skillName = volunteer.skills.length > 0 ? volunteer.skills[0].name : "No Skills";
     const skills = [
-        { label: 'role', value: skillName } // TODO: Get this working dummy
+        { label: 'role', value: skillName }
     ];
     const credentials = [
         { label: 'employer', value: volunteer.employer },
@@ -25,7 +25,12 @@ const ModalContent = ({ volunteer, activeTab }) => {
             { activeTab === 1 && <Tasks tasks={volunteer.completedTasks} />}
             { activeTab === 2 && <GeneralContent fields={skills} title="Skills" /> }
             { activeTab === 3 && <GeneralContent title="Credentials" fields={credentials} />}
-            { activeTab === 4 && <ProjectAssignment volunteer={volunteer} />}
+            { activeTab === 4 && <ProjectAssignment 
+                                    volunteer={volunteer} 
+                                    projects={projects} 
+                                    selectedProject={selectedProject}
+                                    setSelectedProject={setSelectedProject}
+                                />}
         </>
    );
 }
