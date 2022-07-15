@@ -4,54 +4,52 @@ import { fetchProjects } from '../lib/Requests';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectInfo from '../components/AssignmentBoard/ProjectInfo';
+import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
+import { ProjectSidebarProject } from '../styles/pages/ProjectPage.style';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
     const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
-    const [selectedProject, setSelectedProject] = useState(null);
+    const [selectedProject, setSelectedProject] = useState({});
 
     const getProjectDetails = useCallback(async (id) => {
-        await fetch(`/api/project/${id}`)
-        .then((res) => {
-            if (res.ok) {
-                return res.json()
-                .then((project) => {
-                    setSelectedProject(project);
-                })
-            }
-            throw new Error('Something went wrong');
-        })
-        .catch((err) => console.log(`Error! ${err}`));
+        setSelectedProject(projects.find((project) => project.id === id) || {});
+    }, [projects]);
 
-        
-    }, []);
+    // const getProjectDetails = (id) => {
+    //     setSelectedProject(projects.find((project) => project.id === id));
+    // }
 
     useEffect(() => {
         const getProjects = async () => {
             const projs = await fetchProjects();
             setProjects(projs);
+            setSelectedProject(projs[0]);
         }
 
         getProjects();
     }, []);
 
-    useEffect(() => { 
+    useEffect(() => { // Not ideal, this runs every time a project is selected
         if (projects.length > 0) {
-            const cards = (
-                <>
-                <Typography variant="h6" mt="24px" mb="16px">Projects</Typography>
-                { projects.map((project) => <ProjectCard 
-                    key={`project-${project.id}`} 
-                    project={project}
-                    onClick={() => getProjectDetails(project.id)}
-                    />)
-                }
-                </>
+            const cards = projects.map((project) => (    
+                    <ProjectCard 
+                        key={`project-${project.id}`}
+                        projectName={project.name}
+                        projectId={project.id} 
+                        onClick={getProjectDetails}
+                        selected={selectedProject.id === project.id}
+                    />
+            ));
+            const sidebar = (
+                <ProjectSidebar>
+                    {cards}
+                </ProjectSidebar>
             )
-            setProjectCards(cards);
+            setProjectCards(sidebar);
         }
-    }, [projects, getProjectDetails]);
+    }, [projects, getProjectDetails, selectedProject.id]);
 
     useEffect(() => {
         if (selectedProject) {

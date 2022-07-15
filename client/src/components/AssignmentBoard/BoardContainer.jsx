@@ -5,8 +5,8 @@ import { deepPurple } from '@mui/material/colors';
 const useStyles = makeStyles({
     sidebar: {
         overflowY: 'scroll',
-        paddingLeft: '16px',
-        paddingRight: '24px',
+        // paddingLeft: '16px',
+        // paddingRight: '24px',
         minHeight: 'calc(100vh - 64px)',
         maxHeight: 'calc(100vh - 64px)',
         marginTop: '-32px',
