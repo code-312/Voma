@@ -19,9 +19,12 @@ const useStyles = makeStyles({
         }
     },
     board: {
-        overflowX: 'scroll',
+        overflow: 'scroll',
         paddingRight: '24px',
         marginTop: '-32px',
+        minHeight: '100vh',
+        maxHeight: '100vh',
+        height: 'auto',
         width: 'calc(100vw - 272px)',
         maxWidth: 'calc(100vw - 272px)',
         '& > .MuiBox-root': {
@@ -68,7 +71,7 @@ export default function BoardContainer({ sideBarContent, mainContainerContent })
     const classes = useStyles();
 
     return (<>
-        <Grid container justifyContent="flex-box">
+        <Grid container justifyContent="flex-box" sx={{ maxHeight: '100vh', position: 'fixed'}}>
             <Grid item md={2} className={classes.sidebar}>
                 { sideBarContent }
             </Grid>  

@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Typography } from '@mui/material';
 import { fetchProjects } from '../lib/Requests';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
-import ProjectInfo from '../components/AssignmentBoard/ProjectInfo';
+import ProjectInfo from '../components/ProjectPage/ProjectInfo';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
-import { ProjectSidebarProject } from '../styles/pages/ProjectPage.style';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -16,10 +14,6 @@ const Projects = () => {
     const getProjectDetails = useCallback(async (id) => {
         setSelectedProject(projects.find((project) => project.id === id) || {});
     }, [projects]);
-
-    // const getProjectDetails = (id) => {
-    //     setSelectedProject(projects.find((project) => project.id === id));
-    // }
 
     useEffect(() => {
         const getProjects = async () => {

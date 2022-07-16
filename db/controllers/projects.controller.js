@@ -2,7 +2,9 @@ const { models } = require('../index');
 
 const getProjects = async (req, res) => {
     let error;
-    const projects = await models.project.findAll()
+    const projects = await models.project.findAll({
+        include: models.Link,
+    })
                     .catch(err => error = err);
     
     if (error) {
