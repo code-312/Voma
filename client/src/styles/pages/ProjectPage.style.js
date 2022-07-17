@@ -39,9 +39,10 @@ export const ProjectInfoSection = styled.div`
         color: rgba(0, 0, 0, 0.6);
     }
 
-    .MuiTypography-body1 {
+    .MuiTypography-subtitle-1 {
         color: rgba(0, 0, 0, 0.87);
         white-space: break-spaces;
+        font-size: 16px;
     }
 `;
 

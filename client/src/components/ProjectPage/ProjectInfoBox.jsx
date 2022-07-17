@@ -9,7 +9,11 @@ const ProjectInfoBox = ({ fields, header, mainHeader }) => (
             // eslint-disable-next-line react/no-array-index-key
                 (<ProjectInfoField key={`field-${index}`}>
                     <Typography variant="overline">{field.label}</Typography>
-                    <Typography varitant="subtitle-1">{field.value}</Typography>
+                    { field.type === 'link' ? 
+                        <Typography paragraph variant="subtitle-1"><a href={field.value}>{field.value}</a></Typography>
+                        :
+                        <Typography paragraph variant="subtitle-1">{field.value}</Typography>
+                    }
                 </ProjectInfoField>)
             )}
         </ProjectInfoSection>

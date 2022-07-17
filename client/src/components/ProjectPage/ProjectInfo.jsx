@@ -1,36 +1,9 @@
 import React from 'react';
-import { Typography } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 import ProjectInfoSwitcher from './ProjectInfoSwitcher';
 import ProjectInfoBox from './ProjectInfoBox';
 import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
 
-const useStyles = makeStyles({
-    projectInfoHeader: {
-        marginTop: '15px',
-        textAlign: 'center'
-    },
-    projectInfoContainer: {
-        display: 'flex',
-        padding: '10px',
-        justifyContent: 'space-between'
-    },
-    projectInfoLabel: {
-        flex: 1,
-        margin: '15px',
-    }, 
-    projectInfoField: {
-        backgroundColor: 'white',
-        borderRadius: '10px',
-        flex: 3,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
-
 const ProjectInfo = ({ project }) => {
-    console.log(project);
     const projectBasicInfo = [{
             label: 'RECRUITMENT STATUS',
             value: project.activelyRecruiting ? 'Actively Recruiting' : 'Not Actively Recruiting'
@@ -65,8 +38,8 @@ const ProjectInfo = ({ project }) => {
         value: project.comment ? project.comment : 'No comments have been added.'
     }];
 
+    const links = project.Links.map((link) => ({ label: link.title, value: link.url, type: 'link' }))
 
-    // const classes = useStyles();
     return (
         <>
             <ProjectInfoContainer>
@@ -74,44 +47,8 @@ const ProjectInfo = ({ project }) => {
                 <ProjectInfoBox header={project.name} mainHeader fields={projectBasicInfo} />
                 <ProjectInfoBox header="Recruitment" fields={projectRecruitmentInfo} />
                 <ProjectInfoBox header="Additional Info" fields={additionalInfo} />
+                <ProjectInfoBox header="Links" fields={links} />
             </ProjectInfoContainer>
-            {/* <Typography class={classes.projectInfoHeader} align="center" component="h1" variant="h4">{project.name}</Typography>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Summary:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>{project.description}</p></div>
-            </div>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Recruitment Status:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>{project.activelyRecruiting ? 'Actively Recruiting' : 'Not Actively Recruiting'}</p></div>
-            </div>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Current Needs:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>{project.currentNeeds ? project.currentNeeds.join(', ') : '--'}</p></div>
-            </div>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Meeting Cadence:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>Need to add this still</p></div>
-            </div>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Good Fit For:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>{project.goodFitFor}</p></div>
-            </div>
-            <div className={classes.projectInfoContainer}>
-                <div className={classes.projectInfoLabel}>
-                    <Typography align="left" paragraph>Tech:</Typography>
-                </div>
-                <div className={classes.projectInfoField}><p>{project.tech}</p></div>
-            </div> */}
         </>
     );
 };

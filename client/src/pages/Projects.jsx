@@ -43,7 +43,7 @@ const Projects = () => {
             )
             setProjectCards(sidebar);
         }
-    }, [projects, getProjectDetails, selectedProject.id]);
+    }, [projects, getProjectDetails, selectedProject]);
 
     useEffect(() => {
         if (selectedProject) {
