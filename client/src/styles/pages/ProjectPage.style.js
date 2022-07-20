@@ -56,3 +56,44 @@ export const ButtonContainer = styled.div`
 export const ProjectInfoField = styled.div`
     margin: 10px 0;
 `;
+
+export const ProjectNameInput = styled.input`
+    border: none;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 34px;
+    color: rgba(0, 0, 0, 0.87);
+    height: 36px;
+    width: 100%;
+    &::placeholder {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 34px;
+        color: rgba(0, 0, 0, 0.87);
+    }
+`;
+
+export const ProjectRadioButtonContainer = styled.div`
+    display: block;
+    margin: 8px 0;
+    line-height: 24px;
+    input {
+        margin: 4px;
+    }
+`;
+
+export const ProjectInfoTextField = styled.textarea`
+    padding: 16px 12px 14px 14px;
+    width: 100%;
+    height: 78px;
+    background: rgba(33, 33, 33, 0.08);
+    border-radius: 4px 4px 0px 0px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    display: block;
+`;
