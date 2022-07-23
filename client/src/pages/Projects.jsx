@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Typography } from '@mui/material';
 import { fetchProjects } from '../lib/Requests';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
-import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
+import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectInfo from '../components/AssignmentBoard/ProjectInfo';
 
 const Projects = () => {
@@ -37,11 +38,17 @@ const Projects = () => {
 
     useEffect(() => { 
         if (projects.length > 0) {
-            const cards = projects.map((project) => <VolunteerBox 
+            const cards = (
+                <>
+                <Typography variant="h6" mt="24px" mb="16px">Projects</Typography>
+                { projects.map((project) => <ProjectCard 
                     key={`project-${project.id}`} 
-                    volunteer={project}
+                    project={project}
                     onClick={() => getProjectDetails(project.id)}
-                    />);
+                    />)
+                }
+                </>
+            )
             setProjectCards(cards);
         }
     }, [projects, getProjectDetails]);
@@ -55,7 +62,6 @@ const Projects = () => {
     }, [selectedProject])
 
     return <BoardContainer
-                sideBarHeader="Projects"
                 sideBarContent={projectCards}
                 mainContainerContent={mainContent}
             />;

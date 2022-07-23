@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
+import { Typography } from '@mui/material';
 import { fetchVolunteers, fetchProjects } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
-import ProjectBox from '../components/AssignmentBoard/ProjectBox';
+import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 
 const useStyles = makeStyles({
@@ -70,22 +71,13 @@ const useStyles = makeStyles({
 
 export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
+    const [filteredVolunteers, setFilteredVolunteers] = useState({ onboarding: [], assign: []});
+    const [volunteersFiltered, setVolunteersFiltered] = useState(false);
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
 
-    const classes = useStyles();
-
-    // Filter out just the volunteers currently assigned to this project.
-    const getProjectVolunteers = useCallback((projectId) => {
-        let projectVolunteers = [];
-        for (let i=0; i<volunteers.length; i+=1) {
-            if (volunteers[i].projectId === projectId) {
-                projectVolunteers.push(volunteers[i]);
-            }
-        }
-        return projectVolunteers;
-    }, [volunteers]);
+    const classes = useStyles(); 
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
@@ -98,35 +90,71 @@ export default function AssignmentBoard() {
         initializeBoard();
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
-    useEffect(() => { // map over volunteers and render them as cards
-        if (volunteers.length > 0) {
-            const cards = Object.entries(volunteers).map(([key, volunteer]) => (
-                !volunteer.projectId && // Display volunteers with no assigned project.
-                <VolunteerBox 
-                    key={`volunteer-${volunteer.id}`} 
-                    volunteer={volunteer}/>
-            ));
-            setVolunteerCards(cards);
+    useEffect(() => { // map over volunteers and sort them into their project
+        if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
+            const copy = { ...filteredVolunteers };
+            volunteers.forEach((vol) => {
+                if (!vol.projectId) {
+                    if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
+                        copy.assign.push(vol);
+                    } else {
+                        copy.onboarding.push(vol);
+                    }
+                } else if (copy[vol.projectId]) {
+                        copy[vol.projectId].push(vol);
+                } else {
+                    copy[vol.projectId] = [vol];
+                    }
+            });
+
+            const sidebar = (
+                <>
+                    <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
+                    { copy.assign.length > 0 ? 
+                        copy.assign.map((vol) => <VolunteerBox 
+                            key={`volunteer-${vol.id}`} 
+                            volunteer={vol}
+                            projects={projects}
+                        />) 
+                        : 
+                        <Typography variant="body">No Volunteers Ready to Assign</Typography> 
+                    }
+                    <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
+                    { copy.onboarding.length > 0 ? 
+                        copy.onboarding.map((vol) => <VolunteerBox 
+                            key={`volunteer-${vol.id}`} 
+                            volunteer={vol}
+                            projects={projects}
+                        />) 
+                        :
+                        <Typography variant="body">No Volunteers Currently Onboarding</Typography> 
+                    }
+                </>
+            )
+            setVolunteerCards(sidebar);
+            setFilteredVolunteers(copy);
+            setVolunteersFiltered(true);
         }
-    }, [volunteers]);
+    }, [volunteers, volunteersFiltered, filteredVolunteers, projects]);
 
     useEffect(() => {
         if (projects.length > 0) {
-            const cards = Object.entries(projects).map(([key, project]) => ( // Display projects.
-            <ProjectBox 
+            const cards = projects.map((project) => ( // Display projects.
+            <ProjectContainer 
                 key={`project-${project.id}`} 
-                volunteers={getProjectVolunteers(project.id)}
+                volunteers={filteredVolunteers[project.id] || []}
                 project={project}
-                classes={classes}/>
+                classes={classes}
+                projects={projects}
+            />
             ));
             setProjectCards(cards);
         }
-    }, [projects, classes, getProjectVolunteers]);
+    }, [projects, classes, filteredVolunteers]);
 
 
     return (<>
         <BoardContainer 
-            sideBarHeader="Currently Onboarding"
             sideBarContent={volunteerCards}
             mainContainerContent={projectCards}
         />
