@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { ProjectInfoSection, ButtonContainer } from '../../styles/pages/ProjectPage.style';
 
-const ProjectInfoSwitcher = ({ editing, toggleEdit }) => {
+const ProjectInfoSwitcher = ({ editing, showEditForm, saveProject }) => {
     if (editing) {
         console.log("editing!"); 
     } else {
@@ -15,14 +15,14 @@ const ProjectInfoSwitcher = ({ editing, toggleEdit }) => {
                     variant="text" 
                     disabled={editing} 
                     type="button" 
-                    onClick={toggleEdit}>
+                    onClick={showEditForm}>
                         Edit
                 </Button>
                 <Button 
                     variant="text" 
                     disabled={!editing} 
                     type="button" 
-                    onClick={toggleEdit}>
+                    onClick={saveProject}>
                         Save
                 </Button>
             </ButtonContainer>

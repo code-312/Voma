@@ -64,8 +64,55 @@ const assignVolunteerToProject = async (volunteerId, projectId ) => {
     return result || error;
 }
 
+/**
+ * Fetch all skills from the API.
+ * 
+ * @returns {Array} Array of project objects or empty array on error.
+ */
+
+const fetchSkills = async () => {
+    const skillList = await fetch('/api/skills')
+        .then(response => response.json())
+        .catch(e => {
+            console.error(e);
+            return [];
+        });
+    
+    // console.log('fetchProjects', skillList); // debug
+
+    return skillList;
+};
+
+/**
+ * Edit a project's details.
+ * 
+ * @returns {true} on success, otherwise it will return the error. 
+ */
+const editProject = async (project, id) => {
+    let error;
+    const result = await fetch(`/api/project/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+};
+
 export {
     fetchVolunteers,
     fetchProjects,
-    assignVolunteerToProject
+    fetchSkills,
+    assignVolunteerToProject,
+    editProject
 };

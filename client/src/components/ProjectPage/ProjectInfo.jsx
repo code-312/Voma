@@ -3,8 +3,9 @@ import ProjectInfoSwitcher from './ProjectInfoSwitcher';
 import ProjectInfoBox from './ProjectInfoBox';
 import ProjectinfoEditableBox from './ProjectInfoEditableBox';
 import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
+import { editProject } from '../../lib/Requests';
 
-const ProjectInfo = ({ project }) => {
+const ProjectInfo = ({ project, skills }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newProjectName, setNewProjectName] = useState("");
     const [newProjectRecruitStatus, setNewProjectRecruitStatus] = useState("false");
@@ -16,6 +17,7 @@ const ProjectInfo = ({ project }) => {
     const [newProjectStatement, setNewProjectStatement] = useState("");
     const [newProjectDeliverables, setNewProjectDeliverables] = useState("");
     const [newProjectComment, setNewProjectComment] = useState("");
+    const [newProjectLinks, setNewProjectLinks] = useState([]);
 
 
     useEffect(() => {
@@ -25,11 +27,32 @@ const ProjectInfo = ({ project }) => {
         setNewProjectCurrentNeeds(project.currentNeeds);
         setNewProjectFit(project.goodFitFor);
         setNewProjectTech(project.tech);
-        setNewProjectComment(project.comment)
+        setNewProjectComment(project.comment);
+        setNewProjectLinks(project.Links)
     }, [project]);
 
-    const toggleEdit = () => {
-        setIsEditing(!isEditing);
+    const showEditForm = () => {
+        setIsEditing(true);
+    }
+
+    const saveProject = async () => {
+        const newProject = {
+            name: newProjectName,
+            description: newProjectSummary,
+            currentNeeds: newProjectCurrentNeeds,
+            activelyRecruiting: newProjectRecruitStatus === 'true',
+            tech: newProjectTech,
+            goodFitFor: newProjectFit,
+            comment: newProjectComment
+        };
+
+        const result = await editProject(newProject, project.id);
+        if (result === true) {
+            window.location.reload();
+        } else {
+            // TODO: Error handling
+            console.log(result);
+        }
     }
 
     const fieldToStateMapper = {
@@ -120,19 +143,7 @@ const ProjectInfo = ({ project }) => {
         type: 'checkbox',
         label: 'Current Needs',
         name: 'currentNeeds',
-        options: [{ // Need to dynamically populate this
-            value: 'frontend', text: 'Front-end'
-        }, {
-            value: 'backend', text: 'Back-end'
-        }, {
-            value: 'data', text: 'Data'
-        }, {
-            value: 'uxDesign', text: 'UX Design'
-        }, {
-            value: 'uiDesign', text: 'UI Design'
-        }, {
-            value: 'uxResearch', text: 'UX Research'
-        }],
+        options: skills.map((skill) => ({ value: skill.name, text: skill.name })),
         currentValues: newProjectCurrentNeeds,
         onChange: currentNeedsListener
     }, {
@@ -162,8 +173,12 @@ const ProjectInfo = ({ project }) => {
         label: 'Comments',
         currentValue: newProjectComment,
         name: "comment"
-    }]
+    }];
 
+    const linksEdit = newProjectLinks ? 
+        newProjectLinks.map((link) => ( {...link, type: 'link' })) 
+        : 
+        [];
 
     if (!project) {
         return null;
@@ -171,7 +186,7 @@ const ProjectInfo = ({ project }) => {
 
     return (
         <ProjectInfoContainer>
-            <ProjectInfoSwitcher editing={isEditing} toggleEdit={toggleEdit} />
+            <ProjectInfoSwitcher editing={isEditing} showEditForm={showEditForm} saveProject={saveProject} />
             {!isEditing ?
                 <>
                     <ProjectInfoBox header={project.name} mainHeader fields={projectBasicInfo} />
@@ -196,6 +211,11 @@ const ProjectInfo = ({ project }) => {
                         header="Additional Info"
                         onChange={changeListener}
                         fields={additionalInfoEdit}
+                    />
+                    <ProjectinfoEditableBox
+                        header="Links"
+                        onChange={() => {}}
+                        fields={linksEdit}
                     />
                 </>
             }

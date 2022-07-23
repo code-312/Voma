@@ -4,6 +4,7 @@ import ProjectNameField from './ProjectInfoFormFields/ProjectNameField';
 import RadioButtons from './ProjectInfoFormFields/RadioButtons';
 import ProjectTextField from './ProjectInfoFormFields/ProjectTextField';
 import ProjectCheckbox from './ProjectInfoFormFields/ProjectCheckbox';
+import ProjectLink from './ProjectInfoFormFields/ProjectLink';
 import { ProjectInfoSection, ProjectInfoField } from '../../styles/pages/ProjectPage.style';
 
 const ProjectInfoEditableBox = ({ fields, header, mainHeader, onChange }) => {
@@ -35,6 +36,11 @@ const ProjectInfoEditableBox = ({ fields, header, mainHeader, onChange }) => {
                     onChange={field.onChange}
                     currentValues={field.currentValues}
                 />
+            )
+        }
+        if (field.type === 'link') {
+            return (
+                <ProjectLink link={field} onChange={onChange} />
             )
         }
         return null;

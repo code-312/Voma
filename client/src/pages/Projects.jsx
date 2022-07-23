@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { fetchProjects } from '../lib/Requests';
+import { fetchProjects, fetchSkills } from '../lib/Requests';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectInfo from '../components/ProjectPage/ProjectInfo';
@@ -7,6 +7,7 @@ import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
+    const [skills, setSkills] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
     const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
     const [selectedProject, setSelectedProject] = useState({});
@@ -24,6 +25,15 @@ const Projects = () => {
 
         getProjects();
     }, []);
+
+    useEffect(() => {
+        const getSkills = async () => {
+            const fetchedSkills = await fetchSkills();
+            setSkills(fetchedSkills);
+        }
+
+        getSkills();
+    }, [])
 
     useEffect(() => { // Not ideal, this runs every time a project is selected
         if (projects.length > 0) {
@@ -48,10 +58,10 @@ const Projects = () => {
     useEffect(() => {
         if (selectedProject) {
             setMainContent(
-                <ProjectInfo project={selectedProject} />
+                <ProjectInfo project={selectedProject} skills={skills} />
             );
         }
-    }, [selectedProject])
+    }, [selectedProject, skills])
 
     return <BoardContainer
                 sideBarContent={projectCards}
