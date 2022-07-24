@@ -2,13 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { ProjectInfoSection, ButtonContainer } from '../../styles/pages/ProjectPage.style';
 
-const ProjectInfoSwitcher = ({ editing, showEditForm, saveProject }) => {
-    if (editing) {
-        console.log("editing!"); 
-    } else {
-        console.log("not editing!");
-    }
-    return (
+const ProjectInfoSwitcher = ({ editing, showEditForm, saveProject }) => (
         <ProjectInfoSection>
             <ButtonContainer>
                 <Button 
@@ -27,7 +21,6 @@ const ProjectInfoSwitcher = ({ editing, showEditForm, saveProject }) => {
                 </Button>
             </ButtonContainer>
         </ProjectInfoSection>
-    )
-};
+    );
 
 export default ProjectInfoSwitcher;

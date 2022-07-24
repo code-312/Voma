@@ -100,8 +100,6 @@ const ProjectInfo = ({ project, skills }) => {
 
     const editExistingLink = async (link) => {
         const result = await editLink(link);
-        console.log('editing');
-        console.log(result);
         if (result.error) {
             console.log(`Error! ${result.error}`);
         }
@@ -115,7 +113,6 @@ const ProjectInfo = ({ project, skills }) => {
                 title: link.title, 
                 projectId: project.id
             };
-            console.log(newLink);
             // If link is already associated with project, potentially send edit request
             const exisitngLink = project.Links ? 
                 project.Links.find((exLink) => exLink.id === link.id) 
