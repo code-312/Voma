@@ -3,7 +3,7 @@ import ProjectInfoSwitcher from './ProjectInfoSwitcher';
 import ProjectInfoBox from './ProjectInfoBox';
 import ProjectinfoEditableBox from './ProjectInfoEditableBox';
 import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
-import { editProject } from '../../lib/Requests';
+import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
 
 const ProjectInfo = ({ project, skills }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -35,26 +35,6 @@ const ProjectInfo = ({ project, skills }) => {
         setIsEditing(true);
     }
 
-    const saveProject = async () => {
-        const newProject = {
-            name: newProjectName,
-            description: newProjectSummary,
-            currentNeeds: newProjectCurrentNeeds,
-            activelyRecruiting: newProjectRecruitStatus === 'true',
-            tech: newProjectTech,
-            goodFitFor: newProjectFit,
-            comment: newProjectComment
-        };
-
-        const result = await editProject(newProject, project.id);
-        if (result === true) {
-            window.location.reload();
-        } else {
-            // TODO: Error handling
-            console.log(result);
-        }
-    }
-
     const fieldToStateMapper = {
         projectName: setNewProjectName,
         activelyRecruiting: setNewProjectRecruitStatus,
@@ -72,6 +52,15 @@ const ProjectInfo = ({ project, skills }) => {
         stateSetter(e.currentTarget.value);
     }
 
+    const linkListener = (newLink) => {
+        const index = newProjectLinks.findIndex((link) => link.id === newLink.id);
+        if (index !== -1) {
+            const linksCopy = [...newProjectLinks];
+            linksCopy[index] = newLink;
+            setNewProjectLinks(linksCopy);
+        } 
+    }
+
     const currentNeedsListener = (e) => {
         if (e.currentTarget.checked) {
             setNewProjectCurrentNeeds([...newProjectCurrentNeeds, e.currentTarget.value]);
@@ -79,6 +68,93 @@ const ProjectInfo = ({ project, skills }) => {
             let currentNeedsCopy = [...newProjectCurrentNeeds];
             currentNeedsCopy.splice(newProjectCurrentNeeds.indexOf(e.currentTarget.value), 1);
             setNewProjectCurrentNeeds(currentNeedsCopy);
+        }
+    }
+
+    const deleteLink = async (id) => {
+        if (project.Links && project.Links.some((link) => link.id === id)) {
+            const result = await removeLink(id);
+            if (result.error) {
+                console.log(`Errror! ${result.error}`);
+            };
+        }
+        const linksCopy = [...newProjectLinks];
+        const index = linksCopy.findIndex((link) => link.id === id);
+        linksCopy.splice(index, 1);
+        setNewProjectLinks(linksCopy);
+    }
+
+    const createLink = () => {
+        const linksCopy = [...newProjectLinks];
+        const tempId = Math.floor(Math.random() * 9999) + 1000;
+        linksCopy.push({ title: "", text: "", required: false, id: tempId });
+        setNewProjectLinks(linksCopy);
+    }
+
+    const addLinkToProject = async (link) => {
+        const result = await addLink(link);
+        if (result.error) {
+            console.log(`Error! ${result.error}`);
+        }
+    };
+
+    const editExistingLink = async (link) => {
+        const result = await editLink(link);
+        console.log('editing');
+        console.log(result);
+        if (result.error) {
+            console.log(`Error! ${result.error}`);
+        }
+    }
+
+    const processLinks = async (links) => {
+        links.forEach((link) => {
+            const newLink = {
+                id: link.id,
+                url: link.url,
+                title: link.title, 
+                projectId: project.id
+            };
+            console.log(newLink);
+            // If link is already associated with project, potentially send edit request
+            const exisitngLink = project.Links ? 
+                project.Links.find((exLink) => exLink.id === link.id) 
+                : 
+                null;
+            if (exisitngLink) {
+                if (exisitngLink.title !== link.title || 
+                    exisitngLink.url !== link.url ||
+                    exisitngLink.required !== link.required) {
+                        editExistingLink(newLink);
+                    }
+            } else {
+                addLinkToProject(newLink);
+            }
+        });
+        window.location.reload();
+    }
+
+    const saveProject = async () => {
+        const newProject = {
+            name: newProjectName,
+            description: newProjectSummary,
+            currentNeeds: newProjectCurrentNeeds,
+            activelyRecruiting: newProjectRecruitStatus === 'true',
+            tech: newProjectTech,
+            goodFitFor: newProjectFit,
+            comment: newProjectComment
+        };
+
+        const result = await editProject(newProject, project.id);
+        if (result === true) {
+            if (newProjectLinks.length > 0) {
+                processLinks(newProjectLinks);
+            } else {
+                window.location.reload();
+            }
+        } else {
+            // TODO: Error handling
+            console.log(result);
         }
     }
 
@@ -176,9 +252,14 @@ const ProjectInfo = ({ project, skills }) => {
     }];
 
     const linksEdit = newProjectLinks ? 
-        newProjectLinks.map((link) => ( {...link, type: 'link' })) 
+        newProjectLinks.map((link) => ( {...link, type: 'link', deleteLink, linkListener })) 
         : 
         [];
+
+    const linkBoxFields = [
+        ...linksEdit,
+        { type: 'button', onClick: createLink }
+    ];
 
     if (!project) {
         return null;
@@ -215,7 +296,7 @@ const ProjectInfo = ({ project, skills }) => {
                     <ProjectinfoEditableBox
                         header="Links"
                         onChange={() => {}}
-                        fields={linksEdit}
+                        fields={linkBoxFields}
                     />
                 </>
             }

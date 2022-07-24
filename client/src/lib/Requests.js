@@ -109,10 +109,87 @@ const editProject = async (project, id) => {
     return result || error;
 };
 
+/**
+ * Remove a link from a project. 
+ * Returns true on success, else the error
+ */
+
+const removeLink = async (id) => {
+    let error; 
+    const result = await fetch(`/api/link/${id}`, {
+        method: 'DELETE'
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || { error };
+}
+
+/**
+ * Adds a link to a project.
+ * Returns true on success, else the error.
+ */
+const addLink = async (link) => {
+    let error;
+    const result = await fetch('/api/link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(link)
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || { error };
+}
+
+/**
+ * Edit a link.
+ * Returns true on success, else the error.
+ */
+const editLink = async (link) => {
+    let error;
+    const result = await fetch(`/api/link/${link.id}`, {
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(link)
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || { error };
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
     fetchSkills,
     assignVolunteerToProject,
-    editProject
+    editProject, 
+    removeLink,
+    addLink,
+    editLink
 };

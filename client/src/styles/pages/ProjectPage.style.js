@@ -96,4 +96,45 @@ export const ProjectInfoTextField = styled.textarea`
     font-size: 16px;
     line-height: 24px;
     display: block;
+    border: none;
+`;
+
+export const ProjectInfoInput = styled.input`
+    height: 54px;
+    background: rgba(33, 33, 33, 0.08);
+    border-radius: 4px;
+    border: none;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 16px 14px 14px;
+    flex: 3;
+`;
+
+export const ProjectEditableLinkLabel = styled.input`
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: .75rem;
+    line-height: 16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    border: none;
+`
+
+export const ProjectEditableLinkContainer = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 54px;
+`;
+
+export const ProjectAddLinkButtonContainer = styled.div`
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;

@@ -1,11 +1,16 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Button } from '@mui/material';
+import Add from '@mui/icons-material/Add';
 import ProjectNameField from './ProjectInfoFormFields/ProjectNameField';
 import RadioButtons from './ProjectInfoFormFields/RadioButtons';
 import ProjectTextField from './ProjectInfoFormFields/ProjectTextField';
 import ProjectCheckbox from './ProjectInfoFormFields/ProjectCheckbox';
 import ProjectLink from './ProjectInfoFormFields/ProjectLink';
-import { ProjectInfoSection, ProjectInfoField } from '../../styles/pages/ProjectPage.style';
+import { 
+    ProjectInfoSection, 
+    ProjectInfoField, 
+    ProjectAddLinkButtonContainer 
+} from '../../styles/pages/ProjectPage.style';
 
 const ProjectInfoEditableBox = ({ fields, header, mainHeader, onChange }) => {
     const getFormField = (field) => {
@@ -40,7 +45,24 @@ const ProjectInfoEditableBox = ({ fields, header, mainHeader, onChange }) => {
         }
         if (field.type === 'link') {
             return (
-                <ProjectLink link={field} onChange={onChange} />
+                <ProjectLink 
+                    link={field} 
+                    deleteLink={field.deleteLink} 
+                    linkListener={field.linkListener} 
+                />
+            )
+        }
+        if (field.type === 'button') {
+            return (
+                <ProjectAddLinkButtonContainer>
+                    <Button 
+                        onClick={field.onClick} 
+                        variant="contained" 
+                        startIcon={<Add />}
+                    >
+                        Add
+                    </Button>
+                </ProjectAddLinkButtonContainer>
             )
         }
         return null;
