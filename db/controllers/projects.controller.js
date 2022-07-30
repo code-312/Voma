@@ -56,7 +56,7 @@ const addProject = async (req, res) => {
 
 const editProject = async (req, res) => {
     let findError, updateError;
-
+    console.log(req.body);
     const project = await models.project.findByPk(req.params.id)
                     .catch(err => findError = err);
     
