@@ -183,6 +183,36 @@ const editLink = async (link) => {
     return result || { error };
 }
 
+/** Trigger the welcome to project slack message to a volunteer 
+ * Returns true on success, else the error.
+*/
+
+const sendWelcomeSlackMessage = async (volunteerSlackId, project) => {
+    let error;
+    let payload = JSON.stringify({
+        slackId: volunteerSlackId,
+        project: JSON.stringify(project)
+    });
+    const result = await fetch('/api/slack/send-welcome-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || { error };
+};
+
+
 export {
     fetchVolunteers,
     fetchProjects,
@@ -191,5 +221,6 @@ export {
     editProject, 
     removeLink,
     addLink,
-    editLink
+    editLink,
+    sendWelcomeSlackMessage
 };

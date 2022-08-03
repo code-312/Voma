@@ -1,4 +1,6 @@
 const slack = require('../lib/slack/slack');
+const blocks = require('../lib/slack/blocks');
+const axios = require('axios');
 
 const responses = {
     /**
@@ -90,6 +92,62 @@ const slackBot = async (req, res) => {
     // console.debug('slack.controller - slackBot - result', result);
 };
 
+const sendProjectWelcomeToVolunteer = async (req, res) => {
+    let error;
+    const { slackId, project } = req.body;
+    const parsedProject = JSON.parse(project);
+        // my slack id
+        const blockName = 'projectWelcomeConfirm';
+
+    
+        const result1 = await slack.slackBlockMessageUser(slackId, blockName, parsedProject)
+                        .catch((err) => error = err);
+        
+        const result2 = await slack.slackBlockMessageUser(slackId, "projectWelcomeActionButons")
+                        .catch((err) => error = err);
+    
+        if (error) {
+            return res.status(400).json({ error });
+        }
+    return res.status(200).json({ result: 'Success!' });
+};
+
+const receiveUserResponse = async (req, res) => {
+    const { payload } = req.body;
+    const parsedPayload = JSON.parse(payload);
+
+    const response = parsedPayload?.actions?.[0]?.selected_option?.value;
+    const responseUrl = parsedPayload?.response_url;
+    if (response === 'yes') {
+        acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
+    } else if (response === 'no') {
+        acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
+    }
+
+
+    return res.sendStatus(200);
+}
+
+const acknowledge = async (url, block) => {
+    const stringBlock = JSON.stringify(block);
+    await axios.post(url, {
+            blocks: stringBlock,
+            replace_original: true
+    })
+    .catch(e => console.log(e));
+}
+
+// const acknowledgeNo = async (url) => {
+//     const stringBlock = JSON.stringify(blocks.messageBlocks.projectActionReplaceNo());
+//     await axios.post(url, {
+//             blocks: stringBlock,
+//             replace_original: true
+//     })
+//     .catch(e => console.log(e));
+// }
+
 module.exports = {
     slackBot,
+    sendProjectWelcomeToVolunteer,
+    receiveUserResponse
 };

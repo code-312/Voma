@@ -167,12 +167,13 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
  const slackBlockMessageUser = async (slackUserId, blockName, blockParams=false) => {
     if (!blockName || !slackUserId || (typeof blockParams == 'undefined')) return false;
 
-    if (! messageBlocks[blockName]?.()) { // Check that block is configured.
+    if (! messageBlocks[blockName]) { // Check that block is configured.
         console.error('slackBlockMessageUser', `Block "${blockName} not set.`);
         return false;
     }
 
-    let blocks = messageBlocks[blockName](blockParams);
+    let blockFn = messageBlocks[blockName];
+    let blocks = blockFn(blockParams);
 
     try {
         let params = {

@@ -13,7 +13,7 @@ const messageBlocks = {
      * @param {object} project - Object with project information for the welcome message.
      *  @param {string} project.name - Project name.
      *  @param {string} project.description - Summary of the project.
-     *  @param {string} project.needs - Current project needs summary. "Front-end, UX Research, etc."
+     *  @param {string} project.currentNeeds - Current project needs summary. "Front-end, UX Research, etc."
      *  @param {string} project.cadence - Meeting cadence. "Every other Monday..."
      *  @param {string} project.tech - Project technologies. "Wordpress, Figma, ..."
      *  @param {string} project.additionalInfo - Additional info blurb.
@@ -29,7 +29,7 @@ const messageBlocks = {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `Hey there 👋! We've determined that based on your preferences and experience, ${project.name} would be the most fitting for you.`
+                    "text": `Hey there 👋! We've determined that based on your preferences and experience, *${project.name}* would be the most fitting for you.`
                 }
             },
             {
@@ -43,28 +43,28 @@ const messageBlocks = {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `Current Needs*: ${project.needs}`
+                    "text": `*Current Needs*: ${project.currentNeeds}`
                 }
             },
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `*Meeting Cadence*: ${project.cadence}`
+                    "text": `*Meeting Cadence*: ${project.meetingCadence}`
                 }
             },
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `*Tech*: ${project.text}`
+                    "text": `*Tech*: ${project.tech}`
                 }
             },
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `${project.additionalInfo}`
+                    "text": `${project.comment}`
                 }
             },
             {
@@ -77,34 +77,63 @@ const messageBlocks = {
                     "text": "Would you like to join?"
                 }
             },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "radio_buttons",
-                        "options": [
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "Yes, I would like to join this project.",
-                                    "emoji": true
-                                },
-                                "value": "yes"
+        ];
+    },
+
+    projectWelcomeActionButons: () => {
+        return [{
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "radio_buttons",
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Yes, I would like to join this project.",
+                                "emoji": true
                             },
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "No, I would not like to join this project.",
-                                    "emoji": true
-                                },
-                                "value": "no"
-                            }
-                        ],
-                        "action_id": "projectWelcomeConfirm"
-                    }
-                ]
+                            "value": "yes"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "No, I would not like to join this project.",
+                                "emoji": true
+                            },
+                            "value": "no"
+                        }
+                    ],
+                    "action_id": "projectWelcomeConfirm"
+                }
+            ]
+        }];
+    },
+
+    projectActionReplaceYes: () => {
+        return [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": ":white_check_mark: Yes, I would like to join this project.",
+                    "emoji": true
+                }
             }
         ];
+    },
+
+    projectActionReplaceNo: () => {
+        return [
+            {
+                "type": "section",
+                "text": {
+                    "type": "plain_text",
+                    "text": ":no_entry_sign: No, I would not like to join this project.",
+                    "emoji": true
+                }
+            }
+        ]
     },
 
     /**
@@ -112,7 +141,7 @@ const messageBlocks = {
      * @param {string} - Schedule followup meeting link.
      * @returns {array} - Slack block array of block objects.
      */
-    projectWelcomeConfirmNo: (scheduleFollowupMeetingLink) => {
+     projectActionConfirmNo: (scheduleFollowupMeetingLink) => {
         return [
             {
                 "type": "section",
