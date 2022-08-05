@@ -162,6 +162,9 @@ const messageBlocks = {
      * @returns {array} - Slack block array of block objects.
      */
     projectWelcomeConfirmYes: (project) => {
+        console.log('confirming yes');
+        const requiredLinks = project.Links.filter(link => link.required);
+        console.log(requiredLinks);
         let blocks = [
             {
                 "type": "section",
@@ -182,14 +185,14 @@ const messageBlocks = {
             }
         ];
 
-        for (let i=0; i<project.links.length; i++) {
+        for (let i=0; i<requiredLinks.length; i++) {
             blocks.push({
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `🔗 <${project.links[i].url}|${project.links[i].label}>`,
+                    "text": `🔗 <${requiredLinks[i].url}|${requiredLinks[i].title}>`,
                 }
-            })
+            });
         }
 
         return blocks;

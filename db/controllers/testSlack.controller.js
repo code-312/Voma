@@ -105,6 +105,7 @@ const send = {
 };
 
 const testMessageUserProject = async (req, res) => {
+    let error;
     // my slack id
     const slackId = 'U02KK4M789Y';
     const blockName = 'projectWelcomeConfirm';
@@ -131,12 +132,16 @@ const testMessageUserProject = async (req, res) => {
         "Links": []
     };
 
-    const result = await slack.slackBlockMessageUser(slackId, blockName, project)
-                    .catch((err) => console.log(err));
-
-    if (result) {
-        res.status(200).json({ result: 'Success! '});
-    }
+    const result1 = await slack.slackBlockMessageUser(slackId, blockName, project)
+                        .catch((err) => error = err);
+        
+        const result2 = await slack.slackBlockMessageUser(slackId, "projectWelcomeActionButons")
+                        .catch((err) => error = err);
+    
+        if (error) {
+            return res.status(400).json({ error });
+        }
+    return res.status(200).json({ result: 'Success!' });
 }
 
 const receiveUserResponse = async (req, res) => {

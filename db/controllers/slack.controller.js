@@ -1,5 +1,6 @@
 const slack = require('../lib/slack/slack');
 const blocks = require('../lib/slack/blocks');
+const { models } = require('../index');
 const axios = require('axios');
 
 const responses = {
@@ -119,23 +120,26 @@ const receiveUserResponse = async (req, res) => {
     const response = parsedPayload?.actions?.[0]?.selected_option?.value;
     const responseUrl = parsedPayload?.response_url;
     if (response === 'yes') {
-        acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
+        slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
+        const user = parsedPayload?.user?.id;
+        const volunteer = await models.volunteer.findOne({
+            where: { slackUserId: user },
+            include: [{
+                model: models.project,
+                include: [{
+                  model: models.Link
+                }]
+              }]
+        });
+       slack.sendProjectDetails(user, volunteer.project);
     } else if (response === 'no') {
-        acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
+        slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
     }
 
 
     return res.sendStatus(200);
 }
 
-const acknowledge = async (url, block) => {
-    const stringBlock = JSON.stringify(block);
-    await axios.post(url, {
-            blocks: stringBlock,
-            replace_original: true
-    })
-    .catch(e => console.log(e));
-}
 
 // const acknowledgeNo = async (url) => {
 //     const stringBlock = JSON.stringify(blocks.messageBlocks.projectActionReplaceNo());

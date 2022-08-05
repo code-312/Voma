@@ -272,6 +272,26 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
 }
 
 /**
+ * Acknowledge when a user clicks either 'yes' or 'no' to join a project. 
+ * @param {string} url - response URL, provided by slack
+ * @param {string} block - either projectActionReplaceYes or projectActionReplaceNo
+ */
+const acknowledge = async (url, block) => {
+    const stringBlock = JSON.stringify(block);
+    await axios.post(url, {
+            blocks: stringBlock,
+            replace_original: true
+    })
+    .catch(e => console.log(e));
+}
+
+const sendProjectDetails = async (userId, project) => {
+    console.log('sending project details');
+    // const block = messageBlocks.projectWelcomeConfirmYes(project, requiredLinks);
+    slackBlockMessageUser(userId, 'projectWelcomeConfirmYes', project);
+}
+
+/**
  * Opens a dialog with a user.
  */
 
@@ -284,4 +304,6 @@ module.exports = {
     slackTextMessageUser,
     slackBlockMessageUser,
     slackLookupByEmail,
+    acknowledge,
+    sendProjectDetails
 };
