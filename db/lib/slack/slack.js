@@ -286,8 +286,6 @@ const acknowledge = async (url, block) => {
 }
 
 const sendProjectDetails = async (userId, project) => {
-    console.log('sending project details');
-    // const block = messageBlocks.projectWelcomeConfirmYes(project, requiredLinks);
     slackBlockMessageUser(userId, 'projectWelcomeConfirmYes', project);
 }
 

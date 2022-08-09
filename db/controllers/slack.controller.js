@@ -147,16 +147,6 @@ const receiveUserResponse = async (req, res) => {
     return res.sendStatus(200);
 }
 
-
-// const acknowledgeNo = async (url) => {
-//     const stringBlock = JSON.stringify(blocks.messageBlocks.projectActionReplaceNo());
-//     await axios.post(url, {
-//             blocks: stringBlock,
-//             replace_original: true
-//     })
-//     .catch(e => console.log(e));
-// }
-
 module.exports = {
     slackBot,
     sendProjectWelcomeToVolunteer,
