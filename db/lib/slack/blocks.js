@@ -162,7 +162,6 @@ const messageBlocks = {
      * @returns {array} - Slack block array of block objects.
      */
     projectWelcomeConfirmYes: (project) => {
-        console.log('confirming yes');
         const requiredLinks = project.Links.filter(link => link.required);
         console.log(requiredLinks);
         let blocks = [

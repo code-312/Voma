@@ -119,21 +119,28 @@ const receiveUserResponse = async (req, res) => {
 
     const response = parsedPayload?.actions?.[0]?.selected_option?.value;
     const responseUrl = parsedPayload?.response_url;
+    const user = parsedPayload?.user?.id;
+
+    const volunteer = await models.volunteer.findOne({
+        where: { slackUserId: user },
+        include: [{
+            model: models.project,
+            include: [{
+              model: models.Link
+            }]
+          }]
+    });
+
     if (response === 'yes') {
         slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
-        const user = parsedPayload?.user?.id;
-        const volunteer = await models.volunteer.findOne({
-            where: { slackUserId: user },
-            include: [{
-                model: models.project,
-                include: [{
-                  model: models.Link
-                }]
-              }]
-        });
-       slack.sendProjectDetails(user, volunteer.project);
+        slack.sendProjectDetails(user, volunteer.project);
     } else if (response === 'no') {
         slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
+        slack.handleNoAction(user);
+
+        await volunteer.setProject(null)
+            .catch(err => console.log(err));
+        
     }
 
 

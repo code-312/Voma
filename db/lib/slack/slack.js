@@ -291,6 +291,11 @@ const sendProjectDetails = async (userId, project) => {
     slackBlockMessageUser(userId, 'projectWelcomeConfirmYes', project);
 }
 
+const handleNoAction = async (userId) => {
+    const placeholderLink = 'www.google.com';
+    slackBlockMessageUser(userId, 'projectActionConfirmNo', placeholderLink);
+}
+
 /**
  * Opens a dialog with a user.
  */
@@ -305,5 +310,6 @@ module.exports = {
     slackBlockMessageUser,
     slackLookupByEmail,
     acknowledge,
-    sendProjectDetails
+    sendProjectDetails,
+    handleNoAction,
 };
