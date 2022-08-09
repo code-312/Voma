@@ -113,7 +113,6 @@ app.post('/api/authenticated', adminController.loginState);
 /*===== SLACK BOT =====*/
 app.post('/api/slack/send-welcome-message', verifyAuth, slackController.sendProjectWelcomeToVolunteer);
 app.post('/api/slack/bot', slackController.slackBot);
-app.post('/api/slack-project', testSlack.testMessageUserProject);
 // Sent from slack bot
 app.post('/api/slack/user-response', slackController.receiveUserResponse)
 

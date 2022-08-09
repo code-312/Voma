@@ -104,46 +104,6 @@ const send = {
     }
 };
 
-const testMessageUserProject = async (req, res) => {
-    let error;
-    // my slack id
-    const slackId = 'U02KK4M789Y';
-    const blockName = 'projectWelcomeConfirm';
-    const project = {
-        "id": 1,
-        "name": "Code for Chicago WebPage",
-        "description": "Help build our website and design system for the brigade network and hooray",
-        "activelyRecruiting": true,
-        "currentNeeds": [
-            "Front-end",
-            "Project Management",
-            "Content Strategy",
-            "Data Analytics",
-            "Product Management"
-        ],
-        "tech": "Javascript, HTML, Express",
-        "goodFitFor": "Nobody",
-        "comment": "Here are some comments. and more!",
-        "meetingCadence": "",
-        "projectStatement": "",
-        "deliverables": [],
-        "createdAt": "2022-04-29T15:49:23.407Z",
-        "updatedAt": "2022-07-24T17:38:23.486Z",
-        "Links": []
-    };
-
-    const result1 = await slack.slackBlockMessageUser(slackId, blockName, project)
-                        .catch((err) => error = err);
-        
-        const result2 = await slack.slackBlockMessageUser(slackId, "projectWelcomeActionButons")
-                        .catch((err) => error = err);
-    
-        if (error) {
-            return res.status(400).json({ error });
-        }
-    return res.status(200).json({ result: 'Success!' });
-}
-
 const receiveUserResponse = async (req, res) => {
     const { payload } = req.body;
     console.log(payload);
@@ -153,6 +113,5 @@ const receiveUserResponse = async (req, res) => {
 
 module.exports = {
     send,
-    testMessageUserProject,
     receiveUserResponse
 };
