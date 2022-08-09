@@ -111,6 +111,7 @@ const ProjectInfo = ({ project, skills }) => {
                 id: link.id,
                 url: link.url,
                 title: link.title, 
+                required: link.required,
                 projectId: project.id
             };
             // If link is already associated with project, potentially send edit request
