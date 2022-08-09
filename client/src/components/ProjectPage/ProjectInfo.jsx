@@ -186,7 +186,7 @@ const ProjectInfo = ({ project, skills }) => {
 
     const additionalInfo = [{
         label: 'PROBLEM STATEMENT',
-        value: project.problemStatement || "No problem statmeent has been set."
+        value: project.problemStatement || "No problem statement has been set."
     }, {
         label: 'DELIVERABLES',
         value: project.deliverables ? project.deliverables.join(', ') : "No deliverables have been set."
