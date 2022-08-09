@@ -10,7 +10,13 @@ const Project = models.project;
 
 const getVolunteers = async (req, res) => {
     let error;
-    const volunteers = await models.volunteer.findAll({ include: Project, include: models.skill })
+    const volunteers = await models.volunteer.findAll({ 
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
+    })
                              .catch(err => error = err);
 
     if (error) {
@@ -23,8 +29,11 @@ const getVolunteers = async (req, res) => {
 const getVolunteer = async (req, res) => {
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
-      include: models.skill,
-      include: Project
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
     })
                             .catch(err => error = err);
 

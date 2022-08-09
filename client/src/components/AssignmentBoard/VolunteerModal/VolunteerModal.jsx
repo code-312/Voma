@@ -23,6 +23,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
+    console.log(volunteer);
     if (volunteer.project) {
       setProject(volunteer.project.name);
     } else {
