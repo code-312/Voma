@@ -13,7 +13,6 @@ import {
 const ProjectAssignment = ({ volunteer, projects, selectedProject, setSelectedProject }) => {
     const [sortedProjects, setSortedProjects] = useState([]);
     const skillName = volunteer && volunteer.skills && volunteer.skills[0] && volunteer.skills[0].name;
-    
     useEffect(() => {
         const sorted = [...projects].sort((a, b) => {
             const skillMatchA = a.currentNeeds.indexOf(skillName) !== -1;

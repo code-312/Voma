@@ -15,7 +15,7 @@ const ProjectInfo = ({ project, skills }) => {
     const [newProjectFit, setNewProjectFit] = useState("");
     const [newProjectTech, setNewProjectTech] = useState("");
     const [newProjectStatement, setNewProjectStatement] = useState("");
-    const [newProjectDeliverables, setNewProjectDeliverables] = useState("");
+    const [newProjectDeliverables, setNewProjectDeliverables] = useState([])
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
 
@@ -29,6 +29,9 @@ const ProjectInfo = ({ project, skills }) => {
         setNewProjectTech(project.tech);
         setNewProjectComment(project.comment);
         setNewProjectLinks(project.Links)
+        setNewProjectMeetingCadence(project.meetingCadence);
+        setNewProjectStatement(project.problemStatement);
+        setNewProjectDeliverables(project.deliverables);
     }, [project]);
 
     const showEditForm = () => {
@@ -140,7 +143,10 @@ const ProjectInfo = ({ project, skills }) => {
             activelyRecruiting: newProjectRecruitStatus === 'true',
             tech: newProjectTech,
             goodFitFor: newProjectFit,
-            comment: newProjectComment
+            comment: newProjectComment,
+            meetingCadence: newProjectMeetingCadence,
+            problemStatement: newProjectStatement,
+            deliverables: [newProjectDeliverables],
         };
 
         const result = await editProject(newProject, project.id);
@@ -161,7 +167,7 @@ const ProjectInfo = ({ project, skills }) => {
             value: project.activelyRecruiting ? 'Actively Recruiting' : 'Not Actively Recruiting'
         }, {
             label: 'MEETING CADENCE',
-            value: 'Every other Monday at 6pm' // TODO: Replace with actual meeting cadence
+            value: project.meetingCadence || "No meeting cadence has been set." 
         }, {
             label: 'SUMMARY',
             value: project.description
@@ -181,10 +187,10 @@ const ProjectInfo = ({ project, skills }) => {
 
     const additionalInfo = [{
         label: 'PROBLEM STATEMENT',
-        value: "Currently, BT's staff can only make content changes on the website, but not to the layout. If they want to make changes beyond content then they would need a Developer to make these changes for them. Since they don’t have any web development staff on-hand, this poses a challenge for them to sustain and scale their website in the long term. Additionally, Joe suspects that their primary users, donors and DM clients, are not leveraging their website for their primary tasks and wants to identify a way to improve this experience for them."
+        value: project.problemStatement || "No problem statement has been set."
     }, {
         label: 'DELIVERABLES',
-        value: 'Deliverables.'
+        value: project.deliverables ? project.deliverables.join(', ') : "No deliverables have been set."
     }, {
         label: 'COMMENTS',
         value: project.comment ? project.comment : 'No comments have been added.'
