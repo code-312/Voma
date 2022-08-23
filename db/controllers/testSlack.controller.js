@@ -104,6 +104,14 @@ const send = {
     }
 };
 
+const receiveUserResponse = async (req, res) => {
+    const { payload } = req.body;
+    console.log(payload);
+
+    return res.sendStatus(200);
+}
+
 module.exports = {
     send,
+    receiveUserResponse
 };

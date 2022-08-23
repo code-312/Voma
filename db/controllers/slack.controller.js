@@ -1,4 +1,7 @@
 const slack = require('../lib/slack/slack');
+const blocks = require('../lib/slack/blocks');
+const { models } = require('../index');
+const axios = require('axios');
 
 const responses = {
     /**
@@ -90,6 +93,62 @@ const slackBot = async (req, res) => {
     // console.debug('slack.controller - slackBot - result', result);
 };
 
+const sendProjectWelcomeToVolunteer = async (req, res) => {
+    let error;
+    const { slackId, project } = req.body;
+    const parsedProject = JSON.parse(project);
+        // my slack id
+        const blockName = 'projectWelcomeConfirm';
+
+    
+        const result1 = await slack.slackBlockMessageUser(slackId, blockName, parsedProject)
+                        .catch((err) => error = err);
+        
+        const result2 = await slack.slackBlockMessageUser(slackId, "projectWelcomeActionButons")
+                        .catch((err) => error = err);
+    
+        if (error) {
+            return res.status(400).json({ error });
+        }
+    return res.status(200).json({ result: 'Success!' });
+};
+
+const receiveUserResponse = async (req, res) => {
+    const { payload } = req.body;
+    const parsedPayload = JSON.parse(payload);
+
+    const response = parsedPayload?.actions?.[0]?.selected_option?.value;
+    const responseUrl = parsedPayload?.response_url;
+    const user = parsedPayload?.user?.id;
+
+    const volunteer = await models.volunteer.findOne({
+        where: { slackUserId: user },
+        include: [{
+            model: models.project,
+            include: [{
+              model: models.Link
+            }]
+          }]
+    });
+
+    if (response === 'yes') {
+        slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
+        slack.sendProjectDetails(user, volunteer.project);
+    } else if (response === 'no') {
+        slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
+        slack.handleNoAction(user);
+
+        await volunteer.setProject(null)
+            .catch(err => console.log(err));
+        
+    }
+
+
+    return res.sendStatus(200);
+}
+
 module.exports = {
     slackBot,
+    sendProjectWelcomeToVolunteer,
+    receiveUserResponse
 };

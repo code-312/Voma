@@ -3,6 +3,8 @@ require('dotenv').config({
 });
 const { models } = require('../index');
 const { slackLookupByEmail } = require('../lib/slack/slack');
+const tasks = require('../constants/tasks');
+const { response } = require('express');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
@@ -10,7 +12,13 @@ const Project = models.project;
 
 const getVolunteers = async (req, res) => {
     let error;
-    const volunteers = await models.volunteer.findAll({ include: Project, include: models.skill })
+    const volunteers = await models.volunteer.findAll({ 
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
+    })
                              .catch(err => error = err);
 
     if (error) {
@@ -23,8 +31,11 @@ const getVolunteers = async (req, res) => {
 const getVolunteer = async (req, res) => {
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
-      include: models.skill,
-      include: Project
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
     })
                             .catch(err => error = err);
 
@@ -285,6 +296,24 @@ const getSlackByEmail = async (req, res) => {
     }
 }
 
+const addCompletedTask = async (req, res) => {
+    let findError, updateError;
+    const { volunteerId, task } = req.body;
+
+    const volunteer = await Volunteer.findByPk(volunteerId)
+       .catch((err) => findError = err);
+
+    if (volunteer) {
+        const newTasks = [...volunteer.completedTasks, task];
+        await volunteer.update({ completedTasks: newTasks })
+        .catch((err) => updateError = err);
+    }
+    if (!updateError && !findError) {
+        return res.status(200).json({ result: `${task} completed for volunteer ${volunteerId}`});    
+    }
+
+    return res.status(404).json({ error: updateError || findError });
+}
 
 module.exports = {
     getVolunteers,
@@ -293,5 +322,6 @@ module.exports = {
     editVolunteer,
     assignVolunteerToProject,
     removeVolunteer,
-    getSlackByEmail
+    getSlackByEmail,
+    addCompletedTask
 };

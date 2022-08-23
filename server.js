@@ -78,6 +78,7 @@ app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
 app.post('/api/assign-volunteer', verifyAuth, volunteerController.assignVolunteerToProject);
+app.post('/api/mark-task-complete', volunteerController.addCompletedTask);
 
 /*========= SLACK ROUTES =========*/
 app.post('/api/volunteer/slack', volunteerController.getSlackByEmail);
@@ -111,7 +112,10 @@ app.get('/api/logout', adminController.logout);
 app.post('/api/authenticated', adminController.loginState);
 
 /*===== SLACK BOT =====*/
+app.post('/api/slack/send-welcome-message', verifyAuth, slackController.sendProjectWelcomeToVolunteer);
 app.post('/api/slack/bot', slackController.slackBot);
+// Sent from slack bot
+app.post('/api/slack/user-response', slackController.receiveUserResponse)
 
 
 // These endpoints are to test and debug Slack Bot functionality during development and with Nightwatch.

@@ -13,7 +13,7 @@ import {
     VolunteerSidebarHeader,
     VolunteerModalContent, 
 } from '../../../styles/components/VolunteerModal.style';
-import { assignVolunteerToProject } from '../../../lib/Requests';
+import { assignVolunteerToProject, sendWelcomeSlackMessage } from '../../../lib/Requests';
 
 const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects }) => {
   // used to display currently assigned project
@@ -35,8 +35,18 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects }) => {
 
       const result = await assignVolunteerToProject(volunteer.id, selectedProject);
       if (result) {
+        const projectDetails = projects.find((detail) => detail.id === selectedProject);
+        if (projectDetails) {
+          const slackResult = await sendWelcomeSlackMessage(volunteer.slackUserId, projectDetails);
+          if (slackResult) {
+            console.log("Success!");
+            window.location.reload();
+          } else {
+            console.log("oh no");
+            window.location.reload();
+          }
+        }
         // TODO: More elegant way to update board than forcing reload
-        window.location.reload();
       }
     }
   }
