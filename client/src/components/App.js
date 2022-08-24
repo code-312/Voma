@@ -14,7 +14,6 @@ import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
 
 function App() {
-
   return (
     <HelmetProvider>
       <Helmet>

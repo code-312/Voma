@@ -1,12 +1,11 @@
 version: '3.1'
 
 services:
-
   db:
     image: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - '1414:1414'
     environment:
       POSTGRES_PASSWORD: secret_password
       POSTGRES_USER: admin
