@@ -2,14 +2,23 @@ require('dotenv').config({
     path: `./.env.${process.env.NODE_ENV}`
 });
 const { models } = require('../index');
-const { slackLookupByEmail } = require('../lib/slack');
+const { slackLookupByEmail } = require('../lib/slack/slack');
+const tasks = require('../constants/tasks');
+const { response } = require('express');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
+const Project = models.project;
 
 const getVolunteers = async (req, res) => {
     let error;
-    const volunteers = await models.volunteer.findAll()
+    const volunteers = await models.volunteer.findAll({ 
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
+    })
                              .catch(err => error = err);
 
     if (error) {
@@ -22,7 +31,11 @@ const getVolunteers = async (req, res) => {
 const getVolunteer = async (req, res) => {
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
-      include: models.skill
+        include: [{
+            model: Project
+        }, {
+            model: models.skill
+        }]
     })
                             .catch(err => error = err);
 
@@ -119,7 +132,8 @@ const editVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        projectId
+        projectId,
+        skillId
     } = req.body;
 
     let findError, updateError;
@@ -133,6 +147,24 @@ const editVolunteer = async (req, res) => {
     if (!volunteer) {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
+
+    if (skillId) {
+        await VolunteerSkills.findOrCreate({
+            where: { skillId },
+            defaults: {
+                volunteerId: volunteer.id,
+                skillId,
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return res.json({
+                success: false,
+                message: 'Unable to add associate skill to volunteer in database.',
+                error: err
+            });
+        });
+    };
 
     await volunteer.update({
         name,
@@ -154,6 +186,38 @@ const editVolunteer = async (req, res) => {
 
     res.status(200).json({ result: `Volunteer ${req.params.id} has been updated.`});
 };
+
+const assignVolunteerToProject = async (req, res) => {
+    const { volunteerId, projectId } = req.body;
+    let findError, assignError;
+    // validate both volunteer and project are valid
+    const volunteer = await models.volunteer.findByPk(volunteerId)
+        .catch(err => findError = err);
+
+    const project = await models.project.findByPk(projectId)
+        .catch(err => findError = err);
+
+    // If they both exist, associated them 
+    if (volunteer && project) {
+        await volunteer.setProject(project)
+            .catch(err => assignError = err);
+    }
+
+    if (!volunteer) {
+        return res.status(404).json({ error: `Volunteer ${volunteerId} could not be found.`});
+    }
+
+    if (!project) {
+        return res.status(404).json({ error: `Project ${projectId} could not be found.`});
+    }
+
+    if (assignError || findError) {
+        return res.status(400).json({ error: assignError });
+    }
+
+    return res.status(200).json({ result: `Volunteer ${volunteerId} has been added to project ${projectId}`});
+        
+}
 
 const removeVolunteer = async (req, res) => {
     let findError, deleteError;
@@ -232,12 +296,32 @@ const getSlackByEmail = async (req, res) => {
     }
 }
 
+const addCompletedTask = async (req, res) => {
+    let findError, updateError;
+    const { volunteerId, task } = req.body;
+
+    const volunteer = await Volunteer.findByPk(volunteerId)
+       .catch((err) => findError = err);
+
+    if (volunteer) {
+        const newTasks = [...volunteer.completedTasks, task];
+        await volunteer.update({ completedTasks: newTasks })
+        .catch((err) => updateError = err);
+    }
+    if (!updateError && !findError) {
+        return res.status(200).json({ result: `${task} completed for volunteer ${volunteerId}`});    
+    }
+
+    return res.status(404).json({ error: updateError || findError });
+}
 
 module.exports = {
     getVolunteers,
     getVolunteer,
     addVolunteer,
     editVolunteer,
+    assignVolunteerToProject,
     removeVolunteer,
-    getSlackByEmail
+    getSlackByEmail,
+    addCompletedTask
 };

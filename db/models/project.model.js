@@ -25,6 +25,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         comment: {
             type: DataTypes.STRING
+        },
+        meetingCadence: {
+            type: DataTypes.STRING
+        },
+        projectStatement: {
+            type: DataTypes.STRING
+        },
+        deliverables: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
         }
     });
     return Project;

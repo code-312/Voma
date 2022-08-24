@@ -2,7 +2,9 @@ const { models } = require('../index');
 
 const getProjects = async (req, res) => {
     let error;
-    const projects = await models.project.findAll()
+    const projects = await models.project.findAll({
+        include: models.Link,
+    })
                     .catch(err => error = err);
     
     if (error) {
@@ -14,7 +16,11 @@ const getProjects = async (req, res) => {
 
 const getProject = async (req, res) => {
     let error;
-    const project = await models.project.findByPk(req.params.id)
+    const project = await models.project.findOne({
+        where: {
+          id: req.params.id
+        },
+        include: models.Link})
                           .catch(err => error = err);
                     
     if (error) {
@@ -49,13 +55,8 @@ const addProject = async (req, res) => {
 };
 
 const editProject = async (req, res) => {
-    const { 
-        name,
-        description
-    } = req.body;
-
     let findError, updateError;
-
+    
     const project = await models.project.findByPk(req.params.id)
                     .catch(err => findError = err);
     
@@ -64,7 +65,7 @@ const editProject = async (req, res) => {
     }
 
     if (project) {
-        const result = await project.update({ name, description })
+        const result = await project.update(req.body)
                              .catch(err => updateError = err);
         
         if (updateError) {
