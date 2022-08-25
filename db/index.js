@@ -1,4 +1,4 @@
-coconst { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const { NODE_ENV, DB_NAME, DB_USER, DB_HOST } = process.env;
