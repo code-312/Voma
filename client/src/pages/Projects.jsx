@@ -6,67 +6,80 @@ import ProjectInfo from '../components/ProjectPage/ProjectInfo';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
 
 const Projects = () => {
-    const [projects, setProjects] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [projectCards, setProjectCards] = useState([]);
-    const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
-    const [selectedProject, setSelectedProject] = useState({});
+  const [projects, setProjects] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [projectCards, setProjectCards] = useState([]);
+  const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
+  const [selectedProject, setSelectedProject] = useState({});
 
-    const getProjectDetails = useCallback(async (id) => {
-        setSelectedProject(projects.find((project) => project.id === id) || {});
-    }, [projects]);
+  const getProjectDetails = useCallback(
+    async (id) => {
+      setSelectedProject(projects.find((project) => project.id === id) || {});
+    },
+    [projects],
+  );
 
-    useEffect(() => {
-        const getProjects = async () => {
-            const projs = await fetchProjects();
-            setProjects(projs);
-            setSelectedProject(projs[0]);
-        }
+  const handleProjectQueryNum = async (arr) => {
+    // GET QUERY FROM URL - CHECKS FOR NULL
+    const query = window.location.search.slice(1).split('=');
+    // NULL CHECK ISNAN CHECK
+    if (query[query.length - 1] === null || Number.isNaN(query)) {
+      setSelectedProject(arr[0]);
+      return;
+    }
+    // CHECKS INDEX OF QUERY NUM TO ARR ID
+    const idx = arr.findIndex((proj) => proj.id === +query[query.length - 1]);
+    if (idx < 0) {
+      setSelectedProject(arr[0]);
+    } else {
+      setSelectedProject(arr[idx]);
+    }
+  };
 
-        getProjects();
-    }, []);
+  useEffect(() => {
+    const getProjects = async () => {
+      const projs = await fetchProjects();
+      setProjects(projs);
+      // FIND QUERY IF THERE IS ONE
+      handleProjectQueryNum(projs);
+    };
 
-    useEffect(() => {
-        const getSkills = async () => {
-            const fetchedSkills = await fetchSkills();
-            setSkills(fetchedSkills);
-        }
+    getProjects();
+  }, []);
 
-        getSkills();
-    }, [])
+  useEffect(() => {
+    const getSkills = async () => {
+      const fetchedSkills = await fetchSkills();
+      setSkills(fetchedSkills);
+    };
 
-    useEffect(() => { // Not ideal, this runs every time a project is selected
-        if (projects.length > 0) {
-            const cards = projects.map((project) => (    
-                    <ProjectCard 
-                        key={`project-${project.id}`}
-                        projectName={project.name}
-                        projectId={project.id} 
-                        onClick={getProjectDetails}
-                        selected={selectedProject.id === project.id}
-                    />
-            ));
-            const sidebar = (
-                <ProjectSidebar>
-                    {cards}
-                </ProjectSidebar>
-            )
-            setProjectCards(sidebar);
-        }
-    }, [projects, getProjectDetails, selectedProject]);
+    getSkills();
+  }, []);
 
-    useEffect(() => {
-        if (selectedProject) {
-            setMainContent(
-                <ProjectInfo project={selectedProject} skills={skills} />
-            );
-        }
-    }, [selectedProject, skills])
+  useEffect(() => {
+    // Not ideal, this runs every time a project is selected
+    if (projects.length > 0) {
+      const cards = projects.map((project) => (
+        <ProjectCard
+          key={`project-${project.id}`}
+          projectName={project.name}
+          projectId={project.id}
+          onClick={getProjectDetails}
+          selected={selectedProject.id === project.id}
+        />
+      ));
+      const sidebar = <ProjectSidebar>{cards}</ProjectSidebar>;
+      setProjectCards(sidebar);
+    }
+  }, [projects, getProjectDetails, selectedProject]);
 
-    return <BoardContainer
-                sideBarContent={projectCards}
-                mainContainerContent={mainContent}
-            />;
-}
+  useEffect(() => {
+    if (selectedProject) {
+      setMainContent(<ProjectInfo project={selectedProject} skills={skills} />);
+    }
+  }, [selectedProject, skills]);
+
+  return <BoardContainer sideBarContent={projectCards} mainContainerContent={mainContent} />;
+};
 
 export default Projects;
