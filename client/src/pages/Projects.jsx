@@ -36,6 +36,7 @@ const Projects = () => {
     }
   };
 
+
   useEffect(() => {
     const getProjects = async () => {
       const projs = await fetchProjects();
