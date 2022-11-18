@@ -149,12 +149,9 @@ const editVolunteer = async (req, res) => {
     }
 
     if (skillId) {
-        await VolunteerSkills.findOrCreate({
-            where: { skillId },
-            defaults: {
-                volunteerId: volunteer.id,
-                skillId,
-            }
+        await VolunteerSkills.create({
+            volunteerId: volunteer.id,
+            skillId,
         })
         .catch(err => {
             console.log(err);
@@ -166,7 +163,7 @@ const editVolunteer = async (req, res) => {
         });
     };
 
-    await volunteer.update({
+    const newVolunteer = { 
         name,
         email,
         slackUserId,
@@ -176,8 +173,14 @@ const editVolunteer = async (req, res) => {
         jobTitle,
         onboardingAttendedAt,
         oneOnOneAttendedAt,
-        projectId
-    })
+    };
+
+    if (projectId) {
+        console.log("Project ID: " + projectId);
+        newVolunteer.projectId = projectId;
+    }
+
+    await volunteer.update(newVolunteer)
     .catch(err => updateError = err);
 
     if (updateError) {
