@@ -1,9 +1,5 @@
 # [Front End] Voma is Code for Chicago's custom **vo**lunteer **ma**nagement system.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/afcfce28-1025-4d56-ab25-1c8b40d05966/deploy-status)](https://app.netlify.com/sites/voma/deploys)
-
-[https://voma.netlify.app/](https://voma.netlify.app/)
-
 ## What is Voma?
 
 At a high level we're trying to achieve the following:
