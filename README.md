@@ -48,14 +48,13 @@ You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version 
 
 ## 🚀 (Frontend) Setup
 
-1. Clone the project with `git clone git@github.com:Code-For-Chicago/Voma-frontend.git`
-2. In the `meta-development` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
-3. Install dependencies with `npm i`
-4. Start the Express server with `npm run start`
-5. Open a new terminal window or tab
-6. Move into the `client` directory with `cd client`
-7. Install those dependencies with `npm i`
-8. Start the React server with `npm run start`
+1. In the `meta-development` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
+2. Install dependencies with `npm i`
+3. Start the Express server with `npm run start`
+4. Open a new terminal window or tab
+5. Move into the `client` directory with `cd client`
+6. Install those dependencies with `npm i`
+7. Start the React server with `npm run start`
 
 ## (Backend) Setup
 If you're going to be doing just frontend work you can skip this section. There are two options for getting a local database running for development. 
