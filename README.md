@@ -110,7 +110,7 @@ It should return a JSON object - look for the `IPAddress` field, and note that v
 10. Enter the following in your command line: 
 `cd db && npx sequelize db:migrate`
 11. If you see a message listing all the migrations, you're golden!
-  - If you get an SSL error when trying to start the app, you can comment out lines 8-12 in `db/index.js`. 
+  - If you get an SSL error when trying to start the app, you can comment out lines 18-24 in `db/index.js`. 
 
 ---
 
