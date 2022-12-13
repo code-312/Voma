@@ -5,10 +5,12 @@ const { models } = require('../index');
 const { slackLookupByEmail } = require('../lib/slack/slack');
 const tasks = require('../constants/tasks');
 const { response } = require('express');
+const { addTimeslots } = require('./timeslots.controller');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
 const Project = models.project;
+const Timeslot = models.Timeslot;
 
 const getVolunteers = async (req, res) => {
     let error;
@@ -17,6 +19,10 @@ const getVolunteers = async (req, res) => {
             model: Project
         }, {
             model: models.skill
+        }, {
+            model: Timeslot
+        }, {
+            model: models.Event
         }]
     })
                              .catch(err => error = err);
@@ -29,15 +35,22 @@ const getVolunteers = async (req, res) => {
 };
 
 const getVolunteer = async (req, res) => {
+    console.log(Timeslot);
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
         include: [{
             model: Project
         }, {
             model: models.skill
-        }]
+        }, {
+            model: models.Event
+        }, {
+            model: Timeslot
+        }
+        
+    ]
     })
-                            .catch(err => error = err);
+        .catch(err => error = err);
 
     if (error) {
         return res.status(400).json({ error });
@@ -64,7 +77,8 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        skills
+        skills,
+        timeslots = []
     } = req.body;
 
     const [volunteerRec] = await Volunteer.findOrCreate({
@@ -74,7 +88,7 @@ const addVolunteer = async (req, res) => {
             email,
             slackUserId,
             pronouns,
-        }
+        }, 
     })
     .catch(err => {
         console.log(err);
@@ -118,6 +132,17 @@ const addVolunteer = async (req, res) => {
         });
     }
 
+    const timeslotArray = JSON.parse(timeslots);
+    if (volunteerRec && timeslotArray.length > 0) {
+        const slotsWithId = timeslotArray.map((slot) => {
+            return {...slot, volunteerId}
+        });
+        await models.Timeslot.bulkCreate(slotsWithId)
+                    .catch(err => console.log(err));
+    } else {
+        console.log("No timeslot array");
+    }
+
     res.json({ success: true });
 };
 
@@ -133,7 +158,8 @@ const editVolunteer = async (req, res) => {
         onboardingAttendedAt,
         oneOnOneAttendedAt,
         projectId,
-        skillId
+        skillId,
+        timeslots,
     } = req.body;
 
     let findError, updateError;

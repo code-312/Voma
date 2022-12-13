@@ -41,7 +41,9 @@ const modelDefiners = [
 	require('./models/skill.model'),
   require('./models/volunteerSkills.model'),
   require('./models/admin.model'),
-  require('./models/link.model')
+  require('./models/link.model'),
+  require('./models/event.model'),
+  require('./models/timeslot.model')
 ];
 
 for (const modelDefiner of modelDefiners) {

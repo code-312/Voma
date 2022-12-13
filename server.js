@@ -14,6 +14,7 @@ const adminController = require('./db/controllers/admins.controller');
 const linkController = require('./db/controllers/links.controller');
 const slackController = require('./db/controllers/slack.controller');
 const testSlack = require('./db/controllers/testSlack.controller');
+const timeslotController = require('./db/controllers/timeslots.controller');
 
 const app = express();
 app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
@@ -103,7 +104,7 @@ app.post('/api/link/:id', linkController.editLink);
 app.delete('/api/link/:id', linkController.removeLink);
 
 /*========= ADMIN ROUTES =========*/
-app.post('/api/admin', verifyAuth, adminController.addAdmin);
+app.post('/api/admin', adminController.addAdmin);
 app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
 
 /*========= AUTHENTICATION ROUTES =========*/
@@ -116,6 +117,8 @@ app.post('/api/slack/send-welcome-message', verifyAuth, slackController.sendProj
 app.post('/api/slack/bot', slackController.slackBot);
 // Sent from slack bot
 app.post('/api/slack/user-response', slackController.receiveUserResponse)
+
+app.post('/api/test', timeslotController.editTimeslots);
 
 
 // These endpoints are to test and debug Slack Bot functionality during development and with Nightwatch.
@@ -169,5 +172,5 @@ app.get('*', (req, res) => {
 
 const port = process.env.PORT || 5000;
 app.listen(port);
-
+console.log(process.env);
 console.log(`Voma server listening on ${port}`);
