@@ -158,8 +158,7 @@ const editVolunteer = async (req, res) => {
         onboardingAttendedAt,
         oneOnOneAttendedAt,
         projectId,
-        skillId,
-        timeslots,
+        skillId
     } = req.body;
 
     let findError, updateError;
