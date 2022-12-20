@@ -103,6 +103,11 @@ app.post('/api/link', linkController.addLink);
 app.post('/api/link/:id', linkController.editLink);
 app.delete('/api/link/:id', linkController.removeLink);
 
+/*========= TIMESLOT ROUTES =========*/
+app.post('/api/timeslot', timeslotController.addTimeslot);
+app.post('/api/timeslot/:id', timeslotController.editTimeslot);
+app.delete('/api/timeslot/:id', timeslotController.deleteTimeslot);
+
 /*========= ADMIN ROUTES =========*/
 app.post('/api/admin', adminController.addAdmin);
 app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
@@ -117,9 +122,6 @@ app.post('/api/slack/send-welcome-message', verifyAuth, slackController.sendProj
 app.post('/api/slack/bot', slackController.slackBot);
 // Sent from slack bot
 app.post('/api/slack/user-response', slackController.receiveUserResponse)
-
-app.post('/api/test', timeslotController.editTimeslots);
-
 
 // These endpoints are to test and debug Slack Bot functionality during development and with Nightwatch.
 // Point ngrok at local port 5000 and add the NGROKURL/api/slack/bot endpoint to your slack bot config for debug messages.

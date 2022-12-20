@@ -1,20 +1,31 @@
 const { models } = require('../index');
 
-const addTimeslots = async (timeslots, volunteerId) => {
+const addTimeslots = async (timeslots, volunteerId, projectId) => {
     const slotsWithId = timeslots.map((slot) => {
-        return {...slot, volunteerId}
+        return {...slot, volunteerId, projectId}
     });
     await models.Timeslot.bulkCreate(slotsWithId)
                 .catch(err => console.log(err));
 };
 
+const addTimeslot = async (req, res) => {
+    const { timeslot } = req.body;
+    const timeslotJson = JSON.parse(timeslot);
+
+    const newSlot = await models.Timeslot.create(timeslotJson)
+          .catch(err => res.status(400).json({ error: err }));
+
+    return res.status(200).json({ message: `Timeslot ${newSlot.id} created.` });
+}
+
 const editTimeslot = async(req, res) => {
     const { timeslot } = req.body;
-    let findError, editError;
+    const { id } = req.params;
+    let findError, updateError;
     
     const timeslotJson = JSON.parse(timeslot);
 
-    const currTimeslot = await models.Timeslot.findByPk(timeslotJson.id)
+    const currTimeslot = await models.Timeslot.findByPk(id)
                             .catch(err => findError = err);
 
     if (findError) {
@@ -62,6 +73,7 @@ const deleteTimeslot = async(req, res) => {
 
 module.exports = {
     addTimeslots,
+    addTimeslot,
     editTimeslot,
     deleteTimeslot
 };

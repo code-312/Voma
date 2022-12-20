@@ -134,11 +134,7 @@ const addVolunteer = async (req, res) => {
 
     const timeslotArray = JSON.parse(timeslots);
     if (volunteerRec && timeslotArray.length > 0) {
-        const slotsWithId = timeslotArray.map((slot) => {
-            return {...slot, volunteerId}
-        });
-        await models.Timeslot.bulkCreate(slotsWithId)
-                    .catch(err => console.log(err));
+       addTimeslots(timeslotArray, volunteerRec.id, null);
     } else {
         console.log("No timeslot array");
     }
