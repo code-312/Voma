@@ -15,6 +15,7 @@ const linkController = require('./db/controllers/links.controller');
 const slackController = require('./db/controllers/slack.controller');
 const testSlack = require('./db/controllers/testSlack.controller');
 const timeslotController = require('./db/controllers/timeslots.controller');
+const eventController = require('./db/controllers/event.controller');
 
 const app = express();
 app.use(cors({ origin: true })); // todo: Limit open cors to client routes.
@@ -107,6 +108,12 @@ app.delete('/api/link/:id', linkController.removeLink);
 app.post('/api/timeslot', timeslotController.addTimeslot);
 app.post('/api/timeslot/:id', timeslotController.editTimeslot);
 app.delete('/api/timeslot/:id', timeslotController.deleteTimeslot);
+
+/*========= TIMESLOT ROUTES =========*/
+app.get('/api/events', eventController.getEvents);
+app.post('/api/event', eventController.addEvent);
+app.delete('/api/event/:id', eventController.deleteEvent);
+
 
 /*========= ADMIN ROUTES =========*/
 app.post('/api/admin', adminController.addAdmin);

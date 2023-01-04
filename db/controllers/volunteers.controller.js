@@ -23,6 +23,8 @@ const getVolunteers = async (req, res) => {
             model: Timeslot
         }, {
             model: models.Event
+        }, {
+            model: models.Event
         }]
     })
                              .catch(err => error = err);
@@ -46,6 +48,8 @@ const getVolunteer = async (req, res) => {
             model: models.Event
         }, {
             model: Timeslot
+        }, {
+            model: models.Event
         }
         
     ]
