@@ -87,7 +87,7 @@ const addVolunteer = async (req, res) => {
         slackUserId,
         pronouns,
         skills,
-        timeslots = "[]"
+        timeslots = "[]" // expects JSON, needs to default to string so parsing doesn't throw error
     } = req.body;
 
     const [volunteerRec] = await Volunteer.findOrCreate({

@@ -2,21 +2,6 @@
 const {
   Model
 } = require('sequelize');
-// module.exports = (sequelize, DataTypes) => {
-//   class Timeslot extends Model {
-//   }
-//   Timeslot.init({
-//     day: DataTypes.ENUM(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']),
-//     startHour: DataTypes.INTEGER,
-//     startMinute: DataTypes.INTEGER,
-//     endHour: DataTypes.INTEGER,
-//     endMinute: DataTypes.INTEGER
-//   }, {
-//     sequelize,
-//     modelName: 'Timeslot',
-//   });
-//   return Timeslot;
-// };
 
 module.exports = (sequelize, DataTypes) => {
 	const Timeslot = sequelize.define('Timeslot', {
