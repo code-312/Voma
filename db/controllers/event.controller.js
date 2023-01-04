@@ -1,5 +1,34 @@
 const { models } = require('../index');
 
+const addEvent = async (name, volunteerId) => {
+    let error;
+
+    const event = await models.Event.create({ name, volunteerId })
+          .catch(err => error = err);
+
+
+    if (error) {
+        return { success: false, error };
+    }
+   
+    return { success: true, event };
+}
+
+const addRegisteredEvent = async (volunteerId) => {
+    const result = await addEvent("Completed Registration", volunteerId);
+    return result;
+}
+
+const addFinishedTasksEvent = async (volunteerId) => {
+    const result = await addEvent("Finished Tasks", volunteerId);
+    return result;  
+}
+
+const addAssignedToProjectEvent = async (volunteerId) => {
+    const result = await addEvent("Assigned To Project", volunteerId);
+    return result;  
+}
+
 const getEvents = async (req, res) => {
     const events = await models.Event.findAll()
                          .catch(err => res.status(404).json({ error: err }));
@@ -7,14 +36,16 @@ const getEvents = async (req, res) => {
     return res.status(200).json(events);
 }
 
-const addEvent = async (req, res) => {
+const addEventRest = async (req, res) => {
     const { name, volunteerId } = req.body;
     
 
-    const newSlot = await models.Event.create({ name, volunteerId })
-          .catch(err => res.status(400).json({ error: err }));
+    const result = await addEvent(name, volunteerId);
 
-    return res.status(200).json({ message: `Event ${newSlot.id} created.` });
+    if (!result.success) {
+        return res.status(400).json({ error: result.error });
+    }
+    return res.status(200).json({ message: `Event ${result.event.id} created.` });
 }
 
 const deleteEvent = async(req, res) => {
@@ -44,6 +75,10 @@ const deleteEvent = async(req, res) => {
 
 module.exports = {
     addEvent,
+    addAssignedToProjectEvent,
+    addFinishedTasksEvent,
+    addRegisteredEvent,
+    addEventRest,
     getEvents,
     deleteEvent
 };
