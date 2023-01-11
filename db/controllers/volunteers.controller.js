@@ -5,10 +5,17 @@ const { models } = require('../index');
 const { slackLookupByEmail } = require('../lib/slack/slack');
 const tasks = require('../constants/tasks');
 const { response } = require('express');
+const { addTimeslots } = require('./timeslots.controller');
+const { 
+    addAssignedToProjectEvent,
+    addFinishedTasksEvent,
+    addRegisteredEvent 
+} = require('./event.controller');
 const Volunteer = models.volunteer;
 const Skill = models.skill;
 const VolunteerSkills = models.VolunteerSkills;
 const Project = models.project;
+const Timeslot = models.Timeslot;
 
 const getVolunteers = async (req, res) => {
     let error;
@@ -17,6 +24,12 @@ const getVolunteers = async (req, res) => {
             model: Project
         }, {
             model: models.skill
+        }, {
+            model: Timeslot
+        }, {
+            model: models.Event
+        }, {
+            model: models.Event
         }]
     })
                              .catch(err => error = err);
@@ -29,15 +42,24 @@ const getVolunteers = async (req, res) => {
 };
 
 const getVolunteer = async (req, res) => {
+    console.log(Timeslot);
     let error;
     const volunteer = await Volunteer.findByPk(req.params.id, {
         include: [{
             model: Project
         }, {
             model: models.skill
-        }]
+        }, {
+            model: models.Event
+        }, {
+            model: Timeslot
+        }, {
+            model: models.Event
+        }
+        
+    ]
     })
-                            .catch(err => error = err);
+        .catch(err => error = err);
 
     if (error) {
         return res.status(400).json({ error });
@@ -64,7 +86,8 @@ const addVolunteer = async (req, res) => {
         email,
         slackUserId,
         pronouns,
-        skills
+        skills,
+        timeslots = "[]" // expects JSON, needs to default to string so parsing doesn't throw error
     } = req.body;
 
     const [volunteerRec] = await Volunteer.findOrCreate({
@@ -74,7 +97,7 @@ const addVolunteer = async (req, res) => {
             email,
             slackUserId,
             pronouns,
-        }
+        }, 
     })
     .catch(err => {
         console.log(err);
@@ -118,6 +141,16 @@ const addVolunteer = async (req, res) => {
         });
     }
 
+    const timeslotArray = JSON.parse(timeslots);
+    if (volunteerRec && timeslotArray.length > 0) {
+       addTimeslots(timeslotArray, volunteerRec.id, null);
+    } else {
+        console.log("No timeslot array");
+    }
+
+    if (volunteerRec) {
+        addRegisteredEvent(volunteerRec.id);
+    }
     res.json({ success: true });
 };
 
@@ -218,6 +251,7 @@ const assignVolunteerToProject = async (req, res) => {
         return res.status(400).json({ error: assignError });
     }
 
+    addAssignedToProjectEvent(volunteerId);
     return res.status(200).json({ result: `Volunteer ${volunteerId} has been added to project ${projectId}`});
         
 }
@@ -310,6 +344,10 @@ const addCompletedTask = async (req, res) => {
         const newTasks = [...volunteer.completedTasks, task];
         await volunteer.update({ completedTasks: newTasks })
         .catch((err) => updateError = err);
+
+        if (newTasks.length == 3) {
+            addFinishedTasksEvent(volunteer.id);
+        }
     }
     if (!updateError && !findError) {
         return res.status(200).json({ result: `${task} completed for volunteer ${volunteerId}`});    

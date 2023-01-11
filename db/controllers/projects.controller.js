@@ -3,7 +3,11 @@ const { models } = require('../index');
 const getProjects = async (req, res) => {
     let error;
     const projects = await models.project.findAll({
-        include: models.Link,
+        include: [{
+            model: models.Timeslot
+        }, {
+            model: models.Link
+        }]
     })
                     .catch(err => error = err);
     
@@ -20,7 +24,11 @@ const getProject = async (req, res) => {
         where: {
           id: req.params.id
         },
-        include: models.Link})
+        include: [{
+            model: models.Timeslot
+        }, {
+            model: models.Link
+        }]})
                           .catch(err => error = err);
                     
     if (error) {
