@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useCallback } from 'react';
 import { fetchProjects, fetchSkills } from '../lib/Requests';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
@@ -12,15 +13,24 @@ const Projects = () => {
     const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
     const [selectedProject, setSelectedProject] = useState({});
 
-    const getProjectDetails = useCallback(async (id) => {
-        setSelectedProject(projects.find((project) => project.id === id) || {});
+    const getProjectDetails = useCallback(async (selectedId) => {
+        setSelectedProject(projects.find((project) => project.id === selectedId) || {});
     }, [projects]);
 
     useEffect(() => {
         const getProjects = async () => {
             const projs = await fetchProjects();
             setProjects(projs);
-            setSelectedProject(projs[0]);
+            let defaultSelected;
+            const params = new URLSearchParams(window.location.search);
+            const selected = params.get("selected");
+            
+            if (selected) {
+                defaultSelected = projs.find(project => project.id == selected);
+            }
+            const displayedProject = defaultSelected || projs[0];
+
+            setSelectedProject(displayedProject);
         }
 
         getProjects();
