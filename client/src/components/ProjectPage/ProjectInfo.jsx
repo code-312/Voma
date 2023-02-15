@@ -15,7 +15,7 @@ const ProjectInfo = ({ project, skills }) => {
     const [newProjectFit, setNewProjectFit] = useState("");
     const [newProjectTech, setNewProjectTech] = useState("");
     const [newProjectStatement, setNewProjectStatement] = useState("");
-    const [newProjectDeliverables, setNewProjectDeliverables] = useState([])
+    const [newProjectDeliverables, setNewProjectDeliverables] = useState("")
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
 
@@ -136,6 +136,10 @@ const ProjectInfo = ({ project, skills }) => {
     }
 
     const saveProject = async () => {
+        const newDeliverables = typeof newProjectDeliverables === "string" ? 
+        newProjectDeliverables.split(',') : 
+        newProjectDeliverables;
+
         const newProject = {
             name: newProjectName,
             description: newProjectSummary,
@@ -146,7 +150,7 @@ const ProjectInfo = ({ project, skills }) => {
             comment: newProjectComment,
             meetingCadence: newProjectMeetingCadence,
             problemStatement: newProjectStatement,
-            deliverables: [newProjectDeliverables],
+            deliverables: newDeliverables,
         };
 
         const result = await editProject(newProject, project.id);
@@ -154,7 +158,8 @@ const ProjectInfo = ({ project, skills }) => {
             if (newProjectLinks.length > 0) {
                 processLinks(newProjectLinks);
             } else {
-                window.location.reload();
+                console.log("getting here?")
+                window.location = `/projects?selected=${project.id}`;
             }
         } else {
             // TODO: Error handling
