@@ -60,7 +60,7 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar>
           <div className={classes.headerLinkContainer}>
-            <Typography variant="h6" noWrap component="div" class={classes.appLogo}>
+            <Typography variant="h6" noWrap component="div" className={classes.appLogo}>
               {registering.form ? 'Code for Chicago' : 'Voma'}
             </Typography>
             {UserAuth.isAuthenticated() && (
