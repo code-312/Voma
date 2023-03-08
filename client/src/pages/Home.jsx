@@ -21,6 +21,9 @@ const useStyles = makeStyles({
       marginRight: 0,
     }
   },
+  MarginTop: {
+    marginTop: '16px'
+  }
 });
 
 export default function Home() {
@@ -72,7 +75,7 @@ export default function Home() {
         </DialogActions>
     </Dialog>
 
-    <Grid container justifyContent="center">
+    <Grid container justifyContent="center" className={classes.MarginTop}>
       <Grid item sm={6} xs={12}>
         <Typography variant="subtitle">Code for Chicago</Typography>
 

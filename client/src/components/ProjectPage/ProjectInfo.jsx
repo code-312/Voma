@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ProjectInfoSwitcher from './ProjectInfoSwitcher';
 import ProjectInfoBox from './ProjectInfoBox';
 import ProjectinfoEditableBox from './ProjectInfoEditableBox';
 import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
 import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
+import { AuthContext } from '../../lib/AuthProvider';
+
 
 const ProjectInfo = ({ project, skills }) => {
+    const UserAuth = useContext(AuthContext);
     const [isEditing, setIsEditing] = useState(false);
     const [newProjectName, setNewProjectName] = useState("");
     const [newProjectRecruitStatus, setNewProjectRecruitStatus] = useState("false");
@@ -276,7 +279,8 @@ const ProjectInfo = ({ project, skills }) => {
 
     return (
         <ProjectInfoContainer>
-            <ProjectInfoSwitcher editing={isEditing} showEditForm={showEditForm} saveProject={saveProject} />
+
+            {UserAuth.isAuthenticated() && <ProjectInfoSwitcher editing={isEditing} showEditForm={showEditForm} saveProject={saveProject} /> }
             {!isEditing ?
                 <>
                     <ProjectInfoBox header={project.name} mainHeader fields={projectBasicInfo} />

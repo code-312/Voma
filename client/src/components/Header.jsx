@@ -61,10 +61,10 @@ export default function Header() {
         <Toolbar>
           <div className={classes.headerLinkContainer}>
             <Typography variant="h6" noWrap component="div" class={classes.appLogo}>
-              {registering.form ? 'Code for Chicago' : 'Voma'}
+              {!UserAuth.isAuthenticated() ? 'Code for Chicago' : 'Voma'}
             </Typography>
-            {UserAuth.isAuthenticated() && (
-              <div className={classes.navLinks}>
+            <div className={classes.navLinks}>
+              {UserAuth.isAuthenticated() ? (
                 <Link
                   className={
                     volPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
@@ -72,17 +72,25 @@ export default function Header() {
                   to="/board"
                 >
                   VOLUNTEERS
-                </Link>
+                </Link>) : (
+                  <Link
+                    className={
+                      registering.form ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
+                    }
+                    to="/register"
+                    >
+                      REGISTRATION
+                    </Link>
+                )}
                 <Link
                   className={
                     projectPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
                   }
                   to="/projects"
-                >
+                  >
                   PROJECTS
                 </Link>
-              </div>
-            )}
+            </div>
           </div>
           {registering.form && 'Social Button Here'}
 

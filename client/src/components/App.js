@@ -40,9 +40,9 @@ function App() {
         <LockedRoute path="/board">
           <AssignmentBoard />
         </LockedRoute>
-        <LockedRoute path="/projects">
+        <Route path="/projects">
           <Projects />
-        </LockedRoute>
+        </Route>
 
         {/* Registration Form */}
         <VolunteerProvider>
@@ -51,6 +51,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/projects">
+            <Projects />
           </Route>
         </VolunteerProvider>
 
