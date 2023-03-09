@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ReactComponent as Match } from '../../../../assets/Match.svg';
 import { ReactComponent as Mismatch } from '../../../../assets/Mismatch.svg';
 import { 
@@ -29,7 +30,9 @@ const ProjectBox = ({ project, active, setSelectedProject, volunteerSkill }) => 
         <ProjectBoxContainer $selected={active} onClick={changeSelection} tabIndex={0} onKeyDown={changeSelectionKeyPress}>
             <ProjectAssignmentRow>
                 <ProjectAssignmentCell>
-                    <ProjectBoxName $selected={active}>{project.name}</ProjectBoxName>
+                    <Link to={`/projects?selected=${project.id}`} style={{ textDecoration: 'none' }}>
+                        <ProjectBoxName $selected={active}>{project.name}</ProjectBoxName>
+                    </Link>
                 </ProjectAssignmentCell>
             </ProjectAssignmentRow>
             <ProjectAssignmentRow>

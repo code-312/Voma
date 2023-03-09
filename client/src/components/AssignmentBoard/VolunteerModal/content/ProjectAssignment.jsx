@@ -25,10 +25,14 @@ const ProjectAssignment = ({ volunteer, projects, selectedProject, setSelectedPr
             
             return 0;
         })
-
+        
         setSortedProjects(sorted);
+        if (sorted[0].currentNeeds.includes(skillName)) {
+            setSelectedProject(sorted[0].id)
+        }
     }, [projects, skillName])
-
+    
+    
     return (    
         <>
             <Typography variant="h6" component="h2" gutterBottom>
