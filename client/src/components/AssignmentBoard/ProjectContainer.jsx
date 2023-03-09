@@ -10,7 +10,7 @@ export default function ProjectContainer({ volunteers, project, classes, project
             mt="8px" 
             mb="16px">
                 
-            <Link to={`/projects?selected=${project.id}`} style={{ textDecoration: 'none' }}>
+            <Link to={`/projects?selected=${project.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Typography variant="h6" mb="16px">{project.name}</Typography>
             </Link>
 
