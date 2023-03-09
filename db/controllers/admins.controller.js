@@ -43,12 +43,58 @@ const addAdmin = async (req, res) => {
     res.json({ result: `Admin ${result.id} has been created.` });
 }
 
+const editAdmin = async (req, res) => {
+    let error; 
+    const {
+        id,
+        name, 
+        email
+    } = req.body;
+
+    const admin = await models.admin.findByPk(id, {
+        attributes: {
+            exclude: ['password'],
+        }
+    })
+    if (admin === null) {
+        return res.sendStatus(404);
+    }
+
+    const result = await admin.update({ name, email })
+        .catch(err => error = err);
+
+    if (error) {
+        return res.status(400).json({ error });
+    }
+
+    return res.status(200).json({ result: `Admin ${admin.id} has been updated.` });
+}
+
+const changePassword = async (req, res) => {
+    const { id, oldPassword, newPassword } = req.body;
+
+    const admin = await models.admin.findByPk(id);
+
+    if (admin === null) {
+        return res.sendStatus(404);
+    }
+
+    const validPassword = await bcrypt.compareSync(oldPassword, admin.password);
+    if (!validPassword) {
+        return res.json({ success: false, message: "Invalid password"});
+    }
+
+    const result = admin.update({ password: newPassword })
+        .catch(error => res.status(400).json({ error }));
+
+    return res.status(200).json({ result: `Admin ${admin.id}'s password has been updated.`});
+}
+
 const login = async (req, res) => {
     const {
         email,
         password
     } = req.body;
-
     const admin = await Admin.findOne({ where: { email } })
         .catch(err => {
             console.log(err);
@@ -110,6 +156,8 @@ const logout = async (req, res) => {
 module.exports = {
     getAdmin,
     addAdmin,
+    editAdmin,
+    changePassword,
     loginState,
     login,
     logout,
