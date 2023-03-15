@@ -9,11 +9,11 @@ import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import { editAdmin, changePassword } from '../lib/Requests';
+import { editAdmin, changePassword, addAdmin } from '../lib/Requests';
 import { AdminModalContainer } from '../styles/components/AdminModal.style';
 
 
-export default function AdminViewEdit() {
+export default function Admin() {
     const [adminDetails, setAdminDetails] = useState({});
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
@@ -21,9 +21,17 @@ export default function AdminViewEdit() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [verifyPassword, setVerifyPassword] = useState('');
+    const [newAdminModalOpen, setNewAdminModalOpen] = useState(false);
+    const [newAdminName, setNewAdminName] = useState('');
+    const [newAdminEmail, setNewAdminEmail] = useState('');
+    const [newAdminPassword, setNewAdminPassword] = useState('');
+    const [newAdminVerify, setNewAdminVerify] = useState('');
 
     const handleOpen = () => setPasswordModalOpen(true);
     const handleClose = () => setPasswordModalOpen(false);
+
+    const handleNewAdminOpen = () => setNewAdminModalOpen(true);
+    const handleNewAdminClose = () => setNewAdminModalOpen(false);
 
     const getAdminDetails = () => {
         const admin = localStorage.getItem('auth');
@@ -43,6 +51,24 @@ export default function AdminViewEdit() {
     const updateCurrentPassword = (e) => {
         setCurrentPassword(e.currentTarget.value);
     }
+
+    const updateNewAdminName = (e) => {
+        setNewAdminName(e.currentTarget.value);
+    }
+
+    const updateNewAdminEmail = (e) => {
+        setNewAdminEmail(e.currentTarget.value);
+    }
+
+    const updateNewAdminPassword = (e) => {
+        setNewAdminPassword(e.currentTarget.value);
+    }
+
+    const updateNewAdminVerify = (e) => {
+        setNewAdminVerify(e.currentTarget.value);
+    }
+
+    
 
     const setAdminDetailsLS = (name, email) => {
         const admin = JSON.parse(localStorage.getItem('auth'));
@@ -93,6 +119,16 @@ export default function AdminViewEdit() {
         setAdminDetails(adminCopy);
     }
 
+    const addNewAdmin = async () => {
+        const result = await addAdmin(newAdminName, newAdminPassword, newAdminEmail);
+        if (!result) {
+            console.log('error');
+        } else {
+            console.log("Success!");
+            handleNewAdminClose();
+        }
+    }
+
 
     useEffect(() => {
         getAdminDetails();
@@ -103,8 +139,6 @@ export default function AdminViewEdit() {
             <Modal
                 open={passwordModalOpen}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
             >
                 <AdminModalContainer>
                     <Input type="password" placeholder="Current Password" onChange={updateCurrentPassword} />
@@ -114,7 +148,21 @@ export default function AdminViewEdit() {
                         Change Password
                     </Button>
                 </AdminModalContainer>
-            </Modal>        
+            </Modal>
+            <Modal
+                open={newAdminModalOpen}
+                onClose={handleNewAdminClose}
+            >
+                <AdminModalContainer>
+                    <Input type="text" placeholder="Name" onChange={updateNewAdminName} />
+                    <Input type="text" placeholder="Email" onChange={updateNewAdminEmail} />
+                    <Input type="password" placeholder="Password" onChange={updateNewAdminPassword} />
+                    <Input type="password" placeholder="Re-Type Password" onChange={updateNewAdminVerify} />
+                    <Button onClick={addNewAdmin} disabled={!newAdminPassword || !newAdminVerify || newAdminPassword !== newAdminVerify} altText="Passwords must match">
+                        Add New Admin
+                    </Button>
+                </AdminModalContainer>
+            </Modal>            
             <Grid container justifyContent="center" sx={{ m: 2 }}>
                 <Card>
                     <CardHeader title="Profile Details" />
@@ -150,7 +198,7 @@ export default function AdminViewEdit() {
                     </CardContent>
                     <CardActions>
                         <Button size="small" onClick={handleOpen}>Change Password</Button>
-                        <Button size="small">Add New Admin</Button>
+                        <Button size="small" onClick={handleNewAdminOpen}>Add New Admin</Button>
                     </CardActions>
                 </Card>
             </Grid>

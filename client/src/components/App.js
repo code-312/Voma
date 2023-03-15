@@ -9,7 +9,7 @@ import Projects from '../pages/Projects';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
-import AdminViewEdit from '../pages/AdminViewEdit';
+import Admin from '../pages/Admin';
 
 import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
@@ -42,7 +42,7 @@ function App() {
           <AssignmentBoard />
         </LockedRoute>
         <LockedRoute path="/admin">
-            <AdminViewEdit />
+            <Admin />
         </LockedRoute>
         <Route path="/projects">
           <Projects />

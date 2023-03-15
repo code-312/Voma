@@ -260,6 +260,28 @@ const changePassword = async (id, oldPassword, newPassword) => {
     return result || { error };
 }
 
+const addAdmin = async (name, password, email) => {
+    let error; 
+    let payload = JSON.stringify({ name, password, email });
+
+    const result = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e; 
+        return false;
+    });
+
+    return result || { error };
+}
 
 export {
     fetchVolunteers,
@@ -272,5 +294,6 @@ export {
     editLink,
     sendWelcomeSlackMessage, 
     editAdmin,
-    changePassword
+    changePassword, 
+    addAdmin
 };
