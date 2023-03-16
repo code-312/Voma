@@ -118,6 +118,8 @@ app.delete('/api/event/:id', eventController.deleteEvent);
 /*========= ADMIN ROUTES =========*/
 app.post('/api/admin', adminController.addAdmin);
 app.get('/api/admin/:id', verifyAuth, adminController.getAdmin);
+app.post('/api/admin/edit', verifyAuth, adminController.editAdmin);
+app.post('/api/admin/password', verifyAuth, adminController.changePassword);
 
 /*========= AUTHENTICATION ROUTES =========*/
 app.post('/api/login', adminController.login);

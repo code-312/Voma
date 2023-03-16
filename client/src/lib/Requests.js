@@ -212,6 +212,76 @@ const sendWelcomeSlackMessage = async (volunteerSlackId, project) => {
     return result || { error };
 };
 
+/* Edit Admin profile details */ 
+const editAdmin = async(id, name, email) => {
+    let error; 
+    let payload = JSON.stringify({ id, name, email });
+
+    const result = await fetch('/api/admin/edit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e; 
+        return false;
+    });
+
+    return result || { error };
+}
+
+/* Change Admin Password */
+const changePassword = async (id, oldPassword, newPassword) => {
+    let error; 
+    let payload = JSON.stringify({ id, oldPassword, newPassword });
+
+    const result = await fetch('/api/admin/password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e; 
+        return false;
+    });
+
+    return result || { error };
+}
+
+const addAdmin = async (name, password, email) => {
+    let error; 
+    let payload = JSON.stringify({ name, password, email });
+
+    const result = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e; 
+        return false;
+    });
+
+    return result || { error };
+}
 
 export {
     fetchVolunteers,
@@ -222,5 +292,8 @@ export {
     removeLink,
     addLink,
     editLink,
-    sendWelcomeSlackMessage
+    sendWelcomeSlackMessage, 
+    editAdmin,
+    changePassword, 
+    addAdmin
 };
