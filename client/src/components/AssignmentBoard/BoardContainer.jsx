@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         marginTop: '-32px',
         backgroundColor: 'rgba(98, 0, 238, 0.08)',
         '& .MuiBox-root': {
-            display: 'inline-block',
+            display: 'flex',
         },
         '& input': {
             textAlign: 'right',

@@ -243,3 +243,9 @@ export const AssignToProjectContainer = styled.div`
         padding: 0;
     }
 `;
+
+export const BellIconStyle = styled.span`
+    color: green;
+    margin-left: -4px;
+    margin-right: 4px;
+`
