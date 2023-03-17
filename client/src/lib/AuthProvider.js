@@ -58,12 +58,12 @@ function AuthProvider({ children }) {
         } else return data.json();
       })
       .then(response => {
+        
         if (response.success) {
-          setAuthentication({ authenticated: true });
+          setAuthentication({ authenticated: true, id: response.id, name: response.name, email: response.email });
           window.location.href = '/board';
 
         } else {
-          console.log(response);
           setAuthentication({ authenticated: false });
           setLoginFormError(true);
         }

@@ -9,6 +9,7 @@ import Projects from '../pages/Projects';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
+import Admin from '../pages/Admin';
 
 import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
@@ -40,9 +41,12 @@ function App() {
         <LockedRoute path="/board">
           <AssignmentBoard />
         </LockedRoute>
-        <LockedRoute path="/projects">
-          <Projects />
+        <LockedRoute path="/admin">
+            <Admin />
         </LockedRoute>
+        <Route path="/projects">
+          <Projects />
+        </Route>
 
         {/* Registration Form */}
         <VolunteerProvider>
@@ -51,6 +55,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/projects">
+            <Projects />
           </Route>
         </VolunteerProvider>
 
