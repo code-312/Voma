@@ -78,6 +78,12 @@ export default function AssignmentBoard() {
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
 
+    if (!JSON.parse(localStorage.getItem('tasksComplete'))) {
+        localStorage.setItem("tasksComplete", JSON.stringify({viewed: [], notViewed: []}))
+    }
+    let {viewed} = JSON.parse(localStorage.getItem('tasksComplete'));
+    let notViewed = []
+
     const classes = useStyles(); 
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
@@ -94,9 +100,14 @@ export default function AssignmentBoard() {
     useEffect(() => { // map over volunteers and sort them into their project
         if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
             const copy = { ...filteredVolunteers };
+
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
                     if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
+                        if (!viewed.includes(vol.id)) {
+                            notViewed.push(vol.id)
+                            localStorage.setItem("tasksComplete", JSON.stringify({viewed, "notViewed": [...notViewed]}))
+                            }
                         copy.assign.push(vol);
                     } else {
                         copy.onboarding.push(vol);
