@@ -100,7 +100,7 @@ function VolunteerProvider({ children }) {
   };
 
   const registerVolunteer = () => {
-    fetch(`http://localhost:5000/api/volunteer`, {
+    fetch(`/api/volunteer`, {
       method: 'POST',
       body: JSON.stringify({
         name: profile.name,
