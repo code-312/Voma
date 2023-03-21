@@ -6,27 +6,13 @@ import VolunteerModal from './VolunteerModal/VolunteerModal';
 import { useStyles } from '../../styles/components/Boxes';
 
 
-const VolunteerBox = ({ volunteer, projects}) => {
+const VolunteerBox = ({ volunteer, projects, handleShowIndicator, handleViewedLS}) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const [showIndicator, setShowIndicator] = useState(false)
-    
-    const checkLocalStorage = () => {
-        const tasksComplete = JSON.parse(localStorage.getItem('tasksComplete'));
-        return {
-            indicatorViewed: tasksComplete.viewed,
-            indicatorNotViewed: tasksComplete.notViewed
-        } 
-    }
-
-    if (checkLocalStorage().indicatorNotViewed.includes(volunteer.id) && !showIndicator) {
-        setShowIndicator(true)
-    }
+    const showIndicator = handleShowIndicator && handleShowIndicator(volunteer.id)
     
     const openModal = () => {
         if (showIndicator) {
-            let {indicatorViewed, indicatorNotViewed} = checkLocalStorage()
-            localStorage.setItem("tasksComplete", JSON.stringify({viewed: [...indicatorViewed, volunteer.id], notViewed: indicatorNotViewed.filter(id => id !== volunteer.id)}))
-            setShowIndicator(false)
+            handleViewedLS(volunteer.id)
         }
         setModalOpen(true);
     }
