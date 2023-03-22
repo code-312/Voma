@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
-import { fetchVolunteers, fetchProjects } from '../lib/Requests';
+import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS } from '../lib/Requests';
 import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
@@ -91,12 +91,20 @@ export default function AssignmentBoard() {
         initializeBoard();
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
+    const showIndicator = (id) => getIndicatorViewsLS().notViewed.includes(id);
+
+
     useEffect(() => { // map over volunteers and sort them into their project
         if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
             const copy = { ...filteredVolunteers };
+            let {viewed, notViewed} = getIndicatorViewsLS()
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
                     if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
+                        if (!viewed.includes(vol.id) && (!notViewed.includes(vol.id))) {
+                            notViewed = [...notViewed, vol.id]
+                            localStorage.setItem('tasksComplete', JSON.stringify({viewed, notViewed}))
+                        }
                         copy.assign.push(vol);
                     } else {
                         copy.onboarding.push(vol);
@@ -111,11 +119,14 @@ export default function AssignmentBoard() {
             const sidebar = (
                 <VolunteerPageSidebar>
                     <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
+                    
                     { copy.assign.length > 0 ? 
                         copy.assign.map((vol) => <VolunteerBox 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
+                            handleShowIndicator={showIndicator}
+                            handleViewedLS={setViewedLS}
                         />) 
                         : 
                         <Typography variant="body">No Volunteers Ready to Assign</Typography> 

@@ -283,6 +283,21 @@ const addAdmin = async (name, password, email) => {
     return result || { error };
 }
 
+const getIndicatorViewsLS = () => {
+    if (!JSON.parse(localStorage.getItem('tasksComplete'))) {
+        localStorage.setItem("tasksComplete", JSON.stringify({viewed: [], notViewed: []}))
+    }
+    const { viewed, notViewed } = JSON.parse(localStorage.getItem('tasksComplete'));
+    return { viewed, notViewed};
+}
+
+const setViewedLS = (id) => {
+    let {viewed, notViewed} = getIndicatorViewsLS();
+    viewed = [...viewed, id];
+    notViewed = notViewed.filter(volId => volId !== id)
+    localStorage.setItem('tasksComplete', JSON.stringify({viewed, notViewed}))
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
@@ -295,5 +310,7 @@ export {
     sendWelcomeSlackMessage, 
     editAdmin,
     changePassword, 
-    addAdmin
+    addAdmin, 
+    getIndicatorViewsLS, 
+    setViewedLS
 };
