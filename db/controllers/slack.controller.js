@@ -1,6 +1,7 @@
 const slack = require('../lib/slack/slack');
 const blocks = require('../lib/slack/blocks');
 const { models } = require('../index');
+const { getAdminEmails } = require('./admins.controller');
 const axios = require('axios');
 
 const responses = {
@@ -113,6 +114,20 @@ const sendProjectWelcomeToVolunteer = async (req, res) => {
     return res.status(200).json({ result: 'Success!' });
 };
 
+const notifyAdminsYes = async (volunteer, project) => {
+    const emails = await getAdminEmails();
+    const slackIds = [];
+    await Promise.all(emails.map( async (email) => {
+        const response = await slack.slackLookupByEmail(email.email);
+        if (response.data.ok) {
+            slackIds.push(response.data.user.id);
+            return response.data.user.id;
+        }
+    }));
+    console.log(slackIds);
+    return slackIds;
+};
+
 const receiveUserResponse = async (req, res) => {
     const { payload } = req.body;
     const parsedPayload = JSON.parse(payload);
@@ -150,5 +165,6 @@ const receiveUserResponse = async (req, res) => {
 module.exports = {
     slackBot,
     sendProjectWelcomeToVolunteer,
-    receiveUserResponse
+    receiveUserResponse,
+    notifyAdminsYes
 };

@@ -22,6 +22,16 @@ const getAdmin = async (req, res) => {
     }
 }
 
+const getAdminEmails = async (req, res) => {
+    let error; 
+    const result = await models.admin.findAll({
+        attributes: ['email']
+    })
+        .catch(err => error = err);
+
+    return error ? error : result;
+}
+
 const addAdmin = async (req, res) => {
     let error;
     const {
@@ -155,6 +165,7 @@ const logout = async (req, res) => {
 
 module.exports = {
     getAdmin,
+    getAdminEmails,
     addAdmin,
     editAdmin,
     changePassword,
