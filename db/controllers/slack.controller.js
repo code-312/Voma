@@ -114,7 +114,7 @@ const sendProjectWelcomeToVolunteer = async (req, res) => {
     return res.status(200).json({ result: 'Success!' });
 };
 
-const notifyAdminsYes = async (volunteer, project) => {
+const getSlackIds = async () => {
     const emails = await getAdminEmails();
     const slackIds = [];
     await Promise.all(emails.map( async (email) => {
@@ -124,8 +124,22 @@ const notifyAdminsYes = async (volunteer, project) => {
             return response.data.user.id;
         }
     }));
-    console.log(slackIds);
+
     return slackIds;
+};
+
+const notifyAdminsYes = async (volunteer, project) => {
+    const slackIds = await getSlackIds();
+    slackIds.forEach((id) => {
+        slack.slackBlockMessageUser(id, "notifyAdminConfirm", { volunteer, project });
+    });
+};
+
+const notifyAdminsNo = async (volunteer, project) => {
+    const slackIds = await getSlackIds();
+    slackIds.forEach((id) => {
+        slack.slackBlockMessageUser(id, "notifyAdminDecline", { volunteer, project });
+    });
 };
 
 const receiveUserResponse = async (req, res) => {
@@ -146,12 +160,15 @@ const receiveUserResponse = async (req, res) => {
           }]
     });
 
+    const originalProject = volunteer.project;
     if (response === 'yes') {
         slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceYes());
         slack.sendProjectDetails(user, volunteer.project);
+        notifyAdminsYes(volunteer.name, originalProject.name)
     } else if (response === 'no') {
         slack.acknowledge(responseUrl, blocks.messageBlocks.projectActionReplaceNo());
         slack.handleNoAction(user);
+        notifyAdminsNo(volunteer.name, originalProject.name);
 
         await volunteer.setProject(null)
             .catch(err => console.log(err));

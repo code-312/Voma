@@ -200,17 +200,16 @@ const messageBlocks = {
     /**
      * Notifaction to an admin informing them that the volunteer accepted the project. 
      * 
-     * @param {string} volunteerName - name of the volunteer.
-     * @param {string} projectName - name of the project
+     * @param {object} details - object containing name of the volunteer and name of project.
      * @returns {array} - Slack block array of block objects.
      */
-    notifyAdminConfirm: (volunteerName, projectName) => {
+    notifyAdminConfirm: (details) => {
         return [
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: `Project recommendation alert: *${volunteerName}* has accepted the recommended project and has conditionally joined *${projectName}*.`
+                    text: `Project recommendation alert: *${details.volunteer}* has accepted the recommended project and has conditionally joined *${details.project}*.`
                 }
             }
         ]
@@ -219,17 +218,16 @@ const messageBlocks = {
      /**
      * Notifaction to an admin informing them that the volunteerd declined the project. 
      * 
-     * @param {string} volunteerName - name of the volunteer.
-     * @param {string} projectName - name of the project
+     * @param {object} details - object containing name of the volunteer and name of project.
      * @returns {array} - Slack block array of block objects.
      */
-     notifyAdminDecline: (volunteerName, projectName) => {
+     notifyAdminDecline: (details) => {
         return [
             {
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: `Project recommendation alert: *${volunteerName} has rejected the recommended project, *${projectName}, and has opted to schedule a 1:1 with you.`
+                    text: `Project recommendation alert: *${details.volunteer}* has rejected the recommended project, *${details.project}*, and has opted to schedule a 1:1 with you.`
                 }
             }
         ]
