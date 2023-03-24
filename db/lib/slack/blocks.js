@@ -195,7 +195,44 @@ const messageBlocks = {
         }
 
         return blocks;
-    }
+    },
+
+    /**
+     * Notifaction to an admin informing them that the volunteer accepted the project. 
+     * 
+     * @param {object} details - object containing name of the volunteer and name of project.
+     * @returns {array} - Slack block array of block objects.
+     */
+    notifyAdminConfirm: (details) => {
+        return [
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `Project recommendation alert: *${details.volunteer}* has accepted the recommended project and has conditionally joined *${details.project}*.`
+                }
+            }
+        ]
+    },
+
+     /**
+     * Notifaction to an admin informing them that the volunteerd declined the project. 
+     * 
+     * @param {object} details - object containing name of the volunteer and name of project.
+     * @returns {array} - Slack block array of block objects.
+     */
+     notifyAdminDecline: (details) => {
+        return [
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `Project recommendation alert: *${details.volunteer}* has rejected the recommended project, *${details.project}*, and has opted to schedule a 1:1 with you.`
+                }
+            }
+        ]
+    },
+
 
 };
 
