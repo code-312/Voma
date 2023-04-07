@@ -165,6 +165,9 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
  * @param {array}  blockParams - (optional) Block params if needed. 
  */
  const slackBlockMessageUser = async (slackUserId, blockName, blockParams=false) => {
+    console.log("sending message");
+    console.log(slackUserId);
+    console.log(blockName);
     if (!blockName || !slackUserId || (typeof blockParams == 'undefined')) return false;
 
     if (! messageBlocks[blockName]) { // Check that block is configured.
@@ -174,7 +177,7 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
 
     let blockFn = messageBlocks[blockName];
     let blocks = blockFn(blockParams);
-
+    console.log(blocks);
     try {
         let params = {
             channel: slackUserId,
@@ -189,7 +192,10 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
         };
         const result = await axios
                         .post(`${apiEndpoint}/chat.postMessage`, params, options)
-                        .then(res =>  res.data);
+                        .then((res) => {
+                            console.log('success?');
+                            return res.data;
+                        });
 
         return result;
 

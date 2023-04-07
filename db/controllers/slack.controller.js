@@ -94,14 +94,17 @@ const slackBot = async (req, res) => {
     // console.debug('slack.controller - slackBot - result', result);
 };
 
+const sendTaskCheckboxes = async (volunteer) => {
+    await slack.slackBlockMessageUser(volunteer.slackUserId, "volunteerTasks", volunteer)
+        .catch(err => err);
+}
+
 const sendProjectWelcomeToVolunteer = async (req, res) => {
     let error;
     const { slackId, project } = req.body;
     const parsedProject = JSON.parse(project);
-        // my slack id
         const blockName = 'projectWelcomeConfirm';
 
-    
         const result1 = await slack.slackBlockMessageUser(slackId, blockName, parsedProject)
                         .catch((err) => error = err);
         
@@ -114,7 +117,7 @@ const sendProjectWelcomeToVolunteer = async (req, res) => {
     return res.status(200).json({ result: 'Success!' });
 };
 
-const getSlackIds = async () => {
+const getSlackIds = async () => { // We may want to add slack ids to the admin model in the future, instead of doing it this way. 
     const emails = await getAdminEmails();
     const slackIds = [];
     await Promise.all(emails.map( async (email) => {
@@ -143,9 +146,26 @@ const notifyAdminsNo = async (volunteer, project) => {
 };
 
 const receiveUserResponse = async (req, res) => {
+    const actionMap = {
+        projectWelcomeConfirm: acceptOrRejectProject,
+        task_complete: updateUserTasks
+    };
+
+
+    console.log("receiving response");
     const { payload } = req.body;
     const parsedPayload = JSON.parse(payload);
+    const action = parsedPayload?.actions?.[0]?.action_id;
+    if (action) {
+        actionMap[action](parsedPayload);
+    }
 
+    // TODO: Figure out why this isn't properly acknowledging Slack
+
+    return res.status(200);
+}
+
+const acceptOrRejectProject = async (parsedPayload) => {
     const response = parsedPayload?.actions?.[0]?.selected_option?.value;
     const responseUrl = parsedPayload?.response_url;
     const user = parsedPayload?.user?.id;
@@ -176,12 +196,34 @@ const receiveUserResponse = async (req, res) => {
     }
 
 
-    return res.sendStatus(200);
+    return true;
+}
+
+const updateUserTasks = async (parsedPayload) => {
+    const response = parsedPayload?.actions?.[0]?.selected_options;
+    const responseUrl = parsedPayload?.response_url;
+    const user = parsedPayload?.user?.id;
+    // TODO: figure out way to add completed date to tasks (maybe call existing function)
+    if (response) {
+        const completedTasks = response.map((item) => item?.text?.text);
+        console.log(completedTasks);
+    
+        const result = await models.volunteer.update({ completedTasks }, {
+            where: {
+                slackUserId: user
+            }
+        });
+
+        if (result) {
+            console.log("maybe success!");
+        }
+    } 
 }
 
 module.exports = {
     slackBot,
     sendProjectWelcomeToVolunteer,
     receiveUserResponse,
-    notifyAdminsYes
+    notifyAdminsYes, 
+    sendTaskCheckboxes
 };

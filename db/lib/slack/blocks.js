@@ -6,7 +6,51 @@
  * level "blocks" key out. Properly formatted it should be [{},{},{}].
  */
 const messageBlocks = {
+    /**
+     * 
+     * @param {object} volunteer - the volunteer object
+     */
+    volunteerTasks: (volunteer) => {
+        return [{
+            type: "section", 
+            text: {
+                type: "mrkdwn",
+                text: `Hi ${volunteer.name}, thank you for registering!`
+            }
+        }, {
+            type: "section", 
+            text: {
+                type: "mrkdwn",
+                text: "You've been assigned three tasks on Trello. After completing one, please mark it as done by clicking the checkbox."
+            }
+        }, {
+            type: "actions",
+            elements: [{
+                type: "checkboxes",
+                "action_id": "task_complete",
+                options: [{
+                    text: {
+                        type: "plain_text",
+                        text: "Watch onboarding videos"
+                    },
+                    value: "watched_video"
+                }, {
+                    text: {
+                        type: "plain_text",
+                        text: "Submit passcode validation"
+                    },
+                    value: "submitted_passcode"
+                }, {
+                    text: {
+                        type: "plain_text",
+                        text: "Submit skills survey"
+                    },
+                    value: "submitted_survey"
+                }]
 
+            }]
+        }]
+    },
     /**
      * Welcome to project message block.
      * 
