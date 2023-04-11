@@ -52,6 +52,48 @@ const messageBlocks = {
         }]
     },
     /**
+     * 
+     * Notification a volunteer receives when they check off all three task boxes. 
+     * @returns {array} = Slack block array of block objects
+     */
+    tasksCompleteVolunteer: () => {
+        return [{
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "Welcome to Code for Chicago as an official member! After we assess your background and preferences to determine the best fit for a project, you will receive a notification soon with more details to confirm the assignment."
+            }
+        }, {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "In the meantime, checkout *#announcements* to stay tuned to important updates and events from Code for Chicago."
+            }
+        }, {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "Please reach out to your volunteer coordinator or send a message in *#volunteer-onboarding* with any questions or concerns."
+            }
+        }]
+    },
+    /**
+     * 
+     * Notification an admin recieves when a volunteer checks off all three task boxes. 
+     * 
+     * @param {string} volunteer - the volunteer who finished the tasks.
+     * @returns {array} - Slack block array of block options
+     */
+    tasksCompleteAdmin: (volunteer) => {
+        return [{
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `Onboarding complete: *${volunteer}* has completed the Trello tickets for initial onboarding and has officially joined as a Code for Chicago member. Please view the Recommendation tab in Voma to fit this volunteer to the right project.`
+            }
+        }]
+    },
+    /**
      * Welcome to project message block.
      * 
      * @param {object} project - Object with project information for the welcome message.

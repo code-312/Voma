@@ -145,14 +145,19 @@ const notifyAdminsNo = async (volunteer, project) => {
     });
 };
 
+const notifyAdminsTasksComplete = async (name) => {
+    const slackIds = await getSlackIds();
+    slackIds.forEach((id) => {
+        slack.slackBlockMessageUser(id, "tasksCompleteAdmin", name);
+    });
+}
+
 const receiveUserResponse = async (req, res) => {
     const actionMap = {
         projectWelcomeConfirm: acceptOrRejectProject,
         task_complete: updateUserTasks
     };
 
-
-    console.log("receiving response");
     const { payload } = req.body;
     const parsedPayload = JSON.parse(payload);
     const action = parsedPayload?.actions?.[0]?.action_id;
@@ -160,9 +165,7 @@ const receiveUserResponse = async (req, res) => {
         actionMap[action](parsedPayload);
     }
 
-    // TODO: Figure out why this isn't properly acknowledging Slack
-
-    return res.status(200);
+    return res.sendStatus(200);
 }
 
 const acceptOrRejectProject = async (parsedPayload) => {
@@ -203,19 +206,28 @@ const updateUserTasks = async (parsedPayload) => {
     const response = parsedPayload?.actions?.[0]?.selected_options;
     const responseUrl = parsedPayload?.response_url;
     const user = parsedPayload?.user?.id;
-    // TODO: figure out way to add completed date to tasks (maybe call existing function)
+    // TODO: figure out way to add completed date
     if (response) {
         const completedTasks = response.map((item) => item?.text?.text);
-        console.log(completedTasks);
     
         const result = await models.volunteer.update({ completedTasks }, {
             where: {
                 slackUserId: user
-            }
+            },
+            returning: true,
+            plain: true
         });
 
         if (result) {
-            console.log("maybe success!");
+            // on success, update will return an array with two elements; the number of rows affected
+            // and (if you include returning and plain in the request) the object affected. 
+            const updatedVolunteer = result[1]?.name;
+            if (completedTasks.length === 3) {
+                slack.slackBlockMessageUser(user, "tasksCompleteVolunteer", null);
+                if (updatedVolunteer) {
+                    notifyAdminsTasksComplete(updatedVolunteer);
+                }
+            }
         }
     } 
 }

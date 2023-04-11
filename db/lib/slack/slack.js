@@ -194,6 +194,7 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
                         .post(`${apiEndpoint}/chat.postMessage`, params, options)
                         .then((res) => {
                             console.log('success?');
+                            console.log(res);
                             return res.data;
                         });
 
