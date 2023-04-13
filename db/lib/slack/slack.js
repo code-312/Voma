@@ -174,7 +174,7 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
 
     let blockFn = messageBlocks[blockName];
     let blocks = blockFn(blockParams);
-
+    console.log(blocks);
     try {
         let params = {
             channel: slackUserId,
@@ -189,7 +189,9 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
         };
         const result = await axios
                         .post(`${apiEndpoint}/chat.postMessage`, params, options)
-                        .then(res =>  res.data);
+                        .then((res) => {
+                            return res.data;
+                        });
 
         return result;
 

@@ -3,6 +3,7 @@ require('dotenv').config({
 });
 const { models } = require('../index');
 const { slackLookupByEmail } = require('../lib/slack/slack');
+const { sendTaskCheckboxes } = require('./slack.controller');
 const tasks = require('../constants/tasks');
 const { response } = require('express');
 const { addTimeslots } = require('./timeslots.controller');
@@ -150,6 +151,7 @@ const addVolunteer = async (req, res) => {
 
     if (volunteerRec) {
         addRegisteredEvent(volunteerRec.id);
+        sendTaskCheckboxes(volunteerRec);
     }
     res.json({ success: true });
 };
