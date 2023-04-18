@@ -1,25 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, Grid, Button, Radio, RadioGroup, Typography, FormControlLabel } from '@mui/material';
 import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
-
 import { VolunteerContext } from '../../lib/VolunteerProvider';
+import { fetchSkills } from '../../lib/Requests';
 
 
 export default function Skills() {
   const Volunteer = useContext(VolunteerContext);
 
   const [skill, setSkill] = useState('');
+  const [skillList, setSkillList] = useState([])
   const [unfinished, setUnfinished] = useState(true);
 
-  
-  const skillList = [
-    'Content Strategy',
-    'Data Analytics',
-    'Front-End or Back-End Development',
-    'Project Management',
-    'Product Management',
-    'UX/UI Design/Research / Visual Design',
-  ];
+  useEffect(() => {
+    async function getSkills() {
+      let skills = await fetchSkills();
+      let skillNames = skills.map((skillType) => skillType.name)
+      setSkillList(skillNames)
+    }
+    getSkills()
+  }, [])
 
   const handleSkillChoice = (e) => { 
     setSkill(e.target.value); 
