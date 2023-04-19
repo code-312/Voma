@@ -108,7 +108,6 @@ const addVolunteer = async (req, res) => {
             error: err
         });
     });
-
     if (skills) { 
         const [skillRec] = await Skill.findOrCreate({
             where: { name: skills },
@@ -125,8 +124,9 @@ const addVolunteer = async (req, res) => {
             });
         });
 
+
         await VolunteerSkills.findOrCreate({
-            where: { skillId: skillRec.id },
+            where: { skillId: skillRec.id, volunteerId: volunteerRec.id },
             defaults: {
                 volunteerId: volunteerRec.id,
                 skillId: skillRec.id,
