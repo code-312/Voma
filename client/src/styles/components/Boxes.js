@@ -2,6 +2,8 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles({
   volunteerName: {
+    fontFamily: 'Outfit',
+    color: '#08082D',
     borderRadius: '4px',
     backgroundColor: 'white',
     '&:hover': {
@@ -28,4 +30,21 @@ export const useStyles = makeStyles({
       border: '1px solid #6200ee',
     },
   },
+  skillLabel: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  skillName: {
+    color: '#08082D',
+    backgroundColor: '#CDD1DD',
+    borderRadius: '20px',
+    padding: '2px 4px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '12px',
+    fontFamily: 'Outfit',
+    lineHeight: '16px',
+    marginTop: '8px'
+  }
 });

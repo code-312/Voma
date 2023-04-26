@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import {HiOutlineBellAlert} from 'react-icons/hi2';
 import { BellIconStyle } from '../../styles/components/VolunteerModal.style';
 import VolunteerModal from './VolunteerModal/VolunteerModal';
+import Label from './VolunteerModal/Label';
 import { useStyles } from '../../styles/components/Boxes';
 
 
@@ -44,7 +45,10 @@ const VolunteerBox = ({ volunteer, projects, handleShowIndicator, handleViewedLS
             >
                 <Box>
                 {showIndicator ? <BellIconStyle><HiOutlineBellAlert size={20}/></BellIconStyle> : null}
-                {volunteer.name || 'Volunteer Name'}
+                <div>
+                    {volunteer.name || 'Volunteer Name'}
+                    <Label labelStyle={classes.skillLabel} nameStyle={classes.skillName}/>
+                </div>
                 </Box>
             </Box>
         </>
