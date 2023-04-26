@@ -35,10 +35,8 @@ export const useStyles = makeStyles({
     alignItems: 'flex-start',
   },
   skillName: {
-    color: '#08082D',
-    backgroundColor: '#CDD1DD',
     borderRadius: '20px',
-    padding: '2px 4px',
+    padding: '4px 8px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

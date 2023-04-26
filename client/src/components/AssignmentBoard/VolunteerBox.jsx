@@ -5,11 +5,18 @@ import { BellIconStyle } from '../../styles/components/VolunteerModal.style';
 import VolunteerModal from './VolunteerModal/VolunteerModal';
 import Label from './VolunteerModal/Label';
 import { useStyles } from '../../styles/components/Boxes';
+import { skillLabels } from '../../lib/Skills';
 
 
 const VolunteerBox = ({ volunteer, projects, handleShowIndicator, handleViewedLS}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const showIndicator = handleShowIndicator && handleShowIndicator(volunteer.id)
+    const skill = volunteer.skills[0]?.name
+    const skillDetails = {
+       name: skillLabels[skill]?.name,
+       color: skillLabels[skill]?.color,
+       background: skillLabels[skill]?.backgroundColor
+    }
     
     const openModal = () => {
         if (showIndicator) {
@@ -47,7 +54,7 @@ const VolunteerBox = ({ volunteer, projects, handleShowIndicator, handleViewedLS
                 {showIndicator ? <BellIconStyle><HiOutlineBellAlert size={20}/></BellIconStyle> : null}
                 <div>
                     {volunteer.name || 'Volunteer Name'}
-                    <Label labelStyle={classes.skillLabel} nameStyle={classes.skillName}/>
+                    <Label labelStyle={classes.skillLabel} nameStyle={classes.skillName} colors={{color: skillDetails.color, background: skillDetails.background}} labelName={skillDetails.name}/>
                 </div>
                 </Box>
             </Box>
