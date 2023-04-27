@@ -174,7 +174,6 @@ const token = process.env?.SLACK_BOT_TOKEN || '';
 
     let blockFn = messageBlocks[blockName];
     let blocks = blockFn(blockParams);
-    console.log(blocks);
     try {
         let params = {
             channel: slackUserId,
