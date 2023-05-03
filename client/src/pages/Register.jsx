@@ -8,9 +8,11 @@ import ThankYouMessage from '../components/RegisterVolunteer/ThankYouMessage';
 import ApiError from '../components/ApiError';
 
 import { VolunteerContext } from '../lib/VolunteerProvider';
+import useTitle from '../hooks/useTitle';
 
 
 export default function Register() {
+  useTitle('Voma | Register')
   const Volunteer = useContext(VolunteerContext);
 
   return (<>

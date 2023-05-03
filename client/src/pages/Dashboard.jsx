@@ -1,8 +1,10 @@
 import { React } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import useTitle from '../hooks/useTitle';
 
 export default function Dashboard() {
+  useTitle('Voma | Dashboard')
   const newMembers = [
     { id: 1, name: 'Joseph Tajaran', skill: 'UX-Design' },
     { id: 2, name: 'Joseph Tajaran', skill: 'UX Research' },
