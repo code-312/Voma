@@ -5,6 +5,7 @@ import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectInfo from '../components/ProjectPage/ProjectInfo';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
+import useTitle from '../hooks/useTitle';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -12,6 +13,7 @@ const Projects = () => {
     const [projectCards, setProjectCards] = useState([]);
     const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
     const [selectedProject, setSelectedProject] = useState({});
+    useTitle('Voma | Projects');
 
     const getProjectDetails = useCallback(async (selectedId) => {
         setSelectedProject(projects.find((project) => project.id === selectedId) || {});

@@ -7,6 +7,7 @@ import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import { VolunteerPageSidebar } from '../styles/pages/AssignmentBoard.style';
+import useTitle from '../hooks/useTitle';
 
 const useStyles = makeStyles({
     sidebar: {
@@ -77,6 +78,7 @@ export default function AssignmentBoard() {
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
+    useTitle('Voma | Volunteers');
 
     const classes = useStyles(); 
 

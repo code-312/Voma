@@ -4,9 +4,10 @@ import { editAdmin, changePassword, addAdmin } from '../lib/Requests';
 import AdminDetails from '../components/AdminPage/AdminDetails';
 import ChangeAdminPasswordModal from '../components/AdminPage/ChangeAdminPasswordModal';
 import AddAdminModal from '../components/AdminPage/AddAdminModal';
-
+import useTitle from '../hooks/useTitle';
 
 export default function Admin() {
+    useTitle('Voma | Admin')
     const [adminDetails, setAdminDetails] = useState({});
     const [updateStatus, setUpdateStatus] = useState('');
     const [passwordModalOpen, setPasswordModalOpen] = useState(false);
