@@ -10,6 +10,7 @@ import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import Admin from '../pages/Admin';
+import StyleTest from './StyleTest';
 
 import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
@@ -47,6 +48,11 @@ function App() {
         <Route path="/projects">
           <Projects />
         </Route>
+        
+        {/* Test Page for design system development */}
+        <Route path="/style-test">
+          <StyleTest />
+        </Route>
 
         {/* Registration Form */}
         <VolunteerProvider>
@@ -60,6 +66,7 @@ function App() {
             <Projects />
           </Route>
         </VolunteerProvider>
+
 
         <Route path="*">
           <PageNotFound />
