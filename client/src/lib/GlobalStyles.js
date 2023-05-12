@@ -4,14 +4,40 @@ export const BaseCSSReset = css`
   * {
     box-sizing: border-box;
   }
+  html {
+    font-size: 16px;
+    line-height: 1.25;
+  }
   body {
+    min-height: 100vh;
+    background-color: #F2E7FF;
+    color: #23036A;
     margin: 0;
     padding: 0;
+    font-size: 1.25rem;
+    font-family: 'Outfit', 'Sans serif';
   }
-  h1,
-  h2,
-  h3,
-  h4,
+
+  h1, h2, h3, h4 {
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 42px; 
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+ 
   h5,
   h6,
   p {
@@ -49,22 +75,11 @@ export const BaseCSSReset = css`
     max-width: 100%;
     border-style: none;
   }
-  html {
-    font-size: 1rem;
-    line-height: 1.25;
-  }
-  body {
-    min-height: 100vh;
-    background-color: #F2E7FF;
-    color: #23036A;
-    font-family: 'IBM Plex Sans', sans-serif;
 
-  }
   main {
     min-height: 75vh;
   }
   p {
-    font-size: 1.125rem;
     line-height: 1.5;
     margin-bottom: 1.6875rem;
     &:last-child {
@@ -96,6 +111,9 @@ export const BaseCSSReset = css`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  label {
+    font-weight: 500;
+  }
   select::-ms-expand {
     display: none;
   }
@@ -104,6 +122,20 @@ export const BaseCSSReset = css`
 const GlobalStyle = createGlobalStyle`
   ${BaseCSSReset};
   :root {
+    --managementBlue: #1E1E64;
+    --managementBlue2: #6C75A3;
+    --managementBlue3: #B2B8D1;
+    --volunteerGreen: #33A34D;
+    --lightPeach: #F6EDE9;
+    --uiBlue: #1579C1;
+    --uiError: #A31963;
+    --blueShadeIII: #08082D;
+    --white: #FFFFFF;
+    --peachShade1: #D6C7C0;
+    --peachShade2: #B79E92;
+    --blueShade1: #CDD1DD;
+    --blueShade2: #757B8E;
+    --lightBlueGrey: #F5F6F8;
     --warning-color: #e20606;
     --blue: #414CB3;
   }
