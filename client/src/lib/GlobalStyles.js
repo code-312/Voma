@@ -130,6 +130,7 @@ const GlobalStyle = createGlobalStyle`
     --uiBlue: #1579C1;
     --uiError: #A31963;
     --blueShadeIII: #08082D;
+    --blueShadeSemiTransparent: #08082D90;
     --white: #FFFFFF;
     --peachShade1: #D6C7C0;
     --peachShade2: #B79E92;
