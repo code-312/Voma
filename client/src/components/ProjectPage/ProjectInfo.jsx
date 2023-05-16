@@ -161,7 +161,6 @@ const ProjectInfo = ({ project, skills }) => {
             if (newProjectLinks.length > 0) {
                 processLinks(newProjectLinks);
             } else {
-                console.log("getting here?")
                 window.location = `/projects?selected=${project.id}`;
             }
         } else {

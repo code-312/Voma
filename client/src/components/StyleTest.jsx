@@ -1,5 +1,6 @@
 import React from 'react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
+import { Card } from '../styles/components/Card.style';
 
 const StyleTest = () => (    
         <div style={{ width: '600px', margin: 'auto'}}>
@@ -39,6 +40,11 @@ const StyleTest = () => (
                 <div style={{ backgroundColor: 'var(--blueShade2)'}}>blueShade2</div>
                 <div style={{ backgroundColor: 'var(--lightBlueGrey)'}}>lightBlueGrey</div>
             </div>
+            <p />
+            <Card>
+                I am a card. 
+            </Card>
+            <div style={{ marginBottom: '15px' }} />
         </div>
 );
 
