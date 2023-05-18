@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { X } from 'lucide-react';
 import { Card } from './Card.style';
 
 export const ModalBackdrop = styled.div`
@@ -14,4 +15,13 @@ export const ModalBackdrop = styled.div`
 
 export const ModalBody = styled(Card)`
     opacity: 1;
+`;
+
+export const ModalClose = styled(X)`
+    color: #fff;
+    margin: 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
 `;

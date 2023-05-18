@@ -4,7 +4,7 @@ import { Card } from '../styles/components/Card.style';
 import Modal from './Modal';
 
 const StyleTest = () => {
-    const [modalOpen, setModalOpen] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const closeModal = () => (setModalOpen(false));
     const openModal = () => (setModalOpen(true));
@@ -54,9 +54,12 @@ const StyleTest = () => {
                     I am a card. 
                 </Card>
                 <div style={{ marginBottom: '15px' }} />
-                </div>
-                <Modal isOpen={modalOpen} closeFn={closeModal} />
+                <button type="button" onClick={openModal}>Pop a simple modal</button>
             </div>
+            <Modal isOpen={modalOpen} closeFn={closeModal}>
+                <h2>Test Modal</h2>
+            </Modal>
+        </div>
     );
 };
 
