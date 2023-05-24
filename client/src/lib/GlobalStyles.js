@@ -165,6 +165,13 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.1rem;
     padding: 12px 14px;
     margin: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    font-family: 'Outfit', 'Sans serif';
+    font-weight: 500;
+    font-size: 16px;
     cursor: pointer;
     &:disabled {
       border-color: #9e9c9c;
