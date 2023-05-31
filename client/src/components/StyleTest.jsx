@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
+import Dropdown from './Dropdown';
 import Modal from './Modal';
 
 const StyleTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const closeModal = () => (setModalOpen(false));
     const openModal = () => (setModalOpen(true));
+
+    const closeDropdown = () => (setDropdownOpen(false));
+    const openDropdown = () => (setDropdownOpen(true));
 
     return (
         <div>
@@ -55,6 +60,10 @@ const StyleTest = () => {
                 </Card>
                 <div style={{ marginBottom: '15px' }} />
                 <button type="button" onClick={openModal}>Pop a simple modal</button>
+                <button type="button" onClick={openDropdown}>Open dropdown</button>
+                <Dropdown isOpen={dropdownOpen} closeFn={closeDropdown}>
+                    <h3>Dropdown!</h3>
+                </Dropdown>
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
