@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Slack, AlertCircle } from 'lucide-react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
+import Button from './Button';
 import Modal from './Modal';
 
 const StyleTest = () => {
@@ -49,6 +51,27 @@ const StyleTest = () => {
                     <div style={{ backgroundColor: 'var(--blueShade2)'}}>blueShade2</div>
                     <div style={{ backgroundColor: 'var(--lightBlueGrey)'}}>lightBlueGrey</div>
                 </div>
+                <Button variant='solid blue' onClick={() => console.log('clicked')} icon={Slack} >
+                    Test Button
+                </Button> 
+                <Button variant='solid white' icon={AlertCircle} iconSize='18'>
+                    Test Button
+                </Button>
+                <Button variant='solid red'>
+                    Test Button
+                </Button>
+                <Button variant='outline blue'>
+                    Test Button
+                </Button>
+                <Button variant='fw outline blue'>
+                    Test Button
+                </Button>
+                <Button variant='fw outline white'>
+                    Test Button
+                </Button>
+                <Button variant='text-only red'>
+                    Test Button
+                </Button>
                 <p />
                 <Card>
                     I am a card. 
@@ -59,6 +82,7 @@ const StyleTest = () => {
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
             </Modal>
+           
         </div>
     );
 };
