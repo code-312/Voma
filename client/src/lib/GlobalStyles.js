@@ -159,12 +159,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button, .button {
-    color: var(--blue);
-    border: 2px solid var(--blue);
-    border-radius: 3px;
-    font-size: 1.1rem;
-    padding: 12px 14px;
-    margin: 1rem 1rem 0 0;
+    border-radius: 4px;
+    padding: 12px 16px;
     display: flex;
     justify-content: center;
     align-items: center;
