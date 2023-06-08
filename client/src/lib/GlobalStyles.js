@@ -159,12 +159,15 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button, .button {
-    color: var(--blue);
-    border: 2px solid var(--blue);
-    border-radius: 3px;
-    font-size: 1.1rem;
-    padding: 12px 14px;
-    margin: 1rem 1rem 0 0;
+    border-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    font-family: 'Outfit', 'Sans serif';
+    font-weight: 500;
+    font-size: 16px;
     cursor: pointer;
     &:disabled {
       border-color: #9e9c9c;
