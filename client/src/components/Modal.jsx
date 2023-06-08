@@ -1,15 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from 'react';
 import { ModalBackdrop, ModalBody, ModalClose } from '../styles/components/Modal.style';
+import useEscapeListener from '../hooks/useEscapeListener';
 
-const Modal = (props) => {
-    const escListener = (e) => {
-        const key = e.code;
-        if (key === 'Escape') {
-            props.closeFn();
-        }
-    };
-    
+const Modal = (props) => {    
     const closeListener = (e) => {
         const key = e.code;
         if (key === 'Enter') {
@@ -18,17 +12,15 @@ const Modal = (props) => {
     }
 
     useEffect(() => {
-        document.addEventListener('keydown', escListener);
-    }, []);
-
-    useEffect(() => {
         const body = document.querySelector('body');
         if (props.isOpen) {
             body.style.overflowY = "hidden";
         } else {
             body.style.overflowY = "auto";
         }
-    }, [props.isOpen])
+    }, [props.isOpen]);
+
+    useEscapeListener(props.closeFn);
 
     if (!props.isOpen) {
         return null;

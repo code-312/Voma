@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
 import Dropdown from './Dropdown';
 import Modal from './Modal';
+import useClickListener from '../hooks/useClickListener';
+import useEscapeListener from '../hooks/useEscapeListener';
 
 const StyleTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -13,6 +15,16 @@ const StyleTest = () => {
 
     const closeDropdown = () => (setDropdownOpen(false));
     const openDropdown = () => (setDropdownOpen(true));
+
+    const closeDropdownIfOpen = () => {
+        if (dropdownOpen) {
+            closeDropdown();
+        }
+    };
+
+    const wrapperRef = useRef("menu");
+    useClickListener(wrapperRef, closeDropdown);
+    useEscapeListener(closeDropdownIfOpen);
 
     return (
         <div>
@@ -60,10 +72,12 @@ const StyleTest = () => {
                 </Card>
                 <div style={{ marginBottom: '15px' }} />
                 <button type="button" onClick={openModal}>Pop a simple modal</button>
-                <button type="button" onClick={openDropdown}>Open dropdown</button>
-                <Dropdown isOpen={dropdownOpen} closeFn={closeDropdown}>
-                    <h3>Dropdown!</h3>
-                </Dropdown>
+                <div ref={wrapperRef} style={{marginBottom: '16px'}}>
+                    <button type="button" onClick={openDropdown}>Open dropdown</button>
+                    <Dropdown isOpen={dropdownOpen}>
+                        <h3>Dropdown!</h3>
+                    </Dropdown>
+                </div>
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
