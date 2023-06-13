@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 import { Slack, AlertCircle } from 'lucide-react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
+import { StyledInput } from '../styles/components/Input.style';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import Modal from './Modal';
+import PasswordField from './PasswordField';
 import useClickListener from '../hooks/useClickListener';
 import useEscapeListener from '../hooks/useEscapeListener';
 
@@ -101,6 +103,8 @@ const StyleTest = () => {
                         <h3>Dropdown!</h3>
                     </Dropdown>
                 </div>
+                <StyledInput placeholder="Regular Input Field" />
+                <PasswordField placeholder="Password" />
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
