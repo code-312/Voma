@@ -9,6 +9,7 @@ import Modal from './Modal';
 import PasswordField from './PasswordField';
 import useClickListener from '../hooks/useClickListener';
 import useEscapeListener from '../hooks/useEscapeListener';
+import Accordion from './Accordion';
 
 const StyleTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -29,6 +30,12 @@ const StyleTest = () => {
     const wrapperRef = useRef("menu");
     useClickListener(wrapperRef, closeDropdown);
     useEscapeListener(closeDropdownIfOpen);
+
+    const SampleHeaderContent = () => (
+        <div>
+          <div>Open accordion</div>
+        </div>
+    )
 
     return (
         <div>
@@ -103,13 +110,17 @@ const StyleTest = () => {
                         <h3>Dropdown!</h3>
                     </Dropdown>
                 </div>
+                <Accordion header={<SampleHeaderContent />}>
+                    <p>Content for accordion</p>
+                </Accordion>
+
                 <StyledInput placeholder="Regular Input Field" />
                 <PasswordField placeholder="Password" />
+
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
             </Modal>
-           
         </div>
     );
 };
