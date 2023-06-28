@@ -10,16 +10,35 @@ import PasswordField from './PasswordField';
 import useClickListener from '../hooks/useClickListener';
 import useEscapeListener from '../hooks/useEscapeListener';
 import Accordion from './Accordion';
+import StackedInput from './StackedInputs';
 
 const StyleTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [radioChoice, setRadioChoice] = useState("");
+    const [checkChoice, setCheckChoice] = useState([]);
 
     const closeModal = () => (setModalOpen(false));
     const openModal = () => (setModalOpen(true));
 
     const closeDropdown = () => (setDropdownOpen(false));
     const openDropdown = () => (setDropdownOpen(true));
+
+    const radioListener = (e) => {
+        setRadioChoice(e.currentTarget.value);
+    }
+
+    const checkListener = (e) => {
+        const { value } = e.currentTarget;
+        const index = checkChoice.indexOf(value);
+        if (index === -1) {
+            setCheckChoice([...checkChoice, value]);
+        } else {
+            let temp = [...checkChoice];
+            temp.splice(index, 1);
+            setCheckChoice(temp);
+        }
+    }
 
     const closeDropdownIfOpen = () => {
         if (dropdownOpen) {
@@ -36,6 +55,46 @@ const StyleTest = () => {
           <div>Open accordion</div>
         </div>
     )
+
+    const radioOptions = [{
+        id: 'firstChoice',
+        value: 'bilbo',
+        labelText: "Bilbo Baggins",
+    }, {
+        id: 'secondChoice',
+        value: 'frodo',
+        labelText: 'Frodo Baggins'
+    }, { 
+        id: 'thirdChoice',
+        value: 'sam',
+        labelText: 'Sam Gamgee'
+    }, {
+        id: 'fourthChoice',
+        value: 'merry',
+        labelText: 'Meriadoc Brandybuck',
+    }, {
+        id: 'fifthChoice',
+        value: 'Pippin',
+        labelText: 'Peregrin Took'
+    }];
+
+    const checkOptions = [{
+        id: 'firstChoice',
+        value: 'cheese',
+        labelText: 'Cheese'
+    }, {
+        id: 'secondChoice',
+        value: 'pepperoni',
+        labelText: 'Pepperoni'
+    }, {
+        id: 'thirdChoice',
+        value: 'pineapple',
+        labelText: 'Pineapple'
+    }, {
+        id: 'fourthChoice',
+        value: 'mushroom',
+        labelText: 'Mushroom'
+    }];
 
     return (
         <div>
@@ -116,7 +175,36 @@ const StyleTest = () => {
 
                 <StyledInput placeholder="Regular Input Field" />
                 <PasswordField placeholder="Password" />
+                <h3 style={{marginTop: '5px'}}>Who is your favorite hobbit?</h3>
+                
+                { radioOptions.map((option) => (
+                        <StackedInput 
+                            key={option.id}
+                            labelText={option.labelText}
+                            value={option.value}
+                            id={option.id}
+                            name="bestHobbit"
+                            checked={radioChoice === option.value}
+                            onChange={radioListener}
+                            type="radio"
+                        />
+                    )
+                )}
 
+                <h3 style={{marginTop: '5px'}}>Which of the following are acceptable pizza toppings?</h3>
+                { checkOptions.map((option) => (
+                        <StackedInput 
+                            key={option.id}
+                            labelText={option.labelText}
+                            value={option.value}
+                            id={option.id}
+                            name="pizzaTopping"
+                            checked={checkChoice.indexOf(option.value) !== -1}
+                            onChange={checkListener}
+                            type="checkbox"
+                        />
+                    )
+                )}
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
