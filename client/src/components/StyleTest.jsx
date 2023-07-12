@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Slack, AlertCircle } from 'lucide-react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
 import { StyledInput } from '../styles/components/Input.style';
+import { HeaderLink } from '../styles/components/HeaderLink.style';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import Modal from './Modal';
@@ -11,6 +12,7 @@ import useClickListener from '../hooks/useClickListener';
 import useEscapeListener from '../hooks/useEscapeListener';
 import Accordion from './Accordion';
 import StackedInput from './StackedInputs';
+import ContentBox from './ContentBox';
 
 const StyleTest = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -205,6 +207,15 @@ const StyleTest = () => {
                         />
                     )
                 )}
+                <div style={{marginTop: '15px'}}>
+                    <ContentBox
+                        headContent={<h1> I am a Content Box</h1>}
+                        bodyContent={[(<h2 key="thing1">Content 1</h2>), (<h2 key="thing2">Content  2</h2>),(<h2 key="thing3">Content 3</h2>)]}
+                        links={["Thing 1", "Thing 2", "Thing 3"]}
+                        variant="large"
+
+                    />
+                </div>
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
                 <h2>Test Modal</h2>
