@@ -4,10 +4,15 @@ import { Card } from '../styles/components/Card.style';
 import { HeaderLinkContainer, HeaderLink } from '../styles/components/HeaderLink.style';
 import { ContentBoxLinkContainer, ContentBoxContentContainer, ContentBoxFootContainer } from '../styles/components/ContentBox.style';
 
-const ContentBox = ({ headContent, links, variant = 'small', bodyContent, footContent }) => {
+const ContentBox = ({ headContent, links, headerClickFn = null, variant = 'small', bodyContent, footContent }) => {
     const [activePage, setActivePage] = useState(0);
     
-
+    const handleHeaderClick = (index) => {
+        if (headerClickFn) {
+            headerClickFn();
+        }
+        setActivePage(index);
+    }
     return (
         <Card>
             {headContent}
@@ -15,7 +20,7 @@ const ContentBox = ({ headContent, links, variant = 'small', bodyContent, footCo
                 { links.map((link, index) => (
                     <HeaderLinkContainer active={activePage === index} key={link}> 
                         <HeaderLink 
-                            onClick={() => setActivePage(index)} 
+                            onClick={() => handleHeaderClick(index)} 
                             variant={variant}
                         >
                             {link}

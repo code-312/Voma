@@ -213,7 +213,7 @@ const StyleTest = () => {
                         bodyContent={[(<h2 key="thing1">Content 1</h2>), (<h2 key="thing2">Content  2</h2>),(<h2 key="thing3">Content 3</h2>)]}
                         links={["Thing 1", "Thing 2", "Thing 3"]}
                         variant="large"
-
+                        footContent={<Button variant="solid blue">Some button</Button>}
                     />
                 </div>
             </div>
