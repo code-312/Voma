@@ -3,7 +3,7 @@ import { Slack, AlertCircle } from 'lucide-react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
 import { StyledInput } from '../styles/components/Input.style';
-import { HeaderLink } from '../styles/components/HeaderLink.style';
+import { BoardSidebar } from '../styles/components/BoardSidebar.style';
 import Dropdown from './Dropdown';
 import Button from './Button';
 import Modal from './Modal';
@@ -215,6 +215,12 @@ const StyleTest = () => {
                         variant="large"
                         footContent={<Button variant="solid blue">Some button</Button>}
                     />
+                </div>
+                <div style={{marginTop: '15px'}}>
+                    <BoardSidebar>
+                        <h3>The sidebar</h3>
+                        <h3>more stuff</h3>
+                    </BoardSidebar>
                 </div>
             </div>
             <Modal isOpen={modalOpen} closeFn={closeModal}>
