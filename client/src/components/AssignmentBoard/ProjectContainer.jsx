@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Box, Typography } from '@mui/material';
-import VolunteerBox from './VolunteerBox';
+import VolunteerCard from './VolunteerCard';
 
 export default function ProjectContainer({ volunteers, project, classes, projects }) {
     return (
@@ -17,7 +17,7 @@ export default function ProjectContainer({ volunteers, project, classes, project
             <hr />
 
             {volunteers.map((volunteer) => (
-                <VolunteerBox
+                <VolunteerCard
                     key={`volunteer-${volunteer.id}`}
                     volunteer={volunteer} 
                     projects={projects}

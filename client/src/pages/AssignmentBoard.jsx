@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
 import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS } from '../lib/Requests';
-import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
+import VolunteerCard from '../components/AssignmentBoard/VolunteerCard';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import { VolunteerPageSidebar } from '../styles/pages/AssignmentBoard.style';
@@ -123,7 +123,7 @@ export default function AssignmentBoard() {
                     <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
                     
                     { copy.assign.length > 0 ? 
-                        copy.assign.map((vol) => <VolunteerBox 
+                        copy.assign.map((vol) => <VolunteerCard 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
@@ -135,7 +135,7 @@ export default function AssignmentBoard() {
                     }
                     <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
                     { copy.onboarding.length > 0 ? 
-                        copy.onboarding.map((vol) => <VolunteerBox 
+                        copy.onboarding.map((vol) => <VolunteerCard 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
