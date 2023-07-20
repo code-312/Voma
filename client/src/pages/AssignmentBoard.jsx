@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
+import { BellRing, Hand } from 'lucide-react';
 import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS } from '../lib/Requests';
 import VolunteerCard from '../components/AssignmentBoard/VolunteerCard';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
@@ -78,6 +79,7 @@ export default function AssignmentBoard() {
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
+    let {viewed, notViewed} = getIndicatorViewsLS();
     useTitle('Voma | Volunteers');
 
     const classes = useStyles(); 
@@ -94,12 +96,12 @@ export default function AssignmentBoard() {
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
     const showIndicator = (id) => getIndicatorViewsLS().notViewed.includes(id);
+    const showOnboardingIndicator = (id) => true;
 
 
     useEffect(() => { // map over volunteers and sort them into their project
         if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
             const copy = { ...filteredVolunteers };
-            let {viewed, notViewed} = getIndicatorViewsLS()
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
                     if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
@@ -129,6 +131,7 @@ export default function AssignmentBoard() {
                             projects={projects}
                             handleShowIndicator={showIndicator}
                             handleViewedLS={setViewedLS}
+                            icon={<BellRing />}
                         />) 
                         : 
                         <Typography variant="body">No Volunteers Ready to Assign</Typography> 
@@ -139,6 +142,8 @@ export default function AssignmentBoard() {
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
+                            handleShowIndicator={showOnboardingIndicator}
+                            icon={<Hand />}
                         />) 
                         :
                         <Typography variant="body">No Volunteers Currently Onboarding</Typography> 

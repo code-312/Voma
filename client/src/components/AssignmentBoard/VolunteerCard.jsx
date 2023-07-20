@@ -5,7 +5,7 @@ import { skillLabels } from '../../lib/Skills';
 import { VolunteerCardContainer, VolunteerLabel, VolunteerNameContainer } from '../../styles/components/VolunteerCard.style';
 
 
-const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedLS}) => {
+const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedLS, icon = null}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const showIndicator = handleShowIndicator && handleShowIndicator(volunteer.id);
     const skill = volunteer.skills[0]?.name || 'default';
@@ -41,7 +41,7 @@ const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedL
                 closeModal={closeModal}
             >
                 <VolunteerNameContainer>
-                    {showIndicator ? <BellRing /> : null}
+                    {showIndicator ? icon : null}
                     {volunteer.name || 'Volunteer Name'}
                 </VolunteerNameContainer>
                     <VolunteerLabel bgColor={skillLabels[skill].backgroundColor} color={skillLabels[skill].color}>
