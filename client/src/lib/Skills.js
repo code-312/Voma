@@ -1,32 +1,37 @@
 export const skillLabels = {
   'Content Strategy': {
     name: 'Content Strategy',
-    color: '#08082D',
-    backgroundColor: '#CDD1DD',
+    color: 'blueShadeIII',
+    backgroundColor: 'blueShade1',
   }, 
   'Data Analytics': {
     name: 'Data Analytics',
-    color: '#FFFFFF',
-    backgroundColor: '#1E1E64'
+    color: 'white',
+    backgroundColor: 'managementBlue'
   },
   'Front-End or Back-End Development': {
     name: 'Frontend/Backend Dev',
-    color: '#08082D',
-    backgroundColor: '#B79E92'
+    color: 'white',
+    backgroundColor: 'blueShadeIII'
   },
   'Product Management': {
     name: 'Product Management',
-    color: '#FFFFFF',
-    backgroundColor: '#1579C1'
+    color: 'white',
+    backgroundColor: 'uiBlue'
   },
   'UX/UI Design/Research / Visual Design' : {
     name: 'UX/UI',
-    color: '#FFFFFF',
-    backgroundColor: '#33A34D'
+    color: 'white',
+    backgroundColor: 'volunteerGreen'
   },
   'Project Management': {
     name: 'Project Management',
-    color: '#08082D',
-    backgroundColor: '#D6C7C0'
+    color: 'blueShadeIII',
+    backgroundColor: 'peachShade1'
+  },
+  'default': {
+    backgroundColor: 'blueShade1',
+    color: 'blueShadeIII',
+    name: 'No Skill'
   }
 }

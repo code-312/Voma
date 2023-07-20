@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 import { Typography } from '@mui/material';
+import { BellRing, Hand } from 'lucide-react';
 import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS } from '../lib/Requests';
-import VolunteerBox from '../components/AssignmentBoard/VolunteerBox';
+import VolunteerCard from '../components/AssignmentBoard/VolunteerCard';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import { VolunteerPageSidebar } from '../styles/pages/AssignmentBoard.style';
@@ -78,6 +79,7 @@ export default function AssignmentBoard() {
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
+    let {viewed, notViewed} = getIndicatorViewsLS();
     useTitle('Voma | Volunteers');
 
     const classes = useStyles(); 
@@ -94,12 +96,12 @@ export default function AssignmentBoard() {
     }, []); // \Run once on component mount and initialize volunteer/project data.
 
     const showIndicator = (id) => getIndicatorViewsLS().notViewed.includes(id);
+    const showOnboardingIndicator = (id) => true;
 
 
     useEffect(() => { // map over volunteers and sort them into their project
         if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
             const copy = { ...filteredVolunteers };
-            let {viewed, notViewed} = getIndicatorViewsLS()
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
                     if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
@@ -123,22 +125,25 @@ export default function AssignmentBoard() {
                     <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
                     
                     { copy.assign.length > 0 ? 
-                        copy.assign.map((vol) => <VolunteerBox 
+                        copy.assign.map((vol) => <VolunteerCard 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
                             handleShowIndicator={showIndicator}
                             handleViewedLS={setViewedLS}
+                            icon={<BellRing />}
                         />) 
                         : 
                         <Typography variant="body">No Volunteers Ready to Assign</Typography> 
                     }
                     <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
                     { copy.onboarding.length > 0 ? 
-                        copy.onboarding.map((vol) => <VolunteerBox 
+                        copy.onboarding.map((vol) => <VolunteerCard 
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
+                            handleShowIndicator={showOnboardingIndicator}
+                            icon={<Hand />}
                         />) 
                         :
                         <Typography variant="body">No Volunteers Currently Onboarding</Typography> 
