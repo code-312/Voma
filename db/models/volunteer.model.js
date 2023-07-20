@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         jobTitle: {
             type: DataTypes.STRING
         },
-        onboardingAttendedAt: {
-            type: DataTypes.DATE
+        projectAssignmentAccepted: {
+            type: DataTypes.BOOLEAN
         },
-        oneOnOneAttendedAt: {
-            type: DataTypes.DATE
+        active: {
+            type: DataTypes.BOOLEAN
         },
         completedTasks: {
             type: DataTypes.ARRAY(DataTypes.STRING)
