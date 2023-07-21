@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BodyText3 } from './Typography';
 
 export const VolunteerModalContainer = styled.div`
     position: absolute;
@@ -249,3 +250,11 @@ export const BellIconStyle = styled.span`
     margin-left: -4px;
     margin-right: 4px;
 `
+// New Volunteer Modal
+export const VolunteerModalName = styled.h2`
+    margin-bottom: 0;
+`;
+
+export const VolunteerModalProject = styled(BodyText3)`
+    margin-bottom: 8px;
+`;
