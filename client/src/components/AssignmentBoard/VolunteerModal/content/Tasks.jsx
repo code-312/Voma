@@ -1,6 +1,7 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import { VolunteerTabTable } from '../../../../styles/components/VolunteerModal.style';
+import { BodySubText, Label3 } from '../../../../styles/components/Typography';
+import { ProfileInfoContainer, IncompleteTaskIcon, TaskContainer } from '../../../../styles/components/VolunteerModal.style';
+import { ReactComponent as CompletedTask } from'../../../../assets/CompletedTask.svg';
 
 const Tasks = ({ tasks }) => {
     // Need to store these tasks in a constant file somewhere
@@ -10,35 +11,29 @@ const Tasks = ({ tasks }) => {
     
     return (
         <>
-        <Typography variant="h6" component="h2" gutterBottom>
-            Tasks
-        </Typography>
-        <VolunteerTabTable>
-            <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>Task</th>
-                    <th>Date Completed</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{tasks.indexOf(watchObVideo) !== -1 ? 'Completed' : 'Not Started'}</td>
-                    <td>{watchObVideo}</td>
-                    <td>- -</td>
-                </tr>
-                <tr>
-                    <td>{tasks.indexOf(submitPasscode) !== -1 ? 'Completed' : 'Not Started'}</td>
-                    <td>{submitPasscode}</td>
-                    <td>- -</td>
-                </tr>
-                <tr>
-                    <td>{tasks.indexOf(skillsSurvey) !== -1 ? 'Completed' : 'Not Started'}</td>
-                    <td>{skillsSurvey}</td>
-                    <td>- -</td>
-                </tr>
-            </tbody>
-        </VolunteerTabTable>
+            <h3>Tasks</h3>
+            <BodySubText>Track this volunteer&apos;s progress in your onboarding workflow.</BodySubText>
+            <ProfileInfoContainer>
+                <h4>Onboarding</h4>
+                <TaskContainer>
+                    { tasks.indexOf(watchObVideo) !== -1 ? <CompletedTask /> : <IncompleteTaskIcon />}
+                    <Label3>
+                        { watchObVideo }
+                    </Label3>
+                </TaskContainer>
+                <TaskContainer>
+                    { tasks.indexOf(submitPasscode) !== -1 ? <CompletedTask /> : <IncompleteTaskIcon />}
+                    <Label3>
+                        { submitPasscode }
+                    </Label3>
+                </TaskContainer>
+                <TaskContainer>
+                    { tasks.indexOf(skillsSurvey) !== -1 ? <CompletedTask /> : <IncompleteTaskIcon />}
+                    <Label3>
+                        { skillsSurvey }
+                    </Label3>
+                </TaskContainer>
+            </ProfileInfoContainer>
         </>
     );
 }

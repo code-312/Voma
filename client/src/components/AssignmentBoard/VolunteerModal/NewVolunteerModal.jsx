@@ -7,6 +7,10 @@ import VolunteerModalTabs from './VolunteerModalTabs';
 import ModalContent from './ModalContent';
 import ModalFooterButtons from './ModalFooterButtons';
 import useEscapeListener from '../../../hooks/useEscapeListener';
+import Profile from './content/Profile';
+import Tasks from './content/Tasks';
+import Activity from './content/Activity';
+import ProjectAssignment from './content/ProjectAssignment';
 import { BodyText3 } from '../../../styles/components/Typography';
 import { VolunteerLabel } from '../../../styles/components/VolunteerCard.style';
 import {
@@ -24,7 +28,8 @@ import { assignVolunteerToProject, sendWelcomeSlackMessage } from '../../../lib/
 
 const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
   // used to display currently assigned project
-  const [project, setProject] = useState('');
+  const [project, setProject] = useState(null);
+  const [projectName, setProjectName] = useState('')
   // used to assign to project
   const [selectedProject, setSelectedProject] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -32,9 +37,10 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
 
   useEffect(() => {
     if (volunteer.project) {
-      setProject(volunteer.project.name);
+      setProject(volunteer.project);
+      setProjectName(volunteer.project.name);
     } else {
-      setProject(volunteer.completedTasks.length === 3 ? 'Assign to Project' : 'Currently Onboarding');
+      setProjectName(volunteer.completedTasks.length === 3 ? 'Assign to Project' : 'Currently Onboarding');
     }
   }, [volunteer]);
 
@@ -64,7 +70,7 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   const headContent = (
     <>
         <VolunteerModalName>{volunteer.name}</VolunteerModalName>
-        <VolunteerModalProject>{project}</VolunteerModalProject>
+        <VolunteerModalProject>{projectName}</VolunteerModalProject>
         <VolunteerLabel bgColor={skillDetails.backgroundColor} color={skillDetails.color}>
             { skillDetails.name }
         </VolunteerLabel>
@@ -79,7 +85,25 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   );
 
   const links = ['Profile', 'Tasks', 'Assign to a Project', 'Activity'];
-  const content = [<h3 key="profile">profile page</h3>, <h3 key="tasks">tasks page</h3>, <h3 key="assign">assign page</h3>, <h3 key="activity">activity page</h3>];
+  const content = [
+    <Profile 
+        key="profile" 
+        volunteer={volunteer} 
+    />, 
+    <Tasks 
+        key="tasks"
+        tasks={volunteer.completedTasks} 
+    />, 
+    <ProjectAssignment 
+        key="projectAssignment"
+        volunteer={volunteer} 
+        projects={projects} 
+        assignedProject={project}
+    />,
+    <Activity
+        key="activity"
+        events={volunteer.Events}
+    />];
 
   return (
     <Modal

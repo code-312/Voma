@@ -81,7 +81,6 @@ export const BaseCSSReset = css`
   }
   p {
     line-height: 1.5;
-    margin-bottom: 1.6875rem;
     &:last-child {
       margin-bottom: 0;
     }

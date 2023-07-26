@@ -12,6 +12,7 @@ export const ModalBackdrop = styled.div`
     left: 0;
     display: flex;
     align-items: enter;
+    overflow-y: scroll;
 `;
 
 export const ModalBody = styled(Card)`
