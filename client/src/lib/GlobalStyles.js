@@ -7,10 +7,11 @@ export const BaseCSSReset = css`
   html {
     font-size: 16px;
     line-height: 1.25;
+    min-height: 100vh;
   }
   body {
     min-height: 100vh;
-    background-color: #F2E7FF;
+    background-color: #D6C7C0;
     color: #23036A;
     margin: 0;
     padding: 0;
