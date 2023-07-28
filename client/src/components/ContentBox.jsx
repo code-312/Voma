@@ -9,7 +9,7 @@ const ContentBox = ({ headContent, links, headerClickFn = null, variant = 'small
     
     const handleHeaderClick = (index) => {
         if (headerClickFn) {
-            headerClickFn();
+            headerClickFn(index);
         }
         setActivePage(index);
     }

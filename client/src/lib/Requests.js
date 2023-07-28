@@ -83,11 +83,35 @@ const fetchSkills = async () => {
     return skillList;
 };
 
+/** 
+ * Edit a Volunteer's details
+ */
+const editVolunteer = async (volunteer) => {
+    let error;
+    const result = await fetch(`/api/volunteer/${volunteer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(volunteer)
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+};
 /**
  * Edit a project's details.
  * 
  * @returns {true} on success, otherwise it will return the error. 
  */
+
 const editProject = async (project, id) => {
     let error;
     const result = await fetch(`/api/project/${id}`, {
@@ -303,7 +327,8 @@ export {
     fetchProjects,
     fetchSkills,
     assignVolunteerToProject,
-    editProject, 
+    editProject,
+    editVolunteer, 
     removeLink,
     addLink,
     editLink,

@@ -12,7 +12,7 @@ import {
 } from '../../../../styles/components/VolunteerModal.style';
 import { BodySubText, Label3 } from '../../../../styles/components/Typography';
 
-const ProjectAssignment = ({ volunteer, projects, assignedProject }) => {
+const ProjectAssignment = ({ volunteer, projects, assignedProject, isEditing }) => {
     const [sortedProjects, setSortedProjects] = useState([]);
     const [bodyContent, setBodyContent] = useState(null);
     const [isAssigning, setIsAssigning] = useState(false);

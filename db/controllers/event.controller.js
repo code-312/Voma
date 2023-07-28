@@ -36,6 +36,25 @@ const getEvents = async (req, res) => {
     return res.status(200).json(events);
 }
 
+const editEvent = async (req, res) => {
+    const { name, volunteerId } = req.body;
+    console.log(name, volunteerId);
+    let error;
+    const event = await models.Event.findOne({
+        where: { name, volunteerId }
+    })
+    .catch(err => error = err);
+
+    if (event) {
+        const reuslt = await event.update({ name, volunteerId }).catch(err => error = err);
+    }
+
+    if (!error) {
+        return res.status(200).json({ success: "Success" });
+    }
+    return res.status(500).json({ error });
+}
+
 const addEventRest = async (req, res) => {
     const { name, volunteerId } = req.body;
     
@@ -80,5 +99,6 @@ module.exports = {
     addRegisteredEvent,
     addEventRest,
     getEvents,
-    deleteEvent
+    deleteEvent,
+    editEvent
 };

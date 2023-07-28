@@ -11,6 +11,7 @@ import Profile from './content/Profile';
 import Tasks from './content/Tasks';
 import Activity from './content/Activity';
 import ProjectAssignment from './content/ProjectAssignment';
+import VolunteerModalFooter from './VolunteerModalFooter';
 import { BodyText3 } from '../../../styles/components/Typography';
 import { VolunteerLabel } from '../../../styles/components/VolunteerCard.style';
 import {
@@ -24,7 +25,11 @@ import {
     VolunteerModalProject
 } from '../../../styles/components/VolunteerModal.style';
 import { ButtonStyle } from '../../../styles/components/Button.style';
-import { assignVolunteerToProject, sendWelcomeSlackMessage } from '../../../lib/Requests';
+import { 
+  assignVolunteerToProject, 
+  sendWelcomeSlackMessage, 
+  editVolunteer 
+} from '../../../lib/Requests';
 
 const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
   // used to display currently assigned project
@@ -34,18 +39,41 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   const [selectedProject, setSelectedProject] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [volunteerCopy, setVolunteerCopy] = useState({});
+  const [footerVisible, setFooterVisible] = useState(true);
 
   useEffect(() => {
-    if (volunteer.project) {
-      setProject(volunteer.project);
-      setProjectName(volunteer.project.name);
-    } else {
-      setProjectName(volunteer.completedTasks.length === 3 ? 'Assign to Project' : 'Currently Onboarding');
+    if (volunteer) {
+      setVolunteerCopy(volunteer);
+      if (volunteer.project) {
+        setProject(volunteer.project);
+        setProjectName(volunteer.project.name);
+      } else {
+        setProjectName(volunteer.completedTasks.length === 3 ? 'Assign to Project' : 'Currently Onboarding');
+      }
     }
   }, [volunteer]);
 
+
   const editInfo = () => setIsEditing(true);
-  const saveInfo = () => setIsEditing(false);
+  const saveInfo = async () => {
+    const result = await(editVolunteer(volunteerCopy));
+    if (result) {
+
+      setIsEditing(false)
+    } // Todo: Add error handling
+  };
+
+  const headerLinkListener = (index) => {
+    setFooterVisible(index === 0 || index === 3);
+  }
+
+  const updateVolunteerCopy = (e) => {
+    const { name, value } = e.currentTarget;
+    const copyCopy = {...volunteerCopy};
+    copyCopy[name] = value;
+    setVolunteerCopy(copyCopy);
+  }
 
   const assignVolunteer = async () => {
     if (volunteer.id && selectedProject) {
@@ -69,7 +97,7 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   }
   const headContent = (
     <>
-        <VolunteerModalName>{volunteer.name}</VolunteerModalName>
+        <VolunteerModalName>{volunteerCopy.name}</VolunteerModalName>
         <VolunteerModalProject>{projectName}</VolunteerModalProject>
         <VolunteerLabel bgColor={skillDetails.backgroundColor} color={skillDetails.color}>
             { skillDetails.name }
@@ -77,32 +105,30 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
     </>
   );
 
-  const footContent = (
-    <>
-        <ButtonStyle variant={!isEditing ? "solid blue" : "solid white"} disabled={isEditing} onClick={editInfo}>Edit</ButtonStyle>
-        <ButtonStyle variant={isEditing ? "solid blue" : "solid white"} disabled={!isEditing} onClick={saveInfo}>Save</ButtonStyle>
-    </>
-  );
-
   const links = ['Profile', 'Tasks', 'Assign to a Project', 'Activity'];
   const content = [
     <Profile 
-        key="profile" 
-        volunteer={volunteer} 
+        key={`${volunteer.id}-profile`}
+        volunteer={volunteerCopy} 
+        isEditing={isEditing}
+        updateVolunteerCopy={updateVolunteerCopy}
     />, 
     <Tasks 
-        key="tasks"
-        tasks={volunteer.completedTasks} 
+        key={`${volunteer.id}-tasks`}
+        tasks={volunteerCopy.completedTasks} 
     />, 
     <ProjectAssignment 
-        key="projectAssignment"
-        volunteer={volunteer} 
+        key={`${volunteer.id}-proejctAssignment`}
+        volunteer={volunteerCopy} 
         projects={projects} 
         assignedProject={project}
+        isEditing={isEditing}
     />,
     <Activity
-        key="activity"
-        events={volunteer.Events}
+        key={`${volunteer.id}-activity`}
+        events={volunteerCopy.Events}
+        isEditing={isEditing}
+        volunteerId={volunteerCopy.id}
     />];
 
   return (
@@ -114,9 +140,17 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
     >
         <ContentBox
             headContent={headContent}
+            headerClickFn={headerLinkListener}
             links={links}
             bodyContent={content}
-            footContent={footContent}
+            footContent={
+              <VolunteerModalFooter
+                visible={footerVisible} 
+                isEditing={isEditing} 
+                editInfo={editInfo} 
+                saveInfo={saveInfo}
+              />
+            }
         />
       {/* <VolunteerModalContainer>
         <VolunteerModalBody>

@@ -112,6 +112,7 @@ app.delete('/api/timeslot/:id', timeslotController.deleteTimeslot);
 /*========= EVENT ROUTES =========*/
 app.get('/api/events', eventController.getEvents);
 app.post('/api/event', eventController.addEventRest);
+app.post('/api/event/:id', eventController.editEvent);
 app.delete('/api/event/:id', eventController.deleteEvent);
 
 
