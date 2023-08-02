@@ -28,7 +28,8 @@ import { ButtonStyle } from '../../../styles/components/Button.style';
 import { 
   assignVolunteerToProject, 
   sendWelcomeSlackMessage, 
-  editVolunteer 
+  editVolunteer,
+  updateActivity 
 } from '../../../lib/Requests';
 
 const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
@@ -41,6 +42,7 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   const [activeTab, setActiveTab] = useState(0);
   const [volunteerCopy, setVolunteerCopy] = useState({});
   const [footerVisible, setFooterVisible] = useState(true);
+  const [updatedActivity, setUpdatedActivity] = useState([]);
 
   useEffect(() => {
     if (volunteer) {
@@ -57,10 +59,35 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
 
   const editInfo = () => setIsEditing(true);
   const saveInfo = async () => {
-    const result = await(editVolunteer(volunteerCopy));
-    if (result) {
+    const actCopy = [...volunteerCopy.Events];
+    let activitySuccess = true;
+    updatedActivity.forEach(async (event) => {
+      const currSuccess = await updateActivity(event.id, event.name, volunteer.id, event.isNew);
+      // eslint-disable-next-line eqeqeq
+      const index = actCopy.findIndex((item) => item.id == event.id);
 
-      setIsEditing(false)
+      if (!currSuccess) {
+        activitySuccess = false;
+      }
+
+      if (index !== -1) {
+        actCopy[index].name = event.name;
+      } else {
+        actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
+      }
+    });
+
+    const result = await editVolunteer(volunteerCopy);
+    
+    
+    if (activitySuccess) { // todo: there is a delay updateing volunteer copy, and the updated events don't show up
+      let newVol = {...volunteerCopy};
+      newVol.Events = actCopy;
+      setVolunteerCopy(newVol);
+    }
+    if (result && activitySuccess) {
+      setIsEditing(false);
+      
     } // Todo: Add error handling
   };
 
@@ -73,6 +100,28 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
     const copyCopy = {...volunteerCopy};
     copyCopy[name] = value;
     setVolunteerCopy(copyCopy);
+  }
+
+  const addNewActivity = () => {
+    const copy = {...volunteerCopy};
+    // generate temp random id to keep track of updates
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    copy.Events.push({ name: "", isNew: true, id: array[0], createdAt: new Date() });
+
+    setVolunteerCopy(copy);
+  }
+
+  const trackActivityChange = (id, name, isNew = false) => {
+    const copy = [...updatedActivity];
+    const index = copy.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      copy[index].name = name
+    } else {
+      copy.push({ id, name, isNew });
+    }
+
+    setUpdatedActivity(copy);
   }
 
   const assignVolunteer = async () => {
@@ -129,6 +178,8 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
         events={volunteerCopy.Events}
         isEditing={isEditing}
         volunteerId={volunteerCopy.id}
+        trackActivityChange={trackActivityChange}
+        addNewActivity={addNewActivity}
     />];
 
   return (

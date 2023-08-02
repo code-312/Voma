@@ -261,7 +261,7 @@ export const VolunteerModalProject = styled(BodyText3)`
 
 // Profile section
 export const ProfileInfoContainer = styled.div`
-    margin-top: 24px;
+    margin: 24px 0;
 `;
 
 // Completed Tasks

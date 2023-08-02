@@ -133,6 +133,28 @@ const editProject = async (project, id) => {
     return result || error;
 };
 
+const updateActivity = async (id, name, volunteerId, isNew) => {
+    let error;
+
+    const result = await fetch(`/api/event/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, volunteerId, isNew })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
 /**
  * Remove a link from a project. 
  * Returns true on success, else the error
@@ -337,5 +359,6 @@ export {
     changePassword, 
     addAdmin, 
     getIndicatorViewsLS, 
-    setViewedLS
+    setViewedLS,
+    updateActivity
 };

@@ -37,16 +37,23 @@ const getEvents = async (req, res) => {
 }
 
 const editEvent = async (req, res) => {
-    const { name, volunteerId } = req.body;
-    console.log(name, volunteerId);
+    const { name, volunteerId, isNew } = req.body;
+    
+    console.log(`Name: ${name}`);
+    console.log(`IsNew: ${isNew}`);
     let error;
-    const event = await models.Event.findOne({
-        where: { name, volunteerId }
-    })
-    .catch(err => error = err);
-
-    if (event) {
-        const reuslt = await event.update({ name, volunteerId }).catch(err => error = err);
+    if (!isNew) {
+        const event = await models.Event.findByPk(req.params.id)
+        .catch(err => error = err);
+        
+        if (event) {
+            const result = await event.update({ name }).catch(err => error = err);
+        }
+    } else {
+        const newResult = await addEvent(name, volunteerId);
+        if (!newResult.success) {
+            error = newResult.error;
+        }
     }
 
     if (!error) {
