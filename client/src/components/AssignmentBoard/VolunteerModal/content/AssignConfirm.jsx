@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { ProjectSkillContainer, PseudoLinkContainer, ConfirmContainer, ConfirmButtonContainer } from '../../../../styles/components/VolunteerModal.style';
+import { PseudoLinkContainer, ConfirmButtonContainer } from '../../../../styles/components/VolunteerModal.style';
 import { PseudoLink, Label3 } from '../../../../styles/components/Typography';
 import Button from '../../../Button';
 

@@ -1,16 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Typography from '@mui/material/Typography';
 import ProjectBox from './ProjectBox';
 import AssignConfirm from './AssignConfirm';
-import {
-    ProjectAssignmentContainer, 
-    ProjectBoxName,
-    ProjectAssignmentSkillContainer,
-    ProjectAssignmentProjectContainer, 
-    ProjectAssignmentRow,
-    ProjectAssignmentCell,
-} from '../../../../styles/components/VolunteerModal.style';
-import { BodySubText, Label3 } from '../../../../styles/components/Typography';
+import { BodySubText } from '../../../../styles/components/Typography';
 
 const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunteer }) => {
     const [sortedProjects, setSortedProjects] = useState([]);
@@ -49,9 +40,7 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunte
             sorted = [assignedProject, ...sorted];
         }
         setSortedProjects(sorted);
-        // if (sorted[0].currentNeeds.includes(skillName)) {
-        //     setSelectedProject(sorted[0].id)
-        // }
+
     }, [projects, skillName, assignedProject]);
 
     useEffect(() => {
@@ -96,43 +85,6 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunte
             <BodySubText>Select a project to assign to a volunteer.</BodySubText>
             {bodyContent}
         </>
-        // <>
-        //     <Typography variant="h6" component="h2" gutterBottom>
-        //         Project Match
-        //     </Typography>
-        //     <ProjectAssignmentContainer>
-        //         <ProjectAssignmentSkillContainer>
-
-        //         <ProjectAssignmentRow>
-        //             <ProjectAssignmentCell $label>
-        //                 <ProjectBoxName>
-        //                     Skill
-        //                 </ProjectBoxName>
-        //             </ProjectAssignmentCell>
-        //         </ProjectAssignmentRow>
-        //         <ProjectAssignmentRow>
-        //             <ProjectAssignmentCell $label>
-        //                 <ProjectBoxName>
-        //                     {skillName || '--'}
-        //                 </ProjectBoxName>
-        //             </ProjectAssignmentCell>
-        //         </ProjectAssignmentRow>
-        //         </ProjectAssignmentSkillContainer>
-        //             <ProjectAssignmentProjectContainer>
-        //             {sortedProjects.map((project) => (
-        //                 <ProjectBox 
-        //                     key={project.id} 
-        //                     project={project} 
-        //                     active={selectedProject === project.id}
-        //                     setSelectedProject={setSelectedProject}
-        //                     volunteerSkill={skillName} 
-        //                     volunteerId={volunteer.id}
-        //                 />
-        //                 ))
-        //             }
-        //             </ProjectAssignmentProjectContainer>
-        //     </ProjectAssignmentContainer>
-        // </>
     );
 }
 

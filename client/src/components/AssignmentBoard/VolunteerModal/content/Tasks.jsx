@@ -3,7 +3,7 @@ import { BodySubText, Label3 } from '../../../../styles/components/Typography';
 import { ProfileInfoContainer, IncompleteTaskIcon, TaskContainer } from '../../../../styles/components/VolunteerModal.style';
 import { ReactComponent as CompletedTask } from'../../../../assets/CompletedTask.svg';
 
-const Tasks = ({ tasks, isEditing }) => {
+const Tasks = ({ tasks }) => {
     // Need to store these tasks in a constant file somewhere
     const watchObVideo = "Watch onboarding videos";
     const submitPasscode = "Submit passcode validation";

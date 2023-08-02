@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NewVolunteerModal from './VolunteerModal/NewVolunteerModal';
+import VolunteerModal from './VolunteerModal/VolunteerModal';
 import { skillLabels } from '../../lib/Skills';
 import { VolunteerCardContainer, VolunteerLabel, VolunteerNameContainer } from '../../styles/components/VolunteerCard.style';
 
@@ -27,7 +27,7 @@ const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedL
 
     return (
         <>
-            <NewVolunteerModal 
+            <VolunteerModal 
                 volunteer={volunteer} 
                 modalOpen={modalOpen} 
                 closeModal={closeModal} 

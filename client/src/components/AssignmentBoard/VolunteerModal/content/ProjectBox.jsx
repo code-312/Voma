@@ -1,18 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { ReactComponent as Match } from '../../../../assets/Match.svg';
-import { ReactComponent as Mismatch } from '../../../../assets/Mismatch.svg';
 import Accordion from '../../../Accordion';
-import { Label1, Label2, Label3, BodySubLabel } from '../../../../styles/components/Typography';
+import { Label1, Label3, BodySubLabel } from '../../../../styles/components/Typography';
 import { VolunteerLabel } from '../../../../styles/components/VolunteerCard.style';
 import { 
-    ProjectBoxContainer, 
-    ProjectBoxName, 
-    ProjectMatchIndicator,
-    ProjectBoxMatchIndicator,
-    ProjectAssignmentRow,
-    ProjectAssignmentCell,
     AssignAccordionHeader,
     ProjectSkillContainer,
     ProjectAssignButtonContainer,
@@ -61,27 +51,6 @@ const ProjectBox = ({ project, volunteerSkill, assigned, toggleAssign }) => {
                 }
             </ProjectAssignButtonContainer>
         </Accordion>
-        // <ProjectBoxContainer $selected={active} onClick={changeSelection} tabIndex={0} onKeyDown={changeSelectionKeyPress}>
-        //     <ProjectAssignmentRow>
-        //         <ProjectAssignmentCell>
-        //             <Link to={`/projects?selected=${project.id}`} style={{ textDecoration: 'none' }}>
-        //                 <ProjectBoxName $selected={active}>{project.name}</ProjectBoxName>
-        //             </Link>
-        //         </ProjectAssignmentCell>
-        //     </ProjectAssignmentRow>
-        //     <ProjectAssignmentRow>
-        //         <ProjectAssignmentCell>
-        //             <ProjectBoxMatchIndicator $selected={active} $match={isMatch}>
-        //                 { isMatch ? 
-        //                     <Match />
-        //                     :
-        //                     <Mismatch />
-        //                 }
-        //                 <ProjectMatchIndicator $match={isMatch}>{ isMatch ? 'MATCH' : 'MISMATCH '}</ProjectMatchIndicator>
-        //             </ProjectBoxMatchIndicator>
-        //         </ProjectAssignmentCell>
-        //     </ProjectAssignmentRow>
-        // </ProjectBoxContainer>
     )
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Slack, AlertCircle } from 'lucide-react';
 import { BodyText2, BodyText3, Label1, Label2, Label3, Label4 } from '../styles/components/Typography';
 import { Card } from '../styles/components/Card.style';
