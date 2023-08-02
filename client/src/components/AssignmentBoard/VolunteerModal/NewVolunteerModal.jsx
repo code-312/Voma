@@ -37,7 +37,7 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
   const [project, setProject] = useState(null);
   const [projectName, setProjectName] = useState('')
   // used to assign to project
-  const [selectedProject, setSelectedProject] = useState(null);
+  // const [selectedProject, setSelectedProject] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [volunteerCopy, setVolunteerCopy] = useState({});
@@ -124,26 +124,24 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
     setUpdatedActivity(copy);
   }
 
-  const assignVolunteer = async () => {
-    if (volunteer.id && selectedProject) {
-
-      const result = await assignVolunteerToProject(volunteer.id, selectedProject);
-      if (result) {
-        const projectDetails = projects.find((detail) => detail.id === selectedProject);
-        if (projectDetails) {
-          const slackResult = await sendWelcomeSlackMessage(volunteer.slackUserId, projectDetails);
-          if (slackResult) {
-            console.log("Success!");
-            window.location.reload();
-          } else {
-            console.log("oh no");
-            window.location.reload();
-          }
+  const assignVolunteer = async (volunteerId, selectedProject) => {
+    const result = await assignVolunteerToProject(volunteerId, selectedProject);
+    if (result) {
+      const projectDetails = projects.find((detail) => detail.id === selectedProject);
+      if (projectDetails) {
+        const slackResult = await sendWelcomeSlackMessage(volunteer.slackUserId, projectDetails);
+        if (slackResult) {
+          console.log("Success!");
+          window.location.reload();
+        } else {
+          console.log("oh no");
+          window.location.reload();
         }
-        // TODO: More elegant way to update board than forcing reload
       }
+      // TODO: More elegant way to update board than forcing reload
     }
   }
+
   const headContent = (
     <>
         <VolunteerModalName>{volunteerCopy.name}</VolunteerModalName>
@@ -167,11 +165,11 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
         tasks={volunteerCopy.completedTasks} 
     />, 
     <ProjectAssignment 
-        key={`${volunteer.id}-proejctAssignment`}
+        key={`${volunteer.id}-projectAssignment`}
         volunteer={volunteerCopy} 
         projects={projects} 
         assignedProject={project}
-        isEditing={isEditing}
+        assignVolunteer={assignVolunteer}
     />,
     <Activity
         key={`${volunteer.id}-activity`}
@@ -203,39 +201,6 @@ const NewVolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDe
               />
             }
         />
-      {/* <VolunteerModalContainer>
-        <VolunteerModalBody>
-          <VolunteerModalSidebar>
-            <VolunteerSidebarTabContainer $noHover>
-              <VolunteerIcon />
-              <VolunteerSidebarHeader>
-                <Typography id="modal-title" variant="h6" component="h2">
-                    {volunteer.name}
-                </Typography>
-                <Typography paragraph>
-                    {project}
-                </Typography>
-              </VolunteerSidebarHeader>
-            </VolunteerSidebarTabContainer>
-            <VolunteerModalTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          </VolunteerModalSidebar>
-          <VolunteerModalContent>
-            <ModalContent 
-              volunteer={volunteer} 
-              activeTab={activeTab} 
-              projects={projects} 
-              selectedProject={selectedProject}
-              setSelectedProject={setSelectedProject}
-            />
-          </VolunteerModalContent>
-        </VolunteerModalBody>
-        <ModalFooterButtons 
-          standard={activeTab !== 4} 
-          closeModal={closeModal} 
-          assignVolunteerToProject={assignVolunteer} 
-          selectedProject={selectedProject}
-        />
-      </VolunteerModalContainer> */}
     </Modal>
   );
 };

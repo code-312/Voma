@@ -12,7 +12,7 @@ import {
 } from '../../../../styles/components/VolunteerModal.style';
 import { BodySubText, Label3 } from '../../../../styles/components/Typography';
 
-const ProjectAssignment = ({ volunteer, projects, assignedProject, isEditing }) => {
+const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunteer }) => {
     const [sortedProjects, setSortedProjects] = useState([]);
     const [bodyContent, setBodyContent] = useState(null);
     const [isAssigning, setIsAssigning] = useState(false);
@@ -52,7 +52,7 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, isEditing }) 
         // if (sorted[0].currentNeeds.includes(skillName)) {
         //     setSelectedProject(sorted[0].id)
         // }
-    }, [projects, skillName]);
+    }, [projects, skillName, assignedProject]);
 
     useEffect(() => {
         if (!isAssigning && sortedProjects.length > 0) {
@@ -68,13 +68,26 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, isEditing }) 
                 ))
             );
         } else {
-            setBodyContent(<AssignConfirm
-                                toggleAssign={toggleAssigning}
-                                volunteer={volunteer}
-                                project={selectedProject}
-                           />);
+            setBodyContent(
+                <AssignConfirm
+                    toggleAssign={toggleAssigning}
+                    volunteer={volunteer}
+                    project={selectedProject}
+                    assignToProject={assignVolunteer}
+                />
+            );
         }
-    }, [isAssigning, sortedProjects, assignedProject, skillName, volunteer, toggleAssigning, selectedProject, toggleAndSetProject]);
+    }, [
+        isAssigning, 
+        sortedProjects, 
+        assignedProject, 
+        skillName, 
+        volunteer, 
+        toggleAssigning, 
+        selectedProject, 
+        toggleAndSetProject, 
+        assignVolunteer
+    ]);
     
     
     return (    
