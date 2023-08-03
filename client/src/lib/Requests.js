@@ -155,6 +155,28 @@ const updateActivity = async (id, name, volunteerId, isNew) => {
     return result || error;
 }
 
+const updateActivityBulk = async (events) => {
+    let error;
+
+    const result = await fetch(`/api/event/bulkUpdate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
 /**
  * Remove a link from a project. 
  * Returns true on success, else the error
@@ -360,5 +382,6 @@ export {
     addAdmin, 
     getIndicatorViewsLS, 
     setViewedLS,
-    updateActivity
+    updateActivity,
+    updateActivityBulk
 };

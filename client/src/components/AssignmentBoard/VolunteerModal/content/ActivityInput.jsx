@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyledInput } from '../../../../styles/components/Input.style';
 
-const ActivityInput = ({ initialValue, storeNewValue, id, isNew }) => {
+const ActivityInput = ({ initialValue, storeNewValue, id }) => {
     const [value, setValue] = useState("");
 
     const setNewValue = (e) => {
@@ -9,7 +9,7 @@ const ActivityInput = ({ initialValue, storeNewValue, id, isNew }) => {
         const eventId = e.currentTarget.id;
 
         setValue(name);
-        storeNewValue(eventId, name, isNew);
+        storeNewValue(parseInt(eventId, 10), name);
     }
 
     useEffect(() => {

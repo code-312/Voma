@@ -13,14 +13,18 @@ const Activity = ({ events, isEditing, volunteerId, trackActivityChange, addNewA
         <BodySubText>Review and update a volunteer&apos;s progress and status.</BodySubText>
         { events.length > 0 ? 
             events.map((event) => {
-                const { name, createdAt, id, isNew } = event;
+                const { name, createdAt, id } = event;
                 const formatted = new Date(createdAt);
                 return (
                     <ProfileInfoContainer key={`${volunteerId}-${name}-${createdAt}`}>
                         { !isEditing ?
                             <Label3>{name}</Label3>
                         :
-                            <ActivityInput id={id} initialValue={name} storeNewValue={trackActivityChange} isNew={isNew} />
+                            <ActivityInput 
+                                id={id} 
+                                initialValue={name}
+                                storeNewValue={trackActivityChange} 
+                            />
                         }
                         <BodySubLabel>{formatted.toLocaleString('en-US')}</BodySubLabel>
                     </ProfileInfoContainer>

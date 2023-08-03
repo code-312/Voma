@@ -36,11 +36,27 @@ const getEvents = async (req, res) => {
     return res.status(200).json(events);
 }
 
+const bulkUpdate = async (req, res) => {
+    const { events } = req.body;
+    let error;
+
+    console.log(events);
+
+    const result = await models.Event.bulkCreate(events, {
+        updateOnDuplicate: ["name"],
+    }).catch(err => error = err);
+
+    if (error) {
+        return res.status(500).json({ error });
+    }
+
+    return res.status(200).json({ success: "success" });
+}
+
 const editEvent = async (req, res) => {
     const { name, volunteerId, isNew } = req.body;
     
-    console.log(`Name: ${name}`);
-    console.log(`IsNew: ${isNew}`);
+
     let error;
     if (!isNew) {
         const event = await models.Event.findByPk(req.params.id)
@@ -107,5 +123,6 @@ module.exports = {
     addEventRest,
     getEvents,
     deleteEvent,
-    editEvent
+    editEvent,
+    bulkUpdate
 };

@@ -15,7 +15,7 @@ import {
   assignVolunteerToProject, 
   sendWelcomeSlackMessage, 
   editVolunteer,
-  updateActivity 
+  updateActivityBulk
 } from '../../../lib/Requests';
 
 const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
@@ -43,32 +43,43 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
   const editInfo = () => setIsEditing(true);
   const saveInfo = async () => {
     const actCopy = [...volunteerCopy.Events];
-    let activitySuccess = true;
     updatedActivity.forEach(async (event) => {
-      const currSuccess = await updateActivity(event.id, event.name, volunteer.id, event.isNew);
-      // eslint-disable-next-line eqeqeq
-      const index = actCopy.findIndex((item) => item.id == event.id);
+        // eslint-disable-next-line eqeqeq
+        const index = actCopy.findIndex((item) => item.id == event.id);
 
-      if (!currSuccess) {
-        activitySuccess = false;
-      }
-
-      if (index !== -1) {
-        actCopy[index].name = event.name;
-      } else {
-        actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
-      }
+        if (index !== -1) {
+          actCopy[index].name = event.name;
+        } else {
+          actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
+        }
     });
+    const activityResult = await updateActivityBulk(updatedActivity);
+    // let activitySuccess = true;
+    // updatedActivity.forEach(async (event) => {
+    //   const currSuccess = await updateActivity(event.id, event.name, volunteer.id, event.isNew);
+    //   // eslint-disable-next-line eqeqeq
+    //   const index = actCopy.findIndex((item) => item.id == event.id);
+
+    //   if (!currSuccess) {
+    //     activitySuccess = false;
+    //   }
+
+    //   if (index !== -1) {
+    //     actCopy[index].name = event.name;
+    //   } else {
+    //     actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
+    //   }
+    // });
 
     const result = await editVolunteer(volunteerCopy);
     
     
-    if (activitySuccess) { // todo: there is a delay updateing volunteer copy, and the updated events don't show up
+    if (activityResult) { // todo: there is a delay updateing volunteer copy, and the updated events don't show up
       let newVol = {...volunteerCopy};
       newVol.Events = actCopy;
       setVolunteerCopy(newVol);
     }
-    if (result && activitySuccess) {
+    if (result && activityResult) {
       setIsEditing(false);
       
     } // Todo: Add error handling
@@ -90,18 +101,18 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     // generate temp random id to keep track of updates
     const array = new Uint32Array(1);
     window.crypto.getRandomValues(array);
-    copy.Events.push({ name: "", isNew: true, id: array[0], createdAt: new Date() });
+    copy.Events.push({ name: "", id: array[0], createdAt: new Date(), volunteerId: volunteer.id });
 
     setVolunteerCopy(copy);
   }
 
-  const trackActivityChange = (id, name, isNew = false) => {
+  const trackActivityChange = (id, name) => {
     const copy = [...updatedActivity];
     const index = copy.findIndex((item) => item.id === id);
     if (index !== -1) {
       copy[index].name = name
     } else {
-      copy.push({ id, name, isNew });
+      copy.push({ id, name, volunteerId: volunteer.id });
     }
 
     setUpdatedActivity(copy);
