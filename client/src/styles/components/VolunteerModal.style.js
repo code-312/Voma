@@ -71,3 +71,11 @@ export const ConfirmButtonContainer = styled.div`
     display: flex;
     gap: 8px;
 `;
+
+export const ActivitySubLabelContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    button {
+        padding-top: 0;
+    }
+`

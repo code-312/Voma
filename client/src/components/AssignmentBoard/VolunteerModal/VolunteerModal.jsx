@@ -15,7 +15,8 @@ import {
   assignVolunteerToProject, 
   sendWelcomeSlackMessage, 
   editVolunteer,
-  updateActivityBulk
+  updateActivityBulk,
+  deleteActivityBulk
 } from '../../../lib/Requests';
 
 const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
@@ -26,6 +27,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
   const [volunteerCopy, setVolunteerCopy] = useState({});
   const [footerVisible, setFooterVisible] = useState(true);
   const [updatedActivity, setUpdatedActivity] = useState([]);
+  const [activityToDelete, setActivityToDelete] = useState([]);
 
   useEffect(() => {
     if (volunteer) {
@@ -41,9 +43,11 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
 
 
   const editInfo = () => setIsEditing(true);
+
   const saveInfo = async () => {
     const actCopy = [...volunteerCopy.Events];
-    updatedActivity.forEach(async (event) => {
+
+    updatedActivity.forEach((event) => {
         // eslint-disable-next-line eqeqeq
         const index = actCopy.findIndex((item) => item.id == event.id);
 
@@ -53,33 +57,30 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
           actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
         }
     });
-    const activityResult = await updateActivityBulk(updatedActivity);
-    // let activitySuccess = true;
-    // updatedActivity.forEach(async (event) => {
-    //   const currSuccess = await updateActivity(event.id, event.name, volunteer.id, event.isNew);
-    //   // eslint-disable-next-line eqeqeq
-    //   const index = actCopy.findIndex((item) => item.id == event.id);
 
-    //   if (!currSuccess) {
-    //     activitySuccess = false;
-    //   }
+    activityToDelete.forEach((id) => {
+      // eslint-disable-next-line eqeqeq
+      const index = actCopy.findIndex((item) => item.id == id);
 
-    //   if (index !== -1) {
-    //     actCopy[index].name = event.name;
-    //   } else {
-    //     actCopy.push({ id: event.id, name: event.name, createdAt: new Date() });
-    //   }
-    // });
+      if (index !== -1) {
+        actCopy.splice(index, 1);
+      } 
+    });
+
+     const activityResult = updatedActivity.length > 0 ? await updateActivityBulk(updatedActivity) : true;
+     const deleteResult = activityToDelete.length > 0 ? await deleteActivityBulk(activityToDelete) : true;
+    
 
     const result = await editVolunteer(volunteerCopy);
+
+
     
-    
-    if (activityResult) { // todo: there is a delay updateing volunteer copy, and the updated events don't show up
+    if (activityResult && deleteResult) { // todo: there is a delay updateing volunteer copy, and the updated events don't show up
       let newVol = {...volunteerCopy};
       newVol.Events = actCopy;
       setVolunteerCopy(newVol);
     }
-    if (result && activityResult) {
+    if (result && activityResult && deleteResult) {
       setIsEditing(false);
       
     } // Todo: Add error handling
@@ -101,21 +102,25 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     // generate temp random id to keep track of updates
     const array = new Uint32Array(1);
     window.crypto.getRandomValues(array);
-    copy.Events.push({ name: "", id: array[0], createdAt: new Date(), volunteerId: volunteer.id });
+    copy.Events.push({ name: "", id: array[0], createdAt: new Date(), volunteerId: volunteer.id, isNew: true });
 
     setVolunteerCopy(copy);
   }
 
-  const trackActivityChange = (id, name) => {
+  const trackActivityChange = (id, name, isNew) => {
     const copy = [...updatedActivity];
     const index = copy.findIndex((item) => item.id === id);
     if (index !== -1) {
       copy[index].name = name
     } else {
-      copy.push({ id, name, volunteerId: volunteer.id });
+      copy.push({ id, name, volunteerId: volunteer.id, isNew });
     }
 
     setUpdatedActivity(copy);
+  }
+
+  const trackActivityToDelete = (id) => {
+    setActivityToDelete([...activityToDelete, id]);
   }
 
   const assignVolunteer = async (volunteerId, selectedProject) => {
@@ -172,6 +177,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
         volunteerId={volunteerCopy.id}
         trackActivityChange={trackActivityChange}
         addNewActivity={addNewActivity}
+        trackActivityToDelete={trackActivityToDelete}
     />];
 
   return (

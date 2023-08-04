@@ -40,16 +40,26 @@ const bulkUpdate = async (req, res) => {
     const { events } = req.body;
     let error;
 
-    console.log(events);
+    const updateOrCreate = async () => {
 
-    const result = await models.Event.bulkCreate(events, {
-        updateOnDuplicate: ["name"],
-    }).catch(err => error = err);
+        await Promise.all(events.map((event) => {
+            if (event.isNew) {
+                return models.Event.create({ name: event.name, volunteerId: event.volunteerId });
+            } else {
+                return models.Event.update({ name: event.name }, {
+                    where: {
+                        id: event.id
+                    }
+                }).catch(err => error = err);
+            }
+        }));
+    };
+
+    updateOrCreate();
 
     if (error) {
         return res.status(500).json({ error });
     }
-
     return res.status(200).json({ success: "success" });
 }
 
@@ -115,6 +125,27 @@ const deleteEvent = async(req, res) => {
     }
 }
 
+const bulkDelete = async(req, res) => {
+    const { ids } = req.body;
+    console.log(ids);
+    let error;
+
+    const bulkDeletePromise = async () => {
+
+        await Promise.all(ids.map((id) => {
+            return models.Event.destroy({ where: { id } })
+                .catch(err => error = err);
+        }));
+    };
+
+    bulkDeletePromise();
+
+    if (error) {
+        return res.status(500).json({ error });
+    }
+    return res.status(200).json({ success: "success" });
+}
+
 module.exports = {
     addEvent,
     addAssignedToProjectEvent,
@@ -124,5 +155,6 @@ module.exports = {
     getEvents,
     deleteEvent,
     editEvent,
-    bulkUpdate
+    bulkUpdate,
+    bulkDelete
 };

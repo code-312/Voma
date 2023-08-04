@@ -114,6 +114,7 @@ app.get('/api/events', eventController.getEvents);
 app.post('/api/event', eventController.addEventRest);
 app.post('/api/event/bulkUpdate', eventController.bulkUpdate)
 app.post('/api/event/:id', eventController.editEvent);
+app.delete('/api/event/bulk', eventController.bulkDelete);
 app.delete('/api/event/:id', eventController.deleteEvent);
 
 

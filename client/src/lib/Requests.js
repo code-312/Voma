@@ -177,6 +177,28 @@ const updateActivityBulk = async (events) => {
     return result || error;
 }
 
+const deleteActivityBulk = async (ids) => {
+    let error;
+    console.log(ids);
+    const result = await fetch(`/api/event/bulk`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
 /**
  * Remove a link from a project. 
  * Returns true on success, else the error
@@ -383,5 +405,6 @@ export {
     getIndicatorViewsLS, 
     setViewedLS,
     updateActivity,
-    updateActivityBulk
+    updateActivityBulk,
+    deleteActivityBulk
 };
