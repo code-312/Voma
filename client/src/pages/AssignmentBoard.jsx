@@ -142,6 +142,7 @@ export default function AssignmentBoard() {
                             key={`volunteer-${vol.id}`} 
                             volunteer={vol}
                             projects={projects}
+                            handleViewedLS={() => {}}
                             handleShowIndicator={showOnboardingIndicator}
                             icon={<Hand />}
                         />) 

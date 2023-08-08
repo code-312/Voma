@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from '../styles/components/Card.style';
 import { HeaderLinkContainer, HeaderLink } from '../styles/components/HeaderLink.style';
 import { ContentBoxLinkContainer, ContentBoxContentContainer, ContentBoxFootContainer } from '../styles/components/ContentBox.style';
@@ -9,7 +9,7 @@ const ContentBox = ({ headContent, links, headerClickFn = null, variant = 'small
     
     const handleHeaderClick = (index) => {
         if (headerClickFn) {
-            headerClickFn();
+            headerClickFn(index);
         }
         setActivePage(index);
     }

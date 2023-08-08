@@ -83,11 +83,35 @@ const fetchSkills = async () => {
     return skillList;
 };
 
+/** 
+ * Edit a Volunteer's details
+ */
+const editVolunteer = async (volunteer) => {
+    let error;
+    const result = await fetch(`/api/volunteer/${volunteer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(volunteer)
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+};
 /**
  * Edit a project's details.
  * 
  * @returns {true} on success, otherwise it will return the error. 
  */
+
 const editProject = async (project, id) => {
     let error;
     const result = await fetch(`/api/project/${id}`, {
@@ -108,6 +132,72 @@ const editProject = async (project, id) => {
 
     return result || error;
 };
+
+const updateActivity = async (id, name, volunteerId, isNew) => {
+    let error;
+
+    const result = await fetch(`/api/event/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, volunteerId, isNew })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
+const updateActivityBulk = async (events) => {
+    let error;
+
+    const result = await fetch(`/api/event/bulkUpdate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
+
+const deleteActivityBulk = async (ids) => {
+    let error;
+    console.log(ids);
+    const result = await fetch(`/api/event/bulk`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return true;
+    })
+    .catch((e) => {
+        error = e;
+        return false;
+    });
+
+    return result || error;
+}
 
 /**
  * Remove a link from a project. 
@@ -303,7 +393,8 @@ export {
     fetchProjects,
     fetchSkills,
     assignVolunteerToProject,
-    editProject, 
+    editProject,
+    editVolunteer, 
     removeLink,
     addLink,
     editLink,
@@ -312,5 +403,8 @@ export {
     changePassword, 
     addAdmin, 
     getIndicatorViewsLS, 
-    setViewedLS
+    setViewedLS,
+    updateActivity,
+    updateActivityBulk,
+    deleteActivityBulk
 };

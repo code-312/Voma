@@ -24,3 +24,20 @@ export const Label3 = styled.label`
 export const Label4 = styled.label`
     font-size: 14px;
 `;
+
+export const BodySubText = styled(BodyText2)`
+    color: var(--blueShade2);
+`;
+
+export const BodySubLabel = styled(BodyText3)`
+    color: var(--blueShade2);
+`;
+
+export const AlertText = styled(BodyText3)`
+    color: var(--uiError);
+`;
+
+export const PseudoLink = styled(BodyText2)`
+    text-decoration: underline;
+    cursor: pointer;
+`;

@@ -3,36 +3,42 @@ import React, { useEffect } from 'react';
 import { ModalBackdrop, ModalBody, ModalClose } from '../styles/components/Modal.style';
 import useEscapeListener from '../hooks/useEscapeListener';
 
-const Modal = (props) => {    
+const Modal = ({ isOpen, closeFn, useCard = false, children}) => {    
     const closeListener = (e) => {
         const key = e.code;
         if (key === 'Enter') {
-            props.closeFn();
+            closeFn();
         }
     }
 
     useEffect(() => {
         const body = document.querySelector('body');
-        if (props.isOpen) {
+        if (isOpen) {
             body.style.overflowY = "hidden";
         } else {
             body.style.overflowY = "auto";
         }
-    }, [props.isOpen]);
+    }, [isOpen]);
 
-    useEscapeListener(props.closeFn);
+    useEscapeListener(closeFn);
 
-    if (!props.isOpen) {
+    if (!isOpen) {
         return null;
     }
 
 
     return (
         <ModalBackdrop>
-            <ModalClose onClick={props.closeFn} tabIndex={0} onKeyPress={closeListener} />
-            <ModalBody>
-                {props.children}
-            </ModalBody>
+            <ModalClose onClick={closeFn} tabIndex={0} onKeyPress={closeListener} />
+            { useCard ? 
+                <ModalBody>
+                    {children}
+                </ModalBody>
+                :
+                <>
+                    {children}
+                </>
+            }
         </ModalBackdrop>
     )
 

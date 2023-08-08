@@ -36,6 +36,58 @@ const getEvents = async (req, res) => {
     return res.status(200).json(events);
 }
 
+const bulkUpdate = async (req, res) => {
+    const { events } = req.body;
+    let error;
+
+    const updateOrCreate = async () => {
+
+        await Promise.all(events.map((event) => {
+            if (event.isNew) {
+                return models.Event.create({ name: event.name, volunteerId: event.volunteerId });
+            } else {
+                return models.Event.update({ name: event.name }, {
+                    where: {
+                        id: event.id
+                    }
+                }).catch(err => error = err);
+            }
+        }));
+    };
+
+    updateOrCreate();
+
+    if (error) {
+        return res.status(500).json({ error });
+    }
+    return res.status(200).json({ success: "success" });
+}
+
+const editEvent = async (req, res) => {
+    const { name, volunteerId, isNew } = req.body;
+    
+
+    let error;
+    if (!isNew) {
+        const event = await models.Event.findByPk(req.params.id)
+        .catch(err => error = err);
+        
+        if (event) {
+            const result = await event.update({ name }).catch(err => error = err);
+        }
+    } else {
+        const newResult = await addEvent(name, volunteerId);
+        if (!newResult.success) {
+            error = newResult.error;
+        }
+    }
+
+    if (!error) {
+        return res.status(200).json({ success: "Success" });
+    }
+    return res.status(500).json({ error });
+}
+
 const addEventRest = async (req, res) => {
     const { name, volunteerId } = req.body;
     
@@ -73,6 +125,27 @@ const deleteEvent = async(req, res) => {
     }
 }
 
+const bulkDelete = async(req, res) => {
+    const { ids } = req.body;
+    console.log(ids);
+    let error;
+
+    const bulkDeletePromise = async () => {
+
+        await Promise.all(ids.map((id) => {
+            return models.Event.destroy({ where: { id } })
+                .catch(err => error = err);
+        }));
+    };
+
+    bulkDeletePromise();
+
+    if (error) {
+        return res.status(500).json({ error });
+    }
+    return res.status(200).json({ success: "success" });
+}
+
 module.exports = {
     addEvent,
     addAssignedToProjectEvent,
@@ -80,5 +153,8 @@ module.exports = {
     addRegisteredEvent,
     addEventRest,
     getEvents,
-    deleteEvent
+    deleteEvent,
+    editEvent,
+    bulkUpdate,
+    bulkDelete
 };

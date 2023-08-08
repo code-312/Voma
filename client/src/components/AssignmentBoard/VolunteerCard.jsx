@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { BellRing, Hand } from 'lucide-react';
 import VolunteerModal from './VolunteerModal/VolunteerModal';
 import { skillLabels } from '../../lib/Skills';
 import { VolunteerCardContainer, VolunteerLabel, VolunteerNameContainer } from '../../styles/components/VolunteerCard.style';
@@ -33,6 +32,7 @@ const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedL
                 modalOpen={modalOpen} 
                 closeModal={closeModal} 
                 projects={projects} 
+                skillDetails={skillLabels[skill]}
             />
             <VolunteerCardContainer 
                 tabIndex={0} 
@@ -46,7 +46,7 @@ const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedL
                 </VolunteerNameContainer>
                     <VolunteerLabel bgColor={skillLabels[skill].backgroundColor} color={skillLabels[skill].color}>
                         { skillLabels[skill].name }
-                        </VolunteerLabel>
+                    </VolunteerLabel>
             </VolunteerCardContainer>
         </>
     )

@@ -16,4 +16,6 @@ export const ContentBoxFootContainer = styled.div`
     margin: ${({ variant }) => variant === 'large' ? '32px -32px 0 -32px': '24px -32px 0 -32px'};
     padding: ${({ variant }) => variant === 'large' ? '32px 32px 0 32px': '24px 24px 0 24px'};
     border-top: solid 1px var(--peachShade1);
+    display: flex;
+    gap: 16px;
 `;
