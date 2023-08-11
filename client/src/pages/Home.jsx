@@ -4,8 +4,9 @@ import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Gri
 import { makeStyles } from '@mui/styles';
 import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
-
 import { VolunteerContext } from '../lib/VolunteerProvider'
+
+import { RegPage, RegBody, } from '../styles/components/Registration.style';
 
 const useStyles = makeStyles({
   SlackButton: {
@@ -75,21 +76,23 @@ export default function Home() {
         </DialogActions>
     </Dialog>
 
-    <Grid container justifyContent="center" className={classes.MarginTop}>
-      <Grid item sm={6} xs={12}>
-        <Typography variant="subtitle">Code for Chicago</Typography>
+    <RegPage container justifyContent="center" >
+      <RegBody item sm={6} xs={12}>
+        {/* <Typography variant="subtitle">Code for Chicago</Typography> */}
 
-        <Typography gutterBottom variant="h4" component="h1">Volunteer Registration</Typography>
+        <h1>Volunteer Registration</h1>
 
-        <Typography gutterBottom vairant="body" paragraph>
+        <p gutterBottom variant="body"  color="Blue" paragraph>
         As part of the Code for America brigade network, Code for Chicago connects skills-based volunteers 
         to Chicago-based nonprofits, mutual aid groups, and people with ideas on how they can improve their community.
-        </Typography>
+        
+        </p>
+        {/* <pre/> */}
 
-        <Typography gutterBottom vairant="body" paragraph sx={{ marginBottom: '32px' }}>
+        <p gutterBottom variant="body" paragraph sx={{ marginBottom: '32px' }}>
         All incoming volunteers are required to register to our Slack workspace. If you haven&apos;t joined our 
-        Slack workshpace yet then register first. Afterwards, come back here to complete the volunteer registration process.
-        </Typography>
+        Slack workspace yet then register first. Afterwards, come back here to complete the volunteer registration process.
+        </p>
 
         <Button 
           className={classes.SlackButton}
@@ -109,8 +112,8 @@ export default function Home() {
         >
           Not registered to our slack?
         </Button>
-      </Grid>
-    </Grid>
+      </RegBody>
+    </RegPage>
   </>)
 }
 
