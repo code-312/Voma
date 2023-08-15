@@ -5,5 +5,11 @@ export const Card = styled.div`
     padding: 32px;
     width: 606px;
     border-radius: 6px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    ${({ marginTop }) => 'margin-top: 24px;'}
+
+    h1 {
+        white-space: break-spaces;
+    }
 `;
