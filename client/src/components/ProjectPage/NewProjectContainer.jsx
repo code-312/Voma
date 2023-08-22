@@ -4,6 +4,9 @@ import ProjectInfoBox from './ProjectInfoBox';
 import ProjectinfoEditableBox from './ProjectInfoEditableBox';
 import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
 import ContentBox from '../ContentBox';
+import ProjectOverview from './ProjectOverview';
+import ProjectRecruitment from './ProjectRecruitment';
+import ProjectInfoTab from './ProjectInfoTab';
 import VolunteerModalFooter from '../AssignmentBoard/VolunteerModal/VolunteerModalFooter';
 import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
 import { AuthContext } from '../../lib/AuthProvider';
@@ -281,9 +284,15 @@ const NewProjectContainer = ({ project, skills }) => {
     return (
         <ContentBox 
             headContent={<h1>{project.name}</h1>}
-            links={["thing 1", "thing 2"]}
+            links={["Overview", "Recruitment", "Project Info", "Links", "Settings"]}
             variant="large"
-            bodyContent={[<div key="body">Body</div>, <div key="body2">Body 2</div>]}
+            bodyContent={[
+                <ProjectOverview key="overview" project={project} isEditing={isEditing} saveFn={null}/>, 
+                <ProjectRecruitment key="recruitment" project={project} isEditing={isEditing} saveFn={null} />,
+                <ProjectInfoTab key="projectInfo" project={project} isEditing={isEditing} saveFn={null} />,
+                <div key="links">Links</div>,
+                <div key="settings">Settings</div>
+            ]}
             footContent={<VolunteerModalFooter 
                             visible
                             isEditing={isEditing}

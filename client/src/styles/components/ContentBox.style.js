@@ -5,6 +5,7 @@ export const ContentBoxLinkContainer = styled.div`
     border-bottom: solid 1px var(--peachShade1);
     margin: ${({ variant }) => variant === 'large' ? '32': '24'}px -32px;
     display: flex;
+    justify-content: space-around;
 `;
 
 export const ContentBoxContentContainer = styled.div`
