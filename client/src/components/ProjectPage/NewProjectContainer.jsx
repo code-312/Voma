@@ -6,6 +6,7 @@ import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
 import ContentBox from '../ContentBox';
 import ProjectOverview from './ProjectOverview';
 import ProjectRecruitment from './ProjectRecruitment';
+import ProjectLinks from './ProjectLinks';
 import ProjectInfoTab from './ProjectInfoTab';
 import VolunteerModalFooter from '../AssignmentBoard/VolunteerModal/VolunteerModalFooter';
 import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
@@ -290,7 +291,7 @@ const NewProjectContainer = ({ project, skills }) => {
                 <ProjectOverview key="overview" project={project} isEditing={isEditing} saveFn={null}/>, 
                 <ProjectRecruitment key="recruitment" project={project} isEditing={isEditing} saveFn={null} />,
                 <ProjectInfoTab key="projectInfo" project={project} isEditing={isEditing} saveFn={null} />,
-                <div key="links">Links</div>,
+                <ProjectLinks key="projectLinks" links={project.Links} isEditing={isEditing} />,
                 <div key="settings">Settings</div>
             ]}
             footContent={<VolunteerModalFooter 
@@ -300,8 +301,9 @@ const NewProjectContainer = ({ project, skills }) => {
                             saveInfo={() => setIsEditing(false)}
                         />}
             marginTop
+            hideScroll
         />
-        // <ProjectInfoContainer>
+        // <ProjectInfoContainer>P
 
         //     {UserAuth.isAuthenticated() && <ProjectInfoSwitcher editing={isEditing} showEditForm={showEditForm} saveProject={saveProject} /> }
         //     {!isEditing ?

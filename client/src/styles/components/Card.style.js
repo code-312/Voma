@@ -8,7 +8,7 @@ export const Card = styled.div`
     margin-left: auto;
     margin-right: auto;
     ${({ marginTop }) => 'margin-top: 24px;'}
-    overflow-y: scroll;
+    overflow-y: ${({ hideScroll }) => hideScroll ? 'hidden' : 'scroll'};
     
     h1 {
         white-space: break-spaces;

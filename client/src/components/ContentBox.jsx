@@ -11,7 +11,8 @@ const ContentBox = ({
     variant = 'small', 
     bodyContent, 
     footContent,
-    marginTop = false
+    marginTop = false,
+    hideScroll = false
 }) => {
     const [activePage, setActivePage] = useState(0);
     
@@ -22,7 +23,7 @@ const ContentBox = ({
         setActivePage(index);
     }
     return (
-        <Card marginTop={marginTop}>
+        <Card marginTop={marginTop} hideScroll={hideScroll}>
             {headContent}
             <ContentBoxLinkContainer variant={variant}>
                 { links.map((link, index) => (

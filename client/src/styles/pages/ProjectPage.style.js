@@ -138,3 +138,11 @@ export const ProjectAddLinkButtonContainer = styled.div`
     justify-content: center;
     align-items: center;
 `;
+
+export const ProjectLinkContainer = styled.div`
+    display: flex;
+    gap: 12px;
+    svg {
+        stroke:  var(--volunteerGreen);
+    }
+`;
