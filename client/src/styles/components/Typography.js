@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const BodyText2 = styled.p`
     font-size: 16px;
+    white-space: break-spaces;
 `;
 
 export const BodyText3 = styled.p`

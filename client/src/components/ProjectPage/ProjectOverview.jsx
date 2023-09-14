@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProjectInfoField from './ProjectInfoField';
 
-const ProjectOverview = ({ project, isEditing, saveFn }) => {
+const ProjectOverview = ({ activelyRecruiting, cadence, isEditing, timeslots, description, saveFn, changeListener }) => {
     const [meetingDays, setMeetingDays] = useState("");
     const [meetingTimes, setMeetingTimes] = useState("");
 
@@ -9,9 +9,9 @@ const ProjectOverview = ({ project, isEditing, saveFn }) => {
         const days = [];
         const times = [];
         const today = new Date();
-        if (project.Timeslots) {
+        if (timeslots) {
 
-            project.Timeslots.forEach((slot) => {
+            timeslots.forEach((slot) => {
                 days.push(slot.day);
                 
                 const startTime = new Date(today.getFullYear(), today.getMonth(), today.getDay(), slot.startHour, slot.startMinute);
@@ -23,19 +23,42 @@ const ProjectOverview = ({ project, isEditing, saveFn }) => {
             setMeetingTimes(times.join(', '));
         }
 
-    }, [project.Timeslots]);
+    }, [timeslots]);
+
+    const overviewEditOptions = [{
+        value: "true", text: 'Actively Recruiting'}, {
+        value: "false", text: 'Not Actively Recruiting'}];
+
+    const cadenceOptions = [{
+        value: "daily", text: "Daily"
+    }, {
+        value: "weekly", text: "Weekly"
+    }, {
+        value: "biweekly", text: "Biweekly"
+    }, {
+        value: "monthly", text: "Monthly"
+    }];
 
     return (
         <>
             <ProjectInfoField
                 label="Recruitment Status"
-                value={project.activelyRecruiting ? 'Actively Recruiting' : 'Not Actively Recruiting'}
+                value={activelyRecruiting}
+                valueText={activelyRecruiting === 'true' ? 'Actively Recruiting' : 'Not Actively Recruiting'}
                 isEditing={isEditing}
+                name="activelyRecruiting"
+                changeListener={changeListener}
+                options={overviewEditOptions}
+                type="radio"
             />
             <ProjectInfoField
                 label="Meeting Frequency"
-                value={project.meetingCadence}
+                value={cadence}
                 isEditing={isEditing}
+                name="meetingCadence"
+                type="radio"
+                changeListener={changeListener}
+                options={cadenceOptions}
             />
             <ProjectInfoField
                 label="Meeting Day"
@@ -49,8 +72,10 @@ const ProjectOverview = ({ project, isEditing, saveFn }) => {
             />
             <ProjectInfoField
                 label="Summary"
-                value={project.description}
+                value={description}
                 isEditing={isEditing}
+                name="summary"
+                type="textbox"
             />
         </>
     );

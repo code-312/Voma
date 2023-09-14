@@ -27,20 +27,24 @@ const NewProjectContainer = ({ project, skills }) => {
     const [newProjectDeliverables, setNewProjectDeliverables] = useState("")
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
+    const [newProjectTimeslots, setNewProjectTimeslots] = useState([]);
 
 
     useEffect(() => {
-        setNewProjectName(project.name);
-        setNewProjectRecruitStatus(`${project.activelyRecruiting}`);
-        setNewProjectSummary(project.description);
-        setNewProjectCurrentNeeds(project.currentNeeds);
-        setNewProjectFit(project.goodFitFor);
-        setNewProjectTech(project.tech);
-        setNewProjectComment(project.comment);
-        setNewProjectLinks(project.Links)
-        setNewProjectMeetingCadence(project.meetingCadence);
-        setNewProjectStatement(project.problemStatement);
-        setNewProjectDeliverables(project.deliverables);
+        if (project) {
+            setNewProjectName(project.name);
+            setNewProjectRecruitStatus(`${project.activelyRecruiting}`);
+            setNewProjectSummary(project.description);
+            setNewProjectCurrentNeeds(project.currentNeeds);
+            setNewProjectFit(project.goodFitFor);
+            setNewProjectTech(project.tech);
+            setNewProjectComment(project.comment);
+            setNewProjectLinks(project.Links)
+            setNewProjectMeetingCadence(project.meetingCadence);
+            setNewProjectStatement(project.problemStatement);
+            setNewProjectDeliverables(project.deliverables);
+            setNewProjectTimeslots(project.Timeslots)
+         }
     }, [project]);
 
     const showEditForm = () => {
@@ -160,6 +164,7 @@ const NewProjectContainer = ({ project, skills }) => {
             meetingCadence: newProjectMeetingCadence,
             problemStatement: newProjectStatement,
             deliverables: newDeliverables,
+            Timeslots: newProjectTimeslots
         };
 
         const result = await editProject(newProject, project.id);
@@ -282,18 +287,40 @@ const NewProjectContainer = ({ project, skills }) => {
         return null;
     }
 
+    const bodyContent = [
+        <ProjectOverview 
+            key="overview" 
+            activelyRecruiting={newProjectRecruitStatus}
+            cadence={newProjectMeetingCadence}
+            summary={newProjectSummary}
+            timeslots={newProjectTimeslots}
+            description={newProjectSummary}
+            isEditing={isEditing} 
+            saveFn={null}
+            changeListener={changeListener}
+        />, 
+        <ProjectRecruitment 
+            key="recruitment" 
+            currentNeeds={newProjectCurrentNeeds}
+            tech={newProjectTech}
+            goodFitFor={newProjectFit}
+            isEditing={isEditing} 
+            saveFn={null} 
+            changeListener={changeListener}
+            currentNeedsListener={currentNeedsListener}
+            skills={skills}
+        />,
+        <ProjectInfoTab key="projectInfo" project={project} isEditing={isEditing} saveFn={null} />,
+        <ProjectLinks key="projectLinks" links={project.Links} isEditing={isEditing} />,
+        <div key="settings">Settings</div>
+    ];
+
     return (
         <ContentBox 
             headContent={<h1>{project.name}</h1>}
             links={["Overview", "Recruitment", "Project Info", "Links", "Settings"]}
             variant="large"
-            bodyContent={[
-                <ProjectOverview key="overview" project={project} isEditing={isEditing} saveFn={null}/>, 
-                <ProjectRecruitment key="recruitment" project={project} isEditing={isEditing} saveFn={null} />,
-                <ProjectInfoTab key="projectInfo" project={project} isEditing={isEditing} saveFn={null} />,
-                <ProjectLinks key="projectLinks" links={project.Links} isEditing={isEditing} />,
-                <div key="settings">Settings</div>
-            ]}
+            bodyContent={bodyContent}
             footContent={<VolunteerModalFooter 
                             visible
                             isEditing={isEditing}

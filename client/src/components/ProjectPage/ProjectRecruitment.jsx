@@ -1,21 +1,41 @@
 import React from 'react';
 import ProjectInfoField from './ProjectInfoField';
 
-const ProjectRecruitment = ({ project, isEditing, saveFn }) => (
+const ProjectRecruitment = ({ 
+    currentNeeds, 
+    goodFitFor, 
+    tech, 
+    isEditing, 
+    saveFn, 
+    changeListener,
+    currentNeedsListener,
+    skills 
+}) => (
     <>
         <ProjectInfoField
             label="Current Needs"
-            value={project.currentNeeds?.join(', ')}
+            valueText={currentNeeds?.join(', ')}
+            value={currentNeeds}
             isEditing={isEditing}
+            changeListener={currentNeedsListener}
+            options={skills.map((skill) => ({ value: skill.name, text: skill.name }))}
+            type="checkbox"
+            name="currentNeeds"
         />
         <ProjectInfoField
             label="Good Fit For"
-            value={project.goodFitFor}
+            name="goodFitFor"
+            value={goodFitFor}
             isEditing={isEditing}
+            changeListener={changeListener}
+            type="textbox"
         />
         <ProjectInfoField
             label="Tech"
-            value={project.tech}
+            value={tech}
+            changeListener={changeListener}
+            name="tech"
+            type="textbox"
             isEditing={isEditing}
         />
     </>

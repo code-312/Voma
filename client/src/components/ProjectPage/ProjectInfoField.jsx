@@ -1,28 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { Label3, BodyText2 } from '../../styles/components/Typography';
 import { StyledInput } from '../../styles/components/Input.style';
+import { StyledTextarea } from '../../styles/components/StyledTextarea.style';
+import StackedInput from '../StackedInputs';
 import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
 
-const ProjectInfoField = ({ label, value, isEditing, type, options }) => {
+const ProjectInfoField = ({ label, value, valueText = null, isEditing, name, type, options, changeListener }) => {
+    const [valueDisplay, setValueDisplay] = useState("");
+
+    useEffect(() => {
+        if (value && valueText) {
+            setValueDisplay(valueText);
+        } else {
+            setValueDisplay(value);
+        }
+    }, [value, valueText])
+    
     if (isEditing) {
         return (
             <ProfileInfoContainer>
                 <Label3>{label}</Label3>
                 { type === 'input' && 
-                    <StyledInput placeholder={label} value={value} />
+                    <StyledInput placeholder={label} value={valueDisplay} />
                 }
-                {/* { type === 'radio' && 
-                <StackedInput 
-                    key={option.id}
-                    labelText={option.labelText}
-                    value={option.value}
-                    id={option.id}
-                    name="bestHobbit"
-                    checked={radioChoice === option.value}
-                    onChange={radioListener}
-                    type="radio"
-                />
-                } */}
+                { type === 'textbox' &&
+                    <StyledTextarea 
+                        placeholder={label} 
+                        value={value} 
+                        onChange={changeListener}
+                        name={name}
+                    />
+                }
+                { type === 'radio' && options.map((option) => (
+                        <StackedInput 
+                            key={`${name}-${option.value}`}
+                            labelText={option.text}
+                            value={option.value}
+                            name={name}
+                            // eslint-disable-next-line eqeqeq
+                            checked={value == option.value}
+                            onChange={changeListener}
+                            type="radio"
+                        />
+                    ))
+                }
+                { type === 'checkbox' && options.map((option) => (
+                        <StackedInput
+                            key={`${name}-${option.value}`}
+                            labelText={option.text}
+                            value={option.value}
+                            checked={value.indexOf(option.value) !== -1}
+                            onChange={changeListener}
+                            type="checkbox"
+                            name={name}
+                        />
+                    ))
+                }
             </ProfileInfoContainer>
         )
     };
@@ -30,7 +63,7 @@ const ProjectInfoField = ({ label, value, isEditing, type, options }) => {
     return (
         <ProfileInfoContainer>
             <Label3>{label}</Label3>
-            <BodyText2>{value || '--'}</BodyText2>
+            <BodyText2>{valueDisplay || '--'}</BodyText2>
         </ProfileInfoContainer>
     );
 };
