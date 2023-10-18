@@ -1,29 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ProjectInfoField from './ProjectInfoField';
+import ProjectTimeslot from './ProjectTimeslot';
 
 const ProjectOverview = ({ activelyRecruiting, cadence, isEditing, timeslots, description, saveFn, changeListener }) => {
-    const [meetingDays, setMeetingDays] = useState("");
-    const [meetingTimes, setMeetingTimes] = useState("");
 
-    useEffect(() => {
-        const days = [];
-        const times = [];
-        const today = new Date();
-        if (timeslots) {
-
-            timeslots.forEach((slot) => {
-                days.push(slot.day);
-                
-                const startTime = new Date(today.getFullYear(), today.getMonth(), today.getDay(), slot.startHour, slot.startMinute);
-                const endTime = new Date(today.getFullYear(), today.getMonth(), today.getDay(), slot.endHour, slot.endMinute);
-                times.push(`${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`);
-            });
-            
-            setMeetingDays(days.join(', '));
-            setMeetingTimes(times.join(', '));
-        }
-
-    }, [timeslots]);
 
     const overviewEditOptions = [{
         value: "true", text: 'Actively Recruiting'}, {
@@ -60,16 +40,11 @@ const ProjectOverview = ({ activelyRecruiting, cadence, isEditing, timeslots, de
                 changeListener={changeListener}
                 options={cadenceOptions}
             />
-            <ProjectInfoField
-                label="Meeting Day"
-                value={meetingDays}
+           <ProjectTimeslot
+                onChange={() => {}}
+                timeslots={timeslots}
                 isEditing={isEditing}
-            />
-            <ProjectInfoField
-                label="Meeting Time"
-                value={meetingTimes}
-                isEditing={isEditing}
-            />
+           />
             <ProjectInfoField
                 label="Summary"
                 value={description}
