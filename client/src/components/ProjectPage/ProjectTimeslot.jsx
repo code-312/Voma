@@ -1,15 +1,20 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
-import { Label3, BodyText2 } from '../../styles/components/Typography';
+import { PlusCircle } from 'lucide-react';
+import { Label3, Label4, BodyText2 } from '../../styles/components/Typography';
 import { StyledInput } from '../../styles/components/Input.style';
 import { StyledTextarea } from '../../styles/components/StyledTextarea.style';
 import StackedInput from '../StackedInputs';
 import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
+import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages/ProjectPage.style';
+import ProjectSelect from './ProjectInfoFormFields/ProjectSelect';
+import Button from '../Button';
 
-const ProjectTimeslot = ({ onChange, isEditing, timeslots }) => {
+const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
     const [meetingDays, setMeetingDays] = useState("");
+    const [toBeDeleted, setToBeDeleted] = useState([]);
 
     useEffect(() => {
         const days = [];
@@ -31,20 +36,31 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots }) => {
 
     }, [timeslots]);
 
+    const updateTimeslot = (id, key, value) => {
+        const newSlot = {...timeslots.find(slot => slot.id === id)};
+        newSlot[key] = value;
+        onChange(newSlot);
+    }
+
+    const tagToDelete = (id) => {
+        setToBeDeleted([...toBeDeleted, id]);
+        // trackActivityToDelete(id); todo: finish delete functionality
+    }
+
     const meetingDayOptions = [{
-        value: "monday", text: "Monday" 
+        value: "Monday", text: "Monday" 
     }, {
-        value: "tuesday", text: "Tuesday" 
+        value: "Tuesday", text: "Tuesday" 
     }, {
-        value: "wednesday", text: "Wednesday"
+        value: "Wednesday", text: "Wednesday"
     }, {
-        value: "thursday", text: "Thursday"
+        value: "Thursday", text: "Thursday"
     }, {
-        value: "friday", text: "Friday"
+        value: "Friday", text: "Friday"
     }, {
-        value: "saturday", text: "Saturday"
+        value: "Saturday", text: "Saturday"
     }, {
-        value: "sunday", text: "Sunday"}];
+        value: "Sunday", text: "Sunday"}];
 
     const formatTime = (time) => {
         let value = `${time}`;
@@ -71,39 +87,68 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots }) => {
                 <ProfileInfoContainer >
                 <Label3>Meeting Days and Times</Label3>
                 {timeslots.map(slot => (
-                    <div key={`slot-${slot.id}`}>
-
-                        <select id={`day-${slot.id}`}>
-                            {meetingDayOptions.map(option => (
-                                <option key={`${option.value}-${slot.id}`} value={option.value} selected={slot.day === option.text}>{option.text}</option>
-                                ))}
-                        </select>
-                        <select id={`startHour-${slot.id}`}>
-                            {hourOptions.map(option => (
-                                <option key={`startHour-${option.value}-${slot.id}`} value={option.value} selected = {slot.startHour == option.value}>{option.text}</option>
-                            ))}
-                        </select>
-                        <select id={`startMinute-${slot.id}`}>
-                            {minuteOptions.map(option => (
-                                <option key={`startMinute-${option.value}-${slot.id}`} value={option.value} selected = {slot.startMinute == option.value}>{option.text}</option>
-                            ))}
-                        </select>
-                        <select id={`endHour-${slot.id}`}>
-                            {hourOptions.map(option => (
-                                <option key={`endHour-${option.value}-${slot.id}`} value={option.value} selected = {slot.endHour == option.value}>{option.text}</option>
-                            ))}
-                        </select>
-                        <select id={`endMinute-${slot.id}`}>
-                            {minuteOptions.map(option => (
-                                <option key={`endMinute-${option.value}-${slot.id}`} value={option.value} selected = {slot.endMinute == option.value}>{option.text}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <ProjectTimeslotRow key={`slot-${slot.id}`}>
+                        <ProjectTimeslotContainer>
+                            <Label4>Day</Label4>
+                            <ProjectSelect 
+                                options={meetingDayOptions}
+                                name="day"
+                                currentValue={slot.day}
+                                id={slot.id}
+                                onChange={updateTimeslot}
+                            />
+                        </ProjectTimeslotContainer>
+                        <ProjectTimeslotContainer>
+                            <Label4>Start Time</Label4>
+                            <ProjectSelect
+                                options={hourOptions}
+                                name="startHour"
+                                currentValue={slot.startHour}
+                                id={slot.id}
+                                onChange={updateTimeslot}
+                            />
+                            <ProjectSelect
+                                options={minuteOptions}
+                                id={slot.id}
+                                currentValue={slot.startMinute}
+                                name="startMinute"
+                                onChange={updateTimeslot}
+                            />
+                        </ProjectTimeslotContainer>
+                        <ProjectTimeslotContainer>
+                        <Label4>End Time</Label4>
+                            <ProjectSelect
+                                options={hourOptions}
+                                id={slot.id}
+                                currentValue={slot.endHour}
+                                name="endHour"
+                                onChange={updateTimeslot}
+                            />
+                            <ProjectSelect
+                                options={minuteOptions}
+                                id={slot.id}
+                                currentValue={slot.endMinute}
+                                name="endMinute"
+                                onChange={updateTimeslot}
+                            />
+                        </ProjectTimeslotContainer>
+                        <Button 
+                            onClick={() => tagToDelete(slot.id)} 
+                            variant="text-only red">
+                                Delete
+                        </Button>
+                    </ProjectTimeslotRow>
                 ))}
+                <Button 
+                    variant="fw outline blue" 
+                    icon={PlusCircle} 
+                    onClick={addNewTimeslot}>
+                        Add Timeslot
+                </Button>
                 </ProfileInfoContainer>
-        </>
-    )
-                        }
+            </>
+        )
+    }
 
     return (
         <div>

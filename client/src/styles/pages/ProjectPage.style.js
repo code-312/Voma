@@ -146,3 +146,16 @@ export const ProjectLinkContainer = styled.div`
         stroke:  var(--volunteerGreen);
     }
 `;
+
+export const ProjectTimeslotRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    label {
+        display: block;
+    }
+`;
+
+export const ProjectTimeslotContainer = styled.div`
+
+`;

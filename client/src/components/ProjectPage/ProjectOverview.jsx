@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import ProjectInfoField from './ProjectInfoField';
 import ProjectTimeslot from './ProjectTimeslot';
 
-const ProjectOverview = ({ activelyRecruiting, cadence, isEditing, timeslots, description, saveFn, changeListener }) => {
-
-
+const ProjectOverview = ({ 
+    activelyRecruiting, 
+    cadence, 
+    isEditing, 
+    timeslots, 
+    timeslotListener,
+    addNewTimeslot,
+    description, 
+    saveFn, 
+    changeListener 
+}) => {
     const overviewEditOptions = [{
         value: "true", text: 'Actively Recruiting'}, {
         value: "false", text: 'Not Actively Recruiting'}];
@@ -41,9 +49,10 @@ const ProjectOverview = ({ activelyRecruiting, cadence, isEditing, timeslots, de
                 options={cadenceOptions}
             />
            <ProjectTimeslot
-                onChange={() => {}}
+                onChange={timeslotListener}
                 timeslots={timeslots}
                 isEditing={isEditing}
+                addNewTimeslot={addNewTimeslot}
            />
             <ProjectInfoField
                 label="Summary"

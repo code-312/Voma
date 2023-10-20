@@ -77,6 +77,25 @@ const NewProjectContainer = ({ project, skills }) => {
         } 
     }
 
+    const timeslotListener = (newSlot) => {
+        const index = newProjectTimeslots.findIndex(slot => slot.id === newSlot.id);
+        if (index !== -1) {
+            const timeslotsCopy = [...newProjectTimeslots];
+            timeslotsCopy[index] = newSlot;
+            setNewProjectTimeslots(timeslotsCopy);
+        }
+    }
+
+    const addNewTimeslot = () => {
+        const copy = [...newProjectTimeslots];
+        // generate temp random id to keep track of updates
+        const array = new Uint32Array(1);
+        window.crypto.getRandomValues(array);
+        copy.push({id: array[0], day: "Monday", startHour: 0, startMinute: 0, endHour: 0, endMinute: 0 });
+    
+        setNewProjectTimeslots(copy);
+      }
+
     const currentNeedsListener = (e) => {
         if (e.currentTarget.checked) {
             setNewProjectCurrentNeeds([...newProjectCurrentNeeds, e.currentTarget.value]);
@@ -294,6 +313,8 @@ const NewProjectContainer = ({ project, skills }) => {
             cadence={newProjectMeetingCadence}
             summary={newProjectSummary}
             timeslots={newProjectTimeslots}
+            timeslotListener={timeslotListener}
+            addNewTimeslot={addNewTimeslot}
             description={newProjectSummary}
             isEditing={isEditing} 
             saveFn={null}
