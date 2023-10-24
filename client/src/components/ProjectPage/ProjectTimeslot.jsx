@@ -11,10 +11,9 @@ import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages
 import ProjectSelect from './ProjectInfoFormFields/ProjectSelect';
 import Button from '../Button';
 
-const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot }) => {
+const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTimeslotToDelete }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
     const [meetingDays, setMeetingDays] = useState("");
-    const [toBeDeleted, setToBeDeleted] = useState([]);
 
     useEffect(() => {
         const days = [];
@@ -43,8 +42,9 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot }) => 
     }
 
     const tagToDelete = (id) => {
-        setToBeDeleted([...toBeDeleted, id]);
-        // trackActivityToDelete(id); todo: finish delete functionality
+        const index = timeslots.findIndex(slot => slot.id == id);
+        timeslots.splice(index, 1);
+        tagTimeslotToDelete(id);
     }
 
     const meetingDayOptions = [{

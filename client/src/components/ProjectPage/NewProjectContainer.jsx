@@ -28,6 +28,7 @@ const NewProjectContainer = ({ project, skills }) => {
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
     const [newProjectTimeslots, setNewProjectTimeslots] = useState([]);
+    const [timeslotsToDelete, setTimeslotsToDelete] = useState([]);
 
 
     useEffect(() => {
@@ -165,6 +166,10 @@ const NewProjectContainer = ({ project, skills }) => {
             }
         });
         window.location.reload();
+    }
+
+    const tagTimeslotToDelete = (id) => {
+        setTimeslotsToDelete([...timeslotsToDelete, id]);
     }
 
     const saveProject = async () => {
@@ -315,6 +320,7 @@ const NewProjectContainer = ({ project, skills }) => {
             timeslots={newProjectTimeslots}
             timeslotListener={timeslotListener}
             addNewTimeslot={addNewTimeslot}
+            tagTimeslotToDelete={tagTimeslotToDelete}
             description={newProjectSummary}
             isEditing={isEditing} 
             saveFn={null}
