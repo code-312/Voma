@@ -164,3 +164,10 @@ export const ProjectDeliverableContainer = styled.div`
     display: flex;
     margin-bottom: 8px;
 `;
+
+export const ProjectLinkEditContainer = styled.div`
+    margin-bottom: 8px;
+    input { 
+        display: block;
+    }
+`;

@@ -35,8 +35,7 @@ const ProjectDeliverables = ({
 
     if (isEditing) {
         return (
-            <>
-                <ProfileInfoContainer >
+            <ProfileInfoContainer>
                 <Label3>Deliverables</Label3>
                 {hasError && <Label4>That deliverable already exists for this project</Label4>}
                 {deliverables.map((del, index) => (
@@ -55,8 +54,7 @@ const ProjectDeliverables = ({
                     onClick={addNewDeliverable}>
                         Add Deliverable
                 </Button>
-                </ProfileInfoContainer>
-            </>
+            </ProfileInfoContainer>
         )
     }
 

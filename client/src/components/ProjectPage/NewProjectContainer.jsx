@@ -349,7 +349,14 @@ const NewProjectContainer = ({ project, skills }) => {
             saveFn={null} 
             changeListener={changeListener}
         />,
-        <ProjectLinks key="projectLinks" links={project.Links} isEditing={isEditing} />,
+        <ProjectLinks 
+            key="projectLinks" 
+            links={newProjectLinks} 
+            isEditing={isEditing} 
+            linkListener={linkListener}
+            deleteLink={deleteLink}
+            createLink={createLink}
+        />,
         <div key="settings">Settings</div>
     ];
 
