@@ -24,7 +24,7 @@ const NewProjectContainer = ({ project, skills }) => {
     const [newProjectFit, setNewProjectFit] = useState("");
     const [newProjectTech, setNewProjectTech] = useState("");
     const [newProjectStatement, setNewProjectStatement] = useState("");
-    const [newProjectDeliverables, setNewProjectDeliverables] = useState("")
+    const [newProjectDeliverables, setNewProjectDeliverables] = useState([])
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
     const [newProjectTimeslots, setNewProjectTimeslots] = useState([]);
@@ -44,7 +44,7 @@ const NewProjectContainer = ({ project, skills }) => {
             setNewProjectMeetingCadence(project.meetingCadence);
             setNewProjectStatement(project.problemStatement);
             setNewProjectDeliverables(project.deliverables);
-            setNewProjectTimeslots(project.Timeslots)
+            setNewProjectTimeslots(project.Timeslots);
          }
     }, [project]);
 
@@ -60,13 +60,16 @@ const NewProjectContainer = ({ project, skills }) => {
         goodFitFor: setNewProjectFit,
         tech: setNewProjectTech,
         problemStatement: setNewProjectStatement,
-        deliverables: setNewProjectDeliverables,
         comment: setNewProjectComment,
     };
 
     const changeListener = (e) => {
         const stateSetter = fieldToStateMapper[e.currentTarget.name];
         stateSetter(e.currentTarget.value);
+    }
+
+    const deliverablesChangeListener = (newDeliverables) => {
+        setNewProjectDeliverables(newDeliverables);
     }
 
     const linkListener = (newLink) => {
@@ -321,7 +324,6 @@ const NewProjectContainer = ({ project, skills }) => {
             timeslotListener={timeslotListener}
             addNewTimeslot={addNewTimeslot}
             tagTimeslotToDelete={tagTimeslotToDelete}
-            description={newProjectSummary}
             isEditing={isEditing} 
             saveFn={null}
             changeListener={changeListener}
@@ -337,7 +339,16 @@ const NewProjectContainer = ({ project, skills }) => {
             currentNeedsListener={currentNeedsListener}
             skills={skills}
         />,
-        <ProjectInfoTab key="projectInfo" project={project} isEditing={isEditing} saveFn={null} />,
+        <ProjectInfoTab 
+            key="projectInfo" 
+            problemStatement={newProjectStatement}
+            deliverables={newProjectDeliverables}
+            comment={newProjectComment}
+            deliverablesChangeListener={deliverablesChangeListener}
+            isEditing={isEditing} 
+            saveFn={null} 
+            changeListener={changeListener}
+        />,
         <ProjectLinks key="projectLinks" links={project.Links} isEditing={isEditing} />,
         <div key="settings">Settings</div>
     ];

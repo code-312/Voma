@@ -10,7 +10,7 @@ const ProjectOverview = ({
     timeslotListener,
     addNewTimeslot,
     tagTimeslotToDelete,
-    description, 
+    summary, 
     saveFn, 
     changeListener 
 }) => {
@@ -58,8 +58,9 @@ const ProjectOverview = ({
            />
             <ProjectInfoField
                 label="Summary"
-                value={description}
+                value={summary}
                 isEditing={isEditing}
+                changeListener={changeListener}
                 name="summary"
                 type="textbox"
             />

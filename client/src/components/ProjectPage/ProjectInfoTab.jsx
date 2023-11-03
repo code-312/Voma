@@ -1,21 +1,36 @@
 import React from 'react';
 import ProjectInfoField from './ProjectInfoField';
+import ProjectDeliverables from './ProjectDeliverables';
 
-const ProjectInfoTab = ({ project, isEditing, saveFn }) => (
+const ProjectInfoTab = ({  
+    problemStatement, 
+    deliverables, 
+    comment,
+    isEditing, 
+    saveFn, 
+    changeListener,
+    deliverablesChangeListener 
+}) => (
     <>
         <ProjectInfoField
             label="Problem Statement"
-            value={project.projectStatement}
+            value={problemStatement}
             isEditing={isEditing}
+            changeListener={changeListener}
+            name="problemStatement"
+            type="textbox"
         />
-        <ProjectInfoField
-            label="Deliverables"
-            value={project.deliverables?.join(', ')}
+        <ProjectDeliverables 
+            deliverables={deliverables}
             isEditing={isEditing}
+            onChange={deliverablesChangeListener}
         />
         <ProjectInfoField
             label="Additional Comment"
-            value={project.comment}
+            name="comment"
+            type="textbox"
+            changeListener={changeListener}
+            value={comment}
             isEditing={isEditing}
         />
     </>

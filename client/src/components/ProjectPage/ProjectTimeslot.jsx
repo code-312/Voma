@@ -4,8 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { Label3, Label4, BodyText2 } from '../../styles/components/Typography';
 import { StyledInput } from '../../styles/components/Input.style';
-import { StyledTextarea } from '../../styles/components/StyledTextarea.style';
-import StackedInput from '../StackedInputs';
 import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
 import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages/ProjectPage.style';
 import ProjectSelect from './ProjectInfoFormFields/ProjectSelect';

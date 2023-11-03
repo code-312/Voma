@@ -159,3 +159,8 @@ export const ProjectTimeslotRow = styled.div`
 export const ProjectTimeslotContainer = styled.div`
 
 `;
+
+export const ProjectDeliverableContainer = styled.div`
+    display: flex;
+    margin-bottom: 8px;
+`;
