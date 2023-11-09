@@ -7,24 +7,24 @@ import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.sty
 import { StyledInput } from '../../styles/components/Input.style';
 import { Label3 } from '../../styles/components/Typography';
 
-const ProjectLinks = ({ isEditing, links, linkListener, createLink, deleteLink }) => {
+const ProjectLinks = ({ isEditing, links, linkListener, createLink, deleteLink, projectId }) => {
     const [bodyContent, setBodyContent] = useState(<Label3>There are no links associated with this project.</Label3>)
 
-    useEffect(() => {
-        if (links && links.length > 0) {
-            const formatted = links.map(link => (
-                <>
-                    <Label3>{link.title}</Label3>
-                    <ProjectLinkContainer>
-                        <LinkIcon />
-                        <a href={link.url}>{link.url}</a>
-                    </ProjectLinkContainer>
-                </>
-            ));
+    // useEffect(() => {
+    //     if (links && links.length > 0) {
+    //         const formatted = links.map(link => (
+    //             <>
+    //                 <Label3>{link.title}</Label3>
+    //                 <ProjectLinkContainer>
+    //                     <LinkIcon />
+    //                     <a href={link.url}>{link.url}</a>
+    //                 </ProjectLinkContainer>
+    //             </>
+    //         ));
 
-            setBodyContent(formatted);
-        }
-    }, [links]);
+    //         setBodyContent(formatted);
+    //     }
+    // }, [links]);
 
     const updateTitle = (id, newTitle) => {
         const currLink = links.find(link => link.id === id);
@@ -48,7 +48,7 @@ const ProjectLinks = ({ isEditing, links, linkListener, createLink, deleteLink }
             <>
                 {links.map((link) => (
                     <ProjectLink
-                        key={`link-${link.id}`}
+                        key={`${projectId}-link-${link.id}`}
                         title={link.title}
                         id={link.id}
                         url={link.url}
@@ -66,8 +66,20 @@ const ProjectLinks = ({ isEditing, links, linkListener, createLink, deleteLink }
             </>
         );
     }
-
-    return bodyContent;
+    if (links && links.length > 0) {
+        return links.map(link => (
+            <>
+                <Label3>{link.title}</Label3>
+                <ProjectLinkContainer>
+                    <LinkIcon />
+                    <a href={link.url}>{link.url}</a>
+                </ProjectLinkContainer>
+            </>
+        ))
+    }
+    
+    return <Label3>There are no links associated with this project.</Label3>
+ 
 }
 
 export default ProjectLinks;

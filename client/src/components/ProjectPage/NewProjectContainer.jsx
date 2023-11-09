@@ -33,6 +33,7 @@ const NewProjectContainer = ({ project, skills }) => {
 
     useEffect(() => {
         if (project) {
+            console.log(project);
             setNewProjectName(project.name);
             setNewProjectRecruitStatus(`${project.activelyRecruiting}`);
             setNewProjectSummary(project.description);
@@ -42,7 +43,7 @@ const NewProjectContainer = ({ project, skills }) => {
             setNewProjectComment(project.comment);
             setNewProjectLinks(project.Links)
             setNewProjectMeetingCadence(project.meetingCadence);
-            setNewProjectStatement(project.problemStatement);
+            setNewProjectStatement(project.projectStatement);
             setNewProjectDeliverables(project.deliverables);
             setNewProjectTimeslots(project.Timeslots);
          }
@@ -189,9 +190,9 @@ const NewProjectContainer = ({ project, skills }) => {
             goodFitFor: newProjectFit,
             comment: newProjectComment,
             meetingCadence: newProjectMeetingCadence,
-            problemStatement: newProjectStatement,
+            projectStatement: newProjectStatement,
             deliverables: newDeliverables,
-            Timeslots: newProjectTimeslots
+            Timeslots: newProjectTimeslots // Todo: save timeslots
         };
 
         const result = await editProject(newProject, project.id);
@@ -300,15 +301,15 @@ const NewProjectContainer = ({ project, skills }) => {
         name: "comment"
     }];
 
-    const linksEdit = newProjectLinks ? 
-        newProjectLinks.map((link) => ( {...link, type: 'link', deleteLink, linkListener })) 
-        : 
-        [];
+    // const linksEdit = newProjectLinks ? 
+    //     newProjectLinks.map((link) => ( {...link, type: 'link', deleteLink, linkListener })) 
+    //     : 
+    //     [];
 
-    const linkBoxFields = [
-        ...linksEdit,
-        { type: 'button', onClick: createLink }
-    ];
+    // const linkBoxFields = [
+    //     ...linksEdit,
+    //     { type: 'button', onClick: createLink }
+    // ];
 
     if (!project) {
         return null;
@@ -316,7 +317,7 @@ const NewProjectContainer = ({ project, skills }) => {
 
     const bodyContent = [
         <ProjectOverview 
-            key="overview" 
+            key={`${project.id}-overview`} 
             activelyRecruiting={newProjectRecruitStatus}
             cadence={newProjectMeetingCadence}
             summary={newProjectSummary}
@@ -329,7 +330,7 @@ const NewProjectContainer = ({ project, skills }) => {
             changeListener={changeListener}
         />, 
         <ProjectRecruitment 
-            key="recruitment" 
+            key={`${project.id}-recruitment`} 
             currentNeeds={newProjectCurrentNeeds}
             tech={newProjectTech}
             goodFitFor={newProjectFit}
@@ -340,7 +341,7 @@ const NewProjectContainer = ({ project, skills }) => {
             skills={skills}
         />,
         <ProjectInfoTab 
-            key="projectInfo" 
+            key={`${project.id}-projectInfo`} 
             problemStatement={newProjectStatement}
             deliverables={newProjectDeliverables}
             comment={newProjectComment}
@@ -350,12 +351,13 @@ const NewProjectContainer = ({ project, skills }) => {
             changeListener={changeListener}
         />,
         <ProjectLinks 
-            key="projectLinks" 
+            key={`${project.id}-projectLinks`} 
             links={newProjectLinks} 
             isEditing={isEditing} 
             linkListener={linkListener}
             deleteLink={deleteLink}
             createLink={createLink}
+            projectId={project.id}
         />,
         <div key="settings">Settings</div>
     ];
@@ -370,7 +372,7 @@ const NewProjectContainer = ({ project, skills }) => {
                             visible
                             isEditing={isEditing}
                             editInfo={() => setIsEditing(true)}
-                            saveInfo={() => setIsEditing(false)}
+                            saveInfo={saveProject}
                         />}
             marginTop
             hideScroll

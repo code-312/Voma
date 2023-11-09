@@ -26,7 +26,7 @@ const ProjectInfoField = ({ label, value, valueText = null, isEditing, name, typ
                 { type === 'textbox' &&
                     <StyledTextarea 
                         placeholder={label} 
-                        value={value} 
+                        value={value || ""} 
                         onChange={changeListener}
                         name={name}
                     />
