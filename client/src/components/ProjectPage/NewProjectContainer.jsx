@@ -33,7 +33,6 @@ const NewProjectContainer = ({ project, skills }) => {
 
     useEffect(() => {
         if (project) {
-            console.log(project);
             setNewProjectName(project.name);
             setNewProjectRecruitStatus(`${project.activelyRecruiting}`);
             setNewProjectSummary(project.description);
@@ -207,110 +206,7 @@ const NewProjectContainer = ({ project, skills }) => {
             console.log(result);
         }
     }
-
-    const projectBasicInfo = [{
-            label: 'RECRUITMENT STATUS',
-            value: project.activelyRecruiting ? 'Actively Recruiting' : 'Not Actively Recruiting'
-        }, {
-            label: 'MEETING CADENCE',
-            value: project.meetingCadence || "No meeting cadence has been set." 
-        }, {
-            label: 'SUMMARY',
-            value: project.description
-        }
-    ];
-
-    const projectRecruitmentInfo = [{
-        label: 'CURRENT NEEDS',
-        value: project.currentNeeds ? project.currentNeeds.join(', ') : '--'
-    }, {
-        label: 'GOOD FIT FOR',
-        value: project.goodFitFor
-    }, {
-        label: 'TECH',
-        value: project.tech
-    }];
-
-    const additionalInfo = [{
-        label: 'PROBLEM STATEMENT',
-        value: project.problemStatement || "No problem statement has been set."
-    }, {
-        label: 'DELIVERABLES',
-        value: project.deliverables ? project.deliverables.join(', ') : "No deliverables have been set."
-    }, {
-        label: 'COMMENTS',
-        value: project.comment ? project.comment : 'No comments have been added.'
-    }];
-
-    const links = project.Links ? project.Links.map((link) => ({ label: link.title, value: link.url, type: 'link' })) : [];
-
-    // Form Fields
-    const basicInfoEdit = [{
-        type: 'radio',
-        options: [{
-            value: "true", text: 'Actively Recruiting'}, {
-            value: "false", text: 'Not Actively Recruiting'}],
-        name: 'activelyRecruiting',
-        label: 'Recruitment Status',
-        currentValue: newProjectRecruitStatus
-    }, {
-        type: 'textfield',
-        currentValue: newProjectMeetingCadence,
-        label: 'Meeting Cadence',
-        name: 'meetingCadence'
-    }, {
-        type: 'textfield',
-        currentValue: newProjectSummary,
-        label: 'Summary',
-        name: 'summary'
-    }];
-
-    const recruitmentEdit = [{
-        type: 'checkbox',
-        label: 'Current Needs',
-        name: 'currentNeeds',
-        options: skills.map((skill) => ({ value: skill.name, text: skill.name })),
-        currentValues: newProjectCurrentNeeds,
-        onChange: currentNeedsListener
-    }, {
-        type: 'textfield',
-        label: 'Good Fit For',
-        name: 'goodFitFor',
-        currentValue: newProjectFit
-    }, {
-        type: 'textfield',
-        label: 'Tech',
-        name: 'tech',
-        currentValue: newProjectTech
-    }];
-
-    const additionalInfoEdit = [{
-        type: 'textfield',
-        label: 'Problem Statement',
-        currentValue: newProjectStatement,
-        name: "problemStatement"
-    }, {
-        type: 'textfield',
-        label: 'Deliverables',
-        currentValue: newProjectDeliverables,
-        name: "deliverables"
-    }, {
-        type: 'textfield',
-        label: 'Comments',
-        currentValue: newProjectComment,
-        name: "comment"
-    }];
-
-    // const linksEdit = newProjectLinks ? 
-    //     newProjectLinks.map((link) => ( {...link, type: 'link', deleteLink, linkListener })) 
-    //     : 
-    //     [];
-
-    // const linkBoxFields = [
-    //     ...linksEdit,
-    //     { type: 'button', onClick: createLink }
-    // ];
-
+   
     if (!project) {
         return null;
     }
@@ -377,42 +273,6 @@ const NewProjectContainer = ({ project, skills }) => {
             marginTop
             hideScroll
         />
-        // <ProjectInfoContainer>P
-
-        //     {UserAuth.isAuthenticated() && <ProjectInfoSwitcher editing={isEditing} showEditForm={showEditForm} saveProject={saveProject} /> }
-        //     {!isEditing ?
-        //         <>
-        //             <ProjectInfoBox header={project.name} mainHeader fields={projectBasicInfo} />
-        //             <ProjectInfoBox header="Recruitment" fields={projectRecruitmentInfo} />
-        //             <ProjectInfoBox header="Additional Info" fields={additionalInfo} />
-        //             <ProjectInfoBox header="Links" fields={links} />
-        //         </>
-        //         : 
-        //         <>
-        //             <ProjectinfoEditableBox 
-        //                 header={newProjectName} 
-        //                 mainHeader 
-        //                 fields={basicInfoEdit} 
-        //                 onChange={changeListener} 
-        //             />
-        //             <ProjectinfoEditableBox 
-        //                 header="Recruitment"
-        //                 onChange={changeListener}
-        //                 fields={recruitmentEdit}
-        //             />
-        //             <ProjectinfoEditableBox
-        //                 header="Additional Info"
-        //                 onChange={changeListener}
-        //                 fields={additionalInfoEdit}
-        //             />
-        //             <ProjectinfoEditableBox
-        //                 header="Links"
-        //                 onChange={() => {}}
-        //                 fields={linkBoxFields}
-        //             />
-        //         </>
-        //     }
-        // </ProjectInfoContainer>
     );
 };
 

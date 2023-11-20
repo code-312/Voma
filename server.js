@@ -106,8 +106,8 @@ app.delete('/api/link/:id', linkController.removeLink);
 
 /*========= TIMESLOT ROUTES =========*/
 app.post('/api/timeslot', timeslotController.addTimeslot);
-app.post('/api/timeslot/:id', timeslotController.editTimeslot);
-app.delete('/api/timeslot/:id', timeslotController.deleteTimeslot);
+app.post('/api/timeslot/:id', timeslotController.editTimeslotRest);
+app.delete('/api/timeslot/:id', timeslotController.deleteTimeslotRest);
 
 /*========= EVENT ROUTES =========*/
 app.get('/api/events', eventController.getEvents);
