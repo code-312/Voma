@@ -1,8 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import ProjectInfoSwitcher from './ProjectInfoSwitcher';
-import ProjectInfoBox from './ProjectInfoBox';
-import ProjectinfoEditableBox from './ProjectInfoEditableBox';
-import { ProjectInfoContainer } from '../../styles/pages/ProjectPage.style';
+import React, { useState, useEffect } from 'react';
 import ContentBox from '../ContentBox';
 import ProjectOverview from './ProjectOverview';
 import ProjectRecruitment from './ProjectRecruitment';
@@ -10,11 +6,8 @@ import ProjectLinks from './ProjectLinks';
 import ProjectInfoTab from './ProjectInfoTab';
 import VolunteerModalFooter from '../AssignmentBoard/VolunteerModal/VolunteerModalFooter';
 import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
-import { AuthContext } from '../../lib/AuthProvider';
-
 
 const NewProjectContainer = ({ project, skills }) => {
-    const UserAuth = useContext(AuthContext);
     const [isEditing, setIsEditing] = useState(false);
     const [newProjectName, setNewProjectName] = useState("");
     const [newProjectRecruitStatus, setNewProjectRecruitStatus] = useState("false");
@@ -168,7 +161,7 @@ const NewProjectContainer = ({ project, skills }) => {
                 addLinkToProject(newLink);
             }
         });
-        window.location.reload();
+        window.location = `/projects?selected=${project.id}`;
     }
 
     const tagTimeslotToDelete = (id) => {
@@ -191,7 +184,7 @@ const NewProjectContainer = ({ project, skills }) => {
             meetingCadence: newProjectMeetingCadence,
             projectStatement: newProjectStatement,
             deliverables: newDeliverables,
-            Timeslots: newProjectTimeslots // Todo: save timeslots
+            Timeslots: newProjectTimeslots 
         };
 
         const result = await editProject(newProject, project.id);
@@ -221,6 +214,7 @@ const NewProjectContainer = ({ project, skills }) => {
             timeslotListener={timeslotListener}
             addNewTimeslot={addNewTimeslot}
             tagTimeslotToDelete={tagTimeslotToDelete}
+            projectName={newProjectName}
             isEditing={isEditing} 
             saveFn={null}
             changeListener={changeListener}
@@ -267,7 +261,7 @@ const NewProjectContainer = ({ project, skills }) => {
             footContent={<VolunteerModalFooter 
                             visible
                             isEditing={isEditing}
-                            editInfo={() => setIsEditing(true)}
+                            editInfo={showEditForm}
                             saveInfo={saveProject}
                         />}
             marginTop

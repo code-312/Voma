@@ -7,7 +7,6 @@ const ProjectInfoTab = ({
     deliverables, 
     comment,
     isEditing, 
-    saveFn, 
     changeListener,
     deliverablesChangeListener 
 }) => (

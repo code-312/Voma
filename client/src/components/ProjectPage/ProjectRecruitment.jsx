@@ -6,7 +6,6 @@ const ProjectRecruitment = ({
     goodFitFor, 
     tech, 
     isEditing, 
-    saveFn, 
     changeListener,
     currentNeedsListener,
     skills 

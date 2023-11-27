@@ -5,7 +5,17 @@ import { StyledTextarea } from '../../styles/components/StyledTextarea.style';
 import StackedInput from '../StackedInputs';
 import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
 
-const ProjectInfoField = ({ label, value, valueText = null, isEditing, name, type, options, changeListener }) => {
+const ProjectInfoField = ({ 
+    label, 
+    value, 
+    valueText = null, 
+    isEditing, 
+    name, 
+    type, 
+    options, 
+    changeListener,
+    displayEditOnly = false 
+}) => {
     const [valueDisplay, setValueDisplay] = useState("");
 
     useEffect(() => {
@@ -59,6 +69,10 @@ const ProjectInfoField = ({ label, value, valueText = null, isEditing, name, typ
             </ProfileInfoContainer>
         )
     };
+
+    if (!isEditing && displayEditOnly) {
+        return null;
+    }
 
     return (
         <ProfileInfoContainer>

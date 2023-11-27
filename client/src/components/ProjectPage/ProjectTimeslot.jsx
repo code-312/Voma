@@ -3,15 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { Label3, Label4, BodyText2 } from '../../styles/components/Typography';
-import { StyledInput } from '../../styles/components/Input.style';
 import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
 import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages/ProjectPage.style';
-import ProjectSelect from './ProjectInfoFormFields/ProjectSelect';
+import Select from '../Select';
 import Button from '../Button';
 
 const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTimeslotToDelete }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
-    const [meetingDays, setMeetingDays] = useState("");
 
     useEffect(() => {
         const days = [];
@@ -88,7 +86,7 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTi
                     <ProjectTimeslotRow key={`slot-${slot.id}`}>
                         <ProjectTimeslotContainer>
                             <Label4>Day</Label4>
-                            <ProjectSelect 
+                            <Select 
                                 options={meetingDayOptions}
                                 name="day"
                                 currentValue={slot.day}
@@ -98,14 +96,14 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTi
                         </ProjectTimeslotContainer>
                         <ProjectTimeslotContainer>
                             <Label4>Start Time</Label4>
-                            <ProjectSelect
+                            <Select
                                 options={hourOptions}
                                 name="startHour"
                                 currentValue={slot.startHour}
                                 id={slot.id}
                                 onChange={updateTimeslot}
                             />
-                            <ProjectSelect
+                            <Select
                                 options={minuteOptions}
                                 id={slot.id}
                                 currentValue={slot.startMinute}
@@ -115,14 +113,14 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTi
                         </ProjectTimeslotContainer>
                         <ProjectTimeslotContainer>
                         <Label4>End Time</Label4>
-                            <ProjectSelect
+                            <Select
                                 options={hourOptions}
                                 id={slot.id}
                                 currentValue={slot.endHour}
                                 name="endHour"
                                 onChange={updateTimeslot}
                             />
-                            <ProjectSelect
+                            <Select
                                 options={minuteOptions}
                                 id={slot.id}
                                 currentValue={slot.endMinute}

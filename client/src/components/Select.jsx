@@ -1,8 +1,8 @@
 /* eslint-disable eqeqeq */
 import React from 'react';
-import { StyledSelect } from '../../../styles/components/Select.style';
+import { StyledSelect } from '../styles/components/Select.style';
 
-const ProjectSelect = ({ id, options, currentValue, name, onChange }) => {
+const Select = ({ id, options, currentValue, name, onChange }) => {
     const changeListener = (e) => {
         onChange(id, name, e.currentTarget.value);
     }
@@ -22,4 +22,4 @@ const ProjectSelect = ({ id, options, currentValue, name, onChange }) => {
     );
 };
 
-export default ProjectSelect;
+export default Select;

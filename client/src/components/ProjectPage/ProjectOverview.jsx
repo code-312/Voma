@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ProjectInfoField from './ProjectInfoField';
 import ProjectTimeslot from './ProjectTimeslot';
 
@@ -11,7 +11,7 @@ const ProjectOverview = ({
     addNewTimeslot,
     tagTimeslotToDelete,
     summary, 
-    saveFn, 
+    projectName,
     changeListener 
 }) => {
     const overviewEditOptions = [{
@@ -30,6 +30,15 @@ const ProjectOverview = ({
 
     return (
         <>
+            <ProjectInfoField
+                label="Project Name"
+                value={projectName}
+                isEditing={isEditing}
+                name="projectName"
+                changeListener={changeListener}
+                type="textbox"
+                displayEditOnly
+            />
             <ProjectInfoField
                 label="Recruitment Status"
                 value={activelyRecruiting}

@@ -4,7 +4,6 @@ import { fetchProjects, fetchSkills } from '../lib/Requests';
 import NewProjectContainer from '../components/ProjectPage/NewProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
-import ProjectInfo from '../components/ProjectPage/ProjectInfo';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
 import useTitle from '../hooks/useTitle';
 
