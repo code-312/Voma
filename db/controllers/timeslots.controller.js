@@ -1,12 +1,26 @@
 const { models } = require('../index');
 
-const addTimeslots = async (timeslots, volunteerId, projectId) => {
+const addTimeslots = async (timeslots, projectId = null, volunteerId = null) => {
     const slotsWithId = timeslots.map((slot) => {
         return {...slot, volunteerId, projectId}
     });
     await models.Timeslot.bulkCreate(slotsWithId)
                 .catch(err => console.log(err));
 };
+
+const editTimeslot = async (timeslot) => {
+    await models.Timeslot.update({
+        day: timeslot.day,
+        startHour: timeslot.startHour,
+        startMinute: timeslot.startMinute,
+        endHour: timeslot.endHour,
+        endMinute: timeslot.endMinute
+    },{ where: { id: timeslot.id }});
+}
+
+const deleteTimeslot = async (id) => {
+    await models.Timeslot.destroy({ where: { id }});
+}
 
 const addTimeslot = async (req, res) => {
     const { timeslot } = req.body;
@@ -18,7 +32,7 @@ const addTimeslot = async (req, res) => {
     return res.status(200).json({ message: `Timeslot ${newSlot.id} created.` });
 }
 
-const editTimeslot = async(req, res) => {
+const editTimeslotRest = async(req, res) => {
     const { timeslot } = req.body;
     const { id } = req.params;
     let findError, updateError;
@@ -46,7 +60,7 @@ const editTimeslot = async(req, res) => {
 
 };
 
-const deleteTimeslot = async(req, res) => {
+const deleteTimeslotRest = async(req, res) => {
     let findError, deleteError;
 
     const timeslot = await models.Timeslot.findByPk(req.params.id)
@@ -74,6 +88,8 @@ const deleteTimeslot = async(req, res) => {
 module.exports = {
     addTimeslots,
     addTimeslot,
+    editTimeslotRest,
+    deleteTimeslotRest,
     editTimeslot,
     deleteTimeslot
 };

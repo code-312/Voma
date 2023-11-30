@@ -98,10 +98,7 @@ export const BaseCSSReset = css`
     border: none;
     padding: 0;
   }
-  a {
-    color: blue;
-    text-decoration: underline;
-  }
+
   button {
     padding: 0;
     border-style: none;
@@ -185,6 +182,15 @@ const GlobalStyle = createGlobalStyle`
   .warning {
     color: var(--warning-color);
     font-size: 1.25rem;
+  }
+
+  a {
+    color: var(--uiBlue);
+    font-family: Outfit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px
   }
 `;
 

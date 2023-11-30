@@ -10,4 +10,5 @@ export const HeaderLink = styled.button`
     color: var(--managementBlue);
     width: 100%;
     margin: 16px 8px;
+    padding: 16px 12px;
 `;

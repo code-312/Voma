@@ -1,4 +1,6 @@
 const { models } = require('../index');
+const { addTimeslots, editTimeslot, deleteTimeslot } = require('./timeslots.controller');
+const { editLink, addLinks, deleteLink } = require('./links.controller');
 
 const getProjects = async (req, res) => {
     let error;
@@ -62,10 +64,79 @@ const addProject = async (req, res) => {
     res.json({ result: `Project ${result.id} has been added to the database.` });
 };
 
+const processItems = async (newItems, currItems, projectId, modelMethods) => {
+    const itemsToAdd = [];
+
+    const toDelete = currItems.filter((item) => {
+        return !newItems.find((newItem) => newItem.id == item.dataValues.id);
+    });
+   
+    newItems.forEach((item) => {
+        if (!currItems.find(oldItem => oldItem.dataValues.id === item.id)) {
+            itemsToAdd.push({...item, id: null }); // new items contain a randomly generated id that will throw an error if not removed
+        } else {
+            modelMethods.edit(item);
+        }
+    });
+
+    if (itemsToAdd.length > 0) {
+        modelMethods.add(itemsToAdd, projectId);
+    }
+    if (toDelete.length > 0) {
+        toDelete.forEach(slot => modelMethods.delete(slot.id));
+    }
+}
+
+const processTimeslots = async (newTimeslots, currTimeslots, projectId) => {
+    const modelMethods = {
+        edit: editTimeslot,
+        add: addTimeslots,
+        delete: deleteTimeslot
+    };
+    processItems(newTimeslots, currTimeslots, projectId, modelMethods);
+    // const newSlots = [];
+
+    // const toDelete = currTimeslots.filter((slot) => {
+    //     return !newTimeslots.find((newSlot) => newSlot.id == slot.dataValues.id);
+    // });
+   
+    // newTimeslots.forEach((slot) => {
+    //     if (!currTimeslots.find(oldSlot => oldSlot.dataValues.id === slot.id)) {
+    //         newSlots.push({...slot, id: null }); // new slots contain a randomly generated id that will throw an error if not removed
+    //     } else {
+    //         editTimeslot(slot);
+    //     }
+    // });
+
+    // if (newSlots.length > 0) {
+    //     addTimeslots(newSlots, null, projectId);
+    // }
+    // if (toDelete.length > 0) {
+    //     toDelete.forEach(slot => deleteTimeslot(slot.id));
+    // }
+}
+
+const processLinks = async (newLinks, currLinks, projectId) => {
+    const modelMethods = {
+        edit: editLink,
+        add: addLinks,
+        delete: deleteLink
+    };
+    processItems(newLinks, currLinks, projectId, modelMethods);
+};
+
 const editProject = async (req, res) => {
     let findError, updateError;
+    console.log(req.body);
     
-    const project = await models.project.findByPk(req.params.id)
+    const project = await models.project.findOne({where: {
+        id: req.params.id
+      },
+      include: [{
+          model: models.Timeslot
+        }, {
+            model: models.Link
+        }]})
                     .catch(err => findError = err);
     
     if (findError) {
@@ -73,9 +144,12 @@ const editProject = async (req, res) => {
     }
 
     if (project) {
+        processTimeslots(req.body.Timeslots, project.Timeslots, project.id);
+        processLinks(req.body.Links, project.Links, project.id);
         const result = await project.update(req.body)
                              .catch(err => updateError = err);
         
+
         if (updateError) {
             return res.status(400).json({ error: updateError });
         }

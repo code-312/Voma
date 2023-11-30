@@ -5,5 +5,12 @@ export const Card = styled.div`
     padding: 32px;
     width: 606px;
     border-radius: 6px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    ${({ marginTop }) => 'margin-top: 24px;'}
+    overflow-y: ${({ hideScroll }) => hideScroll ? 'hidden' : 'scroll'};
+    
+    h1 {
+        white-space: break-spaces;
+    }
 `;

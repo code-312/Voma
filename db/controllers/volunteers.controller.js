@@ -144,7 +144,7 @@ const addVolunteer = async (req, res) => {
 
     const timeslotArray = JSON.parse(timeslots);
     if (volunteerRec && timeslotArray.length > 0) {
-       addTimeslots(timeslotArray, volunteerRec.id, null);
+       addTimeslots(timeslotArray, null, volunteerRec.id);
     } else {
         console.log("No timeslot array");
     }
