@@ -1,7 +1,26 @@
 const { models } = require('../index');
 const Link = models.Link;
 
-const addLink = async (req, res) => {
+const addLinks = async (links, projectId) => {
+    const linksWithId = links.map((link) => {
+        return {...link, projectId}
+    });
+    await Link.bulkCreate(linksWithId)
+                .catch(err => console.log(err));
+};
+
+const editLink = async (link) => {
+    await Link.update({
+        title: link.title,
+        url: link.url
+    },{ where: { id: link.id }});
+}
+
+const deleteLink = async (id) => {
+    await Link.destroy({ where: { id }});
+}
+
+const addLinkRest = async (req, res) => {
     let error;
     const { 
         title,
@@ -25,7 +44,7 @@ const addLink = async (req, res) => {
     res.json({ result: `Link ${result.id} has been added to the database.` });
 };
 
-const editLink = async (req, res) => {
+const editLinkRest = async (req, res) => {
     let findError, updateError;
     const {
         title,
@@ -54,7 +73,7 @@ const editLink = async (req, res) => {
     }
 }
 
-const removeLink = async (req, res) => {
+const removeLinkRest = async (req, res) => {
     let findError, deleteError;
 
     const link = await Link.findByPk(req.params.id)
@@ -79,7 +98,10 @@ const removeLink = async (req, res) => {
 };
 
 module.exports = {
-    addLink,
+    addLinks,
     editLink,
-    removeLink
+    deleteLink,
+    addLinkRest,
+    editLinkRest,
+    removeLinkRest
 };

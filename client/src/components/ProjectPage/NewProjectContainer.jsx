@@ -5,7 +5,7 @@ import ProjectRecruitment from './ProjectRecruitment';
 import ProjectLinks from './ProjectLinks';
 import ProjectInfoTab from './ProjectInfoTab';
 import VolunteerModalFooter from '../AssignmentBoard/VolunteerModal/VolunteerModalFooter';
-import { editProject, removeLink, addLink, editLink } from '../../lib/Requests';
+import { editProject } from '../../lib/Requests';
 
 const NewProjectContainer = ({ project, skills }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -21,8 +21,6 @@ const NewProjectContainer = ({ project, skills }) => {
     const [newProjectComment, setNewProjectComment] = useState("");
     const [newProjectLinks, setNewProjectLinks] = useState([]);
     const [newProjectTimeslots, setNewProjectTimeslots] = useState([]);
-    const [timeslotsToDelete, setTimeslotsToDelete] = useState([]);
-
 
     useEffect(() => {
         if (project) {
@@ -56,6 +54,23 @@ const NewProjectContainer = ({ project, skills }) => {
         comment: setNewProjectComment,
     };
 
+    const deleteItem = (id, array) => {
+        const copy = [...array];
+        const index = copy.findIndex((slot) => slot.id === id);
+        copy.splice(index, 1);
+        return copy;
+    }
+
+    const addNewItem = (array, defaultValues) => {
+        const copy = [...array];
+        // generate temp random id to keep track of updates
+        const valueArray = new Uint32Array(1);
+        window.crypto.getRandomValues(valueArray);
+        copy.push({id: valueArray[0], ...defaultValues });
+    
+        return copy;
+    }
+
     const changeListener = (e) => {
         const stateSetter = fieldToStateMapper[e.currentTarget.name];
         stateSetter(e.currentTarget.value);
@@ -84,14 +99,21 @@ const NewProjectContainer = ({ project, skills }) => {
     }
 
     const addNewTimeslot = () => {
-        const copy = [...newProjectTimeslots];
-        // generate temp random id to keep track of updates
-        const array = new Uint32Array(1);
-        window.crypto.getRandomValues(array);
-        copy.push({id: array[0], day: "Monday", startHour: 0, startMinute: 0, endHour: 0, endMinute: 0 });
-    
+        const copy = addNewItem(newProjectTimeslots, 
+            { day: "Monday", startHour: 0, startMinute: 0, endHour: 0, endMinute: 0 });
         setNewProjectTimeslots(copy);
-      }
+    }
+
+    const deleteTimeslot = async (id) => {
+        const timeslotCopy = deleteItem(id, newProjectTimeslots);
+        setNewProjectTimeslots(timeslotCopy);
+    }
+
+    const deleteLink = async (id) => {
+        const linksCopy = deleteItem(id, newProjectLinks);
+        setNewProjectLinks(linksCopy);
+    }
+
 
     const currentNeedsListener = (e) => {
         if (e.currentTarget.checked) {
@@ -103,69 +125,9 @@ const NewProjectContainer = ({ project, skills }) => {
         }
     }
 
-    const deleteLink = async (id) => {
-        if (project.Links && project.Links.some((link) => link.id === id)) {
-            const result = await removeLink(id);
-            if (result.error) {
-                console.log(`Errror! ${result.error}`);
-            };
-        }
-        const linksCopy = [...newProjectLinks];
-        const index = linksCopy.findIndex((link) => link.id === id);
-        linksCopy.splice(index, 1);
-        setNewProjectLinks(linksCopy);
-    }
-
     const createLink = () => {
-        const linksCopy = [...newProjectLinks];
-        const tempId = Math.floor(Math.random() * 9999) + 1000;
-        linksCopy.push({ title: "", text: "", required: false, id: tempId });
+        const linksCopy = addNewItem(newProjectLinks, { title: "", url: ""});
         setNewProjectLinks(linksCopy);
-    }
-
-    const addLinkToProject = async (link) => {
-        const result = await addLink(link);
-        if (result.error) {
-            console.log(`Error! ${result.error}`);
-        }
-    };
-
-    const editExistingLink = async (link) => {
-        const result = await editLink(link);
-        if (result.error) {
-            console.log(`Error! ${result.error}`);
-        }
-    }
-
-    const processLinks = async (links) => {
-        links.forEach((link) => {
-            const newLink = {
-                id: link.id,
-                url: link.url,
-                title: link.title, 
-                required: link.required,
-                projectId: project.id
-            };
-            // If link is already associated with project, potentially send edit request
-            const exisitngLink = project.Links ? 
-                project.Links.find((exLink) => exLink.id === link.id) 
-                : 
-                null;
-            if (exisitngLink) {
-                if (exisitngLink.title !== link.title || 
-                    exisitngLink.url !== link.url ||
-                    exisitngLink.required !== link.required) {
-                        editExistingLink(newLink);
-                    }
-            } else {
-                addLinkToProject(newLink);
-            }
-        });
-        window.location = `/projects?selected=${project.id}`;
-    }
-
-    const tagTimeslotToDelete = (id) => {
-        setTimeslotsToDelete([...timeslotsToDelete, id]);
     }
 
     const saveProject = async () => {
@@ -184,16 +146,13 @@ const NewProjectContainer = ({ project, skills }) => {
             meetingCadence: newProjectMeetingCadence,
             projectStatement: newProjectStatement,
             deliverables: newDeliverables,
-            Timeslots: newProjectTimeslots 
+            Timeslots: newProjectTimeslots,
+            Links: newProjectLinks 
         };
 
         const result = await editProject(newProject, project.id);
         if (result === true) {
-            if (newProjectLinks.length > 0) {
-                processLinks(newProjectLinks);
-            } else {
-                window.location = `/projects?selected=${project.id}`;
-            }
+            window.location = `/projects?selected=${project.id}`;
         } else {
             // TODO: Error handling
             console.log(result);
@@ -213,7 +172,7 @@ const NewProjectContainer = ({ project, skills }) => {
             timeslots={newProjectTimeslots}
             timeslotListener={timeslotListener}
             addNewTimeslot={addNewTimeslot}
-            tagTimeslotToDelete={tagTimeslotToDelete}
+            deleteTimeslot={deleteTimeslot}
             projectName={newProjectName}
             isEditing={isEditing} 
             saveFn={null}

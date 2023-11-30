@@ -100,9 +100,9 @@ app.put('/api/project/:id', verifyAuth, projectController.editProject);
 app.delete('/api/project/:id', verifyAuth, projectController.removeProject);
 
 /*========= LINK ROUTES =========*/
-app.post('/api/link', linkController.addLink);
-app.post('/api/link/:id', linkController.editLink);
-app.delete('/api/link/:id', linkController.removeLink);
+app.post('/api/link', linkController.addLinkRest);
+app.post('/api/link/:id', linkController.editLinkRest);
+app.delete('/api/link/:id', linkController.removeLinkRest);
 
 /*========= TIMESLOT ROUTES =========*/
 app.post('/api/timeslot', timeslotController.addTimeslot);

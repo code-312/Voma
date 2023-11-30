@@ -8,7 +8,7 @@ import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages
 import Select from '../Select';
 import Button from '../Button';
 
-const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTimeslotToDelete }) => {
+const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimeslot }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
 
     useEffect(() => {
@@ -35,12 +35,6 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTi
         const newSlot = {...timeslots.find(slot => slot.id === id)};
         newSlot[key] = value;
         onChange(newSlot);
-    }
-
-    const tagToDelete = (id) => {
-        const index = timeslots.findIndex(slot => slot.id == id);
-        timeslots.splice(index, 1);
-        tagTimeslotToDelete(id);
     }
 
     const meetingDayOptions = [{
@@ -129,7 +123,7 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, tagTi
                             />
                         </ProjectTimeslotContainer>
                         <Button 
-                            onClick={() => tagToDelete(slot.id)} 
+                            onClick={() => deleteTimeslot(slot.id)} 
                             variant="text-only red">
                                 Delete
                         </Button>

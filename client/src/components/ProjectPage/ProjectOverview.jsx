@@ -9,7 +9,7 @@ const ProjectOverview = ({
     timeslots, 
     timeslotListener,
     addNewTimeslot,
-    tagTimeslotToDelete,
+    deleteTimeslot,
     summary, 
     projectName,
     changeListener 
@@ -62,8 +62,8 @@ const ProjectOverview = ({
                 onChange={timeslotListener}
                 timeslots={timeslots}
                 isEditing={isEditing}
+                deleteTimeslot={deleteTimeslot}
                 addNewTimeslot={addNewTimeslot}
-                tagTimeslotToDelete={tagTimeslotToDelete}
            />
             <ProjectInfoField
                 label="Summary"

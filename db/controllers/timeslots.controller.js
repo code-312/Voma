@@ -1,6 +1,6 @@
 const { models } = require('../index');
 
-const addTimeslots = async (timeslots, volunteerId, projectId) => {
+const addTimeslots = async (timeslots, projectId = null, volunteerId = null) => {
     const slotsWithId = timeslots.map((slot) => {
         return {...slot, volunteerId, projectId}
     });
@@ -10,6 +10,7 @@ const addTimeslots = async (timeslots, volunteerId, projectId) => {
 
 const editTimeslot = async (timeslot) => {
     await models.Timeslot.update({
+        day: timeslot.day,
         startHour: timeslot.startHour,
         startMinute: timeslot.startMinute,
         endHour: timeslot.endHour,
