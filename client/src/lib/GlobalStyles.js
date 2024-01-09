@@ -10,12 +10,13 @@ export const BaseCSSReset = css`
   }
   body {
     min-height: 100vh;
-    background-color: #F2E7FF;
+    background-color: #D6C7C0;
     color: #23036A;
     margin: 0;
     padding: 0;
     font-size: 1.25rem;
     font-family: 'Outfit', 'Sans serif';
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4 {
@@ -138,13 +139,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    background: rgba(98, 0, 238, 0.08) !important;
+    background: var(--lightPeach);
     width: 14px;
     height: 14px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #bb86fc !important;
+    background: var(--peachShade1);
     border: 3px solid transparent !important;
     background-clip: content-box !important;
     border-radius: 20px;

@@ -1,20 +1,18 @@
 import styled from 'styled-components';
 
 export const ProjectSidebarContainer = styled.div`
-    background-color: #fff;
     padding: 8px;
     width: 100%;
     height: 100%;
 `;
 
 export const ProjectSidebarProject = styled.div`
-    padding: 12px 16px;
-    color: rgba(0, 0, 0, 0.6);   
-    background-color: #fff;
+    padding: 12px 8px;
+    background-color: var(--lightPeach);
     cursor: pointer;
     ${(props) => props.$selected &&
-        `color: #6200EE;
-        background-color: #F2E7FE;
+        `color: var(--white);
+        background-color: var(--uiBlue);
         `
     }
 `;
