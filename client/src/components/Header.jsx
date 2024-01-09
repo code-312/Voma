@@ -57,7 +57,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <div className={classes.headerLinkContainer}>
             <Typography variant="h6" noWrap component="div" className={classes.appLogo}>

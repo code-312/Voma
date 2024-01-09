@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Label3 } from '../../styles/components/Typography';
 import { ProjectSidebarProject } from '../../styles/pages/ProjectPage.style';
 
 export default function ProjectBox({ projectId, projectName, onClick, selected }) {
@@ -20,9 +20,9 @@ export default function ProjectBox({ projectId, projectName, onClick, selected }
             tabIndex={0} 
             onKeyDown={getDetailsKeyPress}
         >
-            <Typography gutterBottom>
+            <Label3>
                 {projectName}
-            </Typography>
+            </Label3>
         </ProjectSidebarProject>
     )
 }

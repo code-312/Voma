@@ -78,6 +78,7 @@ const Projects = () => {
     return <BoardContainer
                 sideBarContent={projectCards}
                 mainContainerContent={mainContent}
+                projectPage={true}
             />;
 }
 

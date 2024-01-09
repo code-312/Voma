@@ -1,23 +1,24 @@
 import { Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
+import { StyledBoardContainer, BoardSidebar, BoardContent } from '../../styles/components/BoardContainer.style';
 
 const useStyles = makeStyles({
-    sidebar: {
-        overflowY: 'scroll',
-        // paddingLeft: '16px',
-        // paddingRight: '24px',
-        minHeight: 'calc(100vh - 64px)',
-        maxHeight: 'calc(100vh - 64px)',
-        marginTop: '-32px',
-        backgroundColor: 'rgba(98, 0, 238, 0.08)',
-        '& .MuiBox-root': {
-            display: 'flex',
-        },
-        '& input': {
-            textAlign: 'right',
-        }
-    },
+    // sidebar: {
+    //     overflowY: 'scroll',
+    //     // paddingLeft: '16px',
+    //     // paddingRight: '24px',
+    //     minHeight: 'calc(100vh - 64px)',
+    //     maxHeight: 'calc(100vh - 64px)',
+    //     marginTop: '-32px',
+    //     backgroundColor: 'rgba(98, 0, 238, 0.08)',
+    //     '& .MuiBox-root': {
+    //         display: 'flex',
+    //     },
+    //     '& input': {
+    //         textAlign: 'right',
+    //     }
+    // },
     board: {
         overflow: 'scroll',
         paddingRight: '24px',
@@ -67,17 +68,15 @@ const useStyles = makeStyles({
     }
 })
 
-export default function BoardContainer({ sideBarContent, mainContainerContent }) {
-    const classes = useStyles();
-
+export default function BoardContainer({ sideBarContent, mainContainerContent, projectPage }) {
     return (<>
-        <Grid container justifyContent="flex-box" sx={{ maxHeight: '100vh', position: 'fixed'}}>
-            <Grid item md={2} className={classes.sidebar}>
+        <StyledBoardContainer>
+            <BoardSidebar>
                 { sideBarContent }
-            </Grid>  
-            <Grid item md={10} className={classes.board} sx={{ whiteSpace: 'nowrap' }}>
+            </BoardSidebar>  
+            <BoardContent projectPage={projectPage}>
                 { mainContainerContent }
-            </Grid>
-        </Grid>
+            </BoardContent>
+        </StyledBoardContainer>
     </>)
 }

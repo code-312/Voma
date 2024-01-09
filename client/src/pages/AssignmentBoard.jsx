@@ -122,7 +122,7 @@ export default function AssignmentBoard() {
 
             const sidebar = (
                 <VolunteerPageSidebar>
-                    <Typography variant="h6" mt="24px" mb="16px">Assign to Project</Typography>
+                    <h3>Assign to Project</h3>
                     
                     { copy.assign.length > 0 ? 
                         copy.assign.map((vol) => <VolunteerCard 
@@ -136,7 +136,7 @@ export default function AssignmentBoard() {
                         : 
                         <Typography variant="body">No Volunteers Ready to Assign</Typography> 
                     }
-                    <Typography variant="h6" mt="24px" mb="16px">Currently Onboarding</Typography>
+                    <h3>Currently Onboarding</h3>
                     { copy.onboarding.length > 0 ? 
                         copy.onboarding.map((vol) => <VolunteerCard 
                             key={`volunteer-${vol.id}`} 
