@@ -1,8 +1,12 @@
 import styled from 'styled-components';
+import { BodyText2 } from '../components/Typography';
 
 export const VolunteerPageSidebar = styled.div`
     padding-left: 16px;
     padding-right: 24px;
+    ${BodyText2} {
+        margin-bottom: 12px;
+    }
 `;
 
 export const VolunteerProjectCard = styled.div`
