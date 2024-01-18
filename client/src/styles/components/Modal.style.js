@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { Card } from './Card.style';
 
 export const ModalBackdrop = styled.div`
-    z-index: 300;
+    z-index: 1200;
     background-color: var(--blueShadeSemiTransparent);
     position: fixed;
     height: 100%;
@@ -13,6 +13,7 @@ export const ModalBackdrop = styled.div`
     display: flex;
     align-items: enter;
     overflow-y: scroll;
+    padding-bottom: 24px;
 `;
 
 export const ModalBody = styled(Card)`
