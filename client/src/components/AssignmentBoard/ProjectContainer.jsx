@@ -1,20 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Box, Typography } from '@mui/material';
+import { VolunteerProjectCard } from '../../styles/pages/AssignmentBoard.style';
 import VolunteerCard from './VolunteerCard';
 
 export default function ProjectContainer({ volunteers, project, classes, projects }) {
     return (
-        <Box 
-            className={classes.projectCard} 
-            mt="8px" 
-            mb="16px">
-                
+        <VolunteerProjectCard>
             <Link to={`/projects?selected=${project.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Typography variant="h6" mb="16px">{project.name}</Typography>
+                <h4>{project.name}</h4>
             </Link>
-
-            <hr />
 
             {volunteers.map((volunteer) => (
                 <VolunteerCard
@@ -23,7 +18,6 @@ export default function ProjectContainer({ volunteers, project, classes, project
                     projects={projects}
                 />
             ))}
-
-        </Box>
+        </VolunteerProjectCard>
     );
 }
