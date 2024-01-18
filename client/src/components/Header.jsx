@@ -4,6 +4,7 @@ import { makeStyles } from '@mui/styles';
 import { useLocation, Link } from 'react-router-dom';
 import LoginToggleButton from './LoginToggleButton';
 import { AuthContext } from '../lib/AuthProvider';
+import { StyledHeader } from '../styles/components/Header.style';
 
 const useStyles = makeStyles({
   headerLinkContainer: {
@@ -56,47 +57,50 @@ export default function Header() {
   const classes = useStyles();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <div className={classes.headerLinkContainer}>
-            <Typography variant="h6" noWrap component="div" className={classes.appLogo}>
-              {!UserAuth.isAuthenticated() ? 'Code for Chicago' : 'Voma'}
-            </Typography>
-            <div className={classes.navLinks}>
-              {UserAuth.isAuthenticated() ? (
-                <Link
-                  className={
-                    volPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
-                  }
-                  to="/board"
-                >
-                  VOLUNTEERS
-                </Link>) : (
-                  <Link
-                    className={
-                      registering.form ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
-                    }
-                    to="/register"
-                    >
-                      REGISTRATION
-                    </Link>
-                )}
-                <Link
-                  className={
-                    projectPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
-                  }
-                  to="/projects"
-                  >
-                  PROJECTS
-                </Link>
-            </div>
-          </div>
-          {registering.form && 'Social Button Here'}
+      <StyledHeader>
+        <h1>hey how are ya</h1>
+      </StyledHeader>
+    // <Box sx={{ flexGrow: 1 }}>
+    //   <AppBar position="fixed">
+    //     <Toolbar>
+    //       <div className={classes.headerLinkContainer}>
+    //         <Typography variant="h6" noWrap component="div" className={classes.appLogo}>
+    //           {!UserAuth.isAuthenticated() ? 'Code for Chicago' : 'Voma'}
+    //         </Typography>
+    //         <div className={classes.navLinks}>
+    //           {UserAuth.isAuthenticated() ? (
+    //             <Link
+    //               className={
+    //                 volPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
+    //               }
+    //               to="/board"
+    //             >
+    //               VOLUNTEERS
+    //             </Link>) : (
+    //               <Link
+    //                 className={
+    //                   registering.form ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
+    //                 }
+    //                 to="/register"
+    //                 >
+    //                   REGISTRATION
+    //                 </Link>
+    //             )}
+    //             <Link
+    //               className={
+    //                 projectPage ? `active ${classes.headerLink}` : `inactive ${classes.headerLink}`
+    //               }
+    //               to="/projects"
+    //               >
+    //               PROJECTS
+    //             </Link>
+    //         </div>
+    //       </div>
+    //       {registering.form && 'Social Button Here'}
 
-          {!registering.form && <LoginToggleButton />}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    //       {!registering.form && <LoginToggleButton />}
+    //     </Toolbar>
+    //   </AppBar>
+    // </Box>
   );
 }
