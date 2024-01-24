@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import React, { useContext, useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import { useLocation, Link } from 'react-router-dom';
+import ProfileMenu from './ProfileMenu';
 import LoginToggleButton from './LoginToggleButton';
 import { AuthContext } from '../lib/AuthProvider';
-import { StyledHeader } from '../styles/components/Header.style';
+import { StyledHeader, LoginLink, ProfileIndicator } from '../styles/components/Header.style';
+import { ReactComponent as VomaLogo } from '../assets/voma-logo.svg';
+import { 
+  HeaderLinksWrapper, 
+  HeaderLinkContainer, 
+  HeaderLink
+ } from '../styles/components/HeaderLink.style';
 
 const useStyles = makeStyles({
-  headerLinkContainer: {
+  LoginLinkContainer: {
     justifySelf: 'flex-start',
     flex: 1,
     display: 'flex',
@@ -19,7 +25,7 @@ const useStyles = makeStyles({
   navLinks: {
     margin: 'auto',
   },
-  headerLink: {
+  LoginLink: {
     color: 'white',
     textDecoration: 'none',
     padding: '15px',
@@ -33,6 +39,7 @@ const useStyles = makeStyles({
 });
 
 export default function Header() {
+  const [adminDetails, setAdminDetails] = useState({});
   const UserAuth = useContext(AuthContext);
   const location = useLocation();
   const registering = { form: false };
@@ -54,11 +61,49 @@ export default function Header() {
       break;
   }
 
+  const getAdminDetails = () => {
+    const admin = localStorage.getItem('auth');
+    if (admin) {
+        setAdminDetails(JSON.parse(admin));
+    }
+  };
+
+  useEffect(() => {
+    if (UserAuth.isAuthenticated) {
+      getAdminDetails();
+    }
+  }, [ UserAuth ])
+
   const classes = useStyles();
+
+  const handleVolunteerClick = () => {
+    window.location.href = "/board";
+  }
+
+  const handleProjectClick = () => {
+    window.location.href = "/projects";
+  }
 
   return (
       <StyledHeader>
-        <h1>hey how are ya</h1>
+        <VomaLogo />
+        { !UserAuth.isAuthenticated() ? 
+          <LoginLink to="/login">Login</LoginLink>
+        :
+        (
+          <>
+            <HeaderLinksWrapper>
+              <HeaderLinkContainer active={volPage}>
+                <HeaderLink onClick={handleVolunteerClick} variant="large" forHeader>Volunteers</HeaderLink>
+              </HeaderLinkContainer>
+              <HeaderLinkContainer active={projectPage}>
+                <HeaderLink onClick={handleProjectClick} variant="large" forHeader>Projects</HeaderLink>
+              </HeaderLinkContainer>
+            </HeaderLinksWrapper>
+            <ProfileMenu adminDetails={adminDetails} />
+          </>
+        )
+        }
       </StyledHeader>
     // <Box sx={{ flexGrow: 1 }}>
     //   <AppBar position="fixed">
