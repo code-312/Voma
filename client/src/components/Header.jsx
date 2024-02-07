@@ -1,8 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@mui/styles';
 import { useLocation, Link } from 'react-router-dom';
 import ProfileMenu from './ProfileMenu';
 import LoginToggleButton from './LoginToggleButton';
+import Dropdown from './Dropdown';
 import { AuthContext } from '../lib/AuthProvider';
 import { StyledHeader, LoginLink, ProfileIndicator } from '../styles/components/Header.style';
 import { ReactComponent as VomaLogo } from '../assets/voma-logo.svg';
@@ -40,6 +41,7 @@ const useStyles = makeStyles({
 
 export default function Header() {
   const [adminDetails, setAdminDetails] = useState({});
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const UserAuth = useContext(AuthContext);
   const location = useLocation();
   const registering = { form: false };
@@ -60,6 +62,19 @@ export default function Header() {
     default:
       break;
   }
+
+  const closeDropdown = () => (setDropdownOpen(false));
+  const openDropdown = () => (setDropdownOpen(true));
+
+  const closeDropdownIfOpen = () => {
+    if (dropdownOpen) {
+        closeDropdown();
+    }
+};
+
+const wrapperRef = useRef("menu");
+// useClickListener(wrapperRef, closeDropdown);
+// useEscapeListener(closeDropdownIfOpen);
 
   const getAdminDetails = () => {
     const admin = localStorage.getItem('auth');
