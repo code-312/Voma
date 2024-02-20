@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { Box, Typography } from '@mui/material';
 import { VolunteerProjectCard } from '../../styles/pages/AssignmentBoard.style';
 import VolunteerCard from './VolunteerCard';
 

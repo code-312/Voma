@@ -1,4 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const { Sequelize } = require("sequelize-cockroachdb");
 const bcrypt = require('bcrypt');
 
 const { NODE_ENV, DB_NAME, DB_USER, DB_HOST } = process.env;
@@ -15,15 +16,31 @@ if (process.env.DB_PORT) { // (optional) Custom port.
   options['port'] = process.env.DB_PORT;
 }
 
-if (NODE_ENV == 'development.local') { // Allow http.
+if (NODE_ENV != 'local') { // Allow http.
   options['dialectOptions'] = {
     ssl: {
       rejectUnauthorized: false
-    }
+    },
+    encrypt: true
   };
 }
 
+console.log(options);
+
 const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, options);
+// const seq = new Sequelize(process.env.DATABASE_URL);
+
+// (async () => {
+//   try {
+//     const [results, metadata] = await seq.query("SELECT NOW()");
+//     console.log(results);
+//   } catch (err) {
+//     console.error("error executing query:", err);
+//   } finally {
+//     await seq.close();
+//   }
+// })();
+
 
 seq.authenticate().then(() => {
   if (NODE_ENV == 'development.local') {

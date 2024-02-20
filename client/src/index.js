@@ -6,7 +6,6 @@ import { deepPurple } from '@mui/material/colors';
 import App from './components/App';
 import GlobalStyles from './lib/GlobalStyles';
 import reportWebVitals from './reportWebVitals';
-import Header from './components/Header';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './lib/AuthProvider';
@@ -25,7 +24,6 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <Router>
-          <Header />
           <App />
           <Footer />
         </Router>

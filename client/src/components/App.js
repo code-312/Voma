@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import Header from './Header';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
@@ -29,6 +30,7 @@ function App() {
       </Helmet>
       <Switch>
         <Route path="/login">
+          <Header />
           <Login />
         </Route>
         <Route path="/logout">
@@ -37,15 +39,19 @@ function App() {
 
         {/* Logged In */}
         <LockedRoute path="/dashboard">
+          <Header />
           <Dashboard />
         </LockedRoute>
         <LockedRoute path="/board">
+          <Header />
           <AssignmentBoard />
         </LockedRoute>
         <LockedRoute path="/admin">
+            <Header />
             <Admin />
         </LockedRoute>
         <Route path="/projects">
+          <Header />
           <Projects />
         </Route>
         

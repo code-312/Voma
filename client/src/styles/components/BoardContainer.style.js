@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledBoardContainer = styled.div`
-    margin-top: 64px;
+    margin-top: 56px;
     display: inline-block;
     overflow-x: none;
     width: 100vw;
