@@ -10,11 +10,7 @@ const createRandomUser = () => {
     pronouns: faker.name.gender(true) == 'Male' ? 'He / Him' : 'She / Her',
     employer: faker.company.name(),
     student: Math.floor(Math.random() * 2) == 0 ? 'true' : 'false',
-    jobTitle: faker.name.jobTitle(),
-    onboardingAttendedAt: faker.date.recent(),
-    oneOnOneAttendedAt: faker.date.recent(),
     completedTasks,
-    projectId: faker.helpers.arrayElement([null, 1, 2, 3, 5, 5]),
 };
 }
 
