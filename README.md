@@ -173,6 +173,26 @@ Port | 6543
 Make sure your Lando box is running when you connect or you'll get an error. TablePlus has some great [documentation](https://docs.tableplus.com/) for getting acquainted with how to move around the database.
 
 
+## Trouble Shooting 🔫
+### Trying to run the backend server, I get an error saying "Port 5000 is already in use"
+This error comes up most often for pepole using macs. The reason is that airplay runs on port 5000. If you disable airplay, you should be able to use port 5000. 
+
+### Trying to run npm run start in /client, I get an error saying something like Error: error:0308010C:digital envelope routines::unsupported
+This error is due to the latest versions of Node. Some people recommend downgrading to v16, or using `nvm`. Those are both viable options, but the quickest is to change an environment variable. 
+
+On Unix-like (Linux, macOS, Git bash, ZSH, etc.):
+```bash
+export NODE_OPTIONS=--openssl-legacy-provider
+```
+
+On Windows command prompt:
+```
+set NODE_OPTIONS=--openssl-legacy-provider
+```
+On PowerShell:
+```powershell
+$env:NODE_OPTIONS = "--openssl-legacy-provider"
+```
 ---
 
 ## Database management: Sequelize-cli
