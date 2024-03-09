@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
+import { BiHide, BiShow } from "react-icons/bi";
 import ApiError from './ApiError';
 import { AuthContext } from '../lib/AuthProvider';
 import {ButtonStyle} from '../styles/components/Button.style'
 import StyledForm from '../styles/components/StyledForm.style'
-import { StyledInput, StyledLabel } from '../styles/components/Input.style'
+import { StyledInput, StyledLabel, PasswordWrapper } from '../styles/components/Input.style'
 
 
 export default function LoginForm() {
@@ -35,36 +36,44 @@ export default function LoginForm() {
         }
 
         <StyledForm onSubmit={handleSubmit}>
-            <StyledLabel htmlFor="input-email">Email</StyledLabel>
-            <StyledInput
-                id="input-email"
-                variant="outlined"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="volunteer@gmail.com"
-                autoComplete="off"
-            />
+            <h2>
+              Sign In
+              <span>Please sign in to continue</span>
+            </h2>
+            <StyledLabel htmlFor="input-email">Email <span>(required)</span>
+                <StyledInput
+                    id="input-email"
+                    variant="outlined"
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="volunteer@gmail.com"
+                    autoComplete="off"
+                />
+            </StyledLabel>
 
-            <StyledLabel htmlFor="input-password">Password</StyledLabel>
-            <StyledInput
-                id="input-password"
-                onChange={(e) => setPassword(e.target.value)}
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="off"
-                // <IconButton
-                //     aria-label="toggle password visibility"
-                //     onClick={handleClickShowPassword}
-                //     onMouseDown={handleMouseDownPassword}
-                //     edge="end">
-                //     {showPassword ? <VisibilityOff /> : <Visibility />}
-                // </IconButton>
-            />
-
+            <StyledLabel htmlFor="input-password">Password <span>(required)</span>
+                <PasswordWrapper>
+                    <StyledInput
+                        id="input-password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        type={showPassword ? 'text' : 'password'}
+                        autoComplete="off"
+                    />
+                    <button
+                        type="button"
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                    >
+                        {showPassword ? <BiShow/> : <BiHide />}
+                    </button>
+                </PasswordWrapper>
+            </StyledLabel>
             <ButtonStyle
                 type="submit"
                 disabled={!email.length || !password.length}
-                variant="contained"
+                variant={(!email.length || !password.length) ? 'solid white' : 'solid blue'}
             >
-                Login
+                Sign In
             </ButtonStyle>
         </StyledForm>
     </>
