@@ -12,6 +12,10 @@ export const StyledInput = styled.input`
     }
 `;
 
+export const StyledLabel = styled.label`
+    font-size: 16px;
+;`
+
 export const PasswordWrapper = styled.div`
     position: relative;
     svg {
