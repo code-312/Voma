@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { BiHide, BiShow } from "react-icons/bi";
+import { Eye, EyeOff } from 'lucide-react';
+
 import ApiError from './ApiError';
 import { AuthContext } from '../lib/AuthProvider';
 import {ButtonStyle} from '../styles/components/Button.style'
@@ -64,7 +65,7 @@ export default function LoginForm() {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                     >
-                        {showPassword ? <BiShow/> : <BiHide />}
+                        {showPassword ? <Eye /> : <EyeOff />}
                     </button>
                 </PasswordWrapper>
             </StyledLabel>

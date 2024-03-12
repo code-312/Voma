@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const StyledHeader = styled.div`
-    height: 3.5rem;
-    position: sticky;
+    height: 56px;
+    position: fixed;
     width: 100%;
     background-color: var(--lightPeach);
     border-bottom: solid 1px var(--peachShade1);
