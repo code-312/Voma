@@ -9,8 +9,8 @@ export const StyledHeader = styled.div`
     border-bottom: solid 1px var(--peachShade1);
     display: flex;
     align-items: center;
-    line-height: 3.5rem;
-    padding: 0 1.5rem;
+    line-height: 56px;
+    padding: 0 24px;
     justify-content: space-between;
 `;
 
@@ -24,12 +24,12 @@ export const LoginLink = styled(Link)`
 export const ProfileIndicator = styled.div`
     border-radius: 100%;
     background-color: var(--volunteerGreen);
-    height: 2rem;
-    width: 2rem;
+    height: 32px;
+    width: 32px;
     color: #fff;
-    line-height: 2rem;
+    line-height: 32px;
     text-align: center;
-    font-size: 1.125rem;
+    font-size: 18px;
 
 `;
 
