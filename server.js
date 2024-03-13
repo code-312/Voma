@@ -166,6 +166,14 @@ if (app.get('env')=='development.local' && process.env?.TEST_SLACK && process.en
   app.get('/test/slack/channel/message/text', testSlack.send.messageChannelText);
 }
 
+/* ____________ End API Endpoints ____________ */
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
 // 404 error
 app.use(function(req, res, next) {
   return res.status(404).send({ message: 'Route'+req.url+' Not found.' });
@@ -174,14 +182,6 @@ app.use(function(req, res, next) {
 // 500 error
 app.use(function(err, req, res, next) {
   return res.status(500).send({ error: err });
-});
-
-/* ____________ End API Endpoints ____________ */
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 const port = process.env.PORT || 5000;

@@ -28,19 +28,6 @@ if (NODE_ENV != 'local') { // Allow http.
 console.log(options);
 
 const seq = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, options);
-// const seq = new Sequelize(process.env.DATABASE_URL);
-
-// (async () => {
-//   try {
-//     const [results, metadata] = await seq.query("SELECT NOW()");
-//     console.log(results);
-//   } catch (err) {
-//     console.error("error executing query:", err);
-//   } finally {
-//     await seq.close();
-//   }
-// })();
-
 
 seq.authenticate().then(() => {
   if (NODE_ENV == 'development.local') {
