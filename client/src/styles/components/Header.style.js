@@ -24,7 +24,7 @@ export const LoginLink = styled(Link)`
 export const ProfileIndicator = styled.div`
     border-radius: 100%;
     background-color: var(--volunteerGreen);
-    height: 32px; 
+    height: 32px;
     width: 32px;
     color: #fff;
     line-height: 32px;

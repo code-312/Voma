@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
 export const ButtonStyle = styled.button`
-   
+
    ${({ variant }) =>
     variant === 'solid blue' &&
     `
     background-color: var(--uiBlue);
     color: var(--white);
     border: none;
+    display: inline;
   `}
 
    ${({ variant }) =>
