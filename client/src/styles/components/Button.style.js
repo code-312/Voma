@@ -58,7 +58,9 @@ export const ButtonStyle = styled.button`
     text-decoration-line: underline;
     border: none;
   `}
+
   .button-icon {
-    margin-right: 8px;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 `;
