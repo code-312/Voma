@@ -24,7 +24,7 @@ export const BaseCSSReset = css`
   }
 
   h1 {
-    font-size: 42px; 
+    font-size: 42px;
   }
 
   h2 {
@@ -38,7 +38,7 @@ export const BaseCSSReset = css`
   h4 {
     font-size: 18px;
   }
- 
+
   h5,
   h6,
   p {
@@ -127,7 +127,7 @@ const GlobalStyle = createGlobalStyle`
     --uiBlue: #1579C1;
     --uiError: #A31963;
     --blueShadeIII: #08082D;
-    --blueShadeSemiTransparent: rgba(8, 8, 45, 0.9);;
+    --blueShadeSemiTransparent: rgba(8, 8, 45, 0.9);
     --white: #FFFFFF;
     --peachShade1: #D6C7C0;
     --peachShade2: #B79E92;

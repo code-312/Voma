@@ -70,6 +70,7 @@ export default function Home() {
 
           <Button
             onClick={openModal}
+            variant="slack"
             icon={SlackIcon}
           >
             Sign in With Slack
