@@ -11,6 +11,18 @@ export const ButtonStyle = styled.button`
     display: inline;
   `}
 
+  ${({ variant }) =>
+    variant === 'slack' &&
+    `
+    background-color: var(--uiBlue);
+    color: var(--white);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem 0.75rem 0.5rem;
+  `}
+
    ${({ variant }) =>
     variant === 'solid white' &&
     `
@@ -58,7 +70,9 @@ export const ButtonStyle = styled.button`
     text-decoration-line: underline;
     border: none;
   `}
+
   .button-icon {
-    margin-right: 8px;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 `;

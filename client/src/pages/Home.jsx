@@ -1,36 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, Grid, Button, Typography, SvgIcon } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { TextField, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
-
+import { RegisterPageContainer } from '../styles/pages/RegisterPage.style';
 import { VolunteerContext } from '../lib/VolunteerProvider'
+import Button from '../components/Button';
 
-const useStyles = makeStyles({
-  SlackButton: {
-    padding: 0,
-    paddingRight: '8px',
-    marginRight: '20px',
-    '& .MuiButton-startIcon': {
-      marginRight: 0,
-    },
-    '& svg': {
-      width: 36,
-      height: 36,
-      marginRight: 0,
-    }
-  },
-  MarginTop: {
-    marginTop: '16px'
-  }
-});
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [email, setEmail] = useState('');
-
-  const classes = useStyles();
 
   const Volunteer = useContext(VolunteerContext);
 
@@ -41,19 +21,19 @@ export default function Home() {
     setEmail(e.target.value);
   }
 
-  const goToSlackLink = () => {
-    window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
-  }
+  // const goToSlackLink = () => {
+  //   window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
+  // }
 
   return (<>
     {Volunteer.isAuthenticated && <Redirect to="/register" />}
-    {Volunteer.notRegistered &&          
+    {Volunteer.notRegistered &&
       <ApiError message="Looks like you haven&apos;t joined our workspace. Please <a href='https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g'>join our workspace</a> before registering." />
     }
     <Dialog open={modalOpen}>
       <DialogContent>
         <DialogContentText>
-          Let&apos;s see if you&apos;re in our workspace: 
+          Let&apos;s see if you&apos;re in our workspace:
         </DialogContentText>
         <TextField
             autoFocus
@@ -75,42 +55,37 @@ export default function Home() {
         </DialogActions>
     </Dialog>
 
-    <Grid container justifyContent="center" className={classes.MarginTop}>
-      <Grid item sm={6} xs={12}>
-        <Typography variant="subtitle">Code for Chicago</Typography>
+    <RegisterPageContainer>
+        <div className="registration-form">
+          <h1>Volunteer Registration</h1>
 
-        <Typography gutterBottom variant="h4" component="h1">Volunteer Registration</Typography>
+          <p>
+            Code312 connects skills-based volunteers to Chicago-based nonprofits, mutual aid groups, and people with ideas on how they can improve their community.
+          </p>
 
-        <Typography gutterBottom vairant="body" paragraph>
-        As part of the Code for America brigade network, Code for Chicago connects skills-based volunteers 
-        to Chicago-based nonprofits, mutual aid groups, and people with ideas on how they can improve their community.
-        </Typography>
 
-        <Typography gutterBottom vairant="body" paragraph sx={{ marginBottom: '32px' }}>
-        All incoming volunteers are required to register to our Slack workspace. If you haven&apos;t joined our 
-        Slack workshpace yet then register first. Afterwards, come back here to complete the volunteer registration process.
-        </Typography>
+          <p>
+          All incoming volunteers are required to register to our Slack workspace. If you haven&apos;t joined our Slack workspace yet then register first. Afterwards, come back here to complete the volunteer registration process.
+          </p>
 
-        <Button 
-          className={classes.SlackButton}
-          size="small" 
-          startIcon={<SvgIcon><SlackIcon /></SvgIcon>} 
-          variant="contained" 
-          onClick={openModal}
-        >
-          Sign in With Slack
-        </Button>      
-        
-        <Button 
-          onClick={goToSlackLink} 
-          href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g" 
-          size="small" 
-          variant="text"
-        >
-          Not registered to our slack?
-        </Button>
-      </Grid>
-    </Grid>
+          <Button
+            onClick={openModal}
+            variant="slack"
+            icon={SlackIcon}
+          >
+            Sign in With Slack
+          </Button>
+          {/* Kept in case we want to implement in the future */}
+          {/* <Button
+            onClick={goToSlackLink}
+            href="https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g"
+            size="small"
+            variant="text"
+          >
+            Not registered to our slack?
+          </Button> */}
+        </div>
+    </RegisterPageContainer>
   </>)
 }
 
