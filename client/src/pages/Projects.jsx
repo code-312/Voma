@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState, useCallback } from 'react';
 import { fetchProjects, fetchSkills } from '../lib/Requests';
-import NewProjectContainer from '../components/ProjectPage/NewProjectContainer';
+import ProjectContainer from '../components/ProjectPage/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
@@ -70,7 +70,7 @@ const Projects = () => {
     useEffect(() => {
         if (selectedProject) {
             setMainContent(
-                <NewProjectContainer project={selectedProject} skills={skills} />
+                <ProjectContainer project={selectedProject} skills={skills} />
             );
         }
     }, [selectedProject, skills])
