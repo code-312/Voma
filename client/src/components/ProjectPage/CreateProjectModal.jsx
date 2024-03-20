@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
+import { addProject } from '../../lib/Requests';
 import { ButtonStyle } from '../../styles/components/Button.style';
 import { StyledInput } from '../../styles/components/Input.style';
 import { Card } from '../../styles/components/Card.style';
@@ -12,8 +13,13 @@ const CreateProjectModal = ({ isOpen, closeFn }) => {
     const updateTitle = (e) => {
         setTitle(e.currentTarget.value);
     }
-    const saveProject = () => {
-        console.log('savin');
+    const saveProject = async () => {
+        const result = await addProject(title);
+        if (result) {
+           window.location = `/projects?selected=${result}`
+        } else {
+            console.log("Error adding project");
+        }
     }
 
     return (

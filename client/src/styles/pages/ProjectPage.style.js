@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const ProjectSidebarContainer = styled.div`
     padding: 8px;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 175px);
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
 `;
@@ -53,12 +54,14 @@ export const ProjectLinkEditContainer = styled.div`
 `;
 
 export const ProjectSidebarButtonContainer = styled.div`
-    position: relative;
-    height: 100%;
+    position: absolute;
+    padding: 16px;
+    bottom: 55px;
+    left: 0;
+    width: 315px;
+
 
     button {
-        position: absolute;
-        bottom: 165px;
         svg {
             margin-right: 8px;
         }
