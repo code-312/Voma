@@ -3,10 +3,13 @@ import { ProjectSidebarContainer } from '../../styles/pages/ProjectPage.style';
 
 
 const ProjectSidebar = ({ children }) => (
-        <ProjectSidebarContainer>
-           <h3>Projects</h3>
+
+    <ProjectSidebarContainer>
+        <div>
+            <h3>Projects</h3>
             { children }
-        </ProjectSidebarContainer>
-    );
+        </div>
+    </ProjectSidebarContainer>
+);
 
 export default ProjectSidebar;

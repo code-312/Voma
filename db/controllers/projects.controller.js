@@ -61,7 +61,7 @@ const addProject = async (req, res) => {
         return res.status(400).json({ error });
     }
 
-    res.json({ result: `Project ${result.id} has been added to the database.` });
+    res.json({ result: `Project ${result.id} has been added to the database.`, id: result.id });
 };
 
 const processItems = async (newItems, currItems, projectId, modelMethods) => {

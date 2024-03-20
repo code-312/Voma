@@ -388,6 +388,33 @@ const setViewedLS = (id) => {
     localStorage.setItem('tasksComplete', JSON.stringify({viewed, notViewed}))
 }
 
+const addProject = async (name) => {
+    let error; 
+    let payload = JSON.stringify({ name });
+
+    const result = await fetch('/api/project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+    })
+    .then((res) => {
+        if (res.status !== 200) {
+            throw new Error(res.error);
+        }
+        return res.json();
+    }).then((json) => {
+        console.log(json);
+        return json.id
+    })
+
+    .catch((e) => {
+        error = e; 
+        return false;
+    });
+
+    return result || { error };
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
@@ -406,5 +433,6 @@ export {
     setViewedLS,
     updateActivity,
     updateActivityBulk,
-    deleteActivityBulk
+    deleteActivityBulk,
+    addProject
 };
