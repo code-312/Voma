@@ -51,3 +51,24 @@ export const ProjectLinkEditContainer = styled.div`
         display: block;
     }
 `;
+
+export const ProjectSidebarButtonContainer = styled.div`
+    position: relative;
+    height: 100%;
+
+    button {
+        position: absolute;
+        bottom: 165px;
+        svg {
+            margin-right: 8px;
+        }
+    }
+`;
+
+export const NewProjectModalFooter = styled.div`
+    display: flex;
+    margin-top: 24px;
+    button {
+        margin-right: 24px;
+    }
+`;

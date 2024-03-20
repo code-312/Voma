@@ -5,7 +5,11 @@ import ProjectContainer from '../components/ProjectPage/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
 import ProjectCard from '../components/AssignmentBoard/ProjectCard';
 import ProjectSidebar from '../components/ProjectPage/ProjectSidebar';
+import CreateProjectModal from '../components/ProjectPage/CreateProjectModal';
 import useTitle from '../hooks/useTitle';
+import Button from '../components/Button';
+import { PlusCircleIcon } from 'lucide-react';
+import { ProjectSidebarButtonContainer } from '../styles/pages/ProjectPage.style';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
@@ -13,6 +17,11 @@ const Projects = () => {
     const [projectCards, setProjectCards] = useState([]);
     const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
     const [selectedProject, setSelectedProject] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+
     useTitle('Voma | Projects');
 
     const getProjectDetails = useCallback(async (selectedId) => {
@@ -61,6 +70,13 @@ const Projects = () => {
             const sidebar = (
                 <ProjectSidebar>
                     {cards}
+                    <ProjectSidebarButtonContainer>
+                        <Button 
+                            variant="fw outline blue"
+                            onClick={openModal}>
+                                <PlusCircleIcon /> Create a Project
+                        </Button>
+                    </ProjectSidebarButtonContainer>
                 </ProjectSidebar>
             )
             setProjectCards(sidebar);
@@ -75,11 +91,16 @@ const Projects = () => {
         }
     }, [selectedProject, skills])
 
-    return <BoardContainer
+    return (
+        <>
+            <CreateProjectModal isOpen={isOpen} closeFn={closeModal} />
+            <BoardContainer
                 sideBarContent={projectCards}
                 mainContainerContent={mainContent}
                 projectPage={true}
-            />;
+            />
+        </>
+    );
 }
 
 export default Projects;
