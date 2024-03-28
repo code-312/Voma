@@ -5,6 +5,9 @@ const { editLink, addLinks, deleteLink } = require('./links.controller');
 const getProjects = async (req, res) => {
     let error;
     const projects = await models.project.findAll({
+        where: {
+            active: true
+        },
         include: [{
             model: models.Timeslot
         }, {
@@ -184,11 +187,35 @@ const removeProject = async (req, res) => {
     }
 };
 
+const archiveProject = async (req, res) => {
+    await models.project.update({ active: false }, {
+        where: {
+          id: req.params.id,
+        },
+      })
+      .catch(err => res.status(404).json({ result: err}));
+
+      return res.status(200).json({ result: `Project ${req.params.id} has been archived.`})
+};
+
+const reactivateProject = async (req, res) => {
+    await models.project.update({ active: true }, {
+        where: {
+          id: req.params.id,
+        },
+      })
+      .catch(err => res.status(404).json({ result: err}));
+
+      return res.status(200).json({ result: `Project ${req.params.id} has been reactivated.`})
+};
+
 
 module.exports = {
     getProjects,
     getProject, 
     addProject,
     editProject,
-    removeProject
+    removeProject,
+    archiveProject,
+    reactivateProject
 };
