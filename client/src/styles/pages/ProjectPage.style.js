@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const ProjectSidebarContainer = styled.div`
     padding: 8px;
@@ -17,6 +18,9 @@ export const ProjectSidebarProject = styled.div`
         `color: var(--white);
         background-color: var(--uiBlue);
         `
+    }
+    &:first-of-type {
+        margin-top: 16px;
     }
 `;
 
@@ -75,3 +79,8 @@ export const NewProjectModalFooter = styled.div`
         margin-right: 24px;
     }
 `;
+
+export const ArchiveLink = styled(Link)`
+    color: var(--managementBlue);
+    margin-bottom: 8px;
+`

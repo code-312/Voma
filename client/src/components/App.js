@@ -7,6 +7,7 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import AssignmentBoard from '../pages/AssignmentBoard';
 import Projects from '../pages/Projects';
+import ArchivedProjects from '../pages/ArchivedProjects';
 import PageNotFound from '../pages/PageNotFound';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
@@ -54,6 +55,10 @@ function App() {
           <Header />
           <Projects />
         </Route>
+        <LockedRoute path="/archive">
+          <Header />
+          <ArchivedProjects />
+        </LockedRoute>
         
         {/* Test Page for design system development */}
         <Route path="/style-test">
