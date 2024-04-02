@@ -23,6 +23,22 @@ const getProjects = async (req, res) => {
     res.json(projects);
 };
 
+const getArchivedProjects = async (req, res) => {
+    let error;
+    const projects = await models.project.findAll({
+        where: {
+            active: false
+        }
+    })
+    .catch(err => error = err);
+    
+    if (error) {
+        return res.status(400).json({ error });
+    }
+
+    res.json(projects);
+};
+
 const getProject = async (req, res) => {
     let error;
     const project = await models.project.findOne({
@@ -217,5 +233,6 @@ module.exports = {
     editProject,
     removeProject,
     archiveProject,
-    reactivateProject
+    reactivateProject,
+    getArchivedProjects
 };

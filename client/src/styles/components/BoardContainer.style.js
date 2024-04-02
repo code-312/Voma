@@ -9,7 +9,7 @@ export const StyledBoardContainer = styled.div`
 `;
 
 export const BoardSidebar = styled.div`
-    background-color: var(--lightPeach);
+    background-color:  ${({ archivePage }) => archivePage ? 'var(--peachShade1)' : 'var(--lightPeach)'};
     border: solid 1px var(--peachShade1);
     padding: 24px;
     width: 315px;

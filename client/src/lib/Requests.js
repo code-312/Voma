@@ -415,6 +415,17 @@ const addProject = async (name) => {
     return result || { error };
 }
 
+const fetchArchivedProjects = async () => {
+    const projectList = await fetch('/api/projects/archive')
+        .then(response => response.json())
+        .catch(e => {
+            console.error(e);
+            return [];
+        });
+    
+    return projectList;
+}
+
 export {
     fetchVolunteers,
     fetchProjects,
@@ -434,5 +445,6 @@ export {
     updateActivity,
     updateActivityBulk,
     deleteActivityBulk,
-    addProject
+    addProject,
+    fetchArchivedProjects
 };

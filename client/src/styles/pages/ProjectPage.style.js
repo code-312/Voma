@@ -83,4 +83,7 @@ export const NewProjectModalFooter = styled.div`
 export const ArchiveLink = styled(Link)`
     color: var(--managementBlue);
     margin-bottom: 8px;
+    svg {
+        height: 16px;
+    }
 `

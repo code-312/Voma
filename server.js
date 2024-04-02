@@ -95,6 +95,7 @@ app.delete('/api/skill/:id', verifyAuth, skillsController.removeSkill)
 /*========= PROJECT ROUTES =========*/
 app.get('/api/projects', projectController.getProjects);
 app.post('/api/project', verifyAuth, projectController.addProject);
+app.get('/api/projects/archive', verifyAuth, projectController.getArchivedProjects);
 app.post('/api/project/archive/:id', verifyAuth, projectController.archiveProject);
 app.post('/api/project/reactivate/:id', verifyAuth, projectController.reactivateProject);
 app.get('/api/project/:id', projectController.getProject);
