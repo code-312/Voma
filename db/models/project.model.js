@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         deliverables: {
             type: DataTypes.ARRAY(DataTypes.STRING)
+        }, 
+        active: {
+            type: DataTypes.BOOLEAN
         }
     });
     return Project;

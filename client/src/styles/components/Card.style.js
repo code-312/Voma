@@ -9,7 +9,7 @@ export const Card = styled.div`
     margin-right: auto;
     ${({ marginTop }) => 'margin-top: 24px;'}
     ${({ small }) => small && `
-        height: 300px;
+        height: auto;
         margin: auto;
     `}
     overflow-y: ${({ hideScroll }) => hideScroll ? 'hidden' : 'scroll'};

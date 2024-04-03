@@ -11,7 +11,7 @@ export const BaseCSSReset = css`
   body {
     min-height: 100vh;
     background-color: #D6C7C0;
-    color: #23036A;
+    color: #1E1E64;
     margin: 0;
     padding: 0;
     font-size: 1.25rem;

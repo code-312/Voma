@@ -415,6 +415,51 @@ const addProject = async (name) => {
     return result || { error };
 }
 
+const fetchArchivedProjects = async () => {
+    const projectList = await fetch('/api/projects/archive')
+        .then(response => response.json())
+        .catch(e => {
+            console.error(e);
+            return [];
+        });
+    
+    return projectList;
+}
+
+const archiveProject = async (id) => {
+    const success = await fetch(`/api/project/archive/${id}`, { method: 'POST' })
+    .then(response => response.json())
+    .catch(e => {
+        console.error(e);
+        return false;
+    });
+
+    return success;
+}
+
+const reactivateProject = async (id) => {
+    const success = await fetch(`/api/project/reactivate/${id}`, { method: 'POST' })
+    .then(response => response.json())
+    .catch(e => {
+        console.error(e);
+        return false;
+    });
+
+    return success;
+}
+
+const removeProject = async (id) => {
+    const success = await fetch(`/api/project/${id}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .catch(e => {
+        console.error(e);
+        return false;
+    });
+
+    return success;
+}
+
+
 export {
     fetchVolunteers,
     fetchProjects,
@@ -434,5 +479,9 @@ export {
     updateActivity,
     updateActivityBulk,
     deleteActivityBulk,
-    addProject
+    addProject,
+    fetchArchivedProjects,
+    archiveProject,
+    reactivateProject,
+    removeProject
 };

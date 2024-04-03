@@ -1,9 +1,9 @@
 import { StyledBoardContainer, BoardSidebar, BoardContent } from '../../styles/components/BoardContainer.style';
 
-export default function BoardContainer({ sideBarContent, mainContainerContent, projectPage }) {
+export default function BoardContainer({ sideBarContent, mainContainerContent, projectPage, archivePage }) {
     return (<>
         <StyledBoardContainer>
-            <BoardSidebar>
+            <BoardSidebar archivePage={archivePage}>
                 { sideBarContent }
             </BoardSidebar>  
             <BoardContent projectPage={projectPage}>
