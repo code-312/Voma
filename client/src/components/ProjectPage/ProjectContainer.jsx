@@ -4,6 +4,7 @@ import ProjectOverview from './ProjectOverview';
 import ProjectRecruitment from './ProjectRecruitment';
 import ProjectLinks from './ProjectLinks';
 import ProjectInfoTab from './ProjectInfoTab';
+import ProjectSettings from './ProjectSettings';
 import VolunteerModalFooter from '../AssignmentBoard/VolunteerModal/VolunteerModalFooter';
 import { editProject } from '../../lib/Requests';
 
@@ -208,7 +209,10 @@ const NewProjectContainer = ({ project, skills }) => {
             createLink={createLink}
             projectId={project.id}
         />,
-        <div key="settings">Settings</div>
+        <ProjectSettings
+            key="settings"
+            id={project.id}
+        />
     ];
 
     return (
