@@ -80,7 +80,7 @@ app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
 app.post('/api/assign-volunteer', verifyAuth, volunteerController.assignVolunteerToProject);
-app.post('/api/mark-task-complete', volunteerController.addCompletedTask);
+// app.post('/api/mark-task-complete', volunteerController.addCompletedTask);
 
 /*========= SLACK ROUTES =========*/
 app.post('/api/volunteer/slack', volunteerController.getSlackByEmail);
