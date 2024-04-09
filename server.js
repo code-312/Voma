@@ -24,7 +24,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 const secure_cookies = ([
-  'production', // List of node environments to enable SSL cookies.
+  // 'production', // List of node environments to enable SSL cookies.
   'stage'
 ].includes( app.get('env') ));
 
@@ -52,6 +52,7 @@ app.set('trust proxy', 1); // Proxy envs..
  * @param {*} next - Move to next processing function.
  */
 const verifyAuth = (req, res, next) => {
+  console.log(req.session);
   if (req.session?.isAuthenticated) {
     next();
 

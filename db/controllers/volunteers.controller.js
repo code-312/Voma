@@ -92,6 +92,9 @@ const addVolunteer = async (req, res) => {
         frontendTech,
         webtools,
         webPlatforms,
+        employer,
+        jobTitle,
+        student,
     } = req.body;
 
     console.log(email);
@@ -109,6 +112,9 @@ const addVolunteer = async (req, res) => {
         frontendTech: JSON.parse(frontendTech),
         webtools: JSON.parse(webtools),
         webPlatforms: JSON.parse(webPlatforms),
+        employer,
+        jobTitle,
+        student,
     })
     .catch(err => {
         console.log(err);

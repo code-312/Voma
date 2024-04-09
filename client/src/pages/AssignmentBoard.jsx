@@ -39,15 +39,8 @@ export default function AssignmentBoard() {
             const copy = { ...filteredVolunteers };
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
-                    if (vol.completedTasks.length === 3) { // TODO: Check for actual completed tasks
-                        if (!viewed.includes(vol.id) && (!notViewed.includes(vol.id))) {
-                            notViewed = [...notViewed, vol.id]
-                            localStorage.setItem('tasksComplete', JSON.stringify({viewed, notViewed}))
-                        }
-                        copy.assign.push(vol);
-                    } else {
+       
                         copy.onboarding.push(vol);
-                    }
                 } else if (copy[vol.projectId]) {
                         copy[vol.projectId].push(vol);
                 } else {
