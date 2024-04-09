@@ -24,7 +24,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 const secure_cookies = ([
-  'production', // List of node environments to enable SSL cookies.
+  // 'production', // List of node environments to enable SSL cookies.
   'stage'
 ].includes( app.get('env') ));
 
@@ -52,6 +52,7 @@ app.set('trust proxy', 1); // Proxy envs..
  * @param {*} next - Move to next processing function.
  */
 const verifyAuth = (req, res, next) => {
+  console.log(req.session);
   if (req.session?.isAuthenticated) {
     next();
 
@@ -80,7 +81,7 @@ app.get('/api/volunteer/:id', verifyAuth, volunteerController.getVolunteer);
 app.put('/api/volunteer/:id', verifyAuth, volunteerController.editVolunteer);
 app.delete('/api/volunteer/:id', verifyAuth, volunteerController.removeVolunteer);
 app.post('/api/assign-volunteer', verifyAuth, volunteerController.assignVolunteerToProject);
-app.post('/api/mark-task-complete', volunteerController.addCompletedTask);
+// app.post('/api/mark-task-complete', volunteerController.addCompletedTask);
 
 /*========= SLACK ROUTES =========*/
 app.post('/api/volunteer/slack', volunteerController.getSlackByEmail);

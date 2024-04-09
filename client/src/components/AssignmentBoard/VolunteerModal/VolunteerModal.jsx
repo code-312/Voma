@@ -36,7 +36,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
         setProject(volunteer.project);
         setProjectName(volunteer.project.name);
       } else {
-        setProjectName(volunteer.completedTasks.length === 3 ? 'Assign to Project' : 'Currently Onboarding');
+        setProjectName('Assign to Project');
       }
     }
   }, [volunteer]);
@@ -151,7 +151,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     </>
   );
 
-  const links = ['Profile', 'Tasks', 'Assign to a Project', 'Activity'];
+  const links = ['Profile', 'Assign to a Project', 'Activity'];
   const content = [
     <Profile 
         key={`${volunteer.id}-profile`}
@@ -159,10 +159,10 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
         isEditing={isEditing}
         updateVolunteerCopy={updateVolunteerCopy}
     />, 
-    <Tasks 
-        key={`${volunteer.id}-tasks`}
-        tasks={volunteerCopy.completedTasks} 
-    />, 
+    // <Tasks 
+    //     key={`${volunteer.id}-tasks`}
+    //     tasks={volunteerCopy.completedTasks} 
+    // />, 
     <ProjectAssignment 
         key={`${volunteer.id}-projectAssignment`}
         volunteer={volunteerCopy} 

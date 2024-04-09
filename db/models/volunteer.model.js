@@ -34,12 +34,33 @@ module.exports = (sequelize, DataTypes) => {
         active: {
             type: DataTypes.BOOLEAN
         },
-        completedTasks: {
-            type: DataTypes.ARRAY(DataTypes.STRING)
-        },
         projectId: {
             type: DataTypes.INTEGER,
-        }
+        },
+        local: {
+            type: DataTypes.BOOLEAN
+        }, 
+        goal: {
+            type: DataTypes.STRING
+        },
+        experience: {
+            type: DataTypes.STRING
+        },
+        leadershipRole: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        backendTech: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        frontendTech: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        webtools: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
+        webPlatforms: {
+            type: DataTypes.ARRAY(DataTypes.STRING)
+        },
     });
     return Volunteer;
 };
