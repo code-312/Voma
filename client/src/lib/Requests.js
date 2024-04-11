@@ -87,6 +87,8 @@ const fetchSkills = async () => {
  * Edit a Volunteer's details
  */
 const editVolunteer = async (volunteer) => {
+    console.log("volunteer");
+    console.log(volunteer);
     let error;
     const result = await fetch(`/api/volunteer/${volunteer.id}`, {
         method: 'PUT',

@@ -16,7 +16,7 @@ export default function AssignmentBoard() {
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
-    let {viewed, notViewed} = getIndicatorViewsLS();
+
     useTitle('Voma | Volunteers');
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.

@@ -83,7 +83,7 @@ const addProject = async (req, res) => {
     res.json({ result: `Project ${result.id} has been added to the database.`, id: result.id });
 };
 
-const processItems = async (newItems, currItems, projectId, modelMethods) => {
+const processItems = async (newItems, currItems, projectId, volunteerId, modelMethods) => {
     const itemsToAdd = [];
 
     const toDelete = currItems.filter((item) => {
@@ -99,20 +99,20 @@ const processItems = async (newItems, currItems, projectId, modelMethods) => {
     });
 
     if (itemsToAdd.length > 0) {
-        modelMethods.add(itemsToAdd, projectId);
+        modelMethods.add(itemsToAdd, projectId, volunteerId);
     }
     if (toDelete.length > 0) {
         toDelete.forEach(slot => modelMethods.delete(slot.id));
     }
 }
 
-const processTimeslots = async (newTimeslots, currTimeslots, projectId) => {
+const processTimeslots = async (newTimeslots, currTimeslots, projectId, volunteerId) => {
     const modelMethods = {
         edit: editTimeslot,
         add: addTimeslots,
         delete: deleteTimeslot
     };
-    processItems(newTimeslots, currTimeslots, projectId, modelMethods);
+    processItems(newTimeslots, currTimeslots, projectId, volunteerId, modelMethods);
     // const newSlots = [];
 
     // const toDelete = currTimeslots.filter((slot) => {
@@ -141,7 +141,7 @@ const processLinks = async (newLinks, currLinks, projectId) => {
         add: addLinks,
         delete: deleteLink
     };
-    processItems(newLinks, currLinks, projectId, modelMethods);
+    processItems(newLinks, currLinks, projectId, null, modelMethods);
 };
 
 const editProject = async (req, res) => {
@@ -163,7 +163,7 @@ const editProject = async (req, res) => {
     }
 
     if (project) {
-        processTimeslots(req.body.Timeslots, project.Timeslots, project.id);
+        processTimeslots(req.body.Timeslots, project.Timeslots, project.id, null);
         processLinks(req.body.Links, project.Links, project.id);
         const result = await project.update(req.body)
                              .catch(err => updateError = err);
@@ -234,5 +234,6 @@ module.exports = {
     removeProject,
     archiveProject,
     reactivateProject,
-    getArchivedProjects
+    getArchivedProjects,
+    processTimeslots
 };
