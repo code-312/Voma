@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Modal from '../../Modal';
 import ContentBox from '../../ContentBox';
 import Profile from './content/Profile';
-import ProjectTimeslot from '../../ProjectPage/ProjectTimeslot';
+import Timeslot from '../../ProjectPage/Timeslot';
 import Activity from './content/Activity';
+import Background from './content/Background';
 import ProjectAssignment from './content/ProjectAssignment';
 import VolunteerModalFooter from './VolunteerModalFooter';
 import { VolunteerLabel } from '../../../styles/components/VolunteerCard.style';
@@ -19,7 +20,7 @@ import {
   deleteActivityBulk
 } from '../../../lib/Requests';
 
-const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
+const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails, skills }) => {
   // used to display currently assigned project
   const [project, setProject] = useState(null);
   const [projectName, setProjectName] = useState('')
@@ -129,6 +130,7 @@ const deleteTimeslot = async (id) => {
     setFooterVisible(index !== 2);
   }
 
+  // todo: write dynamic method to update array
   const updateVolunteerCopy = (e) => {
     const { name, value } = e.currentTarget;
     const copyCopy = {...volunteerCopy};
@@ -190,7 +192,7 @@ const deleteTimeslot = async (id) => {
     </>
   );
 
-  const links = ['Profile', 'Availability', 'Assign to a Project', 'Activity'];
+  const links = ['Profile', 'Background', 'Availability', 'Assign to a Project', 'Activity'];
   const content = [
     <Profile 
         key={`${volunteer.id}-profile`}
@@ -198,7 +200,14 @@ const deleteTimeslot = async (id) => {
         isEditing={isEditing}
         updateVolunteerCopy={updateVolunteerCopy}
     />, 
-    <ProjectTimeslot
+    <Background
+      key={`${volunteer.id}-background`}
+      volunteer={volunteerCopy} 
+      isEditing={isEditing}
+      updateVolunteerCopy={updateVolunteerCopy}
+      skills={skills}
+    />,
+    <Timeslot
         key={`${volunteer.id}-timeslot`} 
         onChange={timeslotListener}
         isEditing={isEditing}

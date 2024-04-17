@@ -4,7 +4,7 @@ import { skillLabels } from '../../lib/Skills';
 import { VolunteerCardContainer, VolunteerLabel, VolunteerNameContainer } from '../../styles/components/VolunteerCard.style';
 
 
-const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedLS, icon = null}) => {
+const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedLS, skills, icon = null}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const showIndicator = handleShowIndicator && handleShowIndicator(volunteer.id);
     const skill = volunteer.skills[0]?.name || 'default';
@@ -33,6 +33,7 @@ const VolunteerCard = ({ volunteer, projects, handleShowIndicator, handleViewedL
                 closeModal={closeModal} 
                 projects={projects} 
                 skillDetails={skillLabels[skill]}
+                skills={skills}
             />
             <VolunteerCardContainer 
                 tabIndex={0} 

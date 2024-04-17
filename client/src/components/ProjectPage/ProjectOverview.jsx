@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectInfoField from './ProjectInfoField';
-import ProjectTimeslot from './ProjectTimeslot';
+import Timeslot from './Timeslot';
 
 const ProjectOverview = ({ 
     activelyRecruiting, 
@@ -58,7 +58,7 @@ const ProjectOverview = ({
                 changeListener={changeListener}
                 options={cadenceOptions}
             />
-           <ProjectTimeslot
+           <Timeslot
                 onChange={timeslotListener}
                 timeslots={timeslots}
                 isEditing={isEditing}

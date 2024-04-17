@@ -8,7 +8,7 @@ import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages
 import Select from '../Select';
 import Button from '../Button';
 
-const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimeslot }) => {
+const Timeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimeslot }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
 
     useEffect(() => {
@@ -150,4 +150,4 @@ const ProjectTimeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, delet
     )
 };
 
-export default ProjectTimeslot;
+export default Timeslot;
