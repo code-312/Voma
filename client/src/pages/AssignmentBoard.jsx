@@ -25,7 +25,7 @@ export default function AssignmentBoard() {
             let volunteerList = await fetchVolunteers();
             let projectList = await fetchProjects();
             const availableSkills = await fetchSkills();
-            console.log(availableSkills);
+            
             setVolunteers(volunteerList);
             setProjects(projectList);
             setSkills(availableSkills);
