@@ -106,6 +106,118 @@ const Profile = ({ volunteer, isEditing, updateVolunteerCopy }) => {
                     <BodyText2>{volunteer.active ? 'Yes' : 'No'}</BodyText2>
                 }
             </ProfileInfoContainer>
+            <ProfileInfoContainer>
+                <Label3>Job Opportunities</Label3>
+                <BodySubText>
+                    Is this volunteer currently searching for job opportunities?
+                </BodySubText>
+                {isEditing ?
+                    <>
+                        <StackedInput 
+                            key={`${volunteer.id}-jobTitle-yes`}
+                            labelText="Yes, I am currently searching for job opportunities"
+                            value="Yes, I am currently searching for job opportunities"
+                            name="jobTitle"
+                            checked={volunteer.jobTitle == "Yes, I am currently searching for job opportunities"}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-jobTitle-soon`}
+                            labelText="No, but I will be searching for job opportunities within the next 2-12 months."
+                            value="No, but I will be searching for job opportunities within the next 2-12 months."
+                            name="jobTitle"
+                            checked={volunteer.jobTitle == "No, but I will be searching for job opportunities within the next 2-12 months."}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-jobTitle-no`}
+                            labelText="No, at this time I am not actively looking for job opportunities now or within the next 2-12 months."
+                            value="No, at this time I am not actively looking for job opportunities now or within the next 2-12 months."
+                            name="jobTitle"
+                            checked={volunteer.jobTitle == "No, at this time I am not actively looking for job opportunities now or within the next 2-12 months."}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                    </>
+                :
+                    <BodyText2>{volunteer.jobTitle}</BodyText2>
+                }
+            </ProfileInfoContainer>
+            <ProfileInfoContainer>
+                <Label3>Employment Status</Label3>
+                {isEditing ?
+                    <>
+                        <StackedInput 
+                            key={`${volunteer.id}-employer-employed`}
+                            labelText="Employed"
+                            value="Employed"
+                            name="employer"
+                            checked={volunteer.employer == "Employed"}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-employer-unemployed`}
+                            labelText="Unemployed"
+                            value="Unemployed"
+                            name="employer"
+                            checked={volunteer.employer == "Unemployed"}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-employer-student`}
+                            labelText="Student"
+                            value="Student"
+                            name="employer"
+                            checked={volunteer.employer == "Student"}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                    </>
+                :
+                    <BodyText2>{volunteer.employer}</BodyText2>
+                }
+            </ProfileInfoContainer>
+            <ProfileInfoContainer>
+                <Label3>Student Status</Label3>
+                <BodySubText>Is this volunteer currently in a formal education program or have recently graduated within the last 12 months?</BodySubText>
+                {isEditing ?
+                    <>
+                        <StackedInput 
+                            key={`${volunteer.id}-student-yes`}
+                            labelText="Yes, currently in a program."
+                            value="Yes, currently in a program."
+                            name="student"
+                            checked={volunteer.student == "Yes, currently in a program."}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-student-grad`}
+                            labelText="Yes, I graduated within the last 12 months."
+                            value="Yes, I graduated within the last 12 months."
+                            name="student"
+                            checked={volunteer.student == "Yes, I graduated within the last 12 months."}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-student-no`}
+                            labelText="No"
+                            value="No"
+                            name="student"
+                            checked={volunteer.student == "No"}
+                            onChange={updateVolunteerCopy}
+                            type="radio"
+                        />
+                    </>
+                :
+                    <BodyText2>{volunteer.student}</BodyText2>
+                }
+            </ProfileInfoContainer>
         </div>
     )
 };

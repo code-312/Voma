@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Modal from '../../Modal';
 import ContentBox from '../../ContentBox';
 import Profile from './content/Profile';
-import Tasks from './content/Tasks';
+import Timeslot from '../../ProjectPage/Timeslot';
 import Activity from './content/Activity';
+import Background from './content/Background';
 import ProjectAssignment from './content/ProjectAssignment';
 import VolunteerModalFooter from './VolunteerModalFooter';
 import { VolunteerLabel } from '../../../styles/components/VolunteerCard.style';
@@ -19,7 +20,7 @@ import {
   deleteActivityBulk
 } from '../../../lib/Requests';
 
-const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails }) => {
+const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails, skills }) => {
   // used to display currently assigned project
   const [project, setProject] = useState(null);
   const [projectName, setProjectName] = useState('')
@@ -86,10 +87,54 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     } // Todo: Add error handling
   };
 
+  const deleteItem = (id, array) => {
+    const copy = [...array];
+    const index = copy.findIndex((slot) => slot.id === id);
+    copy.splice(index, 1);
+    return copy;
+}
+
+const addNewItem = (array, defaultValues) => {
+  const copy = [...array];
+  // generate temp random id to keep track of updates
+  const valueArray = new Uint32Array(1);
+  window.crypto.getRandomValues(valueArray);
+  copy.push({id: valueArray[0], ...defaultValues });
+
+  return copy;
+}
+
+  const timeslotListener = (newSlot) => {
+    const newAvailability = volunteerCopy.Timeslots;
+    const index = newAvailability.findIndex(slot => slot.id === newSlot.id);
+    if (index !== -1) {
+        const timeslotsCopy = [...newAvailability];
+        timeslotsCopy[index] = newSlot;
+        setVolunteerCopy({...volunteerCopy, Timeslots: timeslotsCopy});
+    }
+}
+
+const addNewTimeslot = () => {
+    const newAvailability = volunteerCopy.Timeslots;
+    const copy = addNewItem(newAvailability, 
+        { day: "Monday", startHour: 0, startMinute: 0, endHour: 0, endMinute: 0 });
+    setVolunteerCopy({...volunteerCopy, Timeslots: copy});
+}
+
+const deleteTimeslot = async (id) => {
+    const timeslotCopy = deleteItem(id, volunteerCopy.Timeslots);
+    setVolunteerCopy({...volunteerCopy, Timeslots: timeslotCopy});
+}
+
   const headerLinkListener = (index) => {
-    setFooterVisible(index === 0 || index === 3);
+    setFooterVisible(index !== 3);
   }
 
+  const updateVolunteerArray = (name, value) => {
+    const copyCopy = {...volunteerCopy};
+    copyCopy[name] = value;
+    setVolunteerCopy(copyCopy);
+  }
   const updateVolunteerCopy = (e) => {
     const { name, value } = e.currentTarget;
     const copyCopy = {...volunteerCopy};
@@ -151,7 +196,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     </>
   );
 
-  const links = ['Profile', 'Assign to a Project', 'Activity'];
+  const links = ['Profile', 'Background', 'Availability', 'Assign to a Project', 'Activity'];
   const content = [
     <Profile 
         key={`${volunteer.id}-profile`}
@@ -159,10 +204,22 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
         isEditing={isEditing}
         updateVolunteerCopy={updateVolunteerCopy}
     />, 
-    // <Tasks 
-    //     key={`${volunteer.id}-tasks`}
-    //     tasks={volunteerCopy.completedTasks} 
-    // />, 
+    <Background
+      key={`${volunteer.id}-background`}
+      volunteer={volunteerCopy} 
+      isEditing={isEditing}
+      updateVolunteerCopy={updateVolunteerCopy}
+      updateVolunteerArray={updateVolunteerArray}
+      skills={skills}
+    />,
+    <Timeslot
+        key={`${volunteer.id}-timeslot`} 
+        onChange={timeslotListener}
+        isEditing={isEditing}
+        timeslots={volunteerCopy.Timeslots}
+        addNewTimeslot={addNewTimeslot}
+        deleteTimeslot={deleteTimeslot}
+    />, 
     <ProjectAssignment 
         key={`${volunteer.id}-projectAssignment`}
         volunteer={volunteerCopy} 

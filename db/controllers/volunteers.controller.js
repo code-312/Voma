@@ -7,6 +7,7 @@ const { slackLookupByEmail } = require('../lib/slack/slack');
 const tasks = require('../constants/tasks');
 const { response } = require('express');
 const { addTimeslots } = require('./timeslots.controller');
+const { processTimeslots } = require('./projects.controller');
 const { 
     addAssignedToProjectEvent,
     addFinishedTasksEvent,
@@ -97,8 +98,6 @@ const addVolunteer = async (req, res) => {
         student,
     } = req.body;
 
-    console.log(email);
-
     const volunteerRec = await Volunteer.create({
         name,
         email,
@@ -186,19 +185,25 @@ const editVolunteer = async (req, res) => {
         skillId, 
         active, 
         local,
-        goal,
-        experience,
-        leadershipRole,
-        backendTech,
-        frontendTech,
-        webtools,
-        webPlatforms,
+        goal, 
+        experience, 
+        leadershipRole, 
+        backendTech, 
+        frontendTech, 
+        webtools, 
+        webPlatforms, 
+        Timeslots, 
     } = req.body;
 
     let findError, updateError;
 
-    const volunteer = await models.volunteer.findByPk(req.params.id)
-                            .catch(err => findError = err);
+    const volunteer = await models.volunteer.findOne({where: {
+        id: req.params.id
+      },
+      include: [{
+          model: models.Timeslot
+    }]})
+    .catch(err => findError = err);
 
     if (findError) {
         return res.status(400).json({ error: findError });
@@ -221,7 +226,7 @@ const editVolunteer = async (req, res) => {
             });
         });
     };
-
+    console.log(`leadership role: ${leadershipRole}`);
     const newVolunteer = { 
         name,
         email,
@@ -234,11 +239,11 @@ const editVolunteer = async (req, res) => {
         goal,
         local,
         experience,
-        leadershipRole: JSON.parse(leadershipRole),
-        backendTech: JSON.parse(backendTech),
-        frontendTech: JSON.parse(frontendTech),
-        webtools: JSON.parse(webtools),
-        webPlatforms: JSON.parse(webPlatforms),
+        leadershipRole,
+        backendTech,
+        frontendTech,
+        webtools,
+        webPlatforms,
     };
 
     if (projectId) {
@@ -248,6 +253,12 @@ const editVolunteer = async (req, res) => {
 
     await volunteer.update(newVolunteer)
     .catch(err => updateError = err);
+
+    if (volunteer && Timeslots.length > 0) {
+        processTimeslots(Timeslots, volunteer.Timeslots, null, volunteer.id);
+    } else {
+        console.log("No timeslot array");
+    }
 
     if (updateError) {
         res.status(400).json({ error: updateError });

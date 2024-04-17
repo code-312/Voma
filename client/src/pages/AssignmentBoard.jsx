@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BellRing, Hand } from 'lucide-react';
-import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS } from '../lib/Requests';
+import { fetchVolunteers, fetchProjects, getIndicatorViewsLS, setViewedLS, fetchSkills } from '../lib/Requests';
 import VolunteerCard from '../components/AssignmentBoard/VolunteerCard';
 import ProjectContainer from '../components/AssignmentBoard/ProjectContainer';
 import BoardContainer from '../components/AssignmentBoard/BoardContainer';
@@ -11,21 +11,24 @@ import useTitle from '../hooks/useTitle';
 
 export default function AssignmentBoard() {
     const [volunteers, setVolunteers] = useState([]);
+    const [skills, setSkills] = useState([]);
     const [filteredVolunteers, setFilteredVolunteers] = useState({ onboarding: [], assign: []});
     const [volunteersFiltered, setVolunteersFiltered] = useState(false);
     const [projects, setProjects] = useState([]);
     const [volunteerCards, setVolunteerCards] = useState([]);
     const [projectCards, setProjectCards] = useState([]);
-    let {viewed, notViewed} = getIndicatorViewsLS();
+
     useTitle('Voma | Volunteers');
 
     useEffect(() => { // Run once on component mount and initialize volunteer/project data.
         async function initializeBoard() {
             let volunteerList = await fetchVolunteers();
             let projectList = await fetchProjects();
-
+            const availableSkills = await fetchSkills();
+            
             setVolunteers(volunteerList);
             setProjects(projectList);
+            setSkills(availableSkills);
         }
         initializeBoard();
     }, []); // \Run once on component mount and initialize volunteer/project data.
@@ -35,7 +38,7 @@ export default function AssignmentBoard() {
 
 
     useEffect(() => { // map over volunteers and sort them into their project
-        if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0) {
+        if (volunteers.length > 0 && !volunteersFiltered && projects.length > 0 && skills.length > 0) {
             const copy = { ...filteredVolunteers };
             volunteers.forEach((vol) => {
                 if (!vol.projectId) {
@@ -59,6 +62,7 @@ export default function AssignmentBoard() {
                             projects={projects}
                             handleShowIndicator={showIndicator}
                             handleViewedLS={setViewedLS}
+                            skills={skills}
                             icon={<BellRing />}
                         />) 
                         : 
@@ -72,6 +76,7 @@ export default function AssignmentBoard() {
                             projects={projects}
                             handleViewedLS={() => {}}
                             handleShowIndicator={showOnboardingIndicator}
+                            skills={skills}
                             icon={<Hand />}
                         />) 
                         :
@@ -83,7 +88,7 @@ export default function AssignmentBoard() {
             setFilteredVolunteers(copy);
             setVolunteersFiltered(true);
         }
-    }, [volunteers, volunteersFiltered, filteredVolunteers, projects]);
+    }, [volunteers, volunteersFiltered, filteredVolunteers, projects, skills]);
 
     useEffect(() => {
         if (projects.length > 0) {
@@ -91,6 +96,7 @@ export default function AssignmentBoard() {
             <ProjectContainer 
                 key={`project-${project.id}`} 
                 volunteers={filteredVolunteers[project.id] || []}
+                skills={skills}
                 project={project}
                 projects={projects}
             />
