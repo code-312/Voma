@@ -127,10 +127,14 @@ const deleteTimeslot = async (id) => {
 }
 
   const headerLinkListener = (index) => {
-    setFooterVisible(index !== 2);
+    setFooterVisible(index !== 3);
   }
 
-  // todo: write dynamic method to update array
+  const updateVolunteerArray = (name, value) => {
+    const copyCopy = {...volunteerCopy};
+    copyCopy[name] = value;
+    setVolunteerCopy(copyCopy);
+  }
   const updateVolunteerCopy = (e) => {
     const { name, value } = e.currentTarget;
     const copyCopy = {...volunteerCopy};
@@ -205,6 +209,7 @@ const deleteTimeslot = async (id) => {
       volunteer={volunteerCopy} 
       isEditing={isEditing}
       updateVolunteerCopy={updateVolunteerCopy}
+      updateVolunteerArray={updateVolunteerArray}
       skills={skills}
     />,
     <Timeslot

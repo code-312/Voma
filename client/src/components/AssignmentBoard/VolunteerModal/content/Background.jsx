@@ -7,7 +7,7 @@ import { BodyText2, BodySubText, Label3 } from '../../../../styles/components/Ty
 import { ProfileInfoContainer } from '../../../../styles/components/VolunteerModal.style';
 import { StyledInput } from '../../../../styles/components/Input.style';
 
-const Background = ({ volunteer, isEditing, updateVolunteerCopy, skills }) => {
+const Background = ({ volunteer, isEditing, updateVolunteerCopy, skills, updateVolunteerArray }) => {
     const updateVolRadio = (e) => {
         // it really likes to pass its values as a string, so we have to get the boolean values
         let value;
@@ -27,12 +27,101 @@ const Background = ({ volunteer, isEditing, updateVolunteerCopy, skills }) => {
         if (checked) {
             arrCopy = [...arrCopy, value];
         } else {
-            arrCopy = arrCopy.splice(arrCopy.indexOf(value), 1);
+            arrCopy.splice(arrCopy.indexOf(value), 1);
 
         }
-        copy[name] = arrCopy;
-        updateVolunteerCopy(copy);
+        
+        updateVolunteerArray(name, arrCopy);
     }
+
+    const backendTech = [{
+        value: 'sql',
+        text: 'SQL'
+    }, {
+        value: 'python', 
+        text: 'Python'
+    }, {
+        value: 'php',
+        text: 'PHP'
+    }, {
+        value: 'node',
+        text: 'Node/Express'
+    }, {
+        value: 'nonrelationalDbs',
+        text: 'Non-Relational Databases'
+    }, {
+        value: 'none',
+        text: 'N/A'
+    }, {
+        value: 'other',
+        text: 'Other'
+    }];
+
+    const frontendTech = [{
+        value: 'html',
+        text: "HTML & CSS",
+    }, {
+        value: 'js',
+        text: 'Javascript'
+    }, {
+        value: 'react',
+        text: 'React'
+    }, {
+        value: 'ruby',
+        text: 'Ruby / Ruby on Rails'
+    }, {
+        value: 'none',
+        text: "N/A"
+    }, {
+        value: 'other',
+        text: 'Other'
+    }];
+
+    const webtools = [{
+        value: 'airtable',
+        text: 'Airtable'
+    }, {
+        value: 'figma',
+        text: 'Figma'
+    }, {
+        value: 'miro',
+        text: "Miro"
+    }, {
+        value: 'trello',
+        text: 'Trello'
+    }, {
+        value: 'gitbook',
+        text: "Gitbook"
+    }, {
+        value: 'none',
+        text: "N/A"
+    }, {
+        value: 'other',
+        text: 'Other'
+    }];
+
+    const webPlatforms = [{
+        value: 'squarespace', 
+        text: 'Squarespace'
+    }, {
+        value: 'wix',
+        text: 'Wix'
+    }, {
+        value: 'wordpress',
+        text: 'Wordpress'
+    }, {
+        value: 'netlify',
+        text: 'Netlify'
+    }, {
+        value: 'github',
+        text: 'Github'
+    }, {
+        value: 'none',
+        text: 'N/A'
+    }, {
+        value: 'other',
+        text: 'Other'
+    }];
 
     return (
         <div>
@@ -151,6 +240,46 @@ const Background = ({ volunteer, isEditing, updateVolunteerCopy, skills }) => {
                 options={skills.map((skill) => ({ value: skill.name, text: skill.name }))}
                 type="checkbox"
                 name="leadershipRole"
+            />
+            <ProjectInfoField
+                label="This Volunteer has Experience with the Following Backend Tech:"
+                valueText={volunteer.backendTech?.join(', ')}
+                value={volunteer.backendTech}
+                isEditing={isEditing}
+                changeListener={arrayListener}
+                options={backendTech.map((tech) => ({ value: tech.value, text: tech.text }))}
+                type="checkbox"
+                name="backendTech"
+            />
+            <ProjectInfoField
+                label="This Volunteer has Experience with the Following Frontend Tech:"
+                valueText={volunteer.frontendTech?.join(', ')}
+                value={volunteer.frontendTech}
+                isEditing={isEditing}
+                changeListener={arrayListener}
+                options={frontendTech.map((tech) => ({ value: tech.value, text: tech.text }))}
+                type="checkbox"
+                name="frontendTech"
+            />
+            <ProjectInfoField
+                label="This Volunteer has Experience with the Following Webtools:"
+                valueText={volunteer.webtools?.join(', ')}
+                value={volunteer.webtools}
+                isEditing={isEditing}
+                changeListener={arrayListener}
+                options={webtools.map((tech) => ({ value: tech.value, text: tech.text }))}
+                type="checkbox"
+                name="webtools"
+            />
+            <ProjectInfoField
+                label="This Volunteer has Experience with the Following Web Platforms:"
+                valueText={volunteer.webPlatforms?.join(', ')}
+                value={volunteer.webPlatforms}
+                isEditing={isEditing}
+                changeListener={arrayListener}
+                options={webPlatforms.map((tech) => ({ value: tech.value, text: tech.text }))}
+                type="checkbox"
+                name="webPlatforms"
             />
 
         </div>
