@@ -74,19 +74,10 @@ export default function CodeOfConduct() {
       </Box>
 
       <Box>
-        <Typography variant="h6" mb={1}>
+        <h4 mb={1}>
           Code of Conduct
-          <Typography
-            sx={{
-              color: '#a31864',
-              display: 'inline',
-              marginLeft: '0.3125rem',
-              marginTop: '-0.1875rem',
-            }}
-          >
-            *
-          </Typography>
-        </Typography>
+          <span style={{ color: '#a31864', display: 'inline', marginLeft: '0.212rem' }}>*</span>
+        </h4>
 
         <Box
           className="conduct-code"
@@ -163,11 +154,10 @@ export default function CodeOfConduct() {
       </Box>
 
       <Box>
-        <Typography variant="h6" my={1}>
+        <h4 my={1}>
           Do you agree to our Code of Conduct?
-          <Typography
-            variant="h6"
-            sx={{
+          <span
+            style={{
               color: '#a31864',
               display: 'inline',
               marginLeft: '0.3125rem',
@@ -175,8 +165,8 @@ export default function CodeOfConduct() {
             }}
           >
             *
-          </Typography>
-        </Typography>
+          </span>
+        </h4>
 
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
