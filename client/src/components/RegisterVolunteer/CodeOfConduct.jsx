@@ -74,10 +74,10 @@ export default function CodeOfConduct() {
       </Box>
 
       <Box>
-        <h4 mb={1}>
+        <h3 mb={1}>
           Code of Conduct
           <span style={{ color: '#a31864', display: 'inline', marginLeft: '0.212rem' }}>*</span>
-        </h4>
+        </h3>
 
         <Box
           className="conduct-code"
@@ -154,7 +154,7 @@ export default function CodeOfConduct() {
       </Box>
 
       <Box>
-        <h4 my={1}>
+        <h3 style={{ margin: '0.3125rem auto 0.9375rem' }}>
           Do you agree to our Code of Conduct?
           <span
             style={{
@@ -166,7 +166,7 @@ export default function CodeOfConduct() {
           >
             *
           </span>
-        </h4>
+        </h3>
 
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
