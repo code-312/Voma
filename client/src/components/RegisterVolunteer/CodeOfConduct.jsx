@@ -20,12 +20,17 @@ export default function CodeOfConduct() {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    width: 80%;
+    width: 90%;
     max-width: 40rem;
-    padding: 2rem;
     margin: 4rem auto;
     background: var(--lightPeach);
-    border-radius: 6px;
+    border-radius: 0.375rem;
+    padding: 1.4rem;
+
+    @media (min-width: 600px) {
+      width: 80%;
+      padding: 2rem;
+    }
 
     h2 {
       font-size: 2.625rem;
@@ -42,13 +47,13 @@ export default function CodeOfConduct() {
 
   const StyledRadioLabel = styled.div`
     width: 100%;
-    height: 60px;
+    height: 3.75rem;
     display: flex;
     align-items: center;
-    border-radius: 3px;
+    border-radius: 0.1875rem;
     background: #f8f8f8;
-    border: 1px solid #e0e0e0;
-    padding: 15px;
+    border: 0.0625rem solid #e0e0e0;
+    padding: 0.9375rem;
   `;
 
   return (
@@ -58,11 +63,11 @@ export default function CodeOfConduct() {
         <span>Please review the code of conduct below.</span>
       </h2>
       <Box>
-        <ErrorIcon variant="filled" sx={{ display: 'inline-block', height: '120px' }} />
+        <ErrorIcon variant="filled" sx={{ display: 'inline-block', height: '7.5rem' }} />
         <Typography
           component="div"
           color="#a31864"
-          sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top' }}
+          sx={{ display: 'inline-block', marginLeft: '0.625rem', verticalAlign: 'top' }}
         >
           *Required
         </Typography>
@@ -72,7 +77,12 @@ export default function CodeOfConduct() {
         <Typography variant="h6" mb={1}>
           Code of Conduct
           <Typography
-            sx={{ color: '#a31864', display: 'inline', marginLeft: '5px', marginTop: '-3px' }}
+            sx={{
+              color: '#a31864',
+              display: 'inline',
+              marginLeft: '0.3125rem',
+              marginTop: '-0.1875rem',
+            }}
           >
             *
           </Typography>
@@ -82,8 +92,8 @@ export default function CodeOfConduct() {
           className="conduct-code"
           sx={{
             backgroundColor: 'white',
-            padding: '24px',
-            maxHeight: '600px',
+            padding: '1.5rem',
+            maxHeight: '37.5rem',
             overflowX: 'hidden',
             outline: '1px solid #e0e0e0',
             overflowY: 'scroll',
@@ -157,7 +167,12 @@ export default function CodeOfConduct() {
           Do you agree to our Code of Conduct?
           <Typography
             variant="h6"
-            sx={{ color: '#a31864', display: 'inline', marginLeft: '5px', marginTop: '-3px' }}
+            sx={{
+              color: '#a31864',
+              display: 'inline',
+              marginLeft: '0.3125rem',
+              marginTop: '-0.1875rem',
+            }}
           >
             *
           </Typography>
@@ -165,7 +180,7 @@ export default function CodeOfConduct() {
 
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          sx={{ marginBottom: '24px', display: 'flex', flexDirection: 'column', gap: '4px' }}
+          sx={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}
           className="AcceptCOC" // Hook for unit tests
           name="radio-buttons-group"
         >
@@ -195,11 +210,10 @@ export default function CodeOfConduct() {
           <ButtonStyle
             onClick={() => Volunteer.setRegistrationStep(3)}
             size="medium"
-            // sx={{ marginRight: '16px', width: '50%' }}
             variant="outline blue"
             className=""
           >
-            <Typography paragraph sx={{ minWidth: '80px' }}>
+            <Typography paragraph sx={{ maxWidth: '4.5rem', width: '33vw' }}>
               Back
             </Typography>
           </ButtonStyle>
@@ -210,7 +224,7 @@ export default function CodeOfConduct() {
             variant="solid blue"
             className={styled.primaryButton}
           >
-            <Typography paragraph sx={{ minWidth: '200px' }}>
+            <Typography paragraph sx={{ maxWidth: '12.5rem', width: '33vw' }}>
               Next
             </Typography>
           </ButtonStyle>
