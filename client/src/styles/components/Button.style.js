@@ -9,6 +9,9 @@ export const ButtonStyle = styled.button`
     color: var(--white);
     border: none;
     display: inline;
+    :not(:disabled):hover {
+      filter: brightness(0.9);
+    }
   `}
 
   ${({ variant }) =>
@@ -21,6 +24,9 @@ export const ButtonStyle = styled.button`
     align-items: center;
     justify-content: center;
     padding: 0.75rem 1rem 0.75rem 0.5rem;
+    :not(:disabled):hover {
+      filter: brightness(0.9);
+    }
   `}
 
    ${({ variant }) =>
@@ -29,6 +35,9 @@ export const ButtonStyle = styled.button`
     background-color: var(--lightBlueGrey);
     color: var(--blueShade2);
     border: none;
+    :not(:disabled):hover {
+      filter: brightness(0.9);
+    }
   `}
 
    ${({ variant }) =>
@@ -37,6 +46,9 @@ export const ButtonStyle = styled.button`
     background-color: var(--uiError);
     color: var(--white);
     border: none;
+    :not(:disabled):hover {
+      filter: brightness(0.9);
+    }
   `}
 
    ${({ variant }) =>
@@ -44,6 +56,10 @@ export const ButtonStyle = styled.button`
     `
     color: var(--uiBlue);
     border: 2px solid var(--uiBlue);
+    :not(:disabled):hover {
+      background-color: var(--uiBlue);
+      color: var(--white);
+    }
   `}
 
    ${({ variant }) =>
@@ -52,6 +68,10 @@ export const ButtonStyle = styled.button`
     color: var(--uiBlue);
     border: 2px solid var(--uiBlue);
     width: 100%;
+    :not(:disabled):hover {
+      background-color: var(--uiBlue);
+      color: var(--white);
+    }
   `}
 
    ${({ variant }) =>
@@ -61,6 +81,10 @@ export const ButtonStyle = styled.button`
     color: var(--blueShade2);
     border: 2px solid var(--blueShade2);
     width: 100%;
+    :not(:disabled):hover {
+      background-color: var(--blueShade2);
+      color: var(--lightBlueGrey);
+    }
   `}
 
    ${({ variant }) =>
@@ -69,10 +93,17 @@ export const ButtonStyle = styled.button`
     color: var(--uiError);
     text-decoration-line: underline;
     border: none;
+    :not(:disabled):hover {
+      filter: brightness(0.8);
+    }
   `}
 
   .button-icon {
     width: 2.25rem;
     height: 2.25rem;
+  }
+
+  :disabled {
+    filter: contrast(0.8);
   }
 `;
