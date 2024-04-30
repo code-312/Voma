@@ -138,9 +138,12 @@ const StyleTest = () => {
                     <div style={{ backgroundColor: 'var(--blueShade2)'}}>blueShade2</div>
                     <div style={{ backgroundColor: 'var(--lightBlueGrey)'}}>lightBlueGrey</div>
                 </div>
-                <Button variant='solid blue' onClick={() => console.log('clicked')} icon={Slack} >
+                <Button variant='slack' onClick={() => console.log('clicked')} icon={Slack} >
+                    Slack Button
+                </Button>
+                <Button variant='solid blue'>
                     Test Button
-                </Button> 
+                </Button>
                 <Button variant='solid white' icon={AlertCircle} iconSize='18'>
                     Test Button
                 </Button>
@@ -158,6 +161,12 @@ const StyleTest = () => {
                 </Button>
                 <Button variant='text-only red'>
                     Test Button
+                </Button>
+                <Button variant='solid white' disabled>
+                    Disabled Button
+                </Button>
+                <Button variant='outline blue' disabled>
+                    Disabled Button
                 </Button>
                 <p />
                 <Card>
