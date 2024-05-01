@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import { addNewItem, deleteItem } from "./util";
 
 const VolunteerContext = createContext(null);
 
@@ -13,6 +14,7 @@ function VolunteerProvider({ children }) {
       email: '',
       skills: '',
       pronouns: '',
+      timeslots: []
   };
   let defaultRegistrationStep = -1;
 
@@ -64,6 +66,7 @@ function VolunteerProvider({ children }) {
           notRegistered: false,
           suid: response.suid,
           name: response.name,
+          timeslots: []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1);
@@ -75,6 +78,7 @@ function VolunteerProvider({ children }) {
           email: '',
           skills: '',
           pronouns: '',
+          timeslots: []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1)
@@ -108,6 +112,7 @@ function VolunteerProvider({ children }) {
         slackUserId: profile.suid,
         pronouns: profile.pronouns,
         skills: profile.skills,
+        timeslots: profile.timeslots
       }),
       headers: {
         'Content-Type': 'application/json',
