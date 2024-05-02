@@ -14,7 +14,8 @@ function VolunteerProvider({ children }) {
       email: '',
       skills: '',
       pronouns: '',
-      timeslots: []
+      timeslots: [],
+      local: true,
   };
   let defaultRegistrationStep = -1;
 
@@ -66,7 +67,8 @@ function VolunteerProvider({ children }) {
           notRegistered: false,
           suid: response.suid,
           name: response.name,
-          timeslots: []
+          timeslots: [],
+          local: true
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1);
@@ -78,7 +80,8 @@ function VolunteerProvider({ children }) {
           email: '',
           skills: '',
           pronouns: '',
-          timeslots: []
+          timeslots: [],
+          local: true
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1)

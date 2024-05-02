@@ -167,8 +167,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     cursor: pointer;
     &:disabled {
-      border-color: #9e9c9c !default;
-      color: gray !default;
+      border-color: #9e9c9c;
+      color: gray;
       cursor: not-allowed;
     }
   }

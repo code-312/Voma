@@ -2,6 +2,9 @@ import React, { useState, useContext, useRef } from 'react';
 import { Box, Grid, TextField, Typography, Button, FormControl } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
+import { StyledInput } from '../../styles/components/Input.style';
+import StackedInput from '../StackedInputs';
+import { Label3 } from '../../styles/components/Typography';
 
 import { VolunteerContext } from '../../lib/VolunteerProvider';
 
@@ -90,71 +93,120 @@ export default function BasicInfoForm() {
     return true;
   };
 
-  return (<>
-      <Grid container justifyContent="left" className={classes.ContentArea}>
-        <Grid item sm={4} xs={1} />
-        <Grid item sm={3} xs={10}>
-          <Typography variant="h4" component="h1" mb="16px">Basic Info</Typography>
-          <Typography mb="16px">Input basic info about yourself</Typography>
-          <Box mb="32px">
-            <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
-            <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
-          </Box>
-          <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
-            <TextField
-              id="emailAddress"
-              error={errors.email}
-              type="email"
-              name="email"
-              onChange={updateInfo}
-              label="Email Address"
-              placeholder="email@domain.com"
-              InputLabelProps={{ shrink: true, color: 'secondary' }}
-              defaultValue={Volunteer?.email} 
-              helperText={errors.email ? 'Please enter a valid email address.' : ''}
-            />
-          </FormControl>
+  return (
+    <div>
+      <h1>Basic Info</h1>
+      <p>Tell us about yourself.</p>
+      <Label3>Email Address</Label3>
+      <StyledInput 
+        id="emailAddress"
+        name="emailAddress"
+        onChange={updateInfo}
+        placeholder="email@domain.com"
+        defaultValue={Volunteer?.email}
+      />
+      <Label3>Name</Label3>
+      <StyledInput
+        id="fullName"
+        type="text"
+        name="name"
+        onChange={updateInfo}
+        placeholder="How would you want to be addressed?"
+        defaultValue={Volunteer?.name}
+      />
+      <Label3>Pronouns</Label3>
+      <StyledInput
+        id="pronouns"
+        type="text"
+        name="pronouns"
+        onChange={updateInfo}
+        placeholder="How would you want to be addressed?"
+        InputLabelProps={{ shrink: true, color: 'secondary' }}
+      />
+      <Label3>Are you local to the Chicagoland area?</Label3>
+      <StackedInput 
+        labelText="Yes"
+        value={Volunteer.local}
+        onChange={updateInfo}
+        checked={Volunteer.local}
+        type="radio"
+        name="local"
+      />
+      <StackedInput 
+        labelText="No"
+        value={Volunteer.local}
+        onChange={updateInfo}
+        checked={!Volunteer.local}
+        type="radio"
+        name="local"
+      />
+    </div>
+  // <>
+  //     <Grid container justifyContent="left" className={classes.ContentArea}>
+  //       <Grid item sm={4} xs={1} />
+  //       <Grid item sm={3} xs={10}>
+  //         <Typography variant="h4" component="h1" mb="16px">Basic Info</Typography>
+  //         <Typography mb="16px">Input basic info about yourself</Typography>
+  //         <Box mb="32px">
+  //           <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
+  //           <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
+  //         </Box>
+  //         <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
+  //           <TextField
+  //             id="emailAddress"
+  //             error={errors.email}
+  //             type="email"
+  //             name="email"
+  //             onChange={updateInfo}
+  //             label="Email Address"
+  //             placeholder="email@domain.com"
+  //             InputLabelProps={{ shrink: true, color: 'secondary' }}
+  //             defaultValue={Volunteer?.email} 
+  //             helperText={errors.email ? 'Please enter a valid email address.' : ''}
+  //           />
+  //         </FormControl>
 
-          <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
-            <TextField
-              error={errors.name}
-              id="fullName"
-              type="text"
-              name="name"
-              onChange={updateInfo}
-              label="Full Name"
-              placeholder="How would you want to be addressed?"
-              InputLabelProps={{ shrink: true, color: 'secondary' }}
-              defaultValue={Volunteer?.name}
-              helperText={errors.name ? 'Please include your full name.' : ''}
-            />
-          </FormControl>
+  //         <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
+  //           <TextField
+  //             error={errors.name}
+  //             id="fullName"
+  //             type="text"
+  //             name="name"
+  //             onChange={updateInfo}
+  //             label="Full Name"
+  //             placeholder="How would you want to be addressed?"
+  //             InputLabelProps={{ shrink: true, color: 'secondary' }}
+  //             defaultValue={Volunteer?.name}
+  //             helperText={errors.name ? 'Please include your full name.' : ''}
+  //           />
+  //         </FormControl>
 
-          <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
-            <TextField
-              error={errors.pronouns}
-              id="pronouns"
-              type="text"
-              name="pronouns"
-              onChange={updateInfo}
-              label="Pronouns"
-              placeholder="How would you want to be addressed?"
-              InputLabelProps={{ shrink: true, color: 'secondary' }}
-              InputProps={{ color: 'secondary' }}
-              helperText={errors.pronouns ? 'Please let us know your pronouns.' : ''}
-            />
-          </FormControl>
+  //         <FormControl sx={{ width: '100%', marginBottom: '32px' }}>
+  //           <TextField
+  //             error={errors.pronouns}
+  //             id="pronouns"
+  //             type="text"
+  //             name="pronouns"
+  //             onChange={updateInfo}
+  //             label="Pronouns"
+  //             placeholder="How would you want to be addressed?"
+  //             InputLabelProps={{ shrink: true, color: 'secondary' }}
+  //             InputProps={{ color: 'secondary' }}
+  //             helperText={errors.pronouns ? 'Please let us know your pronouns.' : ''}
+  //           />
+  //         </FormControl>
 
 
-            <Button
-              size="medium"
-              variant="contained"
-              onClick={completed() ? () => updateVolunteer() : null}
-              disabled={!basicInfo.pronouns || !basicInfo.name || !basicInfo.email}
-              type="button">
-              Next
-            </Button>
-        </Grid>
-      </Grid>
-  </>);
+  //           <Button
+  //             size="medium"
+  //             variant="contained"
+  //             onClick={completed() ? () => updateVolunteer() : null}
+  //             disabled={!basicInfo.pronouns || !basicInfo.name || !basicInfo.email}
+  //             type="button">
+  //             Next
+  //           </Button>
+  //       </Grid>
+  //     </Grid>
+  // </>
+  );
 }

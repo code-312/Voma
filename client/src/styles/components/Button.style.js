@@ -56,6 +56,7 @@ export const ButtonStyle = styled.button`
     `
     color: var(--uiBlue);
     border: 2px solid var(--uiBlue);
+
     :not(:disabled):hover {
       background-color: var(--uiBlue);
       color: var(--white);
