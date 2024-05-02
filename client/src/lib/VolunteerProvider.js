@@ -34,6 +34,7 @@ function VolunteerProvider({ children }) {
   function updateInfo(info) {
     let p = {};
     p = Object.assign(profile, info);
+    console.log(p);
     setProfile(p);
     localStorage.setItem('volunteer', JSON.stringify(p));
   };

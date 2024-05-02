@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import BasicInfoForm from '../components/RegisterVolunteer/BasicInfoForm';
@@ -17,13 +17,36 @@ import useTitle from '../hooks/useTitle';
 export default function Register() {
   useTitle('Voma | Register');
   const Volunteer = useContext(VolunteerContext);
+  const [volunteerCopy, setVolunteerCopy] = useState({});
   const [canProceed, setCanProceed] = useState(true); // todo: create section-based validity 
 
+  useEffect(() => {
+    if (Volunteer) {
+      setVolunteerCopy(Volunteer);
+    }
+  }, [Volunteer]);
+
+  const updateInfo = (newInfo) => {
+    setVolunteerCopy({
+      ...volunteerCopy,
+      ...newInfo
+    });
+    console.log(volunteerCopy);
+  }
+
+  const saveVolunteer = () => {
+    Volunteer.updateInfo({
+      ...volunteerCopy
+    });
+  }
+
   const goBack = () => {
+    saveVolunteer();
     Volunteer.setRegistrationStep(Volunteer.registrationStep - 1);
   };
 
   const goForward = () => {
+    saveVolunteer();
     Volunteer.setRegistrationStep(Volunteer.registrationStep + 1);
   }
 
@@ -32,8 +55,17 @@ export default function Register() {
     {!Volunteer.isAuthenticated && <Redirect to="/" />}
     {Volunteer.registrationErrorMessage && <ApiError message={Volunteer.registrationErrorMessage} />}
     <Card>
-        {Volunteer?.registrationStep === 1 && <BasicInfoForm />}
-        {Volunteer?.registrationStep === 2 && <Availability />}
+        {Volunteer?.registrationStep === 1 && <BasicInfoForm 
+                                                updateInfo={updateInfo} 
+                                                name={volunteerCopy.name}
+                                                email={volunteerCopy.email}
+                                                pronouns={volunteerCopy.pronouns}
+                                                local={volunteerCopy.local}
+                                              />}
+        {Volunteer?.registrationStep === 2 && <Availability 
+                                                timeslots={volunteerCopy.timeslots} 
+                                                updateInfo={updateInfo} 
+                                                />}
         {Volunteer?.registrationStep === 3 && <SkillsForm />}
         {Volunteer?.registrationStep === 4 && <CodeOfConduct />}
         {Volunteer?.registrationStep === 5 && <ThankYouMessage />}

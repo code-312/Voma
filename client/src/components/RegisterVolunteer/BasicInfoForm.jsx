@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, Grid, TextField, Typography, Button, FormControl } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
@@ -18,13 +18,15 @@ const useStyles = makeStyles({
 
 });
 
-export default function BasicInfoForm() {
+export default function BasicInfoForm({ name, email, pronouns, local, updateInfo }) {
   const Volunteer = useContext(VolunteerContext);
-  const [basicInfo, setBasicInfo] = useState({
-    email: Volunteer.email || '',
-    name: Volunteer.name || '',
-    pronouns: '',
-  });
+  const [basicInfo, setBasicInfo] = useState({});
+
+  useEffect(() => {
+    setBasicInfo({
+      name, email, pronouns, local
+    })
+  }, [name, email, pronouns, local]);
 
   const [errors, setErrors] = useState({
     name: false,
@@ -45,12 +47,16 @@ export default function BasicInfoForm() {
     return true;
   }
 
-  const updateInfo = (e) => {
-    setBasicInfo({
-      ...basicInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e) => {
+    updateInfo({[e.target.name]: e.target.value});
   };
+ 
+  const updateLocal = (e) => {
+    updateInfo({
+      // eslint-disable-next-line eqeqeq
+      local: e.target.value == 'true'
+    });
+  }
 
 
 
@@ -101,42 +107,42 @@ export default function BasicInfoForm() {
       <StyledInput 
         id="emailAddress"
         name="emailAddress"
-        onChange={updateInfo}
+        onChange={handleChange}
         placeholder="email@domain.com"
-        defaultValue={Volunteer?.email}
+        defaultValue={email}
       />
       <Label3>Name</Label3>
       <StyledInput
         id="fullName"
         type="text"
         name="name"
-        onChange={updateInfo}
+        onChange={handleChange}
         placeholder="How would you want to be addressed?"
-        defaultValue={Volunteer?.name}
+        defaultValue={name}
       />
       <Label3>Pronouns</Label3>
       <StyledInput
         id="pronouns"
         type="text"
         name="pronouns"
-        onChange={updateInfo}
+        onChange={handleChange}
+        defaultValue={pronouns}
         placeholder="How would you want to be addressed?"
-        InputLabelProps={{ shrink: true, color: 'secondary' }}
       />
       <Label3>Are you local to the Chicagoland area?</Label3>
       <StackedInput 
         labelText="Yes"
-        value={Volunteer.local}
-        onChange={updateInfo}
-        checked={Volunteer.local}
+        value
+        onChange={updateLocal}
+        checked={local}
         type="radio"
         name="local"
       />
       <StackedInput 
         labelText="No"
-        value={Volunteer.local}
-        onChange={updateInfo}
-        checked={!Volunteer.local}
+        value={false}
+        onChange={updateLocal}
+        checked={!local}
         type="radio"
         name="local"
       />
