@@ -5,7 +5,8 @@ import { VolunteerContext } from '../../lib/VolunteerProvider';
 import { fetchSkills } from '../../lib/Requests';
 
 
-export default function Skills() {
+export default function Skills({ leadershipRole }) {
+  // Todo: include leadershipRole here, with the same set of skills. Also refactor to styled components
   const Volunteer = useContext(VolunteerContext);
 
   const [skill, setSkill] = useState('');

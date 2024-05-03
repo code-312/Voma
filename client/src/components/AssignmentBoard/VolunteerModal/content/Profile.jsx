@@ -80,6 +80,33 @@ const Profile = ({ volunteer, isEditing, updateVolunteerCopy }) => {
                 }
             </ProfileInfoContainer>
             <ProfileInfoContainer>
+                <Label3>Is this volunteer local to the Chicagoland area?</Label3>
+                {isEditing ?
+                    <>
+                        <StackedInput 
+                            key={`${volunteer.id}-local`}
+                            labelText="Yes"
+                            value
+                            name="local"
+                            checked={volunteer.local}
+                            onChange={updateVolRadio}
+                            type="radio"
+                        />
+                        <StackedInput 
+                            key={`${volunteer.id}-not-local`}
+                            labelText="No"
+                            value={false}
+                            name="local"
+                            checked={!volunteer.local}
+                            onChange={updateVolRadio}
+                            type="radio"
+                        />
+                    </>
+                :
+                    <BodyText2>{volunteer.local ? 'Yes' : 'No'}</BodyText2>
+                }
+            </ProfileInfoContainer>
+            <ProfileInfoContainer>
                 <Label3>Is this volunteer active?</Label3>
                 {isEditing ?
                     <>

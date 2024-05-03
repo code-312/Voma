@@ -45,6 +45,7 @@ const Availability = ({ timeslots, updateInfo }) => {
                 timeslots={timeslots}
                 addNewTimeslot={addNewTimeslot}
                 deleteTimeslot={deleteTimeslot}
+                showLabel={false}
             />
         </div>
     )

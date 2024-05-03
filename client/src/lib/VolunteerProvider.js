@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from "react";
-import { addNewItem, deleteItem } from "./util";
 
 const VolunteerContext = createContext(null);
 
@@ -15,7 +14,17 @@ function VolunteerProvider({ children }) {
       skills: '',
       pronouns: '',
       timeslots: [],
+      jobTitle: '',
       local: true,
+      employer: '',
+      student: '',
+      goal: '',
+      experience: '',
+      leadershipRole: [],
+      backendTech: [],
+      frontendTech: [],
+      webtools: [],
+      webPlatforms: []
   };
   let defaultRegistrationStep = -1;
 
@@ -68,8 +77,18 @@ function VolunteerProvider({ children }) {
           notRegistered: false,
           suid: response.suid,
           name: response.name,
-          timeslots: [],
-          local: true
+          timeslots: response.timeslots || [],
+          local: response.local,
+          jobTitle: response.jobTitle,
+          employer: response.employer,
+          student: response.student,
+          goal: response.goal,
+          experience: response.experience,
+          leadershipRole: response.leadershipRole || [],
+          backendTech: response.backendTech || [],
+          frontendTech: response.frontendTech || [],
+          webtools: response.webtools || [],
+          webPlatforms: response.webPlatforms || []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1);
@@ -82,7 +101,17 @@ function VolunteerProvider({ children }) {
           skills: '',
           pronouns: '',
           timeslots: [],
-          local: true
+          local: true,
+          jobTitle: '',
+          employer: '',
+          student: '',
+          goal: '',
+          experience: '',
+          leadershipRole: [],
+          backendTech: [],
+          frontendTech: [],
+          webtools: [],
+          webPlatforms: []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1)
@@ -116,7 +145,18 @@ function VolunteerProvider({ children }) {
         slackUserId: profile.suid,
         pronouns: profile.pronouns,
         skills: profile.skills,
-        timeslots: profile.timeslots
+        timeslots: profile.timeslots,
+        local: profile.local,
+        jobTitle: profile.jobTitle,
+        employer: profile.employer,
+        student: profile.student,
+        goal: profile.goal,
+        experience: profile.experience,
+        leadershipRole: profile.leadershipRole,
+        backendTech: profile.backendTech,
+        frontendTech: profile.frontendTech,
+        webtools: profile.webtools,
+        webPlatforms: profile.webPlatforms
       }),
       headers: {
         'Content-Type': 'application/json',

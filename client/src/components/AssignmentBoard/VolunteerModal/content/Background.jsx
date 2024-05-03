@@ -128,33 +128,6 @@ const Background = ({ volunteer, isEditing, updateVolunteerCopy, skills, updateV
             <h3>Background</h3>
             <BodySubText>Update this volunteer&apos;s background info.</BodySubText>
             <ProfileInfoContainer>
-                <Label3>Is this volunteer local to the Chicagoland area?</Label3>
-                {isEditing ?
-                    <>
-                        <StackedInput 
-                            key={`${volunteer.id}-local`}
-                            labelText="Yes"
-                            value
-                            name="local"
-                            checked={volunteer.local}
-                            onChange={updateVolRadio}
-                            type="radio"
-                        />
-                        <StackedInput 
-                            key={`${volunteer.id}-not-local`}
-                            labelText="No"
-                            value={false}
-                            name="local"
-                            checked={!volunteer.local}
-                            onChange={updateVolRadio}
-                            type="radio"
-                        />
-                    </>
-                :
-                    <BodyText2>{volunteer.local ? 'Yes' : 'No'}</BodyText2>
-                }
-            </ProfileInfoContainer>
-            <ProfileInfoContainer>
                 <Label3>Goal</Label3>
                 <BodySubText>
                     Is this volunteer hoping to further develop a core skill set or looking to try something new? 

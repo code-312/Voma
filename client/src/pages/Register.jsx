@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import BasicInfoForm from '../components/RegisterVolunteer/BasicInfoForm';
 import Availability from '../components/RegisterVolunteer/Availability';
 import SkillsForm from '../components/RegisterVolunteer/SkillsForm';
+import BackgroundForm from '../components/RegisterVolunteer/BackgroundForm';
 import CodeOfConduct from '../components/RegisterVolunteer/CodeOfConduct';
 import ThankYouMessage from '../components/RegisterVolunteer/ThankYouMessage';
 import ApiError from '../components/ApiError';
@@ -31,13 +32,18 @@ export default function Register() {
       ...volunteerCopy,
       ...newInfo
     });
-    console.log(volunteerCopy);
   }
 
   const saveVolunteer = () => {
     Volunteer.updateInfo({
       ...volunteerCopy
     });
+  }
+
+  const updateVolunteerArray = (name, value) => {
+    const copyCopy = {...volunteerCopy};
+    copyCopy[name] = value;
+    setVolunteerCopy(copyCopy);
   }
 
   const goBack = () => {
@@ -61,14 +67,22 @@ export default function Register() {
                                                 email={volunteerCopy.email}
                                                 pronouns={volunteerCopy.pronouns}
                                                 local={volunteerCopy.local}
+                                                jobTitle={volunteerCopy.jobTitle}
+                                                employer={volunteerCopy.employer}
+                                                student={volunteerCopy.student}
                                               />}
         {Volunteer?.registrationStep === 2 && <Availability 
-                                                timeslots={volunteerCopy.timeslots} 
+                                                timeslots={volunteerCopy.timeslots || []} 
                                                 updateInfo={updateInfo} 
                                                 />}
-        {Volunteer?.registrationStep === 3 && <SkillsForm />}
-        {Volunteer?.registrationStep === 4 && <CodeOfConduct />}
-        {Volunteer?.registrationStep === 5 && <ThankYouMessage />}
+        {Volunteer?.registrationStep === 3 && <SkillsForm leadershipRole={volunteerCopy.leadershipRole}/>}
+        {Volunteer?.registrationStep === 4 && <BackgroundForm 
+                                                volunteer={volunteerCopy}
+                                                updateInfo={updateInfo}
+                                                updateVolunteerArray={updateVolunteerArray}
+                                              />}
+        {Volunteer?.registrationStep === 5 && <CodeOfConduct />}
+        {Volunteer?.registrationStep === 6 && <ThankYouMessage />}
       <RegFormFooter step={Volunteer.registrationStep} goBack={goBack} goForward={goForward} canProceed />
     </Card>
   </>);

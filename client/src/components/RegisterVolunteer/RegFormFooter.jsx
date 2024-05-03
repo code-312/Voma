@@ -18,7 +18,7 @@ const RegFormFooter = ({ step, goBack, goForward, canProceed }) => (
             <Button 
                 variant='outline blue'
                 onClick={goForward}
-                disabled={step === 4 || !canProceed}
+                disabled={step === 6 || !canProceed}
                 icon={ArrowRight}
             >
                 Next
@@ -27,7 +27,7 @@ const RegFormFooter = ({ step, goBack, goForward, canProceed }) => (
         <div>
             <StickyNote />
             <Label3>
-                Page {step} of 5
+                Page {step} of 6
             </Label3>
         </div>
     </StyledRegFormFooter>
