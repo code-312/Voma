@@ -1,11 +1,14 @@
+/* eslint-disable eqeqeq */
 import React, { useState, useContext, useEffect } from 'react';
 import { Box, Grid, Button, Radio, RadioGroup, Typography, FormControlLabel } from '@mui/material';
 import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
 import { VolunteerContext } from '../../lib/VolunteerProvider';
 import { fetchSkills } from '../../lib/Requests';
+import { Label3 } from '../../styles/components/Typography';
+import StackedInput from '../StackedInputs';
 
 
-export default function Skills({ leadershipRole }) {
+export default function Skills({ volunteer, updateVolunteerArray, updateInfo }) {
   // Todo: include leadershipRole here, with the same set of skills. Also refactor to styled components
   const Volunteer = useContext(VolunteerContext);
 
@@ -16,16 +19,27 @@ export default function Skills({ leadershipRole }) {
   useEffect(() => {
     async function getSkills() {
       let skills = await fetchSkills();
-      let skillNames = skills.map((skillType) => skillType.name)
-      setSkillList(skillNames)
+
+      setSkillList(skills);
     }
     getSkills()
   }, [])
 
-  const handleSkillChoice = (e) => { 
-    setSkill(e.target.value); 
-    setUnfinished(false);
-  };
+  const arrayListener = (e) => {
+    const { name, value, checked} = e.currentTarget;
+    const copy = {...volunteer};
+    let arrCopy = [...copy[name]];
+    console.log(arrCopy);
+    if (checked) {
+        arrCopy = [...arrCopy, value];
+    } else {
+        arrCopy.splice(arrCopy.indexOf(value), 1);
+
+    }
+    
+    updateVolunteerArray(name, arrCopy);
+}
+
 
   const updateVolunteer = () => {
     if (skill) {
@@ -42,68 +56,37 @@ export default function Skills({ leadershipRole }) {
         index === 0 ? word.toLowerCase() : word.toUpperCase(),
       )
       .replace(/\s+/g, '');
-
-  return (<>
-    <Grid container justifyContent="flex-end" >
-      <Grid item sm={9} xs={11}>
-        <Typography variant="h4" component="h1" mb="16px">Skills</Typography>
-      </Grid>
-    </Grid>
-    <Grid container justifyContent="center" mb="16px">
-      <Grid item sm={6} xs={10}>
-        <Typography >
-          Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
-          an expert in this skill.
-        </Typography>
-      </Grid>
-    </Grid>
-    <Grid container justifyContent="flex-end">
-      <Grid item sm={9} xs={11}>
-        <Box mb="32px">
-          <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
-          <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
-        </Box>
-      </Grid>
-      <Grid item sm={9} xs={11} mb="24px">
-        <Typography variant="h5">Choose only one</Typography>
-
-        <RadioGroup
-          defaultValue="female"
-          name="radio-buttons-group">
-          {skillList.map((skillOption) => (
-            <FormControlLabel
-              key={skillOption}
-              type="radio"
-              name="skill"
-              id={toCamelCase(skillOption)}
-              value={skillOption}
-              onChange={(e) => handleSkillChoice(e)}
-              checked={skillOption === skill}
-              label={skillOption}
-              control={<Radio />}
-            />
+  
+      return (
+        <div>
+          <h1>Skills</h1>
+          <p>Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
+          an expert in this skill.</p>
+          <Label3>What role(s) do you want to participate as?</Label3>
+          {skillList.map((skillOpt) => (
+            <StackedInput 
+              key={`${skillOpt.name}`}
+              labelText={skillOpt.name}
+              value={skillOpt.name}
+              name="skills"
+              checked={volunteer.skills.indexOf(skillOpt.name) != -1}
+              onChange={arrayListener}
+              type="checkbox"
+            /> 
           ))}
-        </RadioGroup>
-      </Grid>
 
-      <Grid item sm={9} xs={11}>
-        <Typography variant="button">
-          <Button 
-            sx={{ marginRight: '16px' }}
-            onClick={() => Volunteer.setRegistrationStep(2)} 
-            size="medium"
-            variant="contained">
-            Back
-          </Button>
-          <Button 
-            onClick={() => updateVolunteer()} 
-            size="medium"
-            variant="contained" 
-            disabled={unfinished}>
-            Next
-          </Button>
-        </Typography>
-      </Grid>
-    </Grid>
-  </>);
+          <p>If you are interested in a leadership role on a project, select any of the roles that may apply:</p>
+          {skillList.map((skillOpt) => (
+            <StackedInput 
+              key={`${skillOpt.name}`}
+              labelText={skillOpt.name}
+              value={skillOpt.name}
+              name="leadershipRole"
+              checked={volunteer.leadershipRole.indexOf(skillOpt.name) != -1}
+              onChange={arrayListener}
+              type="checkbox"
+            /> 
+          ))}
+        </div>      
+      )
 }

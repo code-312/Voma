@@ -1,22 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, Grid, TextField, Typography, Button, FormControl } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
 import { StyledInput } from '../../styles/components/Input.style';
 import StackedInput from '../StackedInputs';
 import { Label3 } from '../../styles/components/Typography';
 
 import { VolunteerContext } from '../../lib/VolunteerProvider';
-
-const useStyles = makeStyles({
-  ContentArea: {
-    '& .MuiOutlinedInput-input': {
-      width: '328px',
-    },
-
-  }
-
-});
 
 export default function BasicInfoForm({ 
   name, 
@@ -44,7 +31,6 @@ export default function BasicInfoForm({
   });
 
 
-  const classes = useStyles();
   const completed = () => {
     const fields = Object.keys(basicInfo);
     for (let i=0; i<fields.length; i+=1) {
@@ -66,9 +52,6 @@ export default function BasicInfoForm({
       local: e.target.value == 'true'
     });
   }
-
-
-
 
   const updateVolunteer = () => {
     let invalid = {};
@@ -115,7 +98,7 @@ export default function BasicInfoForm({
       <Label3>Email Address</Label3>
       <StyledInput 
         id="emailAddress"
-        name="emailAddress"
+        name="email"
         onChange={handleChange}
         placeholder="email@domain.com"
         defaultValue={email}

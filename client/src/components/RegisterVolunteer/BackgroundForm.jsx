@@ -27,9 +27,6 @@ const BackgroundForm = ({
     const arrayListener = (e) => {
         const { name, value, checked} = e.currentTarget;
         const copy = {...volunteer};
-        console.log(copy);
-        console.log(name);
-        console.log(copy[name]);
         let arrCopy = [...copy[name]];
         if (checked) {
             arrCopy = [...arrCopy, value];

@@ -88,7 +88,7 @@ const addVolunteer = async (req, res) => {
         local, 
         goal,
         experience,
-        leadershipRole,
+        leadershipRole = "[]",
         backendTech,
         frontendTech,
         webtools,
@@ -98,6 +98,8 @@ const addVolunteer = async (req, res) => {
         student,
     } = req.body;
 
+
+
     const volunteerRec = await Volunteer.create({
         name,
         email,
@@ -106,11 +108,11 @@ const addVolunteer = async (req, res) => {
         local, 
         goal,
         experience,
-        leadershipRole: JSON.parse(leadershipRole),
-        backendTech: JSON.parse(backendTech),
-        frontendTech: JSON.parse(frontendTech),
-        webtools: JSON.parse(webtools),
-        webPlatforms: JSON.parse(webPlatforms),
+        leadershipRole: leadershipRole,
+        backendTech: backendTech,
+        frontendTech: frontendTech,
+        webtools: webtools,
+        webPlatforms: webPlatforms,
         employer,
         jobTitle,
         student,
@@ -158,7 +160,7 @@ const addVolunteer = async (req, res) => {
         });
     }
 
-    const timeslotArray = JSON.parse(timeslots);
+    const timeslotArray = timeslots;
     if (volunteerRec && timeslotArray.length > 0) {
        addTimeslots(timeslotArray, null, volunteerRec.id);
     } else {

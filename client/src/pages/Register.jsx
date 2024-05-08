@@ -43,6 +43,7 @@ export default function Register() {
   const updateVolunteerArray = (name, value) => {
     const copyCopy = {...volunteerCopy};
     copyCopy[name] = value;
+    console.log(copyCopy[name]);
     setVolunteerCopy(copyCopy);
   }
 
@@ -75,7 +76,11 @@ export default function Register() {
                                                 timeslots={volunteerCopy.timeslots || []} 
                                                 updateInfo={updateInfo} 
                                                 />}
-        {Volunteer?.registrationStep === 3 && <SkillsForm leadershipRole={volunteerCopy.leadershipRole}/>}
+        {Volunteer?.registrationStep === 3 && <SkillsForm 
+                                                volunteer={volunteerCopy} 
+                                                updateInfo={updateInfo}
+                                                updateVolunteerArray={updateVolunteerArray}
+                                              />}
         {Volunteer?.registrationStep === 4 && <BackgroundForm 
                                                 volunteer={volunteerCopy}
                                                 updateInfo={updateInfo}
