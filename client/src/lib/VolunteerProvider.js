@@ -173,7 +173,7 @@ function VolunteerProvider({ children }) {
     })
     .then(response => {
       if (response.success) {
-        setRegistrationStep(4);
+        setRegistrationStep(6);
       } else {
         console.log(response);
         setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');

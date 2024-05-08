@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Timeslot from '../ProjectPage/Timeslot';
-import { VolunteerContext } from '../../lib/VolunteerProvider';
+import RequiredLabel from '../RequiredLabel';
 import { addNewItem, deleteItem } from '../../lib/util';
 
 const Availability = ({ timeslots, updateInfo }) => {
-    const Volunteer = useContext(VolunteerContext);
-    // const [slotCopy, setSlotCopy] = useState(Volunteer.timeslots || []);
-
-
     const timeslotListener = (newSlot) => {
       const index = timeslots.findIndex(slot => slot.id === newSlot.id);
       if (index !== -1) {
@@ -39,6 +35,7 @@ const Availability = ({ timeslots, updateInfo }) => {
         <div>
             <h1>Availability</h1>
             <p>Select when you will be most available for meetings and collaboration sessions.</p>
+            <RequiredLabel />
             <Timeslot
                 onChange={timeslotListener}
                 isEditing

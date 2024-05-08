@@ -7,6 +7,9 @@ import { VolunteerContext } from '../../lib/VolunteerProvider';
 
 const RegFormFooter = ({ step, goBack, goForward, canProceed }) => {
     const Volunteer = useContext(VolunteerContext);
+    if (step === 6) {
+        return null;
+    }
     return (
     <StyledRegFormFooter>
         <div>
@@ -22,7 +25,7 @@ const RegFormFooter = ({ step, goBack, goForward, canProceed }) => {
                 <Button
                     variant='outline blue'
                     onClick={goForward}
-                    disabled={step === 6 || !canProceed}
+                    disabled={!canProceed}
                     icon={ArrowRight}
                 >
                     Next

@@ -47,3 +47,13 @@ export const StyledRegFormFooter = styled.div`
       }
     }
 `;
+
+export const CocContainer = styled.div`
+    height: 400px;
+    background-color: #fff;
+    overflow-y: scroll;
+    margin-bottom: 16px;
+    p {
+      margin: 8px;
+    }
+`;

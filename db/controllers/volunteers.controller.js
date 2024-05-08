@@ -127,37 +127,24 @@ const addVolunteer = async (req, res) => {
     });
 
     if (skills) { 
-        const [skillRec] = await Skill.findOrCreate({
-            where: { name: skills },
-            defaults: {
-                name: skills,
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add skill to database.',
-                error: err
-            });
-        });
 
-
-        await VolunteerSkills.findOrCreate({
-            where: { skillId: skillRec.id, volunteerId: volunteerRec.id },
-            defaults: {
-                volunteerId: volunteerRec.id,
-                skillId: skillRec.id,
+        await Promise.all(skills.map((skill) => {
+            VolunteerSkills.findOrCreate({
+                where: { skillId: skill.id, volunteerId: volunteerRec.id },
+                defaults: {
+                    volunteerId: volunteerRec.id,
+                    skillId: skill.id,
+                }
             }
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add associate skill to volunteer in database.',
-                error: err
+            )}))
+            .catch(err => {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    message: 'Unable to add associate skill to volunteer in database.',
+                    error: err
+                });
             });
-        });
     }
 
     const timeslotArray = timeslots;
