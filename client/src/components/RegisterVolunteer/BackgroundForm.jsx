@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProjectInfoField from '../ProjectPage/ProjectInfoField';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
 import { Label3 } from '../../styles/components/Typography';
+import { allValid, allArraysPopulated } from '../../lib/util';
 
 const BackgroundForm = ({
     volunteer,
     updateInfo,
-    updateVolunteerArray
+    updateVolunteerArray,
+    setCanProceed
 }) => {
+    useEffect(() => {
+        setCanProceed(allValid([volunteer.goal]) && allArraysPopulated([
+            volunteer.frontendTech,
+            volunteer.backendTech,
+            volunteer.webtools,
+            volunteer.webPlatforms])
+        )
+    }, [volunteer, setCanProceed])
+
     const handleChange = (e) => {
         updateInfo({[e.target.name]: e.target.value});
     };

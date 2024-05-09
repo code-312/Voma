@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Label3, BodyText2 } from '../../styles/components/Typography';
 import { CocContainer } from '../../styles/pages/RegisterPage.style';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
 
-export default function CodeOfConduct() {
+export default function CodeOfConduct({ setCanSubmit }) {
   const [accepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    setCanSubmit(accepted);
+  }, [accepted, setCanSubmit]);
 
   return (
     <div>

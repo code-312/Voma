@@ -19,8 +19,9 @@ export default function Register() {
   useTitle('Voma | Register');
   const Volunteer = useContext(VolunteerContext);
   const [volunteerCopy, setVolunteerCopy] = useState({});
-  const [canProceed, setCanProceed] = useState(true); // todo: create section-based validity 
-
+  const [canProceed, setCanProceed] = useState(false); 
+  const [canSubmit, setCanSubmit] = useState(false);
+  
   useEffect(() => {
     if (Volunteer) {
       setVolunteerCopy(Volunteer);
@@ -43,7 +44,6 @@ export default function Register() {
   const updateVolunteerArray = (name, value) => {
     const copyCopy = {...volunteerCopy};
     copyCopy[name] = value;
-    console.log(copyCopy[name]);
     setVolunteerCopy(copyCopy);
   }
 
@@ -71,24 +71,34 @@ export default function Register() {
                                                 jobTitle={volunteerCopy.jobTitle}
                                                 employer={volunteerCopy.employer}
                                                 student={volunteerCopy.student}
+                                                setCanProceed={setCanProceed}
                                               />}
         {Volunteer?.registrationStep === 2 && <Availability 
                                                 timeslots={volunteerCopy.timeslots || []} 
                                                 updateInfo={updateInfo} 
+                                                setCanProceed={setCanProceed}
                                                 />}
         {Volunteer?.registrationStep === 3 && <SkillsForm 
                                                 volunteer={volunteerCopy} 
                                                 updateInfo={updateInfo}
                                                 updateVolunteerArray={updateVolunteerArray}
+                                                setCanProceed={setCanProceed}
                                               />}
         {Volunteer?.registrationStep === 4 && <BackgroundForm 
                                                 volunteer={volunteerCopy}
                                                 updateInfo={updateInfo}
                                                 updateVolunteerArray={updateVolunteerArray}
+                                                setCanProceed={setCanProceed}
                                               />}
-        {Volunteer?.registrationStep === 5 && <CodeOfConduct />}
+        {Volunteer?.registrationStep === 5 && <CodeOfConduct setCanSubmit={setCanSubmit} />}
         {Volunteer?.registrationStep === 6 && <ThankYouMessage />}
-      <RegFormFooter step={Volunteer.registrationStep} goBack={goBack} goForward={goForward} canProceed />
+      <RegFormFooter 
+        step={Volunteer.registrationStep} 
+        goBack={goBack} 
+        goForward={goForward} 
+        canProceed={canProceed} 
+        canSubmit={canSubmit}
+      />
     </Card>
   </>);
 }

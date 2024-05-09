@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Timeslot from '../ProjectPage/Timeslot';
 import RequiredLabel from '../RequiredLabel';
 import { addNewItem, deleteItem } from '../../lib/util';
 
-const Availability = ({ timeslots, updateInfo }) => {
+const Availability = ({ timeslots, updateInfo, setCanProceed }) => {
+    useEffect(() => {
+        setCanProceed(timeslots.length > 0);
+    }, [timeslots, setCanProceed]);
+
+    
     const timeslotListener = (newSlot) => {
       const index = timeslots.findIndex(slot => slot.id === newSlot.id);
       if (index !== -1) {

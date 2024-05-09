@@ -14,3 +14,7 @@ export const addNewItem = (array, defaultValues) => {
 
   return copy;
 }
+
+export const allValid = (fields) => fields.every(field => !!field);
+export const allArraysPopulated = (arrs) => arrs.every(arr => arr && arr.length > 0); 
+

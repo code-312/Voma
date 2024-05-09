@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyledInput } from '../../styles/components/Input.style';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
 import { Label3 } from '../../styles/components/Typography';
-
-import { VolunteerContext } from '../../lib/VolunteerProvider';
+import { allValid } from '../../lib/util';
 
 export default function BasicInfoForm({ 
   name, 
@@ -14,19 +13,29 @@ export default function BasicInfoForm({
   jobTitle,
   employer,
   student,
-  updateInfo 
+  updateInfo,
+  setCanProceed
 }) {
-  const Volunteer = useContext(VolunteerContext);
-  const [basicInfo, setBasicInfo] = useState({});
 
   useEffect(() => {
-    setBasicInfo({
-      name, email, pronouns, local
-    })
-  }, [name, email, pronouns, local]);
-
+   setCanProceed(allValid([
+    name, 
+    email, 
+    pronouns, 
+    jobTitle,
+    employer,
+    student
+   ])); 
+  }, [name, 
+    email, 
+    pronouns, 
+    jobTitle,
+    employer,
+    student, setCanProceed]
+  );
   const handleChange = (e) => {
     updateInfo({[e.target.name]: e.target.value});
+
   };
  
   const updateLocal = (e) => {

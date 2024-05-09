@@ -5,7 +5,9 @@ import { Label3 } from '../../styles/components/Typography';
 import Button from '../Button';
 import { VolunteerContext } from '../../lib/VolunteerProvider';
 
-const RegFormFooter = ({ step, goBack, goForward, canProceed }) => {
+const RegFormFooter = ({ step, goBack, goForward, canProceed, canSubmit }) => {
+    // todo: implement canProceed logic
+    // todo: abstract array listener logic 
     const Volunteer = useContext(VolunteerContext);
     if (step === 6) {
         return null;
@@ -34,6 +36,7 @@ const RegFormFooter = ({ step, goBack, goForward, canProceed }) => {
                 <Button
                     variant="solid blue"
                     onClick={Volunteer.registerVolunteer}
+                    disabled={!canSubmit}
                 >
                     Submit
                 </Button>

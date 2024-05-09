@@ -4,9 +4,10 @@ import { fetchSkills } from '../../lib/Requests';
 import { Label3 } from '../../styles/components/Typography';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
+import { allArraysPopulated } from '../../lib/util';
 
 
-export default function Skills({ volunteer, updateVolunteerArray }) {
+export default function Skills({ volunteer, updateVolunteerArray, setCanProceed }) {
   const [skillList, setSkillList] = useState([])
 
   useEffect(() => {
@@ -16,7 +17,11 @@ export default function Skills({ volunteer, updateVolunteerArray }) {
       setSkillList(skills);
     }
     getSkills()
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    setCanProceed(allArraysPopulated([ volunteer.skills, volunteer.leadershipRole]));
+  }, [ volunteer.skills, volunteer.leadershipRole, setCanProceed]);
 
   const skillListener = (e) => {
     const { value, checked} = e.currentTarget;
@@ -79,6 +84,14 @@ export default function Skills({ volunteer, updateVolunteerArray }) {
           type="checkbox"
         /> 
       ))}
+      <StackedInput
+        labelText="N/A"
+        value="N/A"
+        name="leadershipRole"
+        checked={volunteer.leadershipRole.indexOf('N/A') != -1}
+        onChange={leaderShipListener}
+        type="checkbox"
+      />
     </div>      
   )
 }
