@@ -16,5 +16,20 @@ export const addNewItem = (array, defaultValues) => {
 }
 
 export const allValid = (fields) => fields.every(field => !!field);
+
 export const allArraysPopulated = (arrs) => arrs.every(arr => arr && arr.length > 0); 
 
+export const checkBoxListener = (e, volunteer, updateFn) => {
+    const { name, value, checked} = e.currentTarget;
+    const copy = {...volunteer};
+    let arrCopy = [...copy[name]];
+    
+    if (checked) {
+        arrCopy = [...arrCopy, value];
+    } else {
+        arrCopy.splice(arrCopy.indexOf(value), 1);
+
+    }
+    
+    updateFn(name, arrCopy);
+}

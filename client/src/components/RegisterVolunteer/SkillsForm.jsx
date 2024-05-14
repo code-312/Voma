@@ -4,8 +4,8 @@ import { fetchSkills } from '../../lib/Requests';
 import { Label3 } from '../../styles/components/Typography';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
-import { allArraysPopulated } from '../../lib/util';
-
+import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
+import { allArraysPopulated, checkBoxListener } from '../../lib/util';
 
 export default function Skills({ volunteer, updateVolunteerArray, setCanProceed }) {
   const [skillList, setSkillList] = useState([])
@@ -40,28 +40,19 @@ export default function Skills({ volunteer, updateVolunteerArray, setCanProceed 
   }
 
   const leaderShipListener = (e) => {
-    const { value, checked} = e.currentTarget;
-    const copy = {...volunteer};
-    let arrCopy = copy.leadershipRole;
-
-    if (checked) {
-        arrCopy = [...arrCopy, value];
-    } else {
-        arrCopy.splice(arrCopy.indexOf(value), 1);
-
-    }
-    
-    updateVolunteerArray('leadershipRole', arrCopy);
-}
+    checkBoxListener(e, volunteer, updateVolunteerArray);
+  }
+  
   return (
     <div>
       <h1>Skills</h1>
       <p>Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
       an expert in this skill.</p>
       <RequiredLabel />
-      <Label3>What role(s) do you want to participate as?</Label3>
-      {skillList.map((skillOpt) => (
-        <StackedInput 
+      <ProfileInfoContainer>
+        <Label3>What role(s) do you want to participate as?</Label3>
+        {skillList.map((skillOpt) => (
+          <StackedInput 
           key={`${skillOpt.name}`}
           labelText={skillOpt.name}
           value={skillOpt.id}
@@ -69,10 +60,13 @@ export default function Skills({ volunteer, updateVolunteerArray, setCanProceed 
           checked={volunteer.skills.some(s => s.id == skillOpt.id)}
           onChange={skillListener}
           type="checkbox"
-        /> 
-      ))}
+          /> 
+        ))}
+      </ProfileInfoContainer>
+      
+      <ProfileInfoContainer>
 
-      <p>If you are interested in a leadership role on a project, select any of the roles that may apply:</p>
+      <Label3>If you are interested in a leadership role on a project, select any of the roles that may apply:</Label3>
       {skillList.map((skillOpt) => (
         <StackedInput 
           key={`${skillOpt.name}`}
@@ -91,7 +85,8 @@ export default function Skills({ volunteer, updateVolunteerArray, setCanProceed 
         checked={volunteer.leadershipRole.indexOf('N/A') != -1}
         onChange={leaderShipListener}
         type="checkbox"
-      />
+        />
+      </ProfileInfoContainer>
     </div>      
   )
 }

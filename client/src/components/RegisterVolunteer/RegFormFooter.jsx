@@ -6,7 +6,6 @@ import Button from '../Button';
 import { VolunteerContext } from '../../lib/VolunteerProvider';
 
 const RegFormFooter = ({ step, goBack, goForward, canProceed, canSubmit }) => {
-    // todo: implement canProceed logic
     // todo: abstract array listener logic 
     const Volunteer = useContext(VolunteerContext);
     if (step === 6) {

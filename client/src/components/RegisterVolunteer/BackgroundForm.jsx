@@ -3,7 +3,8 @@ import ProjectInfoField from '../ProjectPage/ProjectInfoField';
 import StackedInput from '../StackedInputs';
 import RequiredLabel from '../RequiredLabel';
 import { Label3 } from '../../styles/components/Typography';
-import { allValid, allArraysPopulated } from '../../lib/util';
+import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
+import { allValid, allArraysPopulated, checkBoxListener } from '../../lib/util';
 
 const BackgroundForm = ({
     volunteer,
@@ -37,17 +38,7 @@ const BackgroundForm = ({
     }
 
     const arrayListener = (e) => {
-        const { name, value, checked} = e.currentTarget;
-        const copy = {...volunteer};
-        let arrCopy = [...copy[name]];
-        if (checked) {
-            arrCopy = [...arrCopy, value];
-        } else {
-            arrCopy.splice(arrCopy.indexOf(value), 1);
-
-        }
-        
-        updateVolunteerArray(name, arrCopy);
+        checkBoxListener(e, volunteer, updateVolunteerArray);
     }
 
     const backendTechOptions = [{
@@ -143,39 +134,44 @@ const BackgroundForm = ({
         <div>
             <h3>Background</h3>
             <RequiredLabel />
-            <Label3>Are you hoping to further develop a core skill set or looking to try something new?</Label3>
-            <StackedInput 
-                labelText="Yes, one of the reasons is to strengthen my skillset."
-                value="Yes, one of the reasons is to strengthen my skillset."
-                name="goal"
-                checked={volunteer.goal === "Yes, one of the reasons is to strengthen my skillset."}
-                onChange={handleChange}
-                type="radio"
-            />
-            <StackedInput 
-                labelText="Yes, one of the reasons is I want to try something new."
-                value="Yes, one of the reasons is I want to try something new."
-                name="goal"
-                checked={volunteer.goal === "Yes, one of the reasons is I want to try something new."}
-                onChange={handleChange}
-                type="radio"
-            />
-            <StackedInput 
-                labelText="Both"
-                value="Both"
-                name="goal"
-                checked={volunteer.goal === "Both"}
-                onChange={handleChange}
-                type="radio"
-            />
-            <StackedInput 
-                labelText="Neither"
-                value="Neither"
-                name="goal"
-                checked={volunteer.goal === "Neither"}
-                onChange={handleChange}
-                type="radio"
-            />
+            <ProfileInfoContainer>
+
+                <Label3>Are you hoping to further develop a core skill set or looking to try something new?</Label3>
+                <StackedInput 
+                    labelText="Yes, one of the reasons is to strengthen my skillset."
+                    value="Yes, one of the reasons is to strengthen my skillset."
+                    name="goal"
+                    checked={volunteer.goal === "Yes, one of the reasons is to strengthen my skillset."}
+                    onChange={handleChange}
+                    type="radio"
+                    />
+                <StackedInput 
+                    labelText="Yes, one of the reasons is I want to try something new."
+                    value="Yes, one of the reasons is I want to try something new."
+                    name="goal"
+                    checked={volunteer.goal === "Yes, one of the reasons is I want to try something new."}
+                    onChange={handleChange}
+                    type="radio"
+                    />
+                <StackedInput 
+                    labelText="Both"
+                    value="Both"
+                    name="goal"
+                    checked={volunteer.goal === "Both"}
+                    onChange={handleChange}
+                    type="radio"
+                    />
+                <StackedInput 
+                    labelText="Neither"
+                    value="Neither"
+                    name="goal"
+                    checked={volunteer.goal === "Neither"}
+                    onChange={handleChange}
+                    type="radio"
+                    />
+            </ProfileInfoContainer>
+            <ProfileInfoContainer>
+
             <Label3>
                 Do you have at least more than 1 year of experience in a role in the tech industry?
             </Label3>
@@ -186,7 +182,7 @@ const BackgroundForm = ({
                 checked={volunteer.experience}
                 onChange={updateVolRadio}
                 type="radio"
-            />
+                />
             <StackedInput 
                 labelText="No"
                 value={false}
@@ -194,7 +190,8 @@ const BackgroundForm = ({
                 checked={!volunteer.experience}
                 onChange={updateVolRadio}
                 type="radio"
-            />
+                />
+            </ProfileInfoContainer>
             <ProjectInfoField
                 label="Select the back-end technologies and language you feel you are proficient in:"
                 valueText={volunteer.backendTech?.join(', ')}
