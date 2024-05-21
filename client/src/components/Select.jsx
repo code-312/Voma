@@ -8,12 +8,11 @@ const Select = ({ id, options, currentValue, name, onChange }) => {
     }
 
     return (
-            <StyledSelect id={`${name}-${id}`} onChange={changeListener}>
+            <StyledSelect id={`${name}-${id}`} onChange={changeListener} value={currentValue}>
                 {options.map(option => (
                     <option 
                         key={`${name}-${option.value}-${id}`} 
                         value={option.value} 
-                        selected={currentValue == option.value}
                     >
                             {option.text}
                     </option>

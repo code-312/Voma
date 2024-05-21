@@ -1,108 +1,92 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Box, Grid, Button, Radio, RadioGroup, Typography, FormControlLabel } from '@mui/material';
-import { ReactComponent as ErrorIcon } from '../../assets/Error.svg';
-import { VolunteerContext } from '../../lib/VolunteerProvider';
+/* eslint-disable eqeqeq */
+import React, { useState, useEffect } from 'react';
 import { fetchSkills } from '../../lib/Requests';
+import { Label3 } from '../../styles/components/Typography';
+import StackedInput from '../StackedInputs';
+import RequiredLabel from '../RequiredLabel';
+import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.style';
+import { allArraysPopulated, checkBoxListener } from '../../lib/util';
 
-
-export default function Skills() {
-  const Volunteer = useContext(VolunteerContext);
-
-  const [skill, setSkill] = useState('');
+export default function Skills({ volunteer, updateVolunteerArray, setCanProceed }) {
   const [skillList, setSkillList] = useState([])
-  const [unfinished, setUnfinished] = useState(true);
 
   useEffect(() => {
     async function getSkills() {
       let skills = await fetchSkills();
-      let skillNames = skills.map((skillType) => skillType.name)
-      setSkillList(skillNames)
+
+      setSkillList(skills);
     }
     getSkills()
-  }, [])
+  }, []);
 
-  const handleSkillChoice = (e) => { 
-    setSkill(e.target.value); 
-    setUnfinished(false);
-  };
+  useEffect(() => {
+    setCanProceed(allArraysPopulated([ volunteer.skills, volunteer.leadershipRole]));
+  }, [ volunteer.skills, volunteer.leadershipRole, setCanProceed]);
 
-  const updateVolunteer = () => {
-    if (skill) {
-      Volunteer.updateInfo({ skills: skill });
-      Volunteer.setRegistrationStep(3);
+  const skillListener = (e) => {
+    const { value, checked} = e.currentTarget;
+    const copy = {...volunteer};
+    let arrCopy = copy.skills;
+    let newSkill = skillList.find((s) => s.id == value);
+
+    if (checked) {
+        arrCopy = [...arrCopy, newSkill];
     } else {
-      setUnfinished(true);
+        const index = arrCopy.findIndex(s => s.id == value);
+        arrCopy.splice(arrCopy.indexOf(index), 1);
     }
+    
+    updateVolunteerArray('skills', arrCopy);
   }
 
-  const toCamelCase = (str) =>
-    str
-      .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
-        index === 0 ? word.toLowerCase() : word.toUpperCase(),
-      )
-      .replace(/\s+/g, '');
+  const leaderShipListener = (e) => {
+    checkBoxListener(e, volunteer, updateVolunteerArray);
+  }
+  
+  return (
+    <div>
+      <h1>Skills</h1>
+      <p>Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
+      an expert in this skill.</p>
+      <RequiredLabel />
+      <ProfileInfoContainer>
+        <Label3>What role(s) do you want to participate as?</Label3>
+        {skillList.map((skillOpt) => (
+          <StackedInput 
+          key={`${skillOpt.name}`}
+          labelText={skillOpt.name}
+          value={skillOpt.id}
+          name="skills"
+          checked={volunteer.skills.some(s => s.id == skillOpt.id)}
+          onChange={skillListener}
+          type="checkbox"
+          /> 
+        ))}
+      </ProfileInfoContainer>
+      
+      <ProfileInfoContainer>
 
-  return (<>
-    <Grid container justifyContent="flex-end" >
-      <Grid item sm={9} xs={11}>
-        <Typography variant="h4" component="h1" mb="16px">Skills</Typography>
-      </Grid>
-    </Grid>
-    <Grid container justifyContent="center" mb="16px">
-      <Grid item sm={6} xs={10}>
-        <Typography >
-          Select the skill you will practice the most at Code for Chicago. You don&apos;t have to be
-          an expert in this skill.
-        </Typography>
-      </Grid>
-    </Grid>
-    <Grid container justifyContent="flex-end">
-      <Grid item sm={9} xs={11}>
-        <Box mb="32px">
-          <ErrorIcon variant="filled" sx={{ display: 'inline-block' }} /> 
-          <Typography component="div" color="#B00020" sx={{ display: 'inline-block', marginLeft: '10px', verticalAlign: 'top'}}>All fields are required</Typography>
-        </Box>
-      </Grid>
-      <Grid item sm={9} xs={11} mb="24px">
-        <Typography variant="h5">Choose only one</Typography>
-
-        <RadioGroup
-          defaultValue="female"
-          name="radio-buttons-group">
-          {skillList.map((skillOption) => (
-            <FormControlLabel
-              key={skillOption}
-              type="radio"
-              name="skill"
-              id={toCamelCase(skillOption)}
-              value={skillOption}
-              onChange={(e) => handleSkillChoice(e)}
-              checked={skillOption === skill}
-              label={skillOption}
-              control={<Radio />}
-            />
-          ))}
-        </RadioGroup>
-      </Grid>
-
-      <Grid item sm={9} xs={11}>
-        <Typography variant="button">
-          <Button 
-            sx={{ marginRight: '16px' }}
-            onClick={() => Volunteer.setRegistrationStep(2)} 
-            size="medium"
-            variant="contained">
-            Back
-          </Button>
-          <Button 
-            onClick={() => updateVolunteer()} 
-            size="medium"
-            variant="contained" 
-            disabled={unfinished}>
-            Next
-          </Button>
-        </Typography>
-      </Grid>
-    </Grid>
-  </>);
+      <Label3>If you are interested in a leadership role on a project, select any of the roles that may apply:</Label3>
+      {skillList.map((skillOpt) => (
+        <StackedInput 
+          key={`${skillOpt.name}`}
+          labelText={skillOpt.name}
+          value={skillOpt.name}
+          name="leadershipRole"
+          checked={volunteer.leadershipRole.indexOf(skillOpt.name) != -1}
+          onChange={leaderShipListener}
+          type="checkbox"
+        /> 
+      ))}
+      <StackedInput
+        labelText="N/A"
+        value="N/A"
+        name="leadershipRole"
+        checked={volunteer.leadershipRole.indexOf('N/A') != -1}
+        onChange={leaderShipListener}
+        type="checkbox"
+        />
+      </ProfileInfoContainer>
+    </div>      
+  )
 }

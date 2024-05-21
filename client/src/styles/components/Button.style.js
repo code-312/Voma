@@ -12,6 +12,10 @@ export const ButtonStyle = styled.button`
     :not(:disabled):hover {
       filter: brightness(0.9);
     }
+    &:disabled {
+      color: #fff;
+      background-color: grey;
+    }
   `}
 
   ${({ variant }) =>
@@ -56,6 +60,7 @@ export const ButtonStyle = styled.button`
     `
     color: var(--uiBlue);
     border: 2px solid var(--uiBlue);
+
     :not(:disabled):hover {
       background-color: var(--uiBlue);
       color: var(--white);

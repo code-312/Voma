@@ -11,8 +11,20 @@ function VolunteerProvider({ children }) {
       isAuthenticated: false,
       notRegistered: false,
       email: '',
-      skills: '',
+      skills: [],
       pronouns: '',
+      timeslots: [],
+      jobTitle: '',
+      local: true,
+      employer: '',
+      student: '',
+      goal: '',
+      experience: '',
+      leadershipRole: [],
+      backendTech: [],
+      frontendTech: [],
+      webtools: [],
+      webPlatforms: []
   };
   let defaultRegistrationStep = -1;
 
@@ -31,6 +43,7 @@ function VolunteerProvider({ children }) {
   function updateInfo(info) {
     let p = {};
     p = Object.assign(profile, info);
+    console.log(p);
     setProfile(p);
     localStorage.setItem('volunteer', JSON.stringify(p));
   };
@@ -63,7 +76,20 @@ function VolunteerProvider({ children }) {
           email,
           notRegistered: false,
           suid: response.suid,
+          skills: response.skills || [],
           name: response.name,
+          timeslots: response.timeslots || [],
+          local: response.local,
+          jobTitle: response.jobTitle,
+          employer: response.employer,
+          student: response.student,
+          goal: response.goal,
+          experience: response.experience,
+          leadershipRole: response.leadershipRole || [],
+          backendTech: response.backendTech || [],
+          frontendTech: response.frontendTech || [],
+          webtools: response.webtools || [],
+          webPlatforms: response.webPlatforms || []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1);
@@ -73,8 +99,20 @@ function VolunteerProvider({ children }) {
           isAuthenticated: false,
           notRegistered: true,
           email: '',
-          skills: '',
+          skills: [],
           pronouns: '',
+          timeslots: [],
+          local: true,
+          jobTitle: '',
+          employer: '',
+          student: '',
+          goal: '',
+          experience: '',
+          leadershipRole: [],
+          backendTech: [],
+          frontendTech: [],
+          webtools: [],
+          webPlatforms: []
         });
         updateInfo(profileUpdate);
         setRegistrationStep(1)
@@ -108,6 +146,18 @@ function VolunteerProvider({ children }) {
         slackUserId: profile.suid,
         pronouns: profile.pronouns,
         skills: profile.skills,
+        timeslots: profile.timeslots,
+        local: profile.local,
+        jobTitle: profile.jobTitle,
+        employer: profile.employer,
+        student: profile.student,
+        goal: profile.goal,
+        experience: profile.experience,
+        leadershipRole: profile.leadershipRole,
+        backendTech: profile.backendTech,
+        frontendTech: profile.frontendTech,
+        webtools: profile.webtools,
+        webPlatforms: profile.webPlatforms
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +173,7 @@ function VolunteerProvider({ children }) {
     })
     .then(response => {
       if (response.success) {
-        setRegistrationStep(4);
+        setRegistrationStep(6);
       } else {
         console.log(response);
         setRegistrationErrorMessage('Oops, something went wrong. Please reach out on Slack for help registering.');

@@ -30,3 +30,30 @@ export const RegisterPageContainer = styled.div`
         }
     }
 `;
+
+export const StyledRegFormFooter = styled.div`
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      display: flex;
+      button {
+        margin-left: 8px;
+      }
+      label {
+        line-height: 24px
+        margin-left: 8px;
+      }
+    }
+`;
+
+export const CocContainer = styled.div`
+    height: 400px;
+    background-color: #fff;
+    overflow-y: scroll;
+    margin-bottom: 16px;
+    p {
+      margin: 8px;
+    }
+`;

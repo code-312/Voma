@@ -8,7 +8,7 @@ import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages
 import Select from '../Select';
 import Button from '../Button';
 
-const Timeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimeslot }) => {
+const Timeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimeslot, showLabel = true }) => {
     const [meetingTimes, setMeetingTimes] = useState([]);
 
     useEffect(() => {
@@ -75,7 +75,7 @@ const Timeslot = ({ onChange, isEditing, timeslots, addNewTimeslot, deleteTimesl
         return (
             <>
                 <ProfileInfoContainer >
-                <Label3>Meeting Days and Times</Label3>
+                {showLabel && <Label3>Meeting Days and Times</Label3>}
                 {timeslots.map(slot => (
                     <ProjectTimeslotRow key={`slot-${slot.id}`}>
                         <ProjectTimeslotContainer>

@@ -19,6 +19,7 @@ import {
   updateActivityBulk,
   deleteActivityBulk
 } from '../../../lib/Requests';
+import { addNewItem, deleteItem } from '../../../lib/util';
 
 const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetails, skills }) => {
   // used to display currently assigned project
@@ -86,23 +87,6 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
       
     } // Todo: Add error handling
   };
-
-  const deleteItem = (id, array) => {
-    const copy = [...array];
-    const index = copy.findIndex((slot) => slot.id === id);
-    copy.splice(index, 1);
-    return copy;
-}
-
-const addNewItem = (array, defaultValues) => {
-  const copy = [...array];
-  // generate temp random id to keep track of updates
-  const valueArray = new Uint32Array(1);
-  window.crypto.getRandomValues(valueArray);
-  copy.push({id: valueArray[0], ...defaultValues });
-
-  return copy;
-}
 
   const timeslotListener = (newSlot) => {
     const newAvailability = volunteerCopy.Timeslots;
