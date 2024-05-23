@@ -21,18 +21,16 @@ PostgreSQL
 ### Planned Integrations
 
 Slack<br />
-Meetup<br />
-Trello
 
 ### Scope of MVP
 
 1. New Member completes onboarding form (modeled after current Google Form)
 2. System generates user profile based on input
-3. Project Leads review new volunteers and set up 1x1s / assign to projects
+3. Project Leads review new volunteers and assigns to projects
 
 ## Repositories
 
-[Front End](https://github.com/Code-For-Chicago/Voma-frontend)<br />
+[Front End](https://github.com/code-312/Voma)<br />
 
 ## How to Contribute Guide
 [How to Contribute to Voma](How-to-Contribute.md)
@@ -48,10 +46,11 @@ You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to get the version 
 
 ## 🚀 (Frontend) Setup
 
-1. Clone the project with `git clone git@github.com:Code-For-Chicago/Voma-frontend.git`
-2. In the `meta-development` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
+1. Clone the project with `git clone https://github.com/code-312/Voma.git`
+2. In the `voma` slack channel, request the .env file. Once you receive it, add it to the top-level directory of the app. 
 3. Install dependencies with `npm i`
-4. Start the Express server with `npm run start`
+4. Start the Express server with `npm run start`<br />
+<b>Note</b>: `npm run start` is the same as typing `NODE_ENV=development node server.js`. If you want to change the NODE_ENV to a different profile, such as local (see Backend Setup below), you can enter `NODE_ENV=local node server.js`. If you are using a PC, you will need to set the NODE_ENV like `$NODE_ENV = "development"` (or whatever), then run `node server.js`. 
 5. Open a new terminal window or tab
 6. Move into the `client` directory with `cd client`
 7. Install those dependencies with `npm i`
@@ -205,7 +204,7 @@ The cli should already be installed when running `npm install`.
 
 ### Usage
 
-To run a command, change directory to db/, and type:
+To run a command, change directory to db/ (`cd db` from the root), and type:
 
 `npx sequelize-cli <command>`
 
@@ -215,11 +214,11 @@ To see a list of available commands:
 
 To run all pending migrations:
 
-`npx sequelize-cli db:migrate`
+`npx sequelize db:migrate --env development`
 
 To undo migrations:
 
-`npx sequelize-cli db:migrate:undo:all`
+`npx sequelize-cli db:migrate:undo:all --env development`
 
 To create a new empty file for a migration or seed task:
 
