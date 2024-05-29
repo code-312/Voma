@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "DEBUG=express:* NODE_ENV=development.local node server.js",
-    "start": "NODE_ENV=development.local node server.js",
+    "debug": "DEBUG=express:* NODE_ENV=development node server.js",
+    "start": "NODE_ENV=development node server.js",
     "startLocal": "NODE_ENV=local node server.js",
-    "sync": "NODE_ENV=development.local node db/sync.js"
+    "sync": "NODE_ENV=development node db/sync.js"
   },
   "repository": {
     "type": "git",
