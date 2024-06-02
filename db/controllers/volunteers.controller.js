@@ -171,7 +171,7 @@ const editVolunteer = async (req, res) => {
         student,
         jobTitle,
         projectId,
-        skillId, 
+        skills, 
         active, 
         local,
         goal, 
@@ -201,21 +201,27 @@ const editVolunteer = async (req, res) => {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
 
-    if (skillId) {
-        await VolunteerSkills.create({
-            volunteerId: volunteer.id,
-            skillId,
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add associate skill to volunteer in database.',
-                error: err
+    if (skills) { 
+
+        await Promise.all(skills.map((skill) => {
+            VolunteerSkills.findOrCreate({
+                where: { skillId: skill.id, volunteerId: volunteer.id },
+                defaults: {
+                    volunteerId: volunteer.id,
+                    skillId: skill.id,
+                }
+            }
+            )}))
+            .catch(err => {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    message: 'Unable to add associate skill to volunteer in database.',
+                    error: err
+                });
             });
-        });
-    };
-    console.log(`leadership role: ${leadershipRole}`);
+    }
+
     const newVolunteer = { 
         name,
         email,
