@@ -82,7 +82,7 @@ export default function Skills({ volunteer, updateVolunteerArray, setCanProceed 
         labelText="N/A"
         value="N/A"
         name="leadershipRole"
-        checked={volunteer.leadershipRole.indexOf('N/A') != -1}
+        checked={volunteer.leadershipRole?.indexOf('N/A') != -1}
         onChange={leaderShipListener}
         type="checkbox"
         />
