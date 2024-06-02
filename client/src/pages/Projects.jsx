@@ -12,95 +12,95 @@ import { PlusCircleIcon } from 'lucide-react';
 import { ProjectSidebarButtonContainer } from '../styles/pages/ProjectPage.style';
 
 const Projects = () => {
-    const [projects, setProjects] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [projectCards, setProjectCards] = useState([]);
-    const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
-    const [selectedProject, setSelectedProject] = useState({});
-    const [isOpen, setIsOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [projectCards, setProjectCards] = useState([]);
+  const [mainContent, setMainContent] = useState(<p>Select a project to see details</p>);
+  const [selectedProject, setSelectedProject] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
-    useTitle('Voma | Projects');
+  useTitle('Voma | Projects');
 
-    const getProjectDetails = useCallback(async (selectedId) => {
-        setSelectedProject(projects.find((project) => project.id === selectedId) || {});
-    }, [projects]);
+  const getProjectDetails = useCallback(
+    async (selectedId) => {
+      setSelectedProject(projects.find((project) => project.id === selectedId) || {});
+    },
+    [projects],
+  );
 
-    useEffect(() => {
-        const getProjects = async () => {
-            const projs = await fetchProjects();
-            setProjects(projs);
-            let defaultSelected;
-            const params = new URLSearchParams(window.location.search);
-            const selected = params.get("selected");
-            
-            if (selected) {
-                defaultSelected = projs.find(project => project.id == selected);
-            }
-            const displayedProject = defaultSelected || projs[0];
+  useEffect(() => {
+    const getProjects = async () => {
+      const projs = await fetchProjects();
+      setProjects(projs);
+      let defaultSelected;
+      const params = new URLSearchParams(window.location.search);
+      const selected = params.get('selected');
 
-            setSelectedProject(displayedProject);
-        }
+      if (selected) {
+        defaultSelected = projs.find((project) => project.id == selected);
+      }
+      const displayedProject = defaultSelected || projs[0];
 
-        getProjects();
-    }, []);
+      setSelectedProject(displayedProject);
+    };
 
-    useEffect(() => {
-        const getSkills = async () => {
-            const fetchedSkills = await fetchSkills();
-            setSkills(fetchedSkills);
-        }
+    getProjects();
+  }, []);
 
-        getSkills();
-    }, [])
+  useEffect(() => {
+    const getSkills = async () => {
+      const fetchedSkills = await fetchSkills();
+      setSkills(fetchedSkills);
+    };
 
-    useEffect(() => { // Not ideal, this runs every time a project is selected
-        if (projects.length > 0) {
-            const cards = projects.map((project) => (    
-                    <ProjectCard 
-                        key={`project-${project.id}`}
-                        projectName={project.name}
-                        projectId={project.id} 
-                        onClick={getProjectDetails}
-                        selected={selectedProject.id === project.id}
-                    />
-            ));
-            const sidebar = (
-                <ProjectSidebar>
-                    {cards}
-                    <ProjectSidebarButtonContainer>
-                        <Button 
-                            variant="fw outline blue"
-                            onClick={openModal}>
-                                <PlusCircleIcon /> Create a Project
-                        </Button>
-                    </ProjectSidebarButtonContainer>
-                </ProjectSidebar>
-            )
-            setProjectCards(sidebar);
-        }
-    }, [projects, getProjectDetails, selectedProject]);
+    getSkills();
+  }, []);
 
-    useEffect(() => {
-        if (selectedProject) {
-            setMainContent(
-                <ProjectContainer project={selectedProject} skills={skills} />
-            );
-        }
-    }, [selectedProject, skills])
+  useEffect(() => {
+    // Not ideal, this runs every time a project is selected
+    if (projects.length > 0) {
+      const cards = projects.map((project) => (
+        <ProjectCard
+          key={`project-${project.id}`}
+          projectName={project.name}
+          projectId={project.id}
+          onClick={getProjectDetails}
+          selected={selectedProject.id === project.id}
+        />
+      ));
+      const sidebar = (
+        <ProjectSidebar>
+          {cards}
+          <ProjectSidebarButtonContainer>
+            <Button variant="fw outline blue" onClick={openModal}>
+              <PlusCircleIcon /> Create a Project
+            </Button>
+          </ProjectSidebarButtonContainer>
+        </ProjectSidebar>
+      );
+      setProjectCards(sidebar);
+    }
+  }, [projects, getProjectDetails, selectedProject]);
 
-    return (
-        <>
-            <CreateProjectModal isOpen={isOpen} closeFn={closeModal} />
-            <BoardContainer
-                sideBarContent={projectCards}
-                mainContainerContent={mainContent}
-                projectPage={true}
-            />
-        </>
-    );
-}
+  useEffect(() => {
+    if (selectedProject) {
+      setMainContent(<ProjectContainer project={selectedProject} skills={skills} />);
+    }
+  }, [selectedProject, skills]);
+
+  return (
+    <>
+      <CreateProjectModal isOpen={isOpen} closeFn={closeModal} />
+      <BoardContainer
+        sideBarContent={projectCards}
+        mainContainerContent={mainContent}
+        projectPage={true}
+      />
+    </>
+  );
+};
 
 export default Projects;
