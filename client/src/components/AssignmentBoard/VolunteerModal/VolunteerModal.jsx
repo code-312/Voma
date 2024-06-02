@@ -117,8 +117,6 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
   const headerLinkListener = (index) => {
     setFooterVisible(index !== 3);
   };
-    setFooterVisible(index !== 4);
-  }
 
   const updateVolunteerArray = (name, value) => {
     const copyCopy = { ...volunteerCopy };
@@ -192,7 +190,14 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
     </>
   );
 
-  const links = ['Profile', 'Background', 'Availability', 'Skills', 'Assign to a Project', 'Activity'];
+  const links = [
+    'Profile',
+    'Background',
+    'Availability',
+    'Skills',
+    'Assign to a Project',
+    'Activity',
+  ];
   const content = [
     <Profile
       key={`${volunteer.id}-profile`}
@@ -216,19 +221,19 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
       addNewTimeslot={addNewTimeslot}
       deleteTimeslot={deleteTimeslot}
     />,
-    <Skills 
+    <Skills
       key={`${volunteer.id}-skills`}
       isEditing={isEditing}
       updateVolunteerArray={updateVolunteerArray}
       skillList={skills}
       volunteer={volunteerCopy}
     />,
-    <ProjectAssignment 
-        key={`${volunteer.id}-projectAssignment`}
-        volunteer={volunteerCopy} 
-        projects={projects} 
-        assignedProject={project}
-        assignVolunteer={assignVolunteer}
+    <ProjectAssignment
+      key={`${volunteer.id}-projectAssignment`}
+      volunteer={volunteerCopy}
+      projects={projects}
+      assignedProject={project}
+      assignVolunteer={assignVolunteer}
     />,
     <Activity
       key={`${volunteer.id}-activity`}
