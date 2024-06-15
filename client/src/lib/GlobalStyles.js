@@ -10,8 +10,8 @@ export const BaseCSSReset = css`
   }
   body {
     min-height: 100vh;
-    background-color: #D6C7C0;
-    color: #1E1E64;
+    background-color: #d6c7c0;
+    color: #1e1e64;
     margin: 0;
     padding: 0;
     font-size: 1.25rem;
@@ -19,7 +19,10 @@ export const BaseCSSReset = css`
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-weight: bold;
   }
 
@@ -191,7 +194,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px
+    line-height: 24px;
+
+    &:hover {
+      color: var(--managementBlue);
+    }
   }
 `;
 
