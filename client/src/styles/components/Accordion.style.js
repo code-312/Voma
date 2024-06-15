@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const AccordionWrapper = styled.div`
   color: var(--managementBlue);
-  background-color: var(--lightPeach); 
+  background-color: var(--lightPeach);
   margin-bottom: 16px;
   width: 542px;
 `;
@@ -17,6 +17,10 @@ export const AccordionHeader = styled.div`
   border-radius: 4px;
   border-bottom-left-radius: ${({ isOpen }) => (isOpen ? '0' : '4px')};
   border-bottom-right-radius: ${({ isOpen }) => (isOpen ? '0' : '4px')};
+
+  &:hover {
+    background-color: var(--peachShade1);
+  }
 `;
 
 export const AccordionContent = styled.div`
@@ -24,7 +28,7 @@ export const AccordionContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px 24px;
-  border: 1px solid var(--peachShade1); 
+  border: 1px solid var(--peachShade1);
   border-top: none;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
