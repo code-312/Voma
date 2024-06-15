@@ -113,6 +113,7 @@ export const BaseCSSReset = css`
   }
   label {
     font-weight: 500;
+    cursor: pointer;
   }
   select::-ms-expand {
     display: none;
