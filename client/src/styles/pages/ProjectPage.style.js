@@ -85,6 +85,10 @@ export const NewProjectModalFooter = styled.div`
 export const ArchiveLink = styled(Link)`
   color: var(--managementBlue);
   margin-bottom: 8px;
+
+  &:hover {
+    color: var(--uiBlue);
+  }
   svg {
     height: 16px;
   }
