@@ -3,7 +3,7 @@ export const skillLabels = {
     name: 'Content Strategy',
     color: 'blueShadeIII',
     backgroundColor: 'blueShade1',
-  }, 
+  },
   'Data Analytics': {
     name: 'Data Analytics',
     color: 'white',
@@ -19,7 +19,17 @@ export const skillLabels = {
     color: 'white',
     backgroundColor: 'uiBlue'
   },
-  'UX/UI Design/Research / Visual Design' : {
+  'UX Designer' : {
+    name: 'UX/UI',
+    color: 'white',
+    backgroundColor: 'volunteerGreen'
+  },
+  'UI / Visual Designer' : {
+    name: 'UX/UI',
+    color: 'white',
+    backgroundColor: 'volunteerGreen'
+  },
+  'UX Researcher' : {
     name: 'UX/UI',
     color: 'white',
     backgroundColor: 'volunteerGreen'
