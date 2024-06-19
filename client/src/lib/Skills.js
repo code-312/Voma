@@ -7,17 +7,17 @@ export const skillLabels = {
   'Data Analytics': {
     name: 'Data Analytics',
     color: 'white',
-    backgroundColor: 'managementBlue'
+    backgroundColor: 'managementBlue',
   },
   'Front-End or Back-End Development': {
     name: 'Frontend/Backend Dev',
     color: 'white',
-    backgroundColor: 'blueShadeIII'
+    backgroundColor: 'blueShadeIII',
   },
   'Product Management': {
     name: 'Product Management',
     color: 'white',
-    backgroundColor: 'uiBlue'
+    backgroundColor: 'uiBlue',
   },
   'UX Designer' : {
     name: 'UX/UI',
@@ -32,16 +32,16 @@ export const skillLabels = {
   'UX Researcher' : {
     name: 'UX/UI',
     color: 'white',
-    backgroundColor: 'volunteerGreen'
+    backgroundColor: 'volunteerGreen',
   },
   'Project Management': {
     name: 'Project Management',
     color: 'blueShadeIII',
-    backgroundColor: 'peachShade1'
+    backgroundColor: 'peachShade1',
   },
-  'default': {
+  default: {
     backgroundColor: 'blueShade1',
     color: 'blueShadeIII',
-    name: 'No Skill'
-  }
-}
+    name: 'No Skill',
+  },
+};

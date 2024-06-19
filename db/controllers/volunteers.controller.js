@@ -88,7 +88,7 @@ const addVolunteer = async (req, res) => {
         local, 
         goal,
         experience,
-        leadershipRole,
+        leadershipRole = "[]",
         backendTech,
         frontendTech,
         webtools,
@@ -98,6 +98,8 @@ const addVolunteer = async (req, res) => {
         student,
     } = req.body;
 
+
+
     const volunteerRec = await Volunteer.create({
         name,
         email,
@@ -106,11 +108,11 @@ const addVolunteer = async (req, res) => {
         local, 
         goal,
         experience,
-        leadershipRole: JSON.parse(leadershipRole),
-        backendTech: JSON.parse(backendTech),
-        frontendTech: JSON.parse(frontendTech),
-        webtools: JSON.parse(webtools),
-        webPlatforms: JSON.parse(webPlatforms),
+        leadershipRole: leadershipRole,
+        backendTech: backendTech,
+        frontendTech: frontendTech,
+        webtools: webtools,
+        webPlatforms: webPlatforms,
         employer,
         jobTitle,
         student,
@@ -125,40 +127,27 @@ const addVolunteer = async (req, res) => {
     });
 
     if (skills) { 
-        const [skillRec] = await Skill.findOrCreate({
-            where: { name: skills },
-            defaults: {
-                name: skills,
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add skill to database.',
-                error: err
-            });
-        });
 
-
-        await VolunteerSkills.findOrCreate({
-            where: { skillId: skillRec.id, volunteerId: volunteerRec.id },
-            defaults: {
-                volunteerId: volunteerRec.id,
-                skillId: skillRec.id,
+        await Promise.all(skills.map((skill) => {
+            VolunteerSkills.findOrCreate({
+                where: { skillId: skill.id, volunteerId: volunteerRec.id },
+                defaults: {
+                    volunteerId: volunteerRec.id,
+                    skillId: skill.id,
+                }
             }
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add associate skill to volunteer in database.',
-                error: err
+            )}))
+            .catch(err => {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    message: 'Unable to add associate skill to volunteer in database.',
+                    error: err
+                });
             });
-        });
     }
 
-    const timeslotArray = JSON.parse(timeslots);
+    const timeslotArray = timeslots;
     if (volunteerRec && timeslotArray.length > 0) {
        addTimeslots(timeslotArray, null, volunteerRec.id);
     } else {
@@ -182,7 +171,7 @@ const editVolunteer = async (req, res) => {
         student,
         jobTitle,
         projectId,
-        skillId, 
+        skills, 
         active, 
         local,
         goal, 
@@ -212,21 +201,27 @@ const editVolunteer = async (req, res) => {
         return res.status(404).json({ error: `Volunteer ${req.params.id} does not exist`});
     }
 
-    if (skillId) {
-        await VolunteerSkills.create({
-            volunteerId: volunteer.id,
-            skillId,
-        })
-        .catch(err => {
-            console.log(err);
-            return res.json({
-                success: false,
-                message: 'Unable to add associate skill to volunteer in database.',
-                error: err
+    if (skills) { 
+
+        await Promise.all(skills.map((skill) => {
+            VolunteerSkills.findOrCreate({
+                where: { skillId: skill.id, volunteerId: volunteer.id },
+                defaults: {
+                    volunteerId: volunteer.id,
+                    skillId: skill.id,
+                }
+            }
+            )}))
+            .catch(err => {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    message: 'Unable to add associate skill to volunteer in database.',
+                    error: err
+                });
             });
-        });
-    };
-    console.log(`leadership role: ${leadershipRole}`);
+    }
+
     const newVolunteer = { 
         name,
         email,
