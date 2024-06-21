@@ -13,7 +13,11 @@ module.exports = {
       }, {
         name: 'Product Management',
       }, {
-        name: 'UX/UI Design/Research / Visual Design',
+        name: 'UX Designer',
+      }, {
+        name: 'UI / Visual Designer',
+      }, {
+        name: 'UX Researcher',
       }], {});
   },
 

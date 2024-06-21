@@ -19,12 +19,17 @@ export const skillLabels = {
     color: 'white',
     backgroundColor: 'uiBlue',
   },
-  'UX/UI Design/Research / Visual Design': {
+  'UX Designer' : {
     name: 'UX/UI',
     color: 'white',
-    backgroundColor: 'volunteerGreen',
+    backgroundColor: 'volunteerGreen'
   },
-  'UI / Visual Designer': {
+  'UI / Visual Designer' : {
+    name: 'UX/UI',
+    color: 'white',
+    backgroundColor: 'volunteerGreen'
+  },
+  'UX Researcher' : {
     name: 'UX/UI',
     color: 'white',
     backgroundColor: 'volunteerGreen',
