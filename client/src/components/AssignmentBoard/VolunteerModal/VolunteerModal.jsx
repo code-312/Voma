@@ -115,7 +115,7 @@ const VolunteerModal = ({ volunteer, modalOpen, closeModal, projects, skillDetai
   };
 
   const headerLinkListener = (index) => {
-    setFooterVisible(index !== 3);
+    setFooterVisible(index !== 4);
   };
 
   const updateVolunteerArray = (name, value) => {
