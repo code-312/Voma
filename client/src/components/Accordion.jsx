@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { RxCaretUp, RxCaretDown } from 'react-icons/rx';
-import { AccordionWrapper, AccordionHeader, AccordionContent } from "../styles/components/Accordion.style";
+import {
+  AccordionWrapper,
+  AccordionHeader,
+  AccordionContent,
+} from '../styles/components/Accordion.style';
 
 const Accordion = ({ header, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +17,7 @@ const Accordion = ({ header, children }) => {
     <AccordionWrapper>
       <AccordionHeader onClick={toggleAccordion} isOpen={isOpen}>
         {header}
-        {isOpen ? <RxCaretUp/> : <RxCaretDown/>}
+        {isOpen ? <RxCaretUp /> : <RxCaretDown />}
       </AccordionHeader>
       <AccordionContent isOpen={isOpen}>{children}</AccordionContent>
     </AccordionWrapper>
