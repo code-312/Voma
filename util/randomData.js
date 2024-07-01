@@ -1,9 +1,12 @@
 const { faker } = require('@faker-js/faker');
 
-
 const createRandomUser = () => {
-    const tasks = faker.helpers.arrayElements(["Watch onboarding videos", "Submit passcode validation", "Submit passcode validation"]);
-    const completedTasks = tasks.filter((x, index) => tasks.indexOf(x) == index);
+  const tasks = faker.helpers.arrayElements([
+    'Watch onboarding videos',
+    'Submit passcode validation',
+    'Submit passcode validation',
+  ]);
+  const completedTasks = tasks.filter((x, index) => tasks.indexOf(x) == index);
   return {
     name: faker.name.fullName(),
     email: faker.internet.email(),
@@ -11,18 +14,18 @@ const createRandomUser = () => {
     employer: faker.company.name(),
     student: Math.floor(Math.random() * 2) == 0 ? 'true' : 'false',
     completedTasks,
+  };
 };
-}
 
 const getRandomVolunteers = () => {
-    const USERS = [];
-    Array.from({ length: 20 }).forEach(() => {
-      USERS.push(createRandomUser());
-    });
+  const USERS = [];
+  Array.from({ length: 20 }).forEach(() => {
+    USERS.push(createRandomUser());
+  });
 
-    return USERS;
+  return USERS;
 };
 
 module.exports = {
-    getRandomVolunteers
+  getRandomVolunteers,
 };

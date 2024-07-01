@@ -1,21 +1,16 @@
 import React from 'react';
-import { StyledDropdown } from '../styles/components/Dropdown.style'
+import { StyledDropdown } from '../styles/components/Dropdown.style';
 
 const Dropdown = ({ isOpen, children }) => {
-    const stopProp = (e) => {
-        e.stopPropagation();
-    }
+  const stopProp = (e) => {
+    e.stopPropagation();
+  };
 
-    if (!isOpen) {
-        return null;
-    }
+  if (!isOpen) {
+    return null;
+  }
 
-    return (
-        <StyledDropdown onClick={stopProp}>
-            {children}
-        </StyledDropdown>
-    )
+  return <StyledDropdown onClick={stopProp}>{children}</StyledDropdown>;
 };
 
 export default Dropdown;
-

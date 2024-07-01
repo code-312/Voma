@@ -18,7 +18,6 @@ import { VolunteerProvider } from '../lib/VolunteerProvider';
 import { LockedRoute } from '../lib/AuthProvider';
 
 function App() {
-
   return (
     <HelmetProvider>
       <Helmet>
@@ -48,8 +47,8 @@ function App() {
           <AssignmentBoard />
         </LockedRoute>
         <LockedRoute path="/admin">
-            <Header />
-            <Admin />
+          <Header />
+          <Admin />
         </LockedRoute>
         <Route path="/projects">
           <Header />
@@ -59,7 +58,7 @@ function App() {
           <Header />
           <ArchivedProjects />
         </LockedRoute>
-        
+
         {/* Test Page for design system development */}
         <Route path="/style-test">
           <StyleTest />
@@ -77,7 +76,6 @@ function App() {
             <Projects />
           </Route>
         </VolunteerProvider>
-
 
         <Route path="*">
           <PageNotFound />

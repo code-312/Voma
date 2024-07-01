@@ -7,11 +7,11 @@ import Dropdown from './Dropdown';
 import { AuthContext } from '../lib/AuthProvider';
 import { StyledHeader, LoginLink, ProfileIndicator } from '../styles/components/Header.style';
 import { ReactComponent as VomaLogo } from '../assets/voma-logo.svg';
-import { 
-  HeaderLinksWrapper, 
-  HeaderLinkContainer, 
-  HeaderLink
- } from '../styles/components/HeaderLink.style';
+import {
+  HeaderLinksWrapper,
+  HeaderLinkContainer,
+  HeaderLink,
+} from '../styles/components/HeaderLink.style';
 
 const useStyles = makeStyles({
   LoginLinkContainer: {
@@ -63,23 +63,23 @@ export default function Header() {
       break;
   }
 
-  const closeDropdown = () => (setDropdownOpen(false));
-  const openDropdown = () => (setDropdownOpen(true));
+  const closeDropdown = () => setDropdownOpen(false);
+  const openDropdown = () => setDropdownOpen(true);
 
   const closeDropdownIfOpen = () => {
     if (dropdownOpen) {
-        closeDropdown();
+      closeDropdown();
     }
-};
+  };
 
-const wrapperRef = useRef("menu");
-// useClickListener(wrapperRef, closeDropdown);
-// useEscapeListener(closeDropdownIfOpen);
+  const wrapperRef = useRef('menu');
+  // useClickListener(wrapperRef, closeDropdown);
+  // useEscapeListener(closeDropdownIfOpen);
 
   const getAdminDetails = () => {
     const admin = localStorage.getItem('auth');
     if (admin) {
-        setAdminDetails(JSON.parse(admin));
+      setAdminDetails(JSON.parse(admin));
     }
   };
 
@@ -87,39 +87,41 @@ const wrapperRef = useRef("menu");
     if (UserAuth.isAuthenticated) {
       getAdminDetails();
     }
-  }, [ UserAuth ])
+  }, [UserAuth]);
 
   const classes = useStyles();
 
   const handleVolunteerClick = () => {
-    window.location.href = "/board";
-  }
+    window.location.href = '/board';
+  };
 
   const handleProjectClick = () => {
-    window.location.href = "/projects";
-  }
+    window.location.href = '/projects';
+  };
 
   return (
-      <StyledHeader>
-        <VomaLogo />
-        { !UserAuth.isAuthenticated() ? 
-          <LoginLink to="/login">Login</LoginLink>
-        :
-        (
-          <>
-            <HeaderLinksWrapper>
-              <HeaderLinkContainer active={volPage}>
-                <HeaderLink onClick={handleVolunteerClick} variant="large" forHeader>Volunteers</HeaderLink>
-              </HeaderLinkContainer>
-              <HeaderLinkContainer active={projectPage}>
-                <HeaderLink onClick={handleProjectClick} variant="large" forHeader>Projects</HeaderLink>
-              </HeaderLinkContainer>
-            </HeaderLinksWrapper>
-            <ProfileMenu adminDetails={adminDetails} />
-          </>
-        )
-        }
-      </StyledHeader>
+    <StyledHeader>
+      <VomaLogo />
+      {!UserAuth.isAuthenticated() ? (
+        <LoginLink to="/login">Login</LoginLink>
+      ) : (
+        <>
+          <HeaderLinksWrapper>
+            <HeaderLinkContainer active={volPage}>
+              <HeaderLink onClick={handleVolunteerClick} variant="large" forHeader>
+                Volunteers
+              </HeaderLink>
+            </HeaderLinkContainer>
+            <HeaderLinkContainer active={projectPage}>
+              <HeaderLink onClick={handleProjectClick} variant="large" forHeader>
+                Projects
+              </HeaderLink>
+            </HeaderLinkContainer>
+          </HeaderLinksWrapper>
+          <ProfileMenu adminDetails={adminDetails} />
+        </>
+      )}
+    </StyledHeader>
     // <Box sx={{ flexGrow: 1 }}>
     //   <AppBar position="fixed">
     //     <Toolbar>

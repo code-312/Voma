@@ -14,14 +14,13 @@ import { Card } from '../styles/components/Card.style';
 import { VolunteerContext } from '../lib/VolunteerProvider';
 import useTitle from '../hooks/useTitle';
 
-
 export default function Register() {
   useTitle('Voma | Register');
   const Volunteer = useContext(VolunteerContext);
   const [volunteerCopy, setVolunteerCopy] = useState({});
-  const [canProceed, setCanProceed] = useState(false); 
+  const [canProceed, setCanProceed] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
-  
+
   useEffect(() => {
     if (Volunteer) {
       setVolunteerCopy(Volunteer);
@@ -31,21 +30,21 @@ export default function Register() {
   const updateInfo = (newInfo) => {
     setVolunteerCopy({
       ...volunteerCopy,
-      ...newInfo
+      ...newInfo,
     });
-  }
+  };
 
   const saveVolunteer = () => {
     Volunteer.updateInfo({
-      ...volunteerCopy
+      ...volunteerCopy,
     });
-  }
+  };
 
   const updateVolunteerArray = (name, value) => {
-    const copyCopy = {...volunteerCopy};
+    const copyCopy = { ...volunteerCopy };
     copyCopy[name] = value;
     setVolunteerCopy(copyCopy);
-  }
+  };
 
   const goBack = () => {
     saveVolunteer();
@@ -55,50 +54,61 @@ export default function Register() {
   const goForward = () => {
     saveVolunteer();
     Volunteer.setRegistrationStep(Volunteer.registrationStep + 1);
-  }
+  };
 
-
-  return (<>
-    {!Volunteer.isAuthenticated && <Redirect to="/" />}
-    {Volunteer.registrationErrorMessage && <ApiError message={Volunteer.registrationErrorMessage} />}
-    <Card>
-        {Volunteer?.registrationStep === 1 && <BasicInfoForm 
-                                                updateInfo={updateInfo} 
-                                                name={volunteerCopy.name}
-                                                email={volunteerCopy.email}
-                                                pronouns={volunteerCopy.pronouns}
-                                                local={volunteerCopy.local}
-                                                jobTitle={volunteerCopy.jobTitle}
-                                                employer={volunteerCopy.employer}
-                                                student={volunteerCopy.student}
-                                                setCanProceed={setCanProceed}
-                                              />}
-        {Volunteer?.registrationStep === 2 && <Availability 
-                                                timeslots={volunteerCopy.timeslots || []} 
-                                                updateInfo={updateInfo} 
-                                                setCanProceed={setCanProceed}
-                                                />}
-        {Volunteer?.registrationStep === 3 && <SkillsForm 
-                                                volunteer={volunteerCopy} 
-                                                updateInfo={updateInfo}
-                                                updateVolunteerArray={updateVolunteerArray}
-                                                setCanProceed={setCanProceed}
-                                              />}
-        {Volunteer?.registrationStep === 4 && <BackgroundForm 
-                                                volunteer={volunteerCopy}
-                                                updateInfo={updateInfo}
-                                                updateVolunteerArray={updateVolunteerArray}
-                                                setCanProceed={setCanProceed}
-                                              />}
+  return (
+    <>
+      {!Volunteer.isAuthenticated && <Redirect to="/" />}
+      {Volunteer.registrationErrorMessage && (
+        <ApiError message={Volunteer.registrationErrorMessage} />
+      )}
+      <Card>
+        {Volunteer?.registrationStep === 1 && (
+          <BasicInfoForm
+            updateInfo={updateInfo}
+            name={volunteerCopy.name}
+            email={volunteerCopy.email}
+            pronouns={volunteerCopy.pronouns}
+            local={volunteerCopy.local}
+            jobTitle={volunteerCopy.jobTitle}
+            employer={volunteerCopy.employer}
+            student={volunteerCopy.student}
+            setCanProceed={setCanProceed}
+          />
+        )}
+        {Volunteer?.registrationStep === 2 && (
+          <Availability
+            timeslots={volunteerCopy.timeslots || []}
+            updateInfo={updateInfo}
+            setCanProceed={setCanProceed}
+          />
+        )}
+        {Volunteer?.registrationStep === 3 && (
+          <SkillsForm
+            volunteer={volunteerCopy}
+            updateInfo={updateInfo}
+            updateVolunteerArray={updateVolunteerArray}
+            setCanProceed={setCanProceed}
+          />
+        )}
+        {Volunteer?.registrationStep === 4 && (
+          <BackgroundForm
+            volunteer={volunteerCopy}
+            updateInfo={updateInfo}
+            updateVolunteerArray={updateVolunteerArray}
+            setCanProceed={setCanProceed}
+          />
+        )}
         {Volunteer?.registrationStep === 5 && <CodeOfConduct setCanSubmit={setCanSubmit} />}
         {Volunteer?.registrationStep === 6 && <ThankYouMessage />}
-      <RegFormFooter 
-        step={Volunteer.registrationStep} 
-        goBack={goBack} 
-        goForward={goForward} 
-        canProceed={canProceed} 
-        canSubmit={canSubmit}
-      />
-    </Card>
-  </>);
+        <RegFormFooter
+          step={Volunteer.registrationStep}
+          goBack={goBack}
+          goForward={goForward}
+          canProceed={canProceed}
+          canSubmit={canSubmit}
+        />
+      </Card>
+    </>
+  );
 }
