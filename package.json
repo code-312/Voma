@@ -9,7 +9,7 @@
     "start": "NODE_ENV=development node server.js",
     "startLocal": "NODE_ENV=local node server.js",
     "sync": "NODE_ENV=development node db/sync.js",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,html,css}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,html,css}\"",
     "prepare": "husky"
   },
   "repository": {
@@ -46,7 +46,7 @@
     "sequelize-cli": "^6.4.1"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,md,html,css}": [
+    "**/*.{js,jsx,ts,tsx,html,css}": [
       "prettier --write"
     ]
   }
