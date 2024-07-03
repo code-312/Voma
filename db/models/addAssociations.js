@@ -2,10 +2,10 @@ const { sequelize } = require('sequelize');
 const seq = require('..');
 
 function addAssociations(sequelize) {
-  const {skill, volunteer, project, Link, Event, Timeslot} = sequelize.models;
+  const { skill, volunteer, project, Link, Event, Timeslot } = sequelize.models;
 
-  volunteer.belongsToMany(skill, {through: "VolunteerSkills"});
-  skill.belongsToMany(volunteer, {through: "VolunteerSkills"});
+  volunteer.belongsToMany(skill, { through: 'VolunteerSkills' });
+  skill.belongsToMany(volunteer, { through: 'VolunteerSkills' });
 
   volunteer.hasMany(Event);
   Event.belongsTo(volunteer);

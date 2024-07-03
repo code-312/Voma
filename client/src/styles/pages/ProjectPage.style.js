@@ -14,7 +14,7 @@ export const ProjectSidebarProject = styled.div`
   padding: 12px 8px;
   background-color: var(--lightPeach);
   cursor: pointer;
-
+  
   &:hover {
     background-color: var(--peachShade1);
   }
@@ -85,10 +85,11 @@ export const NewProjectModalFooter = styled.div`
 export const ArchiveLink = styled(Link)`
   color: var(--managementBlue);
   margin-bottom: 8px;
-
+  
   &:hover {
     color: var(--uiBlue);
   }
+  
   svg {
     height: 16px;
   }
