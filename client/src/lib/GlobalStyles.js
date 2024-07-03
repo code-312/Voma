@@ -113,6 +113,7 @@ export const BaseCSSReset = css`
   }
   label {
     font-weight: 500;
+    cursor: pointer;
   }
   select::-ms-expand {
     display: none;
@@ -194,7 +195,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px
+    line-height: 24px;
+
+    &:hover {
+      color: var(--managementBlue);
+    }
   }
 `;
 

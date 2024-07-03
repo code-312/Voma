@@ -17,6 +17,10 @@ export const AccordionHeader = styled.div`
   border-radius: 4px;
   border-bottom-left-radius: ${({ isOpen }) => (isOpen ? '0' : '4px')};
   border-bottom-right-radius: ${({ isOpen }) => (isOpen ? '0' : '4px')};
+
+  &:hover {
+    background-color: var(--peachShade1);
+  }
 `;
 
 export const AccordionContent = styled.div`
