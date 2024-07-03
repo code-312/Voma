@@ -6,40 +6,40 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       day: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       startHour: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       startMinute: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       endHour: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       endMinute: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       volunteerId: {
-        type: Sequelize.INTEGER
-      }, 
+        type: Sequelize.INTEGER,
+      },
       projectId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Timeslots');
-  }
+  },
 };

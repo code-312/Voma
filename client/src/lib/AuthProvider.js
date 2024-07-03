@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useEffect } from "react";
+import { useState, createContext, useContext, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const AuthContext = createContext(null);
@@ -10,14 +10,14 @@ function AuthProvider({ children }) {
     defaultAuth = JSON.parse(storedAuth);
   }
 
-  // Actual authentiation is stored in the cookie. Actions are validated serverside. 
+  // Actual authentiation is stored in the cookie. Actions are validated serverside.
   const [auth, setAuth] = useState(defaultAuth);
   const [loginFormError, setLoginFormError] = useState(false);
 
   function updateLoginState() {
     fetch('/api/authenticated', { method: 'POST' })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.state) {
           setAuth({ authenticated: true });
         } else setAuth({ authenticated: false });
@@ -31,7 +31,7 @@ function AuthProvider({ children }) {
   function isAuthenticated() {
     return auth.authenticated;
   }
-  
+
   function setAuthentication(authState) {
     localStorage.setItem('auth', JSON.stringify(authState));
     setAuth(authState);
@@ -46,7 +46,7 @@ function AuthProvider({ children }) {
       }),
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
     })
       .then((data) => {
         if (data.status === 404) {
@@ -54,15 +54,17 @@ function AuthProvider({ children }) {
           setLoginFormError(true);
 
           throw new Error('Unable to find server.');
-
         } else return data.json();
       })
-      .then(response => {
-        
+      .then((response) => {
         if (response.success) {
-          setAuthentication({ authenticated: true, id: response.id, name: response.name, email: response.email });
+          setAuthentication({
+            authenticated: true,
+            id: response.id,
+            name: response.name,
+            email: response.email,
+          });
           window.location.href = '/board';
-
         } else {
           setAuthentication({ authenticated: false });
           setLoginFormError(true);
@@ -71,13 +73,13 @@ function AuthProvider({ children }) {
       .catch((err) => {
         console.log(err);
         setAuthentication({ authenticated: false });
-        setLoginFormError(true); 
+        setLoginFormError(true);
       });
   };
 
   /**
    * Logout.
-   * 
+   *
    * - Invalidate session in the AuthContext.
    * - Hit the API route for logging out which will destory server session.
    * - Destroy the current session cookie.
@@ -85,8 +87,7 @@ function AuthProvider({ children }) {
    */
   async function logout() {
     setAuthentication({ authenticated: false });
-    await fetch(`/api/logout`) 
-      .catch(e => console.error(e));
+    await fetch(`/api/logout`).catch((e) => console.error(e));
     document.cookie = 'connect.sid=;Max-Age=0';
     window.location.href = '/login';
   }
@@ -113,8 +114,15 @@ function LockedRoute({ children, ...rest }) {
   const UserAuth = useContext(AuthContext);
 
   return (
-    <Route {...rest}
-      render={({ location }) => UserAuth.isAuthenticated() ? (children) : (<Redirect to={{ pathname: "/login", state: { from: location } }} />)}
+    <Route
+      {...rest}
+      render={({ location }) =>
+        UserAuth.isAuthenticated() ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: '/login', state: { from: location } }} />
+        )
+      }
     />
   );
 }

@@ -4,9 +4,8 @@ import { TextField, Dialog, DialogActions, DialogContent, DialogContentText } fr
 import ApiError from '../components/ApiError';
 import { ReactComponent as SlackIcon } from '../assets/WhiteSlackIcon.svg';
 import { RegisterPageContainer } from '../styles/pages/RegisterPage.style';
-import { VolunteerContext } from '../lib/VolunteerProvider'
+import { VolunteerContext } from '../lib/VolunteerProvider';
 import Button from '../components/Button';
-
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -19,23 +18,22 @@ export default function Home() {
 
   const onInputChange = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
   // const goToSlackLink = () => {
   //   window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
   // }
 
-  return (<>
-    {Volunteer.isAuthenticated && <Redirect to="/register" />}
-    {Volunteer.notRegistered &&
-      <ApiError message="Looks like you haven&apos;t joined our workspace. Please <a href='https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g'>join our workspace</a> before registering." />
-    }
-    <Dialog open={modalOpen}>
-      <DialogContent>
-        <DialogContentText>
-          Let&apos;s see if you&apos;re in our workspace:
-        </DialogContentText>
-        <TextField
+  return (
+    <>
+      {Volunteer.isAuthenticated && <Redirect to="/register" />}
+      {Volunteer.notRegistered && (
+        <ApiError message="Looks like you haven't joined our workspace. Please <a href='https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g'>join our workspace</a> before registering." />
+      )}
+      <Dialog open={modalOpen}>
+        <DialogContent>
+          <DialogContentText>Let&apos;s see if you&apos;re in our workspace:</DialogContentText>
+          <TextField
             autoFocus
             margin="dense"
             id="email"
@@ -48,31 +46,33 @@ export default function Home() {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={() => {
-            Volunteer.slackExists(email);
-            closeModal();
-          }}>Submit</Button>
+          <Button
+            onClick={() => {
+              Volunteer.slackExists(email);
+              closeModal();
+            }}
+          >
+            Submit
+          </Button>
         </DialogActions>
-    </Dialog>
+      </Dialog>
 
-    <RegisterPageContainer>
+      <RegisterPageContainer>
         <div className="registration-form">
           <h1>Volunteer Registration</h1>
 
           <p>
-            Code312 connects skills-based volunteers to Chicago-based nonprofits, mutual aid groups, and people with ideas on how they can improve their community.
+            Code312 connects skills-based volunteers to Chicago-based nonprofits, mutual aid groups,
+            and people with ideas on how they can improve their community.
           </p>
-
 
           <p>
-          All incoming volunteers are required to register to our Slack workspace. If you haven&apos;t joined our Slack workspace yet then register first. Afterwards, come back here to complete the volunteer registration process.
+            All incoming volunteers are required to register to our Slack workspace. If you
+            haven&apos;t joined our Slack workspace yet then register first. Afterwards, come back
+            here to complete the volunteer registration process.
           </p>
 
-          <Button
-            onClick={openModal}
-            variant="slack"
-            icon={SlackIcon}
-          >
+          <Button onClick={openModal} variant="slack" icon={SlackIcon}>
             Sign in With Slack
           </Button>
           {/* Kept in case we want to implement in the future */}
@@ -85,7 +85,7 @@ export default function Home() {
             Not registered to our slack?
           </Button> */}
         </div>
-    </RegisterPageContainer>
-  </>)
+      </RegisterPageContainer>
+    </>
+  );
 }
-
