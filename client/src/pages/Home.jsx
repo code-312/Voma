@@ -20,15 +20,16 @@ export default function Home() {
     setEmail(e.target.value);
   };
 
-  // const goToSlackLink = () => {
-  //   window.location = 'https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g';
-  // }
+  const SLACK_LINK =
+    'https://join.slack.com/t/code312/shared_invite/zt-2acnn36rl-kNFFP9E_NqxWORqHfBIO2w';
 
   return (
     <>
       {Volunteer.isAuthenticated && <Redirect to="/register" />}
       {Volunteer.notRegistered && (
-        <ApiError message="Looks like you haven't joined our workspace. Please <a href='https://join.slack.com/t/apitest-jwd7276/shared_invite/zt-11cgm52ly-60DmFwe6BaXUN1wJnRa79g'>join our workspace</a> before registering." />
+        <ApiError
+          message={`Looks like you haven't joined our workspace. Please <a href='${SLACK_LINK}'>join our workspace</a> before registering.`}
+        />
       )}
       <Dialog open={modalOpen}>
         <DialogContent>
