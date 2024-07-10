@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ProjectBox from './ProjectBox';
 import AssignConfirm from './AssignConfirm';
+import { getScoredProjects } from '../../../../lib/util';
 import { BodySubText } from '../../../../styles/components/Typography';
 
 const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunteer }) => {
@@ -32,23 +33,12 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunte
         1,
       );
     }
-    let sorted = filteredProjects.sort((a, b) => {
-      const skillMatchA = a.currentNeeds.indexOf(skillName) !== -1;
-      const skillMatchB = b.currentNeeds.indexOf(skillName) !== -1;
-      if (!skillMatchA && skillMatchB) {
-        return 1;
-      }
-      if (skillMatchA && !skillMatchB) {
-        return -1;
-      }
-
-      return 0;
-    });
+    let sorted = getScoredProjects(volunteer, filteredProjects);
     if (assignedProject) {
       sorted = [assignedProject, ...sorted];
     }
     setSortedProjects(sorted);
-  }, [projects, skillName, assignedProject]);
+  }, [projects, assignedProject, volunteer]);
 
   useEffect(() => {
     if (!isAssigning && sortedProjects.length > 0) {
@@ -61,6 +51,8 @@ const ProjectAssignment = ({ volunteer, projects, assignedProject, assignVolunte
             volunteerId={volunteer.id}
             assigned={project.id === assignedProject?.id}
             toggleAssign={toggleAndSetProject}
+            volunteerTimeslots={volunteer.timeslots}
+            matchScore={project.score}
           />
         )),
       );

@@ -7,6 +7,7 @@ import { ProfileInfoContainer } from '../../styles/components/VolunteerModal.sty
 import { ProjectTimeslotContainer, ProjectTimeslotRow } from '../../styles/pages/ProjectPage.style';
 import Select from '../Select';
 import Button from '../Button';
+import { getPlainTextMeetingTimes } from '../../lib/util';
 
 const Timeslot = ({
   onChange,
@@ -19,31 +20,8 @@ const Timeslot = ({
   const [meetingTimes, setMeetingTimes] = useState([]);
 
   useEffect(() => {
-    const days = [];
-    const times = [];
-    const today = new Date();
     if (timeslots) {
-      timeslots.forEach((slot) => {
-        days.push(slot.day);
-
-        const startTime = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDay(),
-          slot.startHour,
-          slot.startMinute,
-        );
-        const endTime = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDay(),
-          slot.endHour,
-          slot.endMinute,
-        );
-        times.push(
-          `${slot.day} from ${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`,
-        );
-      });
+      const times = getPlainTextMeetingTimes(timeslots);
 
       setMeetingTimes(times.join(', '));
     }

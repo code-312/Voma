@@ -4,6 +4,7 @@ import { VolunteerProjectCard } from '../../styles/pages/AssignmentBoard.style';
 import VolunteerCard from './VolunteerCard';
 
 export default function ProjectContainer({ volunteers, project, projects, skills }) {
+
   return (
     <VolunteerProjectCard>
       <Link
