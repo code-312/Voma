@@ -116,7 +116,7 @@ export default function AssignmentBoard() {
       );
       setProjectCards(cards);
     }
-  }, [projects, filteredVolunteers]);
+  }, [projects, filteredVolunteers, skills]);
 
   return (
     <>

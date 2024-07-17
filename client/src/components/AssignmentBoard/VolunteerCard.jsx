@@ -35,6 +35,8 @@ const VolunteerCard = ({
     }
   };
 
+  const volSkill = skillLabels[skill] || 'default';
+
   return (
     <>
       <VolunteerModal
@@ -42,7 +44,7 @@ const VolunteerCard = ({
         modalOpen={modalOpen}
         closeModal={closeModal}
         projects={projects}
-        skillDetails={skillLabels[skill]}
+        skillDetails={volSkill}
         skills={skills}
       />
       <VolunteerCardContainer
@@ -56,10 +58,10 @@ const VolunteerCard = ({
           {volunteer.name || 'Volunteer Name'}
         </VolunteerNameContainer>
         <VolunteerLabel
-          bgColor={skillLabels[skill].backgroundColor}
-          color={skillLabels[skill].color}
+          bgColor={volSkill?.backgroundColor}
+          color={volSkill?.color}
         >
-          {skillLabels[skill].name}
+          {volSkill?.name}
         </VolunteerLabel>
       </VolunteerCardContainer>
     </>
