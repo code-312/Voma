@@ -165,7 +165,7 @@ const messageBlocks = {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `${project.comment}`,
+          text: `${project.comment ? project.comment : ""}`,
         },
       },
       {
